@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+
+  yo-java:
+    build: .
+    container_name: yo-java
+    volumes:
+      - './projects:/projects'
+    stdin_open: true
+    tty: true

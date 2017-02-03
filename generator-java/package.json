@@ -1,0 +1,16 @@
+{
+  "name": "generator-java",
+  "version": "0.1.0",
+  "description": "Java code generation and modification",
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "mustache": "^2.3.0",
+    "sendgrid-rest": "^2.3.0",
+    "yeoman-generator": "^1.0.0"
+  }
+}
