@@ -7,13 +7,16 @@ var fspath = require('path');
 
 var config = {};
 var path = undefined;
+var id = 0;
 
 //recursively walk the file tree starting from the specified root
 var dirwalk = function(root, tracker) {
+  tracker.count[root] = undefined;    //mark that the directory is being processed
   fs.readdir(root, (err, files) => {
       if(err) {
         //TODO : appscan for Java does not like you putting too much info in the error messages, need to check for JS
         console.error("There was an error reading the template directory");
+        tracker.reject(err);
         return;
       }
       //now loop the files and add them to the store, need to add template processing somewhere in this stream
@@ -22,8 +25,8 @@ var dirwalk = function(root, tracker) {
         var file = fspath.resolve(root, fileName);
         var stats = fs.statSync(file);
         if(stats.isDirectory()) {
-          tracker.count[root]--;    //immediately remove from count as not a file
           dirwalk(file, tracker);
+          tracker.count[root]--;    //immediately remove from count as not a file
         } else {
           fs.readFile(file, 'utf8', (err, data) => {
             var relativePath = file.substring(tracker.root.length);
@@ -32,16 +35,16 @@ var dirwalk = function(root, tracker) {
               relativePath = relativePath.substring(1);
             }
             //console.log("Found file " + file + " : " + relativePath);
-            tracker.count[root]--;  //remove from tracker when contents have been read
             if(err) {
               console.error("Error reading file ");
-            } else {
-              if(tracker.callback) {
-                tracker.callback(relativePath, data);
-              }
+              tracker.reject(err);
+              return;
             }
+            if(tracker.callback) {
+              tracker.callback(relativePath, data);
+            }
+            tracker.count[root]--;  //remove from tracker when contents have been read and callbacks made
             if(tracker.isComplete()) {
-              console.log("FINISHED !!");
               tracker.resolve();
             }
           });
@@ -53,20 +56,23 @@ var dirwalk = function(root, tracker) {
 //return a promise that will complete when all files have been processed
 //used to ensure the generator does not move beyond the current lifecycle step
 var startWalk = function(cb) {
-  console.log("Scanning " + this.path + " for files");
+  var fullpath = fspath.resolve(this.path);
+  var trackerId = id++;
+  //console.log("Scanning " + fullpath + " for files");
   var p = new Promise((resolve, reject) => {
     var tracker = {
+      id : trackerId,
       count : {},
       resolve : resolve,
       reject : reject,
       callback : cb,   //callback with file contents
-      root : this.path,
+      root : fullpath,
 
       //the tracker is complete when all the declared directories have been processed
       isComplete : function() {
         for (var counter in this.count) {
           if (this.count.hasOwnProperty(counter)) {
-            if(this.count[counter]) {
+            if((this.count[counter] == undefined) || this.count[counter]) {
               return false;
             }
           }
@@ -74,7 +80,7 @@ var startWalk = function(cb) {
         return true;
       }
     }
-    dirwalk(this.path, tracker);
+    dirwalk(tracker.root, tracker);
   });
   return p;
 }
