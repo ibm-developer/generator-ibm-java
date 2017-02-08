@@ -4,6 +4,7 @@
 
 var fs = require('fs');
 var fspath = require('path');
+var control = require('./control');
 
 var config = {};
 var path = undefined;
@@ -40,8 +41,12 @@ var dirwalk = function(root, tracker) {
               tracker.reject(err);
               return;
             }
-            if(tracker.callback) {
-              tracker.callback(relativePath, data);
+            if(control.isControl(relativePath)) {
+              console.log("CONTROL FILE found, skipping processing");
+            } else {
+              if(tracker.callback) {
+                tracker.callback(relativePath, data);
+              }
             }
             tracker.count[root]--;  //remove from tracker when contents have been read and callbacks made
             if(tracker.isComplete()) {
