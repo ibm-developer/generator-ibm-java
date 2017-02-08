@@ -1,7 +1,8 @@
 var Generator = require('yeoman-generator');
 var Mustache = require('mustache');
 var config = require("./lib/config");
-var processor = require("./lib/fsprocessor.js");
+var processor = require("./lib/fsprocessor");
+var control = require("./lib/control");
 var fspath = require('path');
 
 module.exports = class extends Generator {
@@ -18,47 +19,54 @@ module.exports = class extends Generator {
     return this.prompt([{
       type    : 'list',
       name    : 'createType',
-      message : 'Select a project type to create',
-      choices : ['Sample : a basic test sample used to test this generator', 'Basic : a basic Java microservice (TBD)'],
-      default : 0 // Default to current folder name
+      message : 'This is a test front end for manually driving the Java code generator.\n',
+      choices : [{
+        name : 'REST : a basic REST sample used to test this generator',
+        value : 'rest',
+        short : 'REST sample application'
+      }, {
+        name : 'Basic : a basic Java microservice (TBD)',
+        value : 'basic',
+        short : 'Basic Java microservice'
+      }],
+      default : 0 // Default to rest sample
+    }, {
+      type    : 'list',
+      name    : 'buildType',
+      message : 'Select the build type for your project.\n',
+      choices : ['maven', 'gradle'],
+      default : 0 // Default to maven
     }]).then((answers) => {
-
-      this.log('Create a project for ', answers.createType);
+      //configure the sample to use based on the type we are creating
+      config.data.templatePath = 'cnds-java-starter-' + answers.createType;
+      config.data.templateFullPath = this.templatePath(config.data.templatePath);
+      config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + answers.createType);
+      config.data.buildType = answers.buildType;
+      control.processProject(config);
     });
   }
 
   writing() {
-    var log = this.log;   //used in callbacks
-    log("NEED TO BLOCK FOR ASYNC OPERATIONS");
-    log("Templates are at " + this.templatePath('cnds-java-starter-rest'));
-    var projectPath = fspath.resolve(this.destinationRoot(), "projects/rest");
-    this.destinationRoot(projectPath);
-    this.log("Destination path : " + this.destinationRoot());
-    processor.path = this.templatePath('cnds-java-starter-rest');
-    console.log(JSON.stringify(processor));
+    this.log('template path [' + config.data.templatePath  +']');
+    this.log('project path [' + config.data.projectPath  +']');
+    if(!config.isValid()) {
+      //the config object is not valid, so need to exit at this point
+      this.log("Error : configuration is invalid, code generation is aborted");
+      return;
+    }
+    this.destinationRoot(config.data.projectPath);
+    //this.log("Destination path : " + this.destinationRoot());
+    processor.path = this.templatePath(config.data.templatePath);
+    //console.log(JSON.stringify(processor));
     return processor.scan((relativePath, template) => {
-      var outFile = this.destinationPath(relativePath);
-      console.log("CB : writing to " + outFile);
-      var json = {
-        artifactId : "ARTIFACT_ID"
+      if(!control.shouldGenerate(relativePath)) {
+        return;   //do not include this file in the generation
       }
-      var output = Mustache.render(template, json);
+      var outFile = this.destinationPath(relativePath);
+      //console.log("CB : writing to " + outFile);
+      var output = Mustache.render(template, config.data);
       this.fs.write(outFile, output);
     });
-    /*
-    this.log("Generating project files for -+- " + config.data.name + " ...");
-    this.log("Destination path : " + this.destinationRoot());
-    var data = {
-      artifactId : "ARTIFACT_ID"
-    }
-
-    this.log("Reading template ...");
-    var template = this.fs.read(this.templatePath('cnds-java-starter-rest/pom.xml'));
-    this.log("Processing template ...");
-    var output = Mustache.render(template, data);
-    this.log("Writing template ...");
-    this.fs.write(this.destinationPath('projects/rest/pom.xml'), output);
-    */
   }
 
 };
