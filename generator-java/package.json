@@ -8,13 +8,16 @@
   "dependencies": {
     "mustache": "^2.3.0",
     "sendgrid-rest": "^2.3.0",
-    "yeoman-generator": "^1.0.0"
+    "yeoman-assert": "^2.2.2",
+    "yeoman-generator": "^1.0.0",
+    "yeoman-test": "^1.6.0"
   },
   "devDependencies": {
     "mocha": "^3.2.0"
   },
-  "scripts" : {
-    "test": "mocha"
+  "scripts": {
+    "test": "mocha test/unit/*",
+    "testint": "mocha test/integration/*"
   },
   "publishConfig": {
     "registry": "https://npm.whitewater.ibm.com"
@@ -31,5 +34,8 @@
     "generator",
     "YaaS"
   ],
-  "contributors" : ["Adam Pilkington", "Kate Stanley"]
+  "contributors": [
+    "Adam Pilkington",
+    "Kate Stanley"
+  ]
 }

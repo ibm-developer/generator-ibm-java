@@ -49,3 +49,20 @@ npm publish --scope=@arf
 One of the ways in which this generator can be invoked.
 
 * Staging YaaS : http://bmd-codegen-yeoman-dev.stage1.ng.bluemix.net/#!/Generator/post_generator
+
+```
+{
+  "generatorName": "generator-java",
+  "scope": "@arf",
+  "generatorVersion": "1.0.2",
+  "registry": "https://npm-registry.whitewater.ibm.com",
+  "generatorOptions": {
+    "--spec": "mySpecValue"
+  },
+  "bluemix": {
+    "server": {
+      
+    }
+  }
+}
+```

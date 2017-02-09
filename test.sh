@@ -2,5 +2,5 @@
 clear
 echo Clearing projects directory
 rm -rf ./projects
-echo Testing : yeoman generator - yo java
-yo java
+echo Testing : yeoman generator - yo java "$@"
+yo java "$@"
