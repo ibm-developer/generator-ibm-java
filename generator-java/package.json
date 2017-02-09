@@ -1,12 +1,9 @@
 {
-  "name": "generator-java",
+  "name": "@arf/generator-java",
   "version": "0.1.0",
   "description": "Java code generation and modification",
   "files": [
     "generators"
-  ],
-  "keywords": [
-    "yeoman-generator"
   ],
   "dependencies": {
     "mustache": "^2.3.0",
@@ -18,5 +15,21 @@
   },
   "scripts" : {
     "test": "mocha"
-  }
+  },
+  "publishConfig": {
+    "registry": "https://npm.whitewater.ibm.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.ibm.com:arf/java-codegen-yeoman"
+  },
+  "keywords": [
+    "arf",
+    "java",
+    "codegen",
+    "yeoman",
+    "generator",
+    "YaaS"
+  ],
+  "contributors" : ["Adam Pilkington", "Kate Stanley"]
 }
