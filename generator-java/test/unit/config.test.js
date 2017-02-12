@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corporation 2016
+ * Copyright IBM Corporation 2017
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ describe('Config defaults', function() {
   });
   describe('default name', function() {
     it('should be set to "myLibertyProject" when the value has not been set', function(){
-      assert.equal('myLibertyProject', config.data.name);
+      assert.equal('myLibertyProject', config.data.appName);
     });
   });
   describe('default build', function() {
@@ -66,21 +66,21 @@ describe('Config defaults', function() {
 describe('Config validation', function() {
   describe('Missing name', function() {
     it('should not be valid when the name is either missing or an empty string', function(){
-      config.data.name = undefined;
+      config.data.appName = undefined;
       assert.equal(false, config.isValid());
-      config.data.name = '';
+      config.data.appName = '';
       assert.equal(false, config.isValid());
     });
   });
   describe('Invalid name', function() {
     it('should not be valid when the name contains invalid characters', function(){
-      config.data.name = "wibble%";
+      config.data.appName = "wibble%";
       assert.equal(false, config.isValid());
     });
   });
   describe('Name too long', function() {
     it('should not be valid when the name contains too many characters', function(){
-      config.data.name = "ThisIsAReallyLongNameButIsItLongEnoughNotQuiteSoLetsKeepGoing";
+      config.data.appName = "ThisIsAReallyLongNameButIsItLongEnoughNotQuiteSoLetsKeepGoing";
       assert.equal(false, config.isValid());
     });
   });

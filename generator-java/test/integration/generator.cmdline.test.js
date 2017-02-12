@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corporation 2016
+ * Copyright IBM Corporation 2017
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,42 +22,45 @@ var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 
-// Files which we assert are created each time the app generator is run.
-var expected = [
-  'Package.swift',
-  '.swiftservergenerator-project'
-];
+const ARTIFACTID = 'artifact.0.1';
+const GROUPID = 'test.group';
+const VERSION = '1.0.0';
+const APPNAME = 'testApp';
 
 describe('java generator integration test', function () {
 
-  describe('Generates a rest project in headless mode, no configuration', function () {
+  describe('Generates a rest project in headless mode, using cmd line options', function () {
 
     before(function () {
       // Mock the options, set up an output folder and run the generator
       return helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions({                       // Mock the prompt answers
-          headless: true
+          headless: true,
+          buildType: 'gradle',
+          createType: 'rest',
+          version : VERSION,
+          appName : APPNAME,
+          groupId : GROUPID
         })
         .toPromise();                        // Get a Promise back when the generator finishes
     });
 
 
 
-    it('should create a ', function () {
-      assert.equal(path.basename(process.cwd()), 'notes');
-    });
-/*
-    it('generates the expected application files', function () {
-      assert.file(expected);
-    });
-
-    it('has the appname in the Package.swift file', function () {
-      assert.fileContent('Package.swift', 'name: "notes"');
+    it('should create a gradle based project', function () {
+      assert.noFile('pom.xml');   //build file
+      assert.file('build.gradle');
+      assert.file('src/main/java/application/rest/LibertyRestEndpoint.java'); //application files
+      assert.file('src/test/java/it/rest/LibertyRestEndpointTest.java');    //some tests
+      assert.file('src/main/liberty/config/server.xml');    //liberty configuration
     });
 
-    it('compiles the application', function () {
-      assert.file(process.cwd()+'/.build/debug/notes');
+    it('should have carried out replacements', function () {
+      assert.fileContent('build.gradle', "appName = '" + APPNAME + "'");
+      assert.fileContent('build.gradle', "group = '" + GROUPID + "'");
+      assert.fileContent('build.gradle', "version = '" + VERSION + "'");
+      assert.noFileContent('build.gradle', ARTIFACTID);
     });
-*/
+
   });
 });

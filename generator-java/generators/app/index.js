@@ -25,7 +25,7 @@ var fspath = require('path');
 var clone = function(from, to) {
   for (var prop in to) {
     if (to.hasOwnProperty(prop)) {
-        to[prop] = new String(from[prop]);
+        to[prop] = from[prop];
     }
   }
 }
@@ -38,7 +38,7 @@ module.exports = class extends Generator {
     //create command line options that will be passed by YaaS
     this.option('buildType', {desc : 'Build system to use', type : String, default : 'maven'});
     this.option('createType', {desc : 'Type of application to generate', type : String, default : 'rest'});
-    this.option('name', {desc : 'Name of the application', type : String, default : 'myLibertyProject'});
+    this.option('appName', {desc : 'Name of the application', type : String, default : 'myLibertyProject'});
     this.option('artifactId', {desc : 'Artifact ID to use for the build', type : String, default : 'myLibertyProject'});
     this.option('groupId', {desc : 'Name of the application', type : String, default : 'liberty.projects'});
     this.option('version', {desc : 'Version of the application', type : String, default : '1.0-SNAPSHOT'});
