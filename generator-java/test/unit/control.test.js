@@ -17,9 +17,9 @@
 //test the controller
 
 var assert = require('assert');
-var control = require('../../generators/app/lib/control');
+var control = require('../../generators/lib/control');
 var path = require('path');
-var config = require("../../generators/app/lib/config");
+var config = require("../../generators/lib/config");
 
 describe('control library', function() {
 

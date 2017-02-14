@@ -17,7 +17,7 @@
 //test the fs (file system) processor
 
 var assert = require('assert');
-var processor = require('../../generators/app/lib/fsprocessor');
+var processor = require('../../generators/lib/fsprocessor');
 var path = require('path');
 
 describe('fsprocessor library', function() {
