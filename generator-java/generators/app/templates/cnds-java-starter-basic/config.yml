@@ -1,9 +1,11 @@
-build-cmd : ["mvn install", "gradle build"]
-run-test-cmd: ["mvn install", "gradle build"]
+build-cmd : "mvn install"
+# build-cmd : "gradle build"
+run-test-cmd: "mvn install"
+# run-test-cmd: "gradle build"
 run-app-cmd : ["server", "run"]
 debug-app-cmd : ["server", "debug"]
 stop-app-cmd : ["server", "stop"]
-tools-dockerfile :
+tools-dockerfile : Dockerfile-tools
 tools-dockerfile-location: .
 run-dockerfile : Dockerfile-run
 run-dockerfile-location : .
