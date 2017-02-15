@@ -1,0 +1,19 @@
+container-name : "demo"
+host-src-path: .
+container-src-path: /target
+container-port-map : ["9080:9080", "9443:9443"]
+container-debug-port-map : ["9080:9080", "9443:9443", "7777:7777"]
+
+dockerfile-run : Dockerfile-run
+dockerfile-tools : Dockerfile-tools
+image-name-run : "{{imageName}}"
+image-name-tools : "cliTools"
+
+build-cmd : "mvn install"
+# build-cmd : "gradle build"
+test-cmd: "mvn install"
+# run-test-cmd: "gradle build"
+
+run-cmd : ["server", "run"]
+debug-cmd : ["server", "debug"]
+stop-cmd : ["server", "stop"]
