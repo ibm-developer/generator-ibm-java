@@ -13,28 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package application.rest;
+package application.model;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Response;
+import io.swagger.annotations.ApiModelProperty;
 
 {{#swagger}}
-{{#each paths}}
-@Path("{{@key}}")
-public class LibertyRestEndpoint extends Application {
+{{#each definitions}}
+public class {{javaClassName @key}} {
+  {{#each properties}}
+  private {{javaDataType type}} {{javaClassName @key}};
+  {{/each}}
 
-    {{#get}}
-    @GET
-    {{#produces}}
-    @Produces("{{.}}")
-    {{/produces}}
-    public Response get() {
-        return Response.ok(so).build();
+  {{#each properties}}
+    public {{type}} get{{javaMethodName @key}}() {
+        return {{@key}};
     }
-    {{/get}}
+
+    public void set{{javaMethodName @key}}(String {{@key}}) {
+        this.{{@key}} = {{@key}};
+    }
+
+  {{/each}}
 
 }
 {{/each}}

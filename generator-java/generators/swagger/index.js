@@ -17,7 +17,7 @@
 
 //template generation from a swagger document
 var Generator = require('yeoman-generator');
-var Mustache = require('mustache');
+var Handlebars = require('handlebars');
 var config = require("../lib/config");
 var processor = require("../lib/fsprocessor");
 var control = require("../lib/control");
@@ -32,6 +32,48 @@ var clone = function(from, to) {
     }
   }
 }
+
+//convert a swagger data type to a valid Java one
+Handlebars.registerHelper('javaDataType', function(type) {
+  if(type === "string") return "String";
+  if(type === 'integer') return "long";
+  return "Object";
+});
+
+function convertToJavaName(name, isClass) {
+  if(!name.length) return "anonymous";
+  name = name.trim();
+  var result = "";
+  for(var i = 0; i < name.length; i++) {
+    var c = name.charAt(i);
+    if(i == 0) {
+      if(isClass) {
+        c = c.toLowerCase();
+      } else {
+        c = c.toUpperCase();
+      }
+    }
+    switch(c) {
+      case ' ' :
+        result += "_";
+        break;
+      default:
+        result += c;
+        break;
+    }
+  }
+  return result;
+}
+
+//convert a swagger name to a valid Java class name
+Handlebars.registerHelper('javaClassName', function(name) {
+  return convertToJavaName(name, true);
+});
+
+//convert a swagger name to a valid Java method name
+Handlebars.registerHelper('javaMethodName', function(name) {
+  return convertToJavaName(name, false);
+});
 
 module.exports = class extends Generator {
 
@@ -130,8 +172,15 @@ module.exports = class extends Generator {
             }
             var outFile = this.destinationPath(relativePath);
             //console.log("CB : writing to " + outFile);
-            var output = Mustache.render(template, config.data);
-            this.fs.write(outFile, output);
+            try {
+              var compiledTemplate = Handlebars.compile(template);
+              var output = compiledTemplate(config.data);
+              //var output = Handlebars.render(template, config.data);
+              this.fs.write(outFile, output);
+            } catch (err) {
+              console.log("Error processing : " + relativePath);
+              reject(err);
+            }
           }).then(function() {
             console.log("Finished scanning");
             resolve();

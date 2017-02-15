@@ -1,5 +1,5 @@
 {
-  "excludes" : [
+  excludes : [
     {{#maven}}
     "build.gradle"
     {{/maven}}
@@ -7,5 +7,22 @@
     {{#gradle}}
     "pom.xml"
     {{/gradle}}
-  ]
+  ],
+  fileFound : function(path, data, config) {
+    if(path.endsWith('Bean.java')) {
+      if(config.data.swagger.definitions) {
+        var defs = config.data.swagger.definitions;
+        var paths = [];
+        for (var prop in defs) {
+          if (defs.hasOwnProperty(prop)) {
+              paths.push(path.replace('Bean.java', prop + '.java'));
+          }
+        }
+        return paths;
+      } else {
+        return [path];
+      }
+    }
+    return [path];
+  }
 }

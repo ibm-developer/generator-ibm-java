@@ -60,8 +60,12 @@ var dirwalk = function(root, tracker) {
             if(control.isControl(relativePath)) {
               //console.log("CONTROL FILE found, skipping processing");
             } else {
+              //fileFound passes back an array of paths so that data can be repeated
+              var paths = control.fileFound(relativePath, data);
               if(tracker.callback) {
-                tracker.callback(relativePath, data);
+                paths.forEach((path) => {
+                  tracker.callback(path, data);  
+                });
               }
             }
             tracker.count[root]--;  //remove from tracker when contents have been read and callbacks made

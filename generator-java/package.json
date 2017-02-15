@@ -7,6 +7,7 @@
   ],
   "dependencies": {
     "mustache": "^2.3.0",
+    "handlebars": "^4.0.0",
     "node-rest-client": "^2.5.0",
     "yeoman-assert": "^2.2.2",
     "yeoman-generator": "^1.0.0",
