@@ -1,0 +1,11 @@
+build-cmd : ["mvn install", "gradle build"]
+run-test-cmd: ["mvn install", "gradle build"]
+run-app-cmd : ["server", "run"]
+debug-app-cmd : ["server", "debug"]
+stop-app-cmd : ["server", "stop"]
+tools-dockerfile :
+tools-dockerfile-location: .
+run-dockerfile : Dockerfile-run
+run-dockerfile-location : .
+container-port-map : ["9080:9080", "9443:9443"]
+container-debug-port-map : ["9080:9080", "9443:9443", "7777:7777"]
