@@ -1,8 +1,12 @@
-container-name : "demo"
-host-src-path: .
-container-src-path: /target
+container-name-run : "demo"
+container-name-tools : "demo-tools"
+
+host-path-run: "/target"
+# host-path-run: "/build"
+host-path-tools: .
+
 container-port-map : ["9080:9080", "9443:9443"]
-container-debug-port-map : ["9080:9080", "9443:9443", "7777:7777"]
+container-port-map-debug : ["9080:9080", "9443:9443", "7777:7777"]
 
 dockerfile-run : Dockerfile-run
 dockerfile-tools : Dockerfile-tools
