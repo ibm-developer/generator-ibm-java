@@ -1,0 +1,11 @@
+declared-services: 
+    Cloudant: 
+        label: cloudantNoSQLDB 
+        plan: Lite 
+applications:
+- name: JavaMicroservice
+  memory: 128M
+  instances: 1
+  services:
+  - Cloudant
+  timeout: 180
