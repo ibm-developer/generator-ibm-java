@@ -70,15 +70,20 @@ One of the ways in which this generator can be invoked.
 {
   "generatorName": "generator-java",
   "scope": "@arf",
-  "generatorVersion": "1.0.2",
+  "generatorVersion": "0.1.0",
   "registry": "https://npm-registry.whitewater.ibm.com",
   "generatorOptions": {
-    "--spec": "mySpecValue"
+    "--headless": true
   },
   "bluemix": {
+   "createType": "basic",
     "server": {
-      
+      "memory": "512M"
     }
   }
 }
 ```
+
+Note :- From the YaaS team :- `Currently, when you override the prompt method you will get a promise resolution that will contain the bluemix object. In addition, the generatorOptions is provided through the this.options parameter in your yeoman generator.`
+
+Our generator provides a prompt method (so we can test locally), which means that when running through YaaS we'll get the contents of 'bluemix' as the answers. So in the example above, it's as if the user selected the createType of 'basic' from the prompt.
