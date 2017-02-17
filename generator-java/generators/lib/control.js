@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corporation 2016
+ * Copyright IBM Corporation 2017
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@ var fs = require('fs');
 var fspath = require('path');
 var Mustache = require('mustache');
 var controlBlock = undefined;
+var config = undefined;   //configuration for this project
+var javarules = require('./javarules');
 
 //determines if the passed relative path is a control file or not
 const CONTROL_FILE = "control.json";
@@ -48,8 +50,9 @@ var processProject = function(config) {
   data[config.data.buildType] = true;
 
   var output = Mustache.render(template, data);
-  this.controlBlock = JSON.parse(output);
+  this.controlBlock = eval("(" + output + ")");
   //console.log("Control data : \n" + JSON.stringify(this.controlBlock));
+  this.config = config;     //keep a ref to the config
 }
 
 //controls whether or not a file should be included in a generation
@@ -70,9 +73,18 @@ var shouldGenerate = function(relativePath) {
   return true;
 }
 
+var fileFound = function(relativePath, contents) {
+  if(this.controlBlock && this.controlBlock.fileFound) {
+    return this.controlBlock.fileFound(relativePath, contents, this.config);
+  } else {
+    return [{path : relativePath, template : contents, data : this.config}];
+  }
+}
+
 module.exports = {
   isControl : isControl,
   hasControl : hasControl,
   processProject : processProject,
-  shouldGenerate : shouldGenerate
+  shouldGenerate : shouldGenerate,
+  fileFound : fileFound
 };

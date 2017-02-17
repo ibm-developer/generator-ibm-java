@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
+
+//template generation from a swagger document
 var Generator = require('yeoman-generator');
-var Mustache = require('mustache');
+var Handlebars = require('handlebars');
 var config = require("../lib/config");
 var processor = require("../lib/fsprocessor");
 var control = require("../lib/control");
 var fspath = require('path');
+var fs = require('fs');
+var javarules = require('../lib/javarules');
 
 //clone any property, only if it is already present in the target object
 var clone = function(from, to) {
@@ -30,6 +34,21 @@ var clone = function(from, to) {
   }
 }
 
+//convert a swagger data type to a valid Java one
+Handlebars.registerHelper('javaDataType', javarules.dataType);
+
+//convert a swagger name to a valid Java class name
+Handlebars.registerHelper('javaClassName', javarules.className);
+
+//convert a swagger name to a valid Java method name
+Handlebars.registerHelper('javaMethodName', javarules.methodName);
+
+//lookup and resolve references to data types, will return the Java class name
+Handlebars.registerHelper('refLookup', function(ref) {
+  var parts = ref.split("/");
+  return javarules.className(parts[parts.length - 1]);
+});
+
 module.exports = class extends Generator {
 
   constructor(args, opts) {
@@ -37,7 +56,7 @@ module.exports = class extends Generator {
 
     //create command line options that will be passed by YaaS
     this.option('buildType', {desc : 'Build system to use', type : String, default : 'maven'});
-    this.option('createType', {desc : 'Type of application to generate', type : String, default : 'rest'});
+    this.option('createType', {desc : 'Type of application to generate', type : String, default : 'swagger'});
     this.option('appName', {desc : 'Name of the application', type : String, default : 'myLibertyProject'});
     this.option('artifactId', {desc : 'Artifact ID to use for the build', type : String, default : 'myLibertyProject'});
     this.option('groupId', {desc : 'Name of the application', type : String, default : 'liberty.projects'});
@@ -63,18 +82,22 @@ module.exports = class extends Generator {
     }
     return this.prompt([{
       type    : 'list',
-      name    : 'createType',
+      name    : 'inputType',
       message : 'This is a test front end for manually driving the Java code generator.\n',
       choices : [{
-        name : 'REST : a basic REST sample used to test this generator',
-        value : 'rest',
-        short : 'REST sample application'
+        name : 'JSON : create from a swagger.json',
+        value : 'json',
+        short : 'Application from swagger.json'
       }, {
-        name : 'Basic : a basic Java microservice (TBD)',
-        value : 'basic',
-        short : 'Basic Java microservice'
+        name : 'YAML: create from a swagger.yaml (TBD)',
+        value : 'yaml',
+        short : 'Application from swagger.json'
       }],
-      default : 0 // Default to rest sample
+      default : 0 // Default to generation from swagger.json
+    }, {
+      type    : 'inputPath',
+      name    : 'filePath',
+      message : 'Enter the path to you swagger definition file.\n'
     }, {
       type    : 'list',
       name    : 'buildType',
@@ -83,10 +106,8 @@ module.exports = class extends Generator {
       default : 0 // Default to maven
     }]).then((answers) => {
       //configure the sample to use based on the type we are creating
-      config.data.templatePath = 'cnds-java-starter-' + answers.createType;   //override with user selection
-      config.data.templateFullPath = this.templatePath(config.data.templatePath);
-      config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + answers.createType);
       config.data.buildType = answers.buildType;
+      config.data.swaggerDef = answers.filePath;
       control.processProject(config);
     });
   }
@@ -99,18 +120,47 @@ module.exports = class extends Generator {
       this.log("Error : configuration is invalid, code generation is aborted");
       return;
     }
-    this.destinationRoot(config.data.projectPath);
-    //this.log("Destination path : " + this.destinationRoot());
-    processor.path = this.templatePath(config.data.templatePath);
-    //console.log(JSON.stringify(processor));
-    return processor.scan((relativePath, template) => {
-      if(!control.shouldGenerate(relativePath)) {
-        return;   //do not include this file in the generation
+    return new Promise((resolve, reject) => {
+      var file = fspath.resolve(config.data.swaggerDef);
+      if(!fs.existsSync(file)) {
+        reject("Error : specified file does not exist " + file);
       }
-      var outFile = this.destinationPath(relativePath);
-      //console.log("CB : writing to " + outFile);
-      var output = Mustache.render(template, config.data);
-      this.fs.write(outFile, output);
+      var stats = fs.statSync(file);
+      if(stats.isDirectory()) {
+        reject("Error : specified path is a directory");
+      }
+      //get this far then the file exists and is not a directory
+      fs.readFile(file, 'utf8', (err, data) => {
+        if(err) {
+          reject(err);
+        } else {
+          config.data.swagger = JSON.parse(data);   //attach the swagger document to the config data
+          console.log("Config : " + JSON.stringify(config.data.swagger.basePath));
+          this.destinationRoot(config.data.projectPath);
+          //this.log("Destination path : " + this.destinationRoot());
+          processor.path = this.templatePath(config.data.templatePath);
+          //console.log(JSON.stringify(processor));
+          processor.scan((relativePath, template, config) => {
+            if(!control.shouldGenerate(relativePath)) {
+              return;   //do not include this file in the generation
+            }
+            var outFile = this.destinationPath(relativePath);
+            //console.log("CB : writing to " + outFile);
+            try {
+              var compiledTemplate = Handlebars.compile(template);
+              var output = compiledTemplate(config.data);
+              //var output = Handlebars.render(template, config.data);
+              this.fs.write(outFile, output);
+            } catch (err) {
+              console.log("Error processing : " + relativePath);
+              reject(err);
+            }
+          }).then(function() {
+            console.log("Finished scanning");
+            resolve();
+          });
+        }
+      });
     });
   }
 

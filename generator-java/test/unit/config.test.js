@@ -17,7 +17,7 @@
 //test the config module
 
 var assert = require('assert');
-var config = require('../../generators/app/lib/config');
+var config = require('../../generators/lib/config');
 
 var configDefaults = {};
 
