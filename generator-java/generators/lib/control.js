@@ -58,14 +58,18 @@ var processProject = function(config) {
 //controls whether or not a file should be included in a generation
 var shouldGenerate = function(relativePath) {
   if(!this.controlBlock) {
-    return true;   //no control block configured so skip
+    return true;   //no control block configured so generate
   }
   if(!this.controlBlock.excludes) {
     return true;   //no excludes defined
   }
   for(var i = 0; i < this.controlBlock.excludes.length; i++) {
     if(this.controlBlock.excludes[i] === relativePath) {
-      //console.log("File exculed : " + relativePath);
+      //console.log("File excluded : " + relativePath);
+      return false;
+    }
+    if(relativePath.startsWith(this.controlBlock.excludesDir[i])) {
+      //console.log("Directory excluded : " + relativePath);
       return false;
     }
   }

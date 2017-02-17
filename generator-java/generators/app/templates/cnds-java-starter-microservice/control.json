@@ -1,0 +1,17 @@
+{
+  "excludes" : [
+    ".classpath",
+    ".project",
+    {{#maven}}
+    "build.gradle"
+    {{/maven}}
+
+    {{#gradle}}
+    "pom.xml"
+    {{/gradle}}
+  ],
+  "excludesDir" : [
+    "target",
+    ".settings"
+  ]
+}
