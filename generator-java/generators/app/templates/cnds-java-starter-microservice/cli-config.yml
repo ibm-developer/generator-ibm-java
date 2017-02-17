@@ -2,7 +2,7 @@ container-name-run : "demo"
 container-name-tools : "demo-tools"
 
 host-path-run : "/target/liberty/wlp/usr/servers/defaultServer"
-# host-path-run : "/build"
+# host-path-run : "/build/liberty/wlp/usr/servers/defaultServer"
 host-path-tools : .
 
 container-path-run : "/config/"
@@ -24,7 +24,8 @@ build-cmd-debug : "mvn install"
 
 test-cmd: "mvn install"
 # run-test-cmd: "gradle build"
-debug-cmd : "/opt/ibm/wlp/bin/server debug"
+debug-cmd : "/target/liberty/wlp/bin/server debug"
+# debug-cmd : "/build/liberty/wlp/bin/server debug"
 run-cmd : ["server", "run"]
 
 shell-cmd: "bash"

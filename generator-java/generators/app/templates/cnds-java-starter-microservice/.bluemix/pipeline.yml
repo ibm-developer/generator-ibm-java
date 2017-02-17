@@ -26,8 +26,8 @@ stages:
     type: deployer
     target:
       region_id: ${CF_REGION_ID}
-      organization_guid: ${CF_ORGANIZATION}
-      space_guid: ${CF_SPACE}
+      organization: ${CF_ORGANIZATION}
+      space: ${CF_SPACE}
       application: ${CF_APP}
     script: |-
       #!/bin/bash
