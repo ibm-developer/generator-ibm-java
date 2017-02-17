@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corporation 2016
+ * Copyright IBM Corporation 2017
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,11 +60,11 @@ var dirwalk = function(root, tracker) {
             if(control.isControl(relativePath)) {
               //console.log("CONTROL FILE found, skipping processing");
             } else {
-              //fileFound passes back an array of paths so that data can be repeated
-              var paths = control.fileFound(relativePath, data);
+              //fileFound passes back an array of fragments so that data can be repeated
+              var fragments = control.fileFound(relativePath, data);
               if(tracker.callback) {
-                paths.forEach((path) => {
-                  tracker.callback(path, data);  
+                fragments.forEach((fragment) => {
+                  tracker.callback(fragment.path, fragment.template, fragment.data);
                 });
               }
             }

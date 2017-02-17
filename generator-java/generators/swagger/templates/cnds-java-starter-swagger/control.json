@@ -8,21 +8,28 @@
     "pom.xml"
     {{/gradle}}
   ],
-  fileFound : function(path, data, config) {
+  fileFound : function(path, contents, config) {
+    var defaultFragment = {path : path, template : contents, data : config};
     if(path.endsWith('Bean.java')) {
       if(config.data.swagger.definitions) {
         var defs = config.data.swagger.definitions;
-        var paths = [];
+        var fragments = [];
         for (var prop in defs) {
           if (defs.hasOwnProperty(prop)) {
-              paths.push(path.replace('Bean.java', prop + '.java'));
+            var fragment = {
+              path : path.replace('Bean.java', javarules.className(prop) + '.java'),
+              template : contents,
+              data : {data : {}}
+            }
+            fragment.data.data[prop] = defs[prop];
+            fragments.push(fragment);
           }
         }
-        return paths;
+        return fragments;
       } else {
-        return [path];
+        return [defaultFragment];
       }
     }
-    return [path];
+    return [defaultFragment];
   }
 }

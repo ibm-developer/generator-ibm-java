@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corporation 2016
+ * Copyright IBM Corporation 2017
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ var fspath = require('path');
 var Mustache = require('mustache');
 var controlBlock = undefined;
 var config = undefined;   //configuration for this project
+var javarules = require('./javarules');
 
 //determines if the passed relative path is a control file or not
 const CONTROL_FILE = "control.json";
@@ -72,11 +73,11 @@ var shouldGenerate = function(relativePath) {
   return true;
 }
 
-var fileFound = function(relativePath, data) {
-  if(this.controlBlock.fileFound) {
-    return this.controlBlock.fileFound(relativePath, data, this.config);
+var fileFound = function(relativePath, contents) {
+  if(this.controlBlock && this.controlBlock.fileFound) {
+    return this.controlBlock.fileFound(relativePath, contents, this.config);
   } else {
-    return [relativePath];
+    return [{path : relativePath, template : contents, data : this.config}];
   }
 }
 

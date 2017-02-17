@@ -23,6 +23,7 @@ var processor = require("../lib/fsprocessor");
 var control = require("../lib/control");
 var fspath = require('path');
 var fs = require('fs');
+var javarules = require('../lib/javarules');
 
 //clone any property, only if it is already present in the target object
 var clone = function(from, to) {
@@ -34,45 +35,18 @@ var clone = function(from, to) {
 }
 
 //convert a swagger data type to a valid Java one
-Handlebars.registerHelper('javaDataType', function(type) {
-  if(type === "string") return "String";
-  if(type === 'integer') return "long";
-  return "Object";
-});
-
-function convertToJavaName(name, isClass) {
-  if(!name.length) return "anonymous";
-  name = name.trim();
-  var result = "";
-  for(var i = 0; i < name.length; i++) {
-    var c = name.charAt(i);
-    if(i == 0) {
-      if(isClass) {
-        c = c.toLowerCase();
-      } else {
-        c = c.toUpperCase();
-      }
-    }
-    switch(c) {
-      case ' ' :
-        result += "_";
-        break;
-      default:
-        result += c;
-        break;
-    }
-  }
-  return result;
-}
+Handlebars.registerHelper('javaDataType', javarules.dataType);
 
 //convert a swagger name to a valid Java class name
-Handlebars.registerHelper('javaClassName', function(name) {
-  return convertToJavaName(name, true);
-});
+Handlebars.registerHelper('javaClassName', javarules.className);
 
 //convert a swagger name to a valid Java method name
-Handlebars.registerHelper('javaMethodName', function(name) {
-  return convertToJavaName(name, false);
+Handlebars.registerHelper('javaMethodName', javarules.methodName);
+
+//lookup and resolve references to data types, will return the Java class name
+Handlebars.registerHelper('refLookup', function(ref) {
+  var parts = ref.split("/");
+  return javarules.className(parts[parts.length - 1]);
 });
 
 module.exports = class extends Generator {
@@ -166,7 +140,7 @@ module.exports = class extends Generator {
           //this.log("Destination path : " + this.destinationRoot());
           processor.path = this.templatePath(config.data.templatePath);
           //console.log(JSON.stringify(processor));
-          processor.scan((relativePath, template) => {
+          processor.scan((relativePath, template, config) => {
             if(!control.shouldGenerate(relativePath)) {
               return;   //do not include this file in the generation
             }

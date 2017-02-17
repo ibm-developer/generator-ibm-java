@@ -17,8 +17,7 @@ package application.model;
 
 import io.swagger.annotations.ApiModelProperty;
 
-{{#swagger}}
-{{#each definitions}}
+{{#each .}}
 public class {{javaClassName @key}} {
   {{#each properties}}
   private {{javaDataType type}} {{javaClassName @key}};
@@ -37,4 +36,3 @@ public class {{javaClassName @key}} {
 
 }
 {{/each}}
-{{/swagger}}

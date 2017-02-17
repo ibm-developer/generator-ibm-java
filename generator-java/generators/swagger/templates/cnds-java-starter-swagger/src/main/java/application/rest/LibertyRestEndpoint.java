@@ -21,6 +21,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
+import application.model.*;
+
 {{#swagger}}
 {{#each paths}}
 @Path("{{@key}}")
@@ -32,7 +34,17 @@ public class LibertyRestEndpoint extends Application {
     @Produces("{{.}}")
     {{/produces}}
     public Response get() {
-        return Response.ok(so).build();
+      {{#responses}}
+      {{#200}}
+      {{#schema/items/$ref}}
+      {{refLookup .}} result = new {{refLookup .}}();
+      return Response.ok(result).build();
+      {{/schema/items/$ref}}
+      {{^schema/items/$ref}}
+      return Response.ok().build();
+      {{/schema/items/$ref}}
+      {{/200}}
+      {{/responses}}
     }
     {{/get}}
 
