@@ -29,6 +29,12 @@ describe('control library', function() {
       control.processProject(config);
       assert.equal(true, control.hasControl());
     });
+
+    it('it should ignore any control.json file not found in the root', function(){
+      config.data.templateFullPath = path.resolve("./test/resources/control/without-control");
+      control.processProject(config);
+      assert.equal(false, control.hasControl());
+    });
   });
 
   describe('process a control file', function() {
@@ -37,9 +43,7 @@ describe('control library', function() {
       control.processProject(config);
       assert.equal(false, control.shouldGenerate("build.gradle"));
     });
-  });
 
-  describe('process a control file', function() {
     it('it should include any file not in the file exclusion list', function(){
       config.data.templateFullPath = path.resolve("./test/resources/control/with-control");
       control.processProject(config);
@@ -55,9 +59,7 @@ describe('control library', function() {
       assert.equal(1, fragments.length);
       assert.equal(fragments[0].path, "alteredpath");
     });
-  });
 
-  describe('process found files', function() {
     it('it should use the default callback if no custom one is defined', function(){
       config.data.templateFullPath = path.resolve("./test/resources/control/without-excludes");
       control.processProject(config);
@@ -67,21 +69,13 @@ describe('control library', function() {
     });
   });
 
-  describe('ignores control files in sub folder', function() {
-    it('it should ignore any control.json file not found in the root', function(){
-      config.data.templateFullPath = path.resolve("./test/resources/control/without-control");
-      control.processProject(config);
-      assert.equal(false, control.hasControl());
-    });
-  });
-
   describe('generates file', function() {
     it('it should generate a file if a control block is not present', function(){
+      config.data.templateFullPath = path.resolve("./test/resources/control/without-control");
+      control.processProject(config);
       assert.equal(true, control.shouldGenerate());
     });
-  });
 
-  describe('generates file', function() {
     it('it should generate a file if a control block present, but has no exclusions defined', function(){
       config.data.templateFullPath = path.resolve("./test/resources/control/without-excludes");
       control.processProject(config);
