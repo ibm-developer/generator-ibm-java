@@ -64,6 +64,11 @@ describe('Config defaults', function() {
 
 
 describe('Config validation', function() {
+  describe('should create default values such that the configuration object is valid', function() {
+    it('should not be valid when the name contains invalid characters', function(){
+      assert.equal(true, config.isValid());
+    });
+  });
   describe('Missing name', function() {
     it('should not be valid when the name is either missing or an empty string', function(){
       config.data.appName = undefined;

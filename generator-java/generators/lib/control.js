@@ -58,10 +58,10 @@ var processProject = function(config) {
 //controls whether or not a file should be included in a generation
 var shouldGenerate = function(relativePath) {
   if(!this.controlBlock) {
-    return false;   //no control block configured so skip
+    return true;   //no control block configured so skip
   }
   if(!this.controlBlock.excludes) {
-    return false;   //no excludes defined
+    return true;   //no excludes defined
   }
   for(var i = 0; i < this.controlBlock.excludes.length; i++) {
     if(this.controlBlock.excludes[i] === relativePath) {
