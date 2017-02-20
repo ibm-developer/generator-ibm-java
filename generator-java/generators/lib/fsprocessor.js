@@ -46,11 +46,7 @@ var dirwalk = function(root, tracker) {
           tracker.count[root]--;    //immediately remove from count as not a file
         } else {
           fs.readFile(file, 'utf8', (err, data) => {
-            var relativePath = file.substring(tracker.root.length);
-            //make sure strip leading / to make path relative (and stop us writing to the root dir which would be bad)
-            if(relativePath.charAt(0) == '/') {
-              relativePath = relativePath.substring(1);
-            }
+            var relativePath = fspath.relative(tracker.root, file);
             //console.log("Found file " + file + " : " + relativePath);
             if(err) {
               console.error("Error reading file ");

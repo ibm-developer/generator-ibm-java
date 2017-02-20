@@ -73,6 +73,10 @@ module.exports = class extends Generator {
         name : 'Basic : a basic Java microservice (TBD)',
         value : 'basic',
         short : 'Basic Java microservice'
+      }, {
+        name : 'Microservice : a basic Java microservice with Cloudant',
+        value : 'microservice',
+        short : 'Basic Java microservice'
       }],
       default : 0 // Default to rest sample
     }, {

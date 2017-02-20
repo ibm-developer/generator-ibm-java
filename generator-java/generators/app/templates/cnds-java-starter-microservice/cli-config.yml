@@ -1,0 +1,31 @@
+container-name-run : "{{appName}}"
+container-name-tools : "{{appName}}-tools"
+
+host-path-run : "/target/liberty/wlp/usr/servers/defaultServer"
+# host-path-run : "/build/liberty/wlp/usr/servers/defaultServer"
+host-path-tools : .
+
+container-path-run : "/config/"
+container-path-tools : "/app"
+
+container-port-map : ["9080:9080", "9443:9443"]
+container-port-map-debug : ["9080:9080", "9443:9443", "7777:7777"]
+
+dockerfile-run : Dockerfile-run
+dockerfile-tools : Dockerfile-tools
+
+image-name-run : "{{appName}}"
+image-name-tools : "cliTools"
+
+build-cmd : "mvn install"
+# build-cmd : "gradle build"
+build-cmd-debug : "mvn install"
+# build-cmd-debug : "gradle build"
+
+test-cmd: "mvn install"
+# run-test-cmd: "gradle build"
+debug-cmd : "/target/liberty/wlp/bin/server debug"
+# debug-cmd : "/build/liberty/wlp/bin/server debug"
+run-cmd : ["server", "run"]
+
+shell-cmd: "bash"

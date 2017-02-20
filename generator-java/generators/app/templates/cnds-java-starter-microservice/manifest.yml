@@ -1,0 +1,13 @@
+declared-services:
+    Cloudant:
+        label: cloudantNoSQLDB
+        plan: Lite
+applications:
+- name: {{appName}}
+  memory: 512M
+  instances: 1
+  services:
+  - Cloudant
+  timeout: 180
+env:
+  services_autoconfig_excludes: cloudantNoSQLDB=config
