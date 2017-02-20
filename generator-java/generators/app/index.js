@@ -25,7 +25,9 @@ var fspath = require('path');
 var clone = function(from, to) {
   for (var prop in to) {
     if (to.hasOwnProperty(prop)) {
-        to[prop] = from[prop];
+        if(from[prop]) {
+          to[prop] = from[prop];
+        }
     }
   }
 }
@@ -43,16 +45,16 @@ module.exports = class extends Generator {
     this.option('groupId', {desc : 'Name of the application', type : String, default : 'liberty.projects'});
     this.option('version', {desc : 'Version of the application', type : String, default : '1.0-SNAPSHOT'});
     this.option('headless', {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : Boolean, default : false});
-  }
-
-  initializing() {
+    this.option('debug', {desc : 'Generate a log.txt file in the root of the project', type : Boolean, default : false});
+    config.writeToLog("Options : " + JSON.stringify(this.options));
+    config.writeToLog("Config (default) : " + JSON.stringify(config.data));
     //overwrite any default values with those specified as options
     clone(this.options, config.data);
     //set values based on either defaults or passed in values
     config.data.templatePath = 'cnds-java-starter-' + config.data.createType;
     config.data.templateFullPath = this.templatePath(config.data.templatePath);
     config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.data.createType);
-    //console.log(JSON.stringify(config.data));
+    config.writeToLog("Config : " + JSON.stringify(config.data));
   }
 
   prompting() {
@@ -86,11 +88,16 @@ module.exports = class extends Generator {
       choices : ['maven', 'gradle'],
       default : 0 // Default to maven
     }]).then((answers) => {
+      config.writeToLog("Answers : " + JSON.stringify(answers));
       //configure the sample to use based on the type we are creating
-      config.data.templatePath = 'cnds-java-starter-' + answers.createType;   //override with user selection
-      config.data.templateFullPath = this.templatePath(config.data.templatePath);
-      config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + answers.createType);
-      config.data.buildType = answers.buildType;
+      if(answers.createType) {
+        config.data.templatePath = 'cnds-java-starter-' + answers.createType;   //override with user selection
+        config.data.templateFullPath = this.templatePath(config.data.templatePath);
+        config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + answers.createType);
+      }
+      if(answers.buildType) {
+        config.data.buildType = answers.buildType;
+      }
       control.processProject(config);
     });
   }
@@ -105,6 +112,10 @@ module.exports = class extends Generator {
     }
     this.destinationRoot(config.data.projectPath);
     //this.log("Destination path : " + this.destinationRoot());
+    if(config.data.debug) {
+      var log = Mustache.render("{{#.}}\n{{{.}}}\n{{/.}}\n", config.getLogs);
+      this.fs.write("log.txt", log);
+    }
     processor.path = this.templatePath(config.data.templatePath);
     //console.log(JSON.stringify(processor));
     return processor.scan((relativePath, template) => {
