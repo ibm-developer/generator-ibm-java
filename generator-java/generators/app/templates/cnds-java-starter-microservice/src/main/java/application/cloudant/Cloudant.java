@@ -1,4 +1,4 @@
-package java.application.cloudant;
+package application.cloudant;
 
 import java.io.StringReader;
 

@@ -1,12 +1,13 @@
+{{=<% %>=}}
 name: Continuous Delivery Toolchain
 description: "This toolchain includes tools to develop and deploy your app. Depending on your app, when you create the toolchain, the GitHub repository will either be empty or will contain source code from your app.\n\nThis toolchain uses tools that are part of the Continuous Delivery service. If an instance of that service isn't already in your organization, when you click **Create**, it is automatically added at no cost to you. For more information and terms, see the [Bluemix catalog](/catalog/services/continuous-delivery/).\n\nTo get started, click **Create**."
 version: 0.2
-required: 
+required:
  - deploy
  - repo
 
 toolchain:
-  name: microservice
+  name: <%appName%>
 
 # Github repos
 repo:
@@ -22,7 +23,7 @@ build:
   parameters:
     name: "{{name}}"
     ui-pipeline: true
-    configuration: 
+    configuration:
      content: $file(pipeline.yml)
      env:
       REPO: "repo"
@@ -33,16 +34,16 @@ build:
      execute: true
     services: ["repo"]
   hidden: ["form"]
-    
+
 
 #Web IDE
 webide:
   service_id: orion
-  
+
 #Deployment
 deploy:
-  schema: 
+  schema:
     $ref: deploy.json
   service-category: pipeline
   parameters:
-    app-name: "microservice"
+    app-name: <%appName%>

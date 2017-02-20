@@ -1,4 +1,4 @@
-package java.application.cloudant;
+package application.cloudant;
 
 public class CloudantException extends Exception {
 
