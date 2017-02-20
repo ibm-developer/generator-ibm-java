@@ -6,6 +6,8 @@ applications:
 - name: {{appName}}
   memory: 512M
   instances: 1
+  random-route: true
+  buildpack: liberty-for-java
   services:
   - Cloudant
   timeout: 180
