@@ -8,13 +8,11 @@ buildscript {
     dependencies {
         classpath 'net.wasdev.wlp.gradle.plugins:liberty-gradle-plugin:1.0'
         classpath files('gradle/wlp-anttasks.jar')
-        classpath 'org.cloudfoundry:cf-gradle-plugin:1.1.2'
     }
 }
 
 apply plugin: 'war'
 apply plugin: 'liberty'
-apply plugin: 'cloudfoundry'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -23,7 +21,7 @@ compileJava.options.encoding = 'UTF-8'
 
 ext {
     // Liberty server properties
-    serverDirectory = "${buildDir}/liberty/wlp/usr/servers/defaultServer"
+    serverDirectory = "${buildDir}/wlp/usr/servers/defaultServer"
     testServerHttpPort = 9080
     testServerHttpsPort = 9443
 
@@ -32,19 +30,6 @@ ext {
     appName = '{{appName}}'
     packageFile = "${project.buildDir}/${appName}.zip"
     packagingType = 'usr'
-
-    // Cloud Foundry/Bluemix properties
-    // This is the host for your app in Bluemix and what it will be called in the dashboard.
-    cfHost = appName
-    cfContext = 'mybluemix.net'
-    cfTarget = 'https://api.ng.bluemix.net'
-    cfSpace = 'dev'
-    cfContextRoot = "${cfHost}.${cfContext}/${warContext}"
-
-    // The Cloud Foundry or Bluemix organization, username and password can be entered here.
-    // cfOrg = ''
-    // cfUsername = ''
-    // cfPassword = ''
 }
 
 repositories {
@@ -65,13 +50,7 @@ task integrationTest(type: Test) {
     include '**/it/**'
     exclude '**/unit/**'
 
-    systemProperties = ['liberty.test.port': testServerHttpPort, 'war.name': warContext, 'running.bluemix': 'false', 'cf.context.root': cfContextRoot ]
-}
-
-gradle.taskGraph.whenReady { graph ->
-    if (graph.hasTask(cfPush)) {
-        integrationTest.systemProperties['running.bluemix'] = 'true'
-    }
+    systemProperties = ['liberty.test.port': testServerHttpPort, 'war.name': warContext]
 }
 
 task printMessageAboutRunningServer {
@@ -116,48 +95,11 @@ task libertyStartTestServer(type: net.wasdev.wlp.gradle.plugins.tasks.StartTask)
     logging.level = LogLevel.INFO
 }
 
-task checkBluemixPropertiesSet() {
-    doLast {
-        checkPropertySet('cfOrg')
-        checkPropertySet('cfUsername')
-        checkPropertySet('cfPassword')
-    }
-}
-
-task printBluemixProperties(dependsOn: 'checkBluemixPropertiesSet') {
-    doLast {
-        println "Running bluemix profile with the following properties:\n" +
-                "\tcf.target=${cfTarget}\n" +
-                "\tcf.space=${cfSpace}\n" +
-                "\tcf.org=${cfOrg}\n" +
-                "\tcf.username=${cfUsername}\n" +
-                "The application will be accessed at context root ${cfContextRoot}"
-    }
-}
-
-def checkPropertySet(propertyName) {
-    if (!project.hasProperty(propertyName)) {
-        throw new GradleException("The ${propertyName} property must be provided to run the cfPush task, this can be supplied on the command line with -P${propertyName}=<value>.")
-    }
-}
-
-cloudfoundry {
-    target = cfTarget
-    if (project.hasProperty('cfOrg')) {
-        organization = cfOrg
-    }
-    space = cfSpace
-    file = file(packageFile)
-    memory = 512
-    appName = cfHost
-}
-
 tasks.create('setupServer')
 check.dependsOn 'integrationTest'
-setupServer.dependsOn 'installLiberty', 'createServerBootstrap', 'publishServerConfig', 'copyConfigSnippetsToServer', 'publishWar'
-createServerBootstrap.mustRunAfter 'installLiberty'
+setupServer.dependsOn 'installLiberty', 'createServerBootstrap', 'publishServerConfig', 'publishWar'
 publishServerConfig.mustRunAfter 'installLiberty'
-copyConfigSnippetsToServer.mustRunAfter 'installLiberty'
+createServerBootstrap.mustRunAfter 'publishServerConfig'
 publishWar.mustRunAfter 'installLiberty'
 publishWar.dependsOn 'war'
 libertyStart.dependsOn 'setupServer'
@@ -166,6 +108,4 @@ integrationTest.finalizedBy 'libertyStop'
 libertyStartTestServer.dependsOn 'setupServer'
 assemble.dependsOn 'libertyPackage'
 libertyPackage.dependsOn 'setupServer'
-cfPush.dependsOn 'printBluemixProperties'
-integrationTest.mustRunAfter 'cfPush'
 libertyStart.finalizedBy 'printMessageAboutRunningServer'
