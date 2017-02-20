@@ -47,7 +47,7 @@ var dirwalk = function(root, tracker) {
         } else {
           fs.readFile(file, 'utf8', (err, data) => {
             var relativePath = fspath.relative(tracker.root, file);
-            console.log("Found file " + file + " : " + relativePath);
+            //console.log("Found file " + file + " : " + relativePath);
             if(err) {
               console.error("Error reading file ");
               tracker.reject(err);

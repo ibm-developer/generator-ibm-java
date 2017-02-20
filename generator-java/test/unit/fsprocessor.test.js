@@ -42,17 +42,22 @@ describe('fsprocessor library', function() {
         });
     });
     it('it should throw an exception when unable to read a file', function(done){
+      if (path.delimiter === ';') {
+        //can't check on Windows as can't set file permissions
+        done();
+        return;
+      }
       var root = "./test/resources/fsprocessor/test-templates-badfile";
-      var path = "/filewithnoreadperms.txt";
-      fs.chmodSync(root + path, 222);
+      var fpath = "/filewithnoreadperms.txt";
+      fs.chmodSync(root + fpath, 222);
       processor.path = root;
       processor.scan((relativePath, contents) => {
         assert.fail(false, true, "Should not have found any projects");
       }).then(() => {
-        fs.chmodSync(root + path, 666);
+        fs.chmodSync(root + fpath, 666);
         assert.fail(false, true, "Walk should not have completed without error");
       }).catch((err) => {
-        fs.chmodSync(root + path, 666);
+        fs.chmodSync(root + fpath, 666);
         //this error is expected
         done();
       });
