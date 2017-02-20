@@ -35,7 +35,7 @@ describe('javarules library', function() {
     });
   });
 
-  describe('can provid valid class names', function() {
+  describe('can provide valid class names', function() {
     it('it should not change a valid class name', function(){
       assert.equal("MyTestClass", rules.className("MyTestClass"));
     });
@@ -50,7 +50,7 @@ describe('javarules library', function() {
     });
   });
 
-  describe('can provid valid method names', function() {
+  describe('can provide valid method names', function() {
     it('it should always lower case the first letter of a method name', function(){
       assert.equal("myTestMethod", rules.methodName("MyTestMethod"));
     });
