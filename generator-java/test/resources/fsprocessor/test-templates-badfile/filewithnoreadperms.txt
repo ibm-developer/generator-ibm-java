@@ -1,0 +1,1 @@
+This file should not be readable in order for the test to work (or should that be fail !)
