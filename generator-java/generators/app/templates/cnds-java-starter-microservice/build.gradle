@@ -26,7 +26,7 @@ ext {
     testServerHttpsPort = 9443
 
     // This is set in the ibm-web-ext.xml file
-    warContext = 'myLibertyApp'
+    warContext = 'microservice'
     appName = '{{appName}}'
     packageFile = "${project.buildDir}/${appName}.zip"
     packagingType = 'usr'
