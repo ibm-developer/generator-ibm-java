@@ -1,6 +1,6 @@
 {
   "name": "@arf/generator-java",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Java code generation and modification",
   "license": "Apache-2.0",
   "files": [
@@ -26,7 +26,7 @@
     "istanbul" : "./node_modules/istanbul/lib/cli.js"
   },
   "publishConfig": {
-    "registry": "https://npm.whitewater.ibm.com"
+    "registry": "https://npm-registry.whitewater.ibm.com"
   },
   "repository": {
     "type": "git",

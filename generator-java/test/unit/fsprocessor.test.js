@@ -52,12 +52,13 @@ describe('fsprocessor library', function() {
       fs.chmodSync(root + fpath, 222);
       processor.path = root;
       processor.scan((relativePath, contents) => {
+        fs.chmodSync(root + fpath, 755);
         assert.fail(false, true, "Should not have found any projects");
       }).then(() => {
-        fs.chmodSync(root + fpath, 666);
+        fs.chmodSync(root + fpath, 755);
         assert.fail(false, true, "Walk should not have completed without error");
       }).catch((err) => {
-        fs.chmodSync(root + fpath, 666);
+        fs.chmodSync(root + fpath, 755);
         //this error is expected
         done();
       });
