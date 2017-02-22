@@ -27,9 +27,9 @@ var config = {
   artifactId : "artifactId",
   groupId : "groupId",
   version : "1.0",
-  headless : false,
+  headless : "false",
   createType : "rest",
-  debug : false
+  debug : "false"
 };    //the configuration object
 
 var isValid = function() {

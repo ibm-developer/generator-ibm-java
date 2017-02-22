@@ -44,8 +44,8 @@ module.exports = class extends Generator {
     this.option('artifactId', {desc : 'Artifact ID to use for the build', type : String, default : 'myLibertyProject'});
     this.option('groupId', {desc : 'Name of the application', type : String, default : 'liberty.projects'});
     this.option('version', {desc : 'Version of the application', type : String, default : '1.0-SNAPSHOT'});
-    this.option('headless', {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : Boolean, default : false});
-    this.option('debug', {desc : 'Generate a log.txt file in the root of the project', type : Boolean, default : false});
+    this.option('headless', {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : String, default : "false"});
+    this.option('debug', {desc : 'Generate a log.txt file in the root of the project', type : String, default : "false"});
     config.writeToLog("Options : " + JSON.stringify(this.options));
     config.writeToLog("Config (default) : " + JSON.stringify(config.data));
     //overwrite any default values with those specified as options
@@ -58,7 +58,7 @@ module.exports = class extends Generator {
   }
 
   prompting() {
-    if(config.data.headless) {
+    if(config.data.headless === "true") {
       control.processProject(config);
       console.log("Generator running headless : creating " + config.data.createType);
       return this.prompt([]);   //running headless, so no prompt
@@ -112,7 +112,7 @@ module.exports = class extends Generator {
     }
     this.destinationRoot(config.data.projectPath);
     //this.log("Destination path : " + this.destinationRoot());
-    if(config.data.debug) {
+    if(config.data.debug == "true") {
       var log = Mustache.render("{{#.}}\n{{{.}}}\n{{/.}}\n", config.getLogs);
       this.fs.write("log.txt", log);
     }
