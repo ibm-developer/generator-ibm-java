@@ -54,6 +54,7 @@ module.exports = class extends Generator {
     config.data.templatePath = 'cnds-java-starter-' + config.data.createType;
     config.data.templateFullPath = this.templatePath(config.data.templatePath);
     config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.data.createType);
+    config.data[config.data.buildType] = true;
     config.writeToLog("Config : " + JSON.stringify(config.data));
   }
 
@@ -97,6 +98,7 @@ module.exports = class extends Generator {
       }
       if(answers.buildType) {
         config.data.buildType = answers.buildType;
+        config.data[answers.buildType] = true;
       }
       control.processProject(config);
     });
