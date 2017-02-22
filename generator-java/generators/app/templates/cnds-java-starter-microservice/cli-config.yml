@@ -20,12 +20,12 @@ image-name-run : "{{appName}}"
 image-name-tools : "javaclitools"
 
 {{#maven}}
-build-cmd : "mvn install"
+build-cmd-run : "mvn install"
 test-cmd : "mvn install"
 build-cmd-debug : "mvn install"
 {{/maven}}
 {{#gradle}}
-build-cmd : "gradle build"
+build-cmd-run : "gradle build"
 test-cmd : "gradle build"
 build-cmd-debug : "gradle build"
 {{/gradle}}

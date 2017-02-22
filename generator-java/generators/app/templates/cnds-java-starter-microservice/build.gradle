@@ -46,7 +46,7 @@ dependencies {
     providedCompile 'javax.enterprise:cdi-api:1.2'
     testCompile 'junit:junit:4.12'
     testCompile 'org.apache.cxf:cxf-rt-rs-client:3.1.1'
-    testCompile 'org.glassfish:javax.jsonL:1.0.4'
+    testCompile 'org.glassfish:javax.json:1.0.4'
     compile 'com.cloudant:cloudant-client:2.7.0'
 }
 
@@ -64,7 +64,7 @@ task integrationTest(type: Test) {
     include '**/it/**'
     exclude '**/unit/**'
 
-    systemProperties = ['liberty.test.port': testServerHttpPort, 'war.name': warContext]
+    systemProperties = ['liberty.test.port': testServerHttpPort, 'war.context': warContext]
 }
 
 task printMessageAboutRunningServer {
