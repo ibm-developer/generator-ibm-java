@@ -1,11 +1,11 @@
 {
   "excludes" : [
     {{#maven}}
-    "build.gradle"
+    "build.gradle",
     {{/maven}}
 
     {{#gradle}}
-    "pom.xml"
+    "pom.xml",
     {{/gradle}}
   ]
 }

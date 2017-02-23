@@ -29,7 +29,8 @@ var config = {
   version : "1.0",
   headless : "false",
   createType : "rest",
-  debug : "false"
+  debug : "false",
+  bluemix : undefined
 };    //the configuration object
 
 var isValid = function() {
@@ -42,8 +43,16 @@ var isValid = function() {
   return true;
 }
 
-var writeToLog = function(data) {
-  log.push(data);
+var writeToLog = function(header, data) {
+  if(!data) {
+    log.push(header + " : undefined");
+    return;
+  }
+  if((typeof data === 'string') || (typeof data === 'number') || (typeof data === 'boolean')) {
+    log.push(header + " : " + data);
+  } else {
+    log.push(header + " : " + JSON.stringify(data, null, 2) + JSON.stringify(Object.getOwnPropertyNames(data), null, 2));
+  }
 }
 
 var getLogs = function() {
