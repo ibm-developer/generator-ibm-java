@@ -24,13 +24,13 @@ var config = require("../../generators/lib/config");
 describe('control library', function() {
 
   describe('can find a control file', function() {
-    it('it should find the control.json file in the root', function(){
+    it('it should find the control.js file in the root', function(){
       config.data.templateFullPath = path.resolve("./test/resources/control/with-control");
       control.processProject(config);
       assert.equal(true, control.hasControl());
     });
 
-    it('it should ignore any control.json file not found in the root', function(){
+    it('it should ignore any control.js file not found in the root', function(){
       config.data.templateFullPath = path.resolve("./test/resources/control/without-control");
       control.processProject(config);
       assert.equal(false, control.hasControl());

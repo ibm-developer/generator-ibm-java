@@ -21,6 +21,7 @@
 var fs = require('fs');
 var fspath = require('path');
 var control = require('./control');
+var logger = require('./log');
 
 var config = {};
 var path = undefined;
@@ -33,6 +34,7 @@ var dirwalk = function(root, tracker) {
       if(err) {
         //TODO : appscan for Java does not like you putting too much info in the error messages, need to check for JS
         console.error("There was an error reading the template directory");
+        logger.writeToLog("Folder error", err);
         tracker.reject(err);
         return;
       }
@@ -50,6 +52,7 @@ var dirwalk = function(root, tracker) {
             //console.log("Found file " + file + " : " + relativePath);
             if(err) {
               console.error("Error reading file ");
+              logger.writeToLog("File error", err);
               tracker.reject(err);
               return;
             }

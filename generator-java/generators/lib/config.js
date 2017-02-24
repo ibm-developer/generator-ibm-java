@@ -19,8 +19,6 @@
 const PATTERN_NAME = new RegExp("^[a-zA-Z0-9_-]+$");
 const PATTERN_ARTIFACT_ID = new RegExp("^[a-zA-Z0-9-_.]*$");
 
-var log = [];
-
 var config = {
   appName : "myLibertyProject",
   buildType : "maven",
@@ -29,7 +27,8 @@ var config = {
   version : "1.0",
   headless : "false",
   createType : "rest",
-  debug : "false"
+  debug : "false",
+  bluemix : undefined
 };    //the configuration object
 
 var isValid = function() {
@@ -42,17 +41,7 @@ var isValid = function() {
   return true;
 }
 
-var writeToLog = function(data) {
-  log.push(data);
-}
-
-var getLogs = function() {
-  return log;
-}
-
 module.exports = {
   isValid : isValid,
-  data : config,
-  writeToLog : writeToLog,
-  getLogs : getLogs
+  data : config
 }

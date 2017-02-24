@@ -1,4 +1,3 @@
-{{=<% %>=}}
 name: Continuous Delivery Toolchain
 description: "This toolchain includes tools to develop and deploy your app. Depending on your app, when you create the toolchain, the GitHub repository will either be empty or will contain source code from your app.\n\nThis toolchain uses tools that are part of the Continuous Delivery service. If an instance of that service isn't already in your organization, when you click **Create**, it is automatically added at no cost to you. For more information and terms, see the [Bluemix catalog](/catalog/services/continuous-delivery/).\n\nTo get started, click **Create**."
 version: 0.2
@@ -7,13 +6,13 @@ required:
  - repo
 
 toolchain:
-  name: <%appName%>
+  name: {{appName}}
 
 # Github repos
 repo:
   service_id: githubpublic
   parameters:
-    repo_url: "{{repository}}"
+    repo_url: "{{tag 'repository'}}"
     type: link
     has_issues: true
 
@@ -21,16 +20,16 @@ repo:
 build:
   service_id: pipeline
   parameters:
-    name: "{{name}}"
+    name: "{{tag 'name'}}"
     ui-pipeline: true
     configuration:
      content: $file(pipeline.yml)
      env:
       REPO: "repo"
-      CF_APP: "{{deploy.parameters.app-name}}"
-      CF_SPACE: "{{deploy.parameters.dev-space}}"
-      CF_ORGANIZATION: "{{deploy.parameters.dev-organization}}"
-      CF_REGION_ID: "{{deploy.parameters.dev-region}}"
+      CF_APP: "{{tag 'deploy.parameters.app-name'}}"
+      CF_SPACE: "{{tag 'deploy.parameters.dev-space'}}"
+      CF_ORGANIZATION: "{{tag 'deploy.parameters.dev-organization'}}"
+      CF_REGION_ID: "{{tag 'deploy.parameters.dev-region'}}"
      execute: true
     services: ["repo"]
   hidden: ["form"]
@@ -46,4 +45,4 @@ deploy:
     $ref: deploy.json
   service-category: pipeline
   parameters:
-    app-name: <%appName%>
+    app-name: {{appName}}
