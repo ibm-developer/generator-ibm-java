@@ -23,16 +23,23 @@ var path = require('path');
 
 describe('fsprocessor library', function() {
 
+  describe('processor does not allow invalid parameters', function() {
+    it('it should throw an exception if the path is not an array', function() {
+      processor.path = "string";
+      assert.throws(()=>{processor.scan()})
+    });
+  });
+
   describe('walk tree specified with relative path', function() {
     it('it should walk a file system tree calling back when a file is found', function(done){
-      processor.path = "./test/resources/fsprocessor/test-templates-1file";
+      processor.path = ["./test/resources/fsprocessor/test-templates-1file"];
       processor.scan((relativePath, contents) => {
         assert.equal('file-1.txt', relativePath);
       }).then(() => { done(); })
         .catch((err) => { done(err);});
     });
     it('it should throw an exception for a non-existant path', function(done){
-      processor.path = "./test/resources/fsprocessor/test-folder-does-not-exist";
+      processor.path = ["./test/resources/fsprocessor/test-folder-does-not-exist"];
       processor.scan((relativePath, contents) => {
         assert.fail(false, true, "Should not have found any projects");
       }).then(() => { assert.fail(false, true, "Walk should not have completed without error"); })
@@ -50,7 +57,7 @@ describe('fsprocessor library', function() {
       var root = "./test/resources/fsprocessor/test-templates-badfile";
       var fpath = "/filewithnoreadperms.txt";
       fs.chmodSync(root + fpath, 222);
-      processor.path = root;
+      processor.path = [root];
       processor.scan((relativePath, contents) => {
         fs.chmodSync(root + fpath, 755);
         assert.fail(false, true, "Should not have found any projects");
@@ -68,7 +75,7 @@ describe('fsprocessor library', function() {
   describe('walk tree specified with an absolute path', function() {
     it('it should walk a file system tree calling back when a file is found', function(done){
       //path.resolve will convert to an absolute path
-      processor.path = path.resolve("./test/resources/fsprocessor/test-templates-1file");
+      processor.path = [path.resolve("./test/resources/fsprocessor/test-templates-1file")];
       processor.scan((relativePath, contents) => {
         assert.equal('file-1.txt', relativePath);
       }).then(() => { done(); })
@@ -82,7 +89,7 @@ describe('fsprocessor library', function() {
       var files = ['file-1.txt', 'file-2.txt', 'file-3.txt'];
       var separator = (path.delimiter === ';' ? "\\" : "/");
       var unknown = [];
-      processor.path = path.resolve("./test/resources/fsprocessor/test-templates-emptyDirs");
+      processor.path = [path.resolve("./test/resources/fsprocessor/test-templates-emptyDirs")];
       processor.scan((relativePath, contents) => {
         for(var i = 0; i < files.length; i++) {
           if(relativePath.endsWith(separator + files[i])) {

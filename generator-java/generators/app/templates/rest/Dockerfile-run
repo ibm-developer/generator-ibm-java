@@ -1,10 +1,10 @@
 FROM websphere-liberty:webProfile7
 MAINTAINER IBM Java engineering at IBM Cloud
-{{#maven}}
+{{#has buildType 'maven'}}
 COPY /target/liberty/wlp/usr/servers/defaultServer /config/
-{{/maven}}
-{{#gradle}}
+{{/has}}
+{{#has buildType 'gradle'}}
 COPY /build/wlp/usr/servers/defaultServer /config/
-{{/gradle}}
+{{/has}}
 # Install required features if not present
 RUN installUtility install --acceptLicense defaultServer
