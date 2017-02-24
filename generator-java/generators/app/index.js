@@ -123,7 +123,6 @@ module.exports = class extends Generator {
       try {
         var compiledTemplate = Handlebars.compile(template);
         var output = compiledTemplate(config.data);
-        //var output = Handlebars.render(template, config.data);
         this.fs.write(outFile, output);
       } catch (err) {
         console.log("Error processing : " + relativePath);

@@ -35,6 +35,11 @@ describe('control library', function() {
       control.processProject(config);
       assert.equal(false, control.hasControl());
     });
+
+    it('it should throw an exception when the contol.js file does not contain valid javascript', function(){
+      config.data.templateFullPath = path.resolve("./test/resources/control/with-invalid-control");
+      assert.throws(() => {control.processProject(config);});
+    });
   });
 
   describe('process a control file', function() {
@@ -48,6 +53,12 @@ describe('control library', function() {
       config.data.templateFullPath = path.resolve("./test/resources/control/with-control");
       control.processProject(config);
       assert.equal(true, control.shouldGenerate("somefile.txt"));
+    });
+
+    it('it should exclude a directory in the directory exclusion list', function(){
+      config.data.templateFullPath = path.resolve("./test/resources/control/with-control");
+      control.processProject(config);
+      assert.equal(false, control.shouldGenerate("donotprocess/file1.txt"));
     });
   });
 

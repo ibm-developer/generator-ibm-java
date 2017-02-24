@@ -34,8 +34,14 @@ var getLogs = function() {
   return log;
 }
 
+//clear any log entries
+var clear = function() {
+  log = [];
+}
+
 module.exports = {
   //module doesn't export anything, all helpers are installed by requiring this module
   writeToLog : writeToLog,
-  getLogs : getLogs
+  getLogs : getLogs,
+  clear : clear
 }
