@@ -19,8 +19,6 @@
 const PATTERN_NAME = new RegExp("^[a-zA-Z0-9_-]+$");
 const PATTERN_ARTIFACT_ID = new RegExp("^[a-zA-Z0-9-_.]*$");
 
-var log = [];
-
 var config = {
   appName : "myLibertyProject",
   buildType : "maven",
@@ -43,25 +41,7 @@ var isValid = function() {
   return true;
 }
 
-var writeToLog = function(header, data) {
-  if(!data) {
-    log.push(header + " : undefined");
-    return;
-  }
-  if((typeof data === 'string') || (typeof data === 'number') || (typeof data === 'boolean')) {
-    log.push(header + " : " + data);
-  } else {
-    log.push(header + " : " + JSON.stringify(data, null, 2) + JSON.stringify(Object.getOwnPropertyNames(data), null, 2));
-  }
-}
-
-var getLogs = function() {
-  return log;
-}
-
 module.exports = {
   isValid : isValid,
-  data : config,
-  writeToLog : writeToLog,
-  getLogs : getLogs
+  data : config
 }

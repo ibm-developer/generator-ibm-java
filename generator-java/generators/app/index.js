@@ -19,7 +19,9 @@ var Handlebars = require('handlebars');
 var config = require("../lib/config");
 var processor = require("../lib/fsprocessor");
 var control = require("../lib/control");
+var helpers = require("../lib/helpers");
 var fspath = require('path');
+var logger = require("../lib/log");
 
 //clone any property, only if it is already present in the target object
 var clone = function(from, to) {
@@ -32,36 +34,32 @@ var clone = function(from, to) {
   }
 }
 
-//allow slightly more sophisticated inclusion by checking the value of a property, not just it's presence or absence
-Handlebars.registerHelper('has', function(context, options, handler) {
-  config.writeToLog("has : context", context);
-  config.writeToLog("has : options", options);
-  config.writeToLog("has : handler", handler);
-  //see if the current context matches the options passed in
-  if (context == options) {
-    var frame = undefined;
-    if (handler.data) {
-      //this section allows the contents of the tag to be passed through to the processor
-      //but as this is a stack, need to create a new stack frame for this call so that it
-      //is popped correctly
-      frame = {};
-      for (var prop in handler.data) {
-        //clone the object as we want to add a _parent property
-        if (handler.data.hasOwnProperty(prop)) {
-            frame[prop] = handler.data[prop];
-        }
-      }
-      frame._parent = handler.data;
-    }
-    //call down and process the contents of the block
-    return handler.fn(context, {
-      data: frame,
-      blockParams: [context]
-    });
-  }
-  //parameters didn't match, so don't render anything in the template
-  return undefined;
-});
+//questions to ask when running in interactive mode
+var questions = [{
+  type    : 'list',
+  name    : 'createType',
+  message : 'This is a test front end for manually driving the Java code generator.\n',
+  choices : [{
+    name : 'REST : a basic REST sample used to test this generator',
+    value : 'rest',
+    short : 'REST sample application'
+  }, {
+    name : 'Basic : a basic Java microservice (TBD)',
+    value : 'basic',
+    short : 'Basic Java microservice'
+  }, {
+    name : 'Microservice : a basic Java microservice with Cloudant',
+    value : 'microservice',
+    short : 'Basic Java microservice'
+  }],
+  default : 0 // Default to rest sample
+}, {
+  type    : 'list',
+  name    : 'buildType',
+  message : 'Select the build type for your project.\n',
+  choices : ['maven', 'gradle'],
+  default : 0 // Default to maven
+}];
 
 module.exports = class extends Generator {
 
@@ -77,49 +75,21 @@ module.exports = class extends Generator {
     this.option('version', {desc : 'Version of the application', type : String, default : '1.0-SNAPSHOT'});
     this.option('headless', {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : String, default : "false"});
     this.option('debug', {desc : 'Generate a log.txt file in the root of the project', type : String, default : "false"});
-    config.writeToLog("Options", this.options);
-    config.writeToLog("Config (default)", config.data);
+    logger.writeToLog("Options", this.options);
+    logger.writeToLog("Config (default)", config.data);
     //overwrite any default values with those specified as options
     clone(this.options, config.data);
     //set values based on either defaults or passed in values
     config.data.templatePath = config.data.createType;
     config.data.templateFullPath = this.templatePath(config.data.templatePath);
     config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.data.createType);
-    config.writeToLog("Config", config.data);
+    logger.writeToLog("Config", config.data);
   }
 
   prompting() {
-    if(config.data.headless === "true") {
-      control.processProject(config);
-      console.log("Generator running headless : creating " + config.data.createType);
-      return this.prompt([]);   //running headless, so no prompt
-    }
-    return this.prompt([{
-      type    : 'list',
-      name    : 'createType',
-      message : 'This is a test front end for manually driving the Java code generator.\n',
-      choices : [{
-        name : 'REST : a basic REST sample used to test this generator',
-        value : 'rest',
-        short : 'REST sample application'
-      }, {
-        name : 'Basic : a basic Java microservice (TBD)',
-        value : 'basic',
-        short : 'Basic Java microservice'
-      }, {
-        name : 'Microservice : a basic Java microservice with Cloudant',
-        value : 'microservice',
-        short : 'Basic Java microservice'
-      }],
-      default : 0 // Default to rest sample
-    }, {
-      type    : 'list',
-      name    : 'buildType',
-      message : 'Select the build type for your project.\n',
-      choices : ['maven', 'gradle'],
-      default : 0 // Default to maven
-    }]).then((answers) => {
-      config.writeToLog("Answers", answers);
+    var promptWith = (config.data.headless === "true") ? [] : questions;
+    return this.prompt(promptWith).then((answers) => {
+      logger.writeToLog("Answers", answers);
       //configure the sample to use based on the type we are creating
       if(answers.createType) {
         config.data.templatePath = answers.createType;   //override with user selection
@@ -129,33 +99,28 @@ module.exports = class extends Generator {
       if(answers.buildType) {
         config.data.buildType = answers.buildType;
       }
-      control.processProject(config);
     });
   }
 
   writing() {
-    config.writeToLog('template path', config.data.templatePath);
-    config.writeToLog('project path', config.data.projectPath);
+    logger.writeToLog('template path', config.data.templatePath);
+    logger.writeToLog('project path', config.data.projectPath);
     if(!config.isValid()) {
       //the config object is not valid, so need to exit at this point
       this.log("Error : configuration is invalid, code generation is aborted");
       return;
     }
+    control.processProject(config);
     this.destinationRoot(config.data.projectPath);
-    config.writeToLog("Destination path", this.destinationRoot());
-    if(config.data.debug == "true") {
-      var compiledTemplate = Handlebars.compile("{{#.}}\n{{{.}}}\n{{/.}}\n");
-      var log = compiledTemplate(config.getLogs);
-      this.fs.write("log.txt", log);
-    }
+    logger.writeToLog("Destination path", this.destinationRoot());
     processor.path = this.templatePath(config.data.templatePath);
-    config.writeToLog("Processor", processor);
+    logger.writeToLog("Processor", processor);
     return processor.scan((relativePath, template) => {
       if(!control.shouldGenerate(relativePath)) {
         return;   //do not include this file in the generation
       }
       var outFile = this.destinationPath(relativePath);
-      config.writeToLog("CB : writing to", outFile);
+      logger.writeToLog("CB : writing to", outFile);
       try {
         var compiledTemplate = Handlebars.compile(template);
         var output = compiledTemplate(config.data);
@@ -163,8 +128,17 @@ module.exports = class extends Generator {
         this.fs.write(outFile, output);
       } catch (err) {
         console.log("Error processing : " + relativePath);
+        logger.writeToLog("Template error : " + relativePath, err);
       }
     });
+  }
+
+  end() {
+    if(config.data.debug == "true") {
+      var compiledTemplate = Handlebars.compile("{{#.}}\n{{{.}}}\n{{/.}}\n");
+      var log = compiledTemplate(logger.getLogs);
+      this.fs.write("log.txt", log);
+    }
   }
 
 };

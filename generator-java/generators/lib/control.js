@@ -22,6 +22,7 @@ var Handlebars = require('handlebars');
 var controlBlock = undefined;
 var config = undefined;   //configuration for this project
 var javarules = require('./javarules');
+var logger = require('./log');
 
 //determines if the passed relative path is a control file or not
 const CONTROL_FILE = "control.js";
@@ -46,17 +47,17 @@ var processProject = function(config) {
 
   //it does, so parse it in and run it through Handlebars
   var template = fs.readFileSync(file, 'utf8');
-  config.writeToLog("Config data for controlBlock", config.data);
+  logger.writeToLog("Config data for controlBlock", config.data);
   var compiledTemplate = Handlebars.compile(template);
   var output = compiledTemplate(config.data);
   try {
     this.controlBlock = eval("(" + output + ")");
   } catch (err) {
     console.log("Error : " + config.data.templateFullPath + ":" + output);
-    config.writeToLog("Control block error : template", template);
+    logger.writeToLog("Control block error : template", template);
     throw err;
   }
-  config.writeToLog("Control data", this.controlBlock);
+  logger.writeToLog("Control data", this.controlBlock);
   this.config = config;     //keep a ref to the config
 }
 
