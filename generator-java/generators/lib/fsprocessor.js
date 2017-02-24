@@ -28,16 +28,14 @@ var path = undefined;
 var id = 0;
 
 //recursively walk the file tree starting from the specified root
-var dirwalk = function(root, tracker, checkPromiseStatus, reject) {
+var dirwalk = function(root, tracker, resolver) {
   tracker.count[root] = undefined;    //mark that the directory is being processed
-  console.log("PromiseStatus: " + JSON.stringify(checkPromiseStatus));
   fs.readdir(root, (err, files) => {
       if(err) {
         //TODO : appscan for Java does not like you putting too much info in the error messages, need to check for JS
         console.error("There was an error reading the template directory");
-        console.error(err);
         logger.writeToLog("Folder error", err);
-        reject(err);
+        resolver.reject(err);
         return;
       }
       //now loop the files and add them to the store, need to add template processing somewhere in this stream
@@ -46,7 +44,7 @@ var dirwalk = function(root, tracker, checkPromiseStatus, reject) {
         var file = fspath.resolve(root, fileName);
         var stats = fs.statSync(file);
         if(stats.isDirectory()) {
-          dirwalk(file, tracker);
+          dirwalk(file, tracker, resolver);
           tracker.count[root]--;    //immediately remove from count as not a file
         } else {
           fs.readFile(file, 'utf8', (err, data) => {
@@ -54,9 +52,8 @@ var dirwalk = function(root, tracker, checkPromiseStatus, reject) {
             //console.log("Found file " + file + " : " + relativePath);
             if(err) {
               console.error("Error reading file ");
-              console.error(err);
               logger.writeToLog("File error", err);
-              reject(err);
+              resolver.reject(err);
               return;
             }
             if(control.isControl(relativePath)) {
@@ -70,9 +67,8 @@ var dirwalk = function(root, tracker, checkPromiseStatus, reject) {
                 });
               }
             }
-            console.log("PromiseStatus inside: " + JSON.stringify(checkPromiseStatus));
             tracker.count[root]--;  //remove from tracker when contents have been read and callbacks made
-            checkPromiseStatus();
+            resolver.canResolve();
           });
         }
       });
@@ -80,6 +76,27 @@ var dirwalk = function(root, tracker, checkPromiseStatus, reject) {
 }
 
 
+function Resolver() {
+  this.resolve = undefined;
+  this.reject = undefined;
+  this.trackers = [];
+  this.canResolve = function() {
+    for (var i=0 ; i < this.trackers.length ; i++) {
+      if(this.trackers[i] == undefined) {
+        return;   //this is one in process
+      }
+      var count = this.trackers[i].count;
+      for (var counter in count) {
+        if (count.hasOwnProperty(counter)) {
+          if((count[counter] == undefined) || count[counter]) {
+            return;
+          }
+        }
+      }
+    }
+    this.resolve();
+  };
+}
 
 //return a promise that will complete when all files have been processed
 //used to ensure the generator does not move beyond the current lifecycle step
@@ -87,32 +104,23 @@ var startWalk = function(cb) {
   if (!Array.isArray(this.path)) {
     throw 'Path is not an array.';
   }
-  var trackers = [];
+  var resolver = new Resolver();
+  resolver.trackers = [];
   for (var i=0 ; i < this.path.length ; i++) {
-    trackers.push({
-      id : this.id++,
+    resolver.trackers.push({
+      id : id++,
       count : {},
       callback : cb,   //callback with file contents
-      root : fspath.resolve(this.path[i])})
+      root : fspath.resolve(this.path[i])
+    });
   }
 
   //console.log("Scanning " + fullpath + " for files");
   var p = new Promise((resolve, reject) => {
-    var canResolve = function() {
-      for (var i=0 ; i < trackers.length ; i++) {
-        var count = trackers[i].count;
-        for (var counter in count) {
-          if (count.hasOwnProperty(counter)) {
-            if((count[counter] == undefined) || count[counter]) {
-              return;
-            }
-          }
-        }
-      }
-      resolve();
-    }
-    for (var i=0 ; i < trackers.length ; i++) {
-      dirwalk(trackers[i].root, trackers[i], canResolve, reject);
+    resolver.resolve = resolve;
+    resolver.reject = reject;
+    for (var i=0 ; i < resolver.trackers.length ; i++) {
+      dirwalk(resolver.trackers[i].root, resolver.trackers[i], resolver);
     }
   });
   return p;

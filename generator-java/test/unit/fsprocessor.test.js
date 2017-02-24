@@ -86,13 +86,14 @@ describe('fsprocessor library', function() {
   describe('walk tree ', function() {
     it('it should walk a file system tree (with empty dirs) calling back when a file is found', function(done){
       //these are the files that should be found
-      var files = ['file-1.txt', 'file-2.txt', 'file-3.txt'];
+      var files = ['file-1.txt', 'file-2.txt', 'file-3.txt', 'file-4.txt', 'file-5.txt'];
       var separator = (path.delimiter === ';' ? "\\" : "/");
       var unknown = [];
-      processor.path = [path.resolve("./test/resources/fsprocessor/test-templates-emptyDirs")];
+      processor.path = [path.resolve("./test/resources/fsprocessor/test-templates-emptyDirs"),
+                        path.resolve("./test/resources/fsprocessor/test-templates-second")];
       processor.scan((relativePath, contents) => {
         for(var i = 0; i < files.length; i++) {
-          if(relativePath.endsWith(separator + files[i])) {
+          if((relativePath === files[i]) || relativePath.endsWith(separator + files[i])) {
             //found a match so remove from the files list
             files.splice(i, 1);   //remove the item from the array
             //console.error("Removed [" + i + "]: " + files.length + " : " + JSON.stringify(files));
