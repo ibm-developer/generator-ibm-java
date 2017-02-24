@@ -112,7 +112,7 @@ module.exports = class extends Generator {
     control.processProject(config);
     this.destinationRoot(config.data.projectPath);
     logger.writeToLog("Destination path", this.destinationRoot());
-    processor.path = this.templatePath(config.data.templatePath);
+    processor.path = [this.templatePath(config.data.templatePath), this.templatePath('services')];
     logger.writeToLog("Processor", processor);
     return processor.scan((relativePath, template) => {
       if(!control.shouldGenerate(relativePath)) {
