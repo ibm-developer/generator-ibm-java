@@ -96,9 +96,8 @@ module.exports = class extends Generator {
         config.data.templateFullPath = this.templatePath(config.data.templatePath);
         config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + answers.createType);
       }
-      if(answers.buildType) {
-        config.data.buildType = answers.buildType;
-      }
+      config.data.buildType = answers.buildType || config.data.buildType;
+      config.data.bluemix = answers.bluemix || config.data.bluemix;
     });
   }
 
