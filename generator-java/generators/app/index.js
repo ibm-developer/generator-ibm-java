@@ -58,6 +58,17 @@ var questions = [{
   message : 'Select the build type for your project.\n',
   choices : ['maven', 'gradle'],
   default : 0 // Default to maven
+}, {
+  type    : 'checkbox',
+  name    : 'services',
+  message : 'Select the services for your project.\n',
+  choices : ['none','cloudant', 'object store'],
+  default : 0 // Default to none
+}, {
+  type    : 'input',
+  name    : 'appName',
+  message : 'Enter a name for your project',
+  default : "myProject"
 }];
 
 module.exports = class extends Generator {
@@ -74,6 +85,7 @@ module.exports = class extends Generator {
     this.option('version', {desc : 'Version of the application', type : String, default : '1.0-SNAPSHOT'});
     this.option('headless', {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : String, default : "false"});
     this.option('debug', {desc : 'Generate a log.txt file in the root of the project', type : String, default : "false"});
+    this.option('bluemix', {desc : 'Bluemix options', type : (value)=>{return JSON.parse(value);}, default : undefined});
     logger.writeToLog("Options", this.options);
     logger.writeToLog("Config (default)", config.data);
     //overwrite any default values with those specified as options
@@ -97,6 +109,37 @@ module.exports = class extends Generator {
       }
       config.data.buildType = answers.buildType || config.data.buildType;
       config.data.bluemix = answers.bluemix || config.data.bluemix;
+      if(config.data.bluemix) {
+        config.data.appName = config.data.bluemix.name || answers.appName || config.appName;
+      } else {
+        config.data.appName = answers.appName || config.appName;
+      }
+      //below this point, the only way to get these answers is to run the generator locally
+      if(answers.services) {
+        if(!config.data.bluemix) {
+          config.data.bluemix = {};
+        }
+        logger.writeToLog("Processing interactive answers", answers.services);
+        for(var i = 0; i < answers.services.length; i++) {
+          var service = answers.services[i];
+          if(service === "none") {
+            config.data.bluemix = undefined;
+            break;    //stop processing if none has been selected
+          }
+          if(service === "cloudant") {
+            if(!config.data.bluemix.cloudant) {
+              config.data.bluemix.cloudant = [
+                {
+                  "password": "pass",
+                  "url": "https://account.cloudant.com",
+                  "username": "user"
+                }
+              ];
+            }
+          }
+        }
+      }
+      logger.writeToLog("Config (after answers)", config.data);
     });
   }
 
@@ -110,7 +153,12 @@ module.exports = class extends Generator {
     }
     this.destinationRoot(config.data.projectPath);
     logger.writeToLog("Destination path", this.destinationRoot());
-    processor.paths = [this.templatePath(config.data.templatePath), this.templatePath('services/cloudantNoSQLDB')];
+    var paths = [this.templatePath(config.data.templatePath)];    //always have the base template to process
+    //now add any services that have been chosen
+    if(config.data.bluemix && config.data.bluemix.cloudant) {
+      paths.push(this.templatePath('services/cloudantNoSQLDB'));
+    }
+    processor.paths = paths;;
     logger.writeToLog("Processor", processor);
     return processor.scan((relativePath, template) => {
       var outFile = this.destinationPath(relativePath);
