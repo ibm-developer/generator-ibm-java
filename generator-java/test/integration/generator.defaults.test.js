@@ -30,7 +30,8 @@ describe('java generator integration test', function () {
       // Mock the options, set up an output folder and run the generator
       return helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions({                       // Mock the prompt answers
-          headless: "true"
+          headless: "true",
+          debug: "true",
         })
         .toPromise();                        // Get a Promise back when the generator finishes
     });

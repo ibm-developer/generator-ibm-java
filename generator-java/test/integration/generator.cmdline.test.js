@@ -36,6 +36,7 @@ describe('java generator integration test', function () {
       return helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions({                       // Mock the prompt answers
           headless: "true",
+          debug: "true",
           buildType: 'gradle',
           createType: 'rest',
           version : VERSION,

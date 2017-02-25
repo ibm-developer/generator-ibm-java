@@ -26,20 +26,32 @@ var logger = require('./log');
 
 //determines if the passed relative path is a control file or not
 const CONTROL_FILE = "control.js";
-var isControl = function(relativePath) {
+
+function Control(path, config) {
+  this.path = path;   //this is immutable once created
+  if(config) {
+    this.processProject(config);
+  }
+}
+
+Control.prototype.getPath = function() {
+  return new String(this.path);
+}
+
+Control.prototype.isControl = function(relativePath) {
   return (relativePath === CONTROL_FILE);
 }
 
 //return true if a control block is active for this project
-var hasControl = function() {
+Control.prototype.hasControl = function() {
   return this.controlBlock != undefined;
 }
 
 //process a project looking for the control file, this is a sync operation
-var processProject = function(config) {
+Control.prototype.processProject = function(config) {
   //see if control file exists
   this.controlBlock = undefined;    //remove any existing setting in case the files have been updated between invocations
-  var file = fspath.resolve(config.data.templateFullPath, CONTROL_FILE);
+  var file = fspath.resolve(this.path, CONTROL_FILE);
   if(!fs.existsSync(file)) {
     //console.log("Control file " + file + " does not exist");
     return;   //no additional control file found in this project
@@ -53,7 +65,7 @@ var processProject = function(config) {
   try {
     this.controlBlock = eval("(" + output + ")");
   } catch (err) {
-    console.log("Error : " + config.data.templateFullPath + ":" + output);
+    console.log("Error : " + this.path + ":" + output);
     logger.writeToLog("Control block error : template", template);
     throw err;
   }
@@ -62,7 +74,7 @@ var processProject = function(config) {
 }
 
 //controls whether or not a file should be included in a generation
-var shouldGenerate = function(relativePath) {
+Control.prototype.shouldGenerate = function(relativePath) {
   if(!this.controlBlock) {
     return true;   //no control block configured so generate
   }
@@ -89,7 +101,7 @@ var shouldGenerate = function(relativePath) {
   return true;
 }
 
-var fileFound = function(relativePath, contents) {
+Control.prototype.fileFound = function(relativePath, contents) {
   if(this.controlBlock && this.controlBlock.fileFound) {
     return this.controlBlock.fileFound(relativePath, contents, this.config);
   } else {
@@ -97,10 +109,4 @@ var fileFound = function(relativePath, contents) {
   }
 }
 
-module.exports = {
-  isControl : isControl,
-  hasControl : hasControl,
-  processProject : processProject,
-  shouldGenerate : shouldGenerate,
-  fileFound : fileFound
-};
+module.exports = exports = Control;

@@ -18,7 +18,6 @@ var Generator = require('yeoman-generator');
 var Handlebars = require('handlebars');
 var config = require("../lib/config");
 var processor = require("../lib/fsprocessor");
-var control = require("../lib/control");
 var helpers = require("../lib/helpers");
 var fspath = require('path');
 var logger = require("../lib/log");
@@ -107,17 +106,13 @@ module.exports = class extends Generator {
     if(!config.isValid()) {
       //the config object is not valid, so need to exit at this point
       this.log("Error : configuration is invalid, code generation is aborted");
-      return;
+      throw "Invalid configuration";
     }
-    control.processProject(config);
     this.destinationRoot(config.data.projectPath);
     logger.writeToLog("Destination path", this.destinationRoot());
-    processor.path = [this.templatePath(config.data.templatePath), this.templatePath('services/cloudantNoSQLDB')];
+    processor.paths = [this.templatePath(config.data.templatePath), this.templatePath('services/cloudantNoSQLDB')];
     logger.writeToLog("Processor", processor);
     return processor.scan((relativePath, template) => {
-      if(!control.shouldGenerate(relativePath)) {
-        return;   //do not include this file in the generation
-      }
       var outFile = this.destinationPath(relativePath);
       logger.writeToLog("CB : writing to", outFile);
       try {

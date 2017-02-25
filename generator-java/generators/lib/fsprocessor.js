@@ -20,11 +20,11 @@
 
 var fs = require('fs');
 var fspath = require('path');
-var control = require('./control');
+var Control = require('./control');
 var logger = require('./log');
+var config = require('./config');
 
-var config = {};
-var path = undefined;
+var paths = [];
 var id = 0;
 
 //recursively walk the file tree starting from the specified root
@@ -56,14 +56,16 @@ var dirwalk = function(root, tracker, resolver) {
               resolver.reject(err);
               return;
             }
-            if(control.isControl(relativePath)) {
+            if(tracker.control.isControl(relativePath)) {
               //console.log("CONTROL FILE found, skipping processing");
             } else {
               //fileFound passes back an array of fragments so that data can be repeated
-              var fragments = control.fileFound(relativePath, data);
+              var fragments = tracker.control.fileFound(relativePath, data);
               if(tracker.callback) {
                 fragments.forEach((fragment) => {
-                  tracker.callback(fragment.path, fragment.template, fragment.data);
+                  if(tracker.control.shouldGenerate(fragment.path)) {
+                    tracker.callback(fragment.path, fragment.template, fragment.data);
+                  }
                 });
               }
             }
@@ -83,6 +85,7 @@ function Resolver() {
   this.canResolve = function() {
     for (var i=0 ; i < this.trackers.length ; i++) {
       if(this.trackers[i] == undefined) {
+        /* istanbul ignore next */    //ignoring as entering this branch depends on callback order and is not consistently reproducible
         return;   //this is one in process
       }
       var count = this.trackers[i].count;
@@ -101,21 +104,25 @@ function Resolver() {
 //return a promise that will complete when all files have been processed
 //used to ensure the generator does not move beyond the current lifecycle step
 var startWalk = function(cb) {
-  if (!Array.isArray(this.path)) {
-    throw 'Path is not an array.';
+  if (!Array.isArray(this.paths)) {
+    throw 'Paths is not an array.';
+  }
+  if (!this.paths.length) {
+    throw 'No paths have been specified for the templates.';
   }
   var resolver = new Resolver();
   resolver.trackers = [];
-  for (var i=0 ; i < this.path.length ; i++) {
+  for (var i=0 ; i < this.paths.length ; i++) {
+    var absolutePath = fspath.resolve(this.paths[i]);
     resolver.trackers.push({
       id : id++,
       count : {},
       callback : cb,   //callback with file contents
-      root : fspath.resolve(this.path[i])
+      root : absolutePath,
+      control : new Control(absolutePath, config)
     });
   }
 
-  //console.log("Scanning " + fullpath + " for files");
   var p = new Promise((resolve, reject) => {
     resolver.resolve = resolve;
     resolver.reject = reject;
@@ -127,7 +134,6 @@ var startWalk = function(cb) {
 }
 
 module.exports = {
-  config : config,
-  path : path,
+  paths : paths,
   scan : startWalk
 };
