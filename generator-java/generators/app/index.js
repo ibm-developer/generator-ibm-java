@@ -71,6 +71,16 @@ var questions = [{
   default : "myProject"
 }];
 
+var toObject = function(value) {
+  if(typeof value == 'string') {
+    return JSON.parse(value);
+  }
+  if(typeof value === 'object') {
+    return value;
+  }
+  return value;
+}
+
 module.exports = class extends Generator {
 
   constructor(args, opts) {
@@ -85,7 +95,7 @@ module.exports = class extends Generator {
     this.option('version', {desc : 'Version of the application', type : String, default : '1.0-SNAPSHOT'});
     this.option('headless', {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : String, default : "false"});
     this.option('debug', {desc : 'Generate a log.txt file in the root of the project', type : String, default : "false"});
-    this.option('bluemix', {desc : 'Bluemix options', type : (value)=>{return JSON.parse(value);}, default : undefined});
+    this.option('bluemix', {desc : 'Bluemix options', type : (value)=>{return toObject(value);}, default : undefined});
     logger.writeToLog("Options", this.options);
     logger.writeToLog("Config (default)", config.data);
     //overwrite any default values with those specified as options
@@ -110,9 +120,9 @@ module.exports = class extends Generator {
       config.data.buildType = answers.buildType || config.data.buildType;
       config.data.bluemix = answers.bluemix || config.data.bluemix;
       if(config.data.bluemix) {
-        config.data.appName = config.data.bluemix.name || answers.appName || config.appName;
+        config.data.appName = config.data.bluemix.name || answers.appName || config.data.appName;
       } else {
-        config.data.appName = answers.appName || config.appName;
+        config.data.appName = answers.appName || config.data.appName;
       }
       //below this point, the only way to get these answers is to run the generator locally
       if(answers.services) {

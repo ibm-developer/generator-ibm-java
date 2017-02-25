@@ -32,10 +32,10 @@ public class Demo extends Application {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public Response demo() {
-        //return a simple list of strings
         List<String> list;
         {{^bluemix}}
-        list = new ArrayList<>();
+        //return a simple list of strings
+        list = new ArrayList<>()
         list.add("Some data");
         {{/bluemix}}
 
