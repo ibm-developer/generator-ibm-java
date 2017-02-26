@@ -21,6 +21,7 @@ var processor = require("../lib/fsprocessor");
 var helpers = require("../lib/helpers");
 var fspath = require('path');
 var logger = require("../lib/log");
+var fs = require('fs');
 
 //clone any property, only if it is already present in the target object
 var clone = function(from, to) {
@@ -96,6 +97,7 @@ module.exports = class extends Generator {
     this.option('headless', {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : String, default : "false"});
     this.option('debug', {desc : 'Generate a log.txt file in the root of the project', type : String, default : "false"});
     this.option('bluemix', {desc : 'Bluemix options', type : (value)=>{return toObject(value);}, default : undefined});
+    this.option('input', {desc : 'Input data file', type : processor.getContentsSync, default : undefined});
     logger.writeToLog("Options", this.options);
     logger.writeToLog("Config (default)", config.data);
     //overwrite any default values with those specified as options

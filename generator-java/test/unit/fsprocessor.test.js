@@ -34,6 +34,20 @@ describe('fsprocessor library', function() {
     });
   });
 
+  describe('processor provides file operations', function() {
+    it('it should throw an exception if the file does not exist', function() {
+      assert.throws(()=>{processor.getContentsSync("madeupfilename.txt")})
+    });
+    it('it should throw an exception if the file is a directory', function() {
+      assert.throws(()=>{processor.getContentsSync("./test/resources")})
+    });
+    it('it should get the contents of a file', function() {
+      var contents = processor.getContentsSync("./test/resources/fsprocessor/test-templates-1file/file-1.txt");
+      console.log("Contents " + contents);
+      assert(contents.indexOf('sample text file'));
+    });
+  });
+
   describe('walk tree specified with relative path', function() {
     it('it should walk a file system tree calling back when a file is found', function(done){
       processor.paths = ["./test/resources/fsprocessor/test-templates-1file"];

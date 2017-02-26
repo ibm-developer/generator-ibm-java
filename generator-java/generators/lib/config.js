@@ -28,7 +28,8 @@ var config = {
   headless : "false",
   createType : "rest",
   debug : "false",
-  bluemix : undefined
+  bluemix : undefined,
+  input : undefined
 };    //the configuration object
 
 var isValid = function() {
@@ -52,6 +53,7 @@ var reset = function() {
   config.createType = "rest";
   config.debug = "false";
   config.bluemix = undefined;
+  config.input = undefined;
 }
 
 module.exports = {

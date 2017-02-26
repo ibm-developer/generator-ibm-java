@@ -133,7 +133,30 @@ var startWalk = function(cb) {
   return p;
 }
 
+//synchronous synchronously get the contents of a file
+var getContentsSync = function(value) {
+  var file = fspath.resolve(value);
+  if(!fs.existsSync(file)) {
+    logger.writeToLog("Error : specified file does not exist", file);
+    throw "Error : specified file does not exist";
+  }
+  var stats = fs.statSync(file);
+  if(stats.isDirectory()) {
+    logger.writeToLog("Error : specified path is a directory", file);
+    throw "Error : specified path is a directory";
+  }
+  try {
+    return fs.readFileSync(file, 'utf8');
+  } catch (err) {
+    /* istanbul ignore next */    //file error reading checked in other tests
+    logger.writeToLog("Error : reading : " + file, err);
+    /* istanbul ignore next */
+    throw err;
+  }
+}
+
 module.exports = {
   paths : paths,
-  scan : startWalk
+  scan : startWalk,
+  getContentsSync : getContentsSync
 };
