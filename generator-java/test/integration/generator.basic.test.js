@@ -15,7 +15,7 @@
  */
 
 /**
- * Tests the microservice generator
+ * Tests the basic generator
  */
 'use strict';
 var path = require('path');
@@ -28,19 +28,16 @@ const GROUPID = 'test.group';
 const VERSION = '1.0.0';
 const APPNAME = 'testApp';
 
-function Options(buildType) {
-  this.headless = "true";
+function Options() {
   this.debug = "true";
-  this.buildType = buildType;
-  this.createType = 'microservice';
   this.version = VERSION;
-  this.appName = APPNAME;
   this.groupId = GROUPID;
   this.assertCommonFiles = function() {
     //check common files are present for all configurations
-    assert.file('src/main/java/application/api/v1/HealthEndpoint.java'); //application files
-    assert.file('src/test/java/it/HealthEndpointTest.java');    //some tests
+    assert.noFile('src/main/java/application/api/v1/HealthEndpoint.java'); //application files
+    assert.noFile('src/test/java/it/HealthEndpointTest.java');    //some tests
     assert.file('src/main/liberty/config/server.xml');    //liberty configuration
+    assert.noFile('src/main/webapp/WEB-INF/ibm-web-ext.xml');
   }
 }
 
@@ -49,38 +46,36 @@ beforeEach(function() {
   config.reset();
 });
 
-describe('java generator : microservice integration test', function () {
+describe('java generator : basic integration test', function () {
 
-  describe('Generates a basic microservices project (no bluemix)', function () {
+  describe('Generates a basic project (no bluemix)', function () {
 
-    it('should create a basic microservice, gradle build system', function (done) {
-      var options = new Options('gradle');
+    it('should create a basic project, gradle build system', function (done) {
+      var options = new Options();
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
-        .withPrompts({})
+        .withPrompts({ buildType : 'gradle', createType: 'basic', services: ['none'], appName: APPNAME})
       .toPromise().then(function() {
         options.assertCommonFiles();
         assert.noFile('pom.xml');   //build file
         assert.file('build.gradle');
-        assert.fileContent('build.gradle',"appName = '" + options.appName +"'");
-        assert.fileContent('src/main/java/application/api/v1/Demo.java','ArrayList'); //check no bx services present
+        assert.fileContent('build.gradle',"appName = '" + APPNAME +"'");
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
       });                        // Get a Promise back when the generator finishes
     });
 
-    it('should create a basic microservice, maven build system', function (done) {
-      var options = new Options('maven');
+    it('should create a basic project, maven build system', function (done) {
+      var options = new Options();
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
-        .withPrompts({})
+        .withPrompts({buildType : 'maven', createType: 'basic', appName: APPNAME })
       .toPromise().then(function() {
         options.assertCommonFiles();
         assert.noFile('build.gradle');   //build file
         assert.file('pom.xml');
-        assert.fileContent('pom.xml',"<app.name>" + options.appName + "</app.name>");
-        assert.fileContent('src/main/java/application/api/v1/Demo.java','ArrayList'); //check no bx services present
+        assert.fileContent('pom.xml',"<app.name>" + APPNAME + "</app.name>");
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -89,42 +84,18 @@ describe('java generator : microservice integration test', function () {
 
   });
 
-  describe('Generates a basic microservices project (bluemix)', function () {
-
-    it('no services', function (done) {
-      var options = new Options('gradle');
-      options.bluemix = '{"name" : "bxName"}';
-      helpers.run(path.join( __dirname, '../../generators/app'))
-        .withOptions(options)
-        .withPrompts({})
-      .toPromise().then(function() {
-        options.assertCommonFiles();
-        assert.noFile('pom.xml');   //build file
-        assert.file('build.gradle');
-        assert.fileContent('build.gradle',"appName = 'bxName'");
-        assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
-        assert.noFileContent('src/main/java/application/api/v1/Demo.java','ArrayList', 'Cloudant');
-        assert.noFileContent('src/main/liberty/config/server.xml', 'cloudant');
-        done();
-      }, function(err) {
-        assert.fail(false, "Test failure ", err);
-      });                        // Get a Promise back when the generator finishes
-    });
+  describe('Generates a basic project (bluemix)', function () {
 
     it('with cloudant', function (done) {
-      var options = new Options('maven');
-      options.bluemix = '{"cloudant" : true, "name" : "bxName"}';
+      var options = new Options();
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
-        .withPrompts({})
+        .withPrompts({buildType : 'maven', createType: 'basic', services : ['cloudant'], appName : 'bxName' })
       .toPromise().then(function() {
         options.assertCommonFiles();
         assert.noFile('build.gradle');   //build file
         assert.file('pom.xml');
         assert.fileContent('pom.xml',"<app.name>bxName</app.name>");
-        assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
-        assert.noFileContent('src/main/java/application/api/v1/Demo.java','ArrayList'); //check no bx services present
-        assert.fileContent('src/main/java/application/api/v1/Demo.java','Cloudant'); //check no bx services present
         assert.fileContent('src/main/liberty/config/server.xml', 'cloudant');
         done();
       }, function(err) {
@@ -133,4 +104,5 @@ describe('java generator : microservice integration test', function () {
     });
 
   });
+
 });

@@ -3,4 +3,12 @@
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
       id="defaultHttpEndpoint" />
 
+  {{#bluemix}}
+  {{#cloudant}}
+  <jndiEntry jndiName="cloudant/url" value="${env.CLOUDANT_URL}"/>
+  <jndiEntry jndiName="cloudant/username" value="${env.CLOUDANT_USERNAME}"/>
+  <jndiEntry jndiName="cloudant/password" value="${env.CLOUDANT_PASSWORD}"/>
+  {{/cloudant}}
+  {{/bluemix}}
+
 </server>

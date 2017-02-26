@@ -103,8 +103,17 @@ module.exports = class extends Generator {
     //set values based on either defaults or passed in values
     config.data.templatePath = config.data.createType;
     config.data.templateFullPath = this.templatePath(config.data.templatePath);
-    config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.data.createType);
+    this._setProjectPath();
     logger.writeToLog("Config", config.data);
+  }
+
+  _setProjectPath() {
+    //headless assumes that the output will be handled by the calling process / service
+    if(config.data.headless === "true") {
+      config.data.projectPath = fspath.resolve(this.destinationRoot());
+    } else {
+      config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.data.createType);
+    }
   }
 
   prompting() {
@@ -115,7 +124,7 @@ module.exports = class extends Generator {
       if(answers.createType) {
         config.data.templatePath = answers.createType;   //override with user selection
         config.data.templateFullPath = this.templatePath(config.data.templatePath);
-        config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + answers.createType);
+        this._setProjectPath();
       }
       config.data.buildType = answers.buildType || config.data.buildType;
       config.data.bluemix = answers.bluemix || config.data.bluemix;

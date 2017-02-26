@@ -41,7 +41,21 @@ var isValid = function() {
   return true;
 }
 
+var reset = function() {
+  this.config = {};
+  config.appName = "myLibertyProject";
+  config.buildType = "maven";
+  config.artifactId = "artifactId";
+  config.groupId = "groupId";
+  config.version = "1.0";
+  config.headless = "false";
+  config.createType = "rest";
+  config.debug = "false";
+  config.bluemix = undefined;
+}
+
 module.exports = {
   isValid : isValid,
-  data : config
+  data : config,
+  reset : reset
 }
