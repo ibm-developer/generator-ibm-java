@@ -29,11 +29,11 @@
         <!-- Liberty server properties -->
         <testServerHttpPort>9080</testServerHttpPort>
         <testServerHttpsPort>9443</testServerHttpsPort>
+        <app.name>{{appName}}</app.name>
         <!--This is set in the ibm-web-ext.xml file -->
-        <warContext>myLibertyApp</warContext>
+        <warContext>${app.name}</warContext>
         <package.file>${project.build.directory}/${app.name}.zip</package.file>
         <packaging.type>usr</packaging.type>
-        <app.name>{{appName}}</app.name>
     </properties>
 
     <build>
