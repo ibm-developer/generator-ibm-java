@@ -10,7 +10,7 @@
   {{/bluemix}}
 
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
-      id="defaultHttpEndpoint" />
+      id="defaultHttpEndpoint" host="*" />
 
   {{#bluemix}}
   {{#cloudant}}
