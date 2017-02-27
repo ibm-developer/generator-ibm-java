@@ -40,11 +40,7 @@ var questions = [{
   name    : 'createType',
   message : 'This is a test front end for manually driving the Java code generator.\n',
   choices : [{
-    name : 'REST : a basic REST sample used to test this generator',
-    value : 'rest',
-    short : 'REST sample application'
-  }, {
-    name : 'Basic : a basic Java microservice (TBD)',
+    name : 'Basic : a basic Java microservice',
     value : 'basic',
     short : 'Basic Java microservice'
   }, {
@@ -52,7 +48,7 @@ var questions = [{
     value : 'microservice',
     short : 'Basic Java microservice'
   }, {
-    name : 'BFF : Backend For Frontend (generate java from Swagger/OpenAPI)',
+    name : 'BFF : Backend For Frontend (generate java from Swagger/OpenAPI) (TBD)',
     value : 'bff',
     short : 'Backend For Frontend'
   }],
@@ -67,7 +63,7 @@ var questions = [{
   type    : 'checkbox',
   name    : 'services',
   message : 'Select the services for your project.\n',
-  choices : ['none','cloudant', 'object store'],
+  choices : ['none','cloudant'],
   default : 0 // Default to none
 }, {
   type    : 'input',
@@ -93,9 +89,9 @@ module.exports = class extends Generator {
 
     //create command line options that will be passed by YaaS
     this.option('buildType', {desc : 'Build system to use', type : String, default : 'maven'});
-    this.option('createType', {desc : 'Type of application to generate', type : String, default : 'rest'});
-    this.option('appName', {desc : 'Name of the application', type : String, default : 'myLibertyProject'});
-    this.option('artifactId', {desc : 'Artifact ID to use for the build', type : String, default : 'myLibertyProject'});
+    this.option('createType', {desc : 'Type of application to generate', type : String, default : 'basic'});
+    this.option('appName', {desc : 'Name of the application', type : String, default : 'LibertyProject'});
+    this.option('artifactId', {desc : 'Artifact ID to use for the build', type : String, default : 'demo'});
     this.option('groupId', {desc : 'Name of the application', type : String, default : 'liberty.projects'});
     this.option('version', {desc : 'Version of the application', type : String, default : '1.0-SNAPSHOT'});
     this.option('headless', {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : String, default : "false"});

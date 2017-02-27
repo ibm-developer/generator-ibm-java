@@ -1,7 +1,6 @@
 <server description="Microservice Liberty server">
 
     <featureManager>
-        <feature>servlet-3.1</feature>
         <feature>jaxrs-2.0</feature>
         <feature>jsonp-1.0</feature>
         <feature>jndi-1.0</feature>

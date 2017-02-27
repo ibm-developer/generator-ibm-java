@@ -25,7 +25,7 @@ beforeEach(function() {
 });
 
 describe('Config behaviour', function() {
-  it('should be possible to rest config values', function(){
+  it('should be possible to reset config values', function(){
     config.data.artifactId = 'testID';
     config.data.bluemix = {name : 'bxName'};
     config.reset();

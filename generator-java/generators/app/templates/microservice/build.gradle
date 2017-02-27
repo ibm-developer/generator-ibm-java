@@ -24,10 +24,10 @@ ext {
     serverDirectory = "${buildDir}/wlp/usr/servers/defaultServer"
     testServerHttpPort = 9080
     testServerHttpsPort = 9443
-
-    // This is set in the ibm-web-ext.xml file
-    warContext = '{{appName}}''
+    
     appName = '{{appName}}'
+    // This is set in the ibm-web-ext.xml file
+    warContext = "${appName}"
     packageFile = "${project.buildDir}/${appName}.zip"
     packagingType = 'usr'
 }

@@ -25,15 +25,28 @@ ext {
     testServerHttpPort = 9080
     testServerHttpsPort = 9443
 
-    // This is set in the ibm-web-ext.xml file
-    warContext = 'myLibertyApp'
     appName = '{{appName}}'
+    // This is set in the ibm-web-ext.xml file
+    warContext = "${appName}"
     packageFile = "${project.buildDir}/${appName}.zip"
     packagingType = 'usr'
 }
 
 repositories {
     mavenCentral()
+}
+
+dependencies {
+    {{#bluemix}}
+    providedCompile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
+    providedCompile 'com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.jaxrs20:1.0.10'
+    providedCompile 'javax.json:javax.json-api:1.0'
+    providedCompile 'com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.json:1.0.10'
+    providedCompile 'javax.enterprise:cdi-api:1.2'
+    {{#cloudant}}
+    compile 'com.cloudant:cloudant-client:2.7.0'
+    {{/cloudant}}
+    {{/bluemix}}
 }
 
 test {
