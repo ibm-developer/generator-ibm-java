@@ -8,9 +8,7 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-{{^bluemix}}
 import java.util.ArrayList;
-{{/bluemix}}
 
 {{#bluemix}}
 import javax.inject.Inject;
@@ -32,10 +30,9 @@ public class Demo extends Application {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public Response demo() {
-        List<String> list;
+        List<String> list = new ArrayList<>();
         {{^bluemix}}
         //return a simple list of strings
-        list = new ArrayList<>()
         list.add("Some data");
         {{/bluemix}}
 
