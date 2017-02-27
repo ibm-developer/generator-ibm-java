@@ -172,7 +172,6 @@ module.exports = class extends Generator {
   writing() {
     logger.writeToLog('template path', config.data.templatePath);
     logger.writeToLog('project path', config.data.projectPath);
-    console.log('project path :' + config.data.projectPath);
     if(!config.isValid()) {
       //the config object is not valid, so need to exit at this point
       this.log("Error : configuration is invalid, code generation is aborted");
