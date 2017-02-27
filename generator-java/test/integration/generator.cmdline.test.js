@@ -35,7 +35,7 @@ beforeEach(function() {
 
 describe('java generator integration test', function () {
 
-  describe('Generates a rest project in headless mode, using cmd line options', function () {
+  describe('Generates a basic project in headless mode, using cmd line options', function () {
 
     before(function () {
       // Mock the options, set up an output folder and run the generator
@@ -44,7 +44,7 @@ describe('java generator integration test', function () {
           headless: "true",
           debug: "true",
           buildType: 'gradle',
-          createType: 'rest',
+          createType: 'basic',
           version : VERSION,
           appName : APPNAME,
           groupId : GROUPID
@@ -52,13 +52,9 @@ describe('java generator integration test', function () {
         .toPromise();                        // Get a Promise back when the generator finishes
     });
 
-
-
     it('should create a gradle based project', function () {
       assert.noFile('pom.xml');   //build file
       assert.file('build.gradle');
-      assert.file('src/main/java/application/rest/LibertyRestEndpoint.java'); //application files
-      assert.file('src/test/java/it/rest/LibertyRestEndpointTest.java');    //some tests
       assert.file('src/main/liberty/config/server.xml');    //liberty configuration
     });
 

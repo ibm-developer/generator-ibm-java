@@ -47,14 +47,12 @@ describe('java generator integration test', function () {
     it('should create a maven based project', function () {
       assert.file('pom.xml');   //build file
       assert.noFile('build.gradle');
-      assert.file('src/main/java/application/rest/LibertyRestEndpoint.java'); //application files
-      assert.file('src/test/java/it/rest/LibertyRestEndpointTest.java');    //some tests
       assert.file('src/main/liberty/config/server.xml');    //liberty configuration
     });
 
     it('should have carried out replacements', function () {
       assert.fileContent('pom.xml', '<groupId>liberty.projects</groupId>');
-      assert.fileContent('pom.xml', '<artifactId>myLibertyProject</artifactId>');
+      assert.fileContent('pom.xml', '<artifactId>demo</artifactId>');
       assert.fileContent('pom.xml', '<version>1.0-SNAPSHOT</version>');
     });
 
