@@ -21,11 +21,17 @@
 var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
+var config = require('../../generators/lib/config');
 
 const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
 const VERSION = '1.0.0';
 const APPNAME = 'testApp';
+
+beforeEach(function() {
+  //make sure we start with a valid config object
+  config.reset();
+});
 
 describe('java generator integration test', function () {
 
@@ -36,6 +42,7 @@ describe('java generator integration test', function () {
       return helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions({                       // Mock the prompt answers
           headless: "true",
+          debug: "true",
           buildType: 'gradle',
           createType: 'rest',
           version : VERSION,

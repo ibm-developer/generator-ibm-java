@@ -1,0 +1,11 @@
+FROM ibmjava:8-sdk
+
+MAINTAINER IBM Java engineering at IBM Cloud
+
+RUN apt-get update
+{{#has buildType 'maven'}}
+RUN apt-get install -y maven
+{{/has}}
+{{#has buildType 'gradle'}}
+RUN apt-get install -y gradle
+{{/has}}

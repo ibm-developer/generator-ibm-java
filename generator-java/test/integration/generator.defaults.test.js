@@ -21,6 +21,12 @@
 var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
+var config = require('../../generators/lib/config');
+
+beforeEach(function() {
+  //make sure we start with a valid config object
+  config.reset();
+});
 
 describe('java generator integration test', function () {
 
@@ -30,7 +36,8 @@ describe('java generator integration test', function () {
       // Mock the options, set up an output folder and run the generator
       return helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions({                       // Mock the prompt answers
-          headless: "true"
+          headless: "true",
+          debug: "true",
         })
         .toPromise();                        // Get a Promise back when the generator finishes
     });

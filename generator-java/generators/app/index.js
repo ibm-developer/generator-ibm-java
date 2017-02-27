@@ -18,10 +18,10 @@ var Generator = require('yeoman-generator');
 var Handlebars = require('handlebars');
 var config = require("../lib/config");
 var processor = require("../lib/fsprocessor");
-var control = require("../lib/control");
 var helpers = require("../lib/helpers");
 var fspath = require('path');
 var logger = require("../lib/log");
+var fs = require('fs');
 
 //clone any property, only if it is already present in the target object
 var clone = function(from, to) {
@@ -51,6 +51,10 @@ var questions = [{
     name : 'Microservice : a basic Java microservice with Cloudant',
     value : 'microservice',
     short : 'Basic Java microservice'
+  }, {
+    name : 'BFF : Backend For Frontend (generate java from Swagger/OpenAPI)',
+    value : 'bff',
+    short : 'Backend For Frontend'
   }],
   default : 0 // Default to rest sample
 }, {
@@ -59,7 +63,28 @@ var questions = [{
   message : 'Select the build type for your project.\n',
   choices : ['maven', 'gradle'],
   default : 0 // Default to maven
+}, {
+  type    : 'checkbox',
+  name    : 'services',
+  message : 'Select the services for your project.\n',
+  choices : ['none','cloudant', 'object store'],
+  default : 0 // Default to none
+}, {
+  type    : 'input',
+  name    : 'appName',
+  message : 'Enter a name for your project',
+  default : "myProject"
 }];
+
+var toObject = function(value) {
+  if(typeof value == 'string') {
+    return JSON.parse(value);
+  }
+  if(typeof value === 'object') {
+    return value;
+  }
+  return value;
+}
 
 module.exports = class extends Generator {
 
@@ -75,6 +100,8 @@ module.exports = class extends Generator {
     this.option('version', {desc : 'Version of the application', type : String, default : '1.0-SNAPSHOT'});
     this.option('headless', {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : String, default : "false"});
     this.option('debug', {desc : 'Generate a log.txt file in the root of the project', type : String, default : "false"});
+    this.option('bluemix', {desc : 'Bluemix options', type : (value)=>{return toObject(value);}, default : undefined});
+    this.option('input', {desc : 'Input data file', type : processor.getContentsSync, default : undefined});
     logger.writeToLog("Options", this.options);
     logger.writeToLog("Config (default)", config.data);
     //overwrite any default values with those specified as options
@@ -82,8 +109,17 @@ module.exports = class extends Generator {
     //set values based on either defaults or passed in values
     config.data.templatePath = config.data.createType;
     config.data.templateFullPath = this.templatePath(config.data.templatePath);
-    config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.data.createType);
+    this._setProjectPath();
     logger.writeToLog("Config", config.data);
+  }
+
+  _setProjectPath() {
+    //headless assumes that the output will be handled by the calling process / service
+    if(config.data.headless === "true") {
+      config.data.projectPath = fspath.resolve(this.destinationRoot());
+    } else {
+      config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.data.createType);
+    }
   }
 
   prompting() {
@@ -92,12 +128,44 @@ module.exports = class extends Generator {
       logger.writeToLog("Answers", answers);
       //configure the sample to use based on the type we are creating
       if(answers.createType) {
+        config.data.createType = answers.createType;
         config.data.templatePath = answers.createType;   //override with user selection
         config.data.templateFullPath = this.templatePath(config.data.templatePath);
-        config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + answers.createType);
+        this._setProjectPath();
       }
       config.data.buildType = answers.buildType || config.data.buildType;
       config.data.bluemix = answers.bluemix || config.data.bluemix;
+      if(config.data.bluemix) {
+        config.data.appName = config.data.bluemix.name || answers.appName || config.data.appName;
+      } else {
+        config.data.appName = answers.appName || config.data.appName;
+      }
+      //below this point, the only way to get these answers is to run the generator locally
+      if(answers.services) {
+        if(!config.data.bluemix) {
+          config.data.bluemix = {};
+        }
+        logger.writeToLog("Processing interactive answers", answers.services);
+        for(var i = 0; i < answers.services.length; i++) {
+          var service = answers.services[i];
+          if(service === "none") {
+            config.data.bluemix = undefined;
+            break;    //stop processing if none has been selected
+          }
+          if(service === "cloudant") {
+            if(!config.data.bluemix.cloudant) {
+              config.data.bluemix.cloudant = [
+                {
+                  "password": "pass",
+                  "url": "https://account.cloudant.com",
+                  "username": "user"
+                }
+              ];
+            }
+          }
+        }
+      }
+      logger.writeToLog("Config (after answers)", config.data);
     });
   }
 
@@ -107,17 +175,18 @@ module.exports = class extends Generator {
     if(!config.isValid()) {
       //the config object is not valid, so need to exit at this point
       this.log("Error : configuration is invalid, code generation is aborted");
-      return;
+      throw "Invalid configuration";
     }
-    control.processProject(config);
     this.destinationRoot(config.data.projectPath);
     logger.writeToLog("Destination path", this.destinationRoot());
-    processor.path = [this.templatePath(config.data.templatePath), this.templatePath('services/cloudantNoSQLDB')];
+    var paths = [this.templatePath(config.data.templatePath)];    //always have the base template to process
+    //now add any services that have been chosen
+    if(config.data.bluemix && config.data.bluemix.cloudant) {
+      paths.push(this.templatePath('services/cloudantNoSQLDB'));
+    }
+    processor.paths = paths;;
     logger.writeToLog("Processor", processor);
     return processor.scan((relativePath, template) => {
-      if(!control.shouldGenerate(relativePath)) {
-        return;   //do not include this file in the generation
-      }
       var outFile = this.destinationPath(relativePath);
       logger.writeToLog("CB : writing to", outFile);
       try {
@@ -125,8 +194,7 @@ module.exports = class extends Generator {
         var output = compiledTemplate(config.data);
         this.fs.write(outFile, output);
       } catch (err) {
-        console.log("Error processing : " + relativePath);
-        logger.writeToLog("Template error : " + relativePath, err);
+        logger.writeToLog("Template error : " + relativePath, err.message);
       }
     });
   }
