@@ -51,6 +51,10 @@ var questions = [{
     name : 'Microservice : a basic Java microservice with Cloudant',
     value : 'microservice',
     short : 'Basic Java microservice'
+  }, {
+    name : 'BFF : Backend For Frontend (generate java from Swagger/OpenAPI)',
+    value : 'bff',
+    short : 'Backend For Frontend'
   }],
   default : 0 // Default to rest sample
 }, {
@@ -124,6 +128,7 @@ module.exports = class extends Generator {
       logger.writeToLog("Answers", answers);
       //configure the sample to use based on the type we are creating
       if(answers.createType) {
+        config.data.createType = answers.createType;
         config.data.templatePath = answers.createType;   //override with user selection
         config.data.templateFullPath = this.templatePath(config.data.templatePath);
         this._setProjectPath();
@@ -167,6 +172,7 @@ module.exports = class extends Generator {
   writing() {
     logger.writeToLog('template path', config.data.templatePath);
     logger.writeToLog('project path', config.data.projectPath);
+    console.log('project path :' + config.data.projectPath);
     if(!config.isValid()) {
       //the config object is not valid, so need to exit at this point
       this.log("Error : configuration is invalid, code generation is aborted");
@@ -189,8 +195,7 @@ module.exports = class extends Generator {
         var output = compiledTemplate(config.data);
         this.fs.write(outFile, output);
       } catch (err) {
-        console.log("Error processing : " + relativePath);
-        logger.writeToLog("Template error : " + relativePath, err);
+        logger.writeToLog("Template error : " + relativePath, err.message);
       }
     });
   }

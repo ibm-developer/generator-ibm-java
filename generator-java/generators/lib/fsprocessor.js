@@ -146,7 +146,13 @@ var getContentsSync = function(value) {
     throw "Error : specified path is a directory";
   }
   try {
-    return fs.readFileSync(file, 'utf8');
+    var contents = fs.readFileSync(file, 'utf8');
+    try {
+      return JSON.parse(contents);
+    } catch(err) {
+      //not a JSON object, so just return the string
+      return contents;
+    }
   } catch (err) {
     /* istanbul ignore next */    //file error reading checked in other tests
     logger.writeToLog("Error : reading : " + file, err);

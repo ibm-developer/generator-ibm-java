@@ -41,10 +41,15 @@ describe('fsprocessor library', function() {
     it('it should throw an exception if the file is a directory', function() {
       assert.throws(()=>{processor.getContentsSync("./test/resources")})
     });
-    it('it should get the contents of a file', function() {
+    it('it should get the contents of a file as a string', function() {
       var contents = processor.getContentsSync("./test/resources/fsprocessor/test-templates-1file/file-1.txt");
-      console.log("Contents " + contents);
+      assert.equal('string', typeof contents);
       assert(contents.indexOf('sample text file'));
+    });
+    it('it should get the contents of a file as a JSON object', function() {
+      var contents = processor.getContentsSync("./test/resources/fsprocessor/sample.json");
+      assert.equal('object', typeof contents);
+      assert(contents.value);
     });
   });
 
