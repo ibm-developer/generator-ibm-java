@@ -108,6 +108,7 @@ describe('java generator : microservice integration test', function () {
         //Docker files
         assert.file('Dockerfile');
         assert.file('Dockerfile-tools');
+        assert.noFile('Dockerfile-run');//deprecated name
         // Bluemix files
         assert.file('manifest.yml');
         assert.file('.bluemix/deploy.json');
