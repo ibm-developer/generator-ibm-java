@@ -42,9 +42,6 @@ describe('Test custom Handlebars functions work as expected', function() {
   it('should be convert tag values to uppercase', function(){
     assert(helpersTestResult.includes("UpperCase : [CAMELCASENAME]"));
   });
-  it('should be convert tag values to uppercase', function(){
-    assert(helpersTestResult.includes("UpperCase : [CAMELCASENAME]"));
-  });
   it('should be not process when the item is "red"', function(){
     assert(helpersTestResult.includes("has : []"));
   });
