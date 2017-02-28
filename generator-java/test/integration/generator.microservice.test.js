@@ -105,6 +105,15 @@ describe('java generator : microservice integration test', function () {
         assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
         assert.noFileContent('src/main/java/application/api/v1/Demo.java', 'Cloudant');
         assert.noFileContent('src/main/liberty/config/server.xml', 'cloudant');
+        //Docker files
+        assert.file('Dockerfile');
+        assert.file('Dockerfile-tools');
+        assert.noFile('Dockerfile-run');//deprecated name
+        // Bluemix files
+        assert.file('manifest.yml');
+        assert.file('.bluemix/deploy.json');
+        assert.file('.bluemix/pipeline.yml');
+        assert.file('.bluemix/toolchain.yml');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
