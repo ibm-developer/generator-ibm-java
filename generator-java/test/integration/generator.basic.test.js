@@ -38,6 +38,15 @@ function Options() {
     assert.noFile('src/test/java/it/HealthEndpointTest.java');    //some tests
     assert.file('src/main/liberty/config/server.xml');    //liberty configuration
     assert.noFile('src/main/webapp/WEB-INF/ibm-web-ext.xml');
+    //Docker files
+    assert.file('Dockerfile');
+    assert.file('Dockerfile-tools');
+    assert.noFile('Dockerfile-run');//deprecated name
+    // Bluemix files
+    assert.file('manifest.yml');
+    assert.file('.bluemix/deploy.json');
+    assert.file('.bluemix/pipeline.yml');
+    assert.file('.bluemix/toolchain.yml');
   }
 }
 
