@@ -64,6 +64,7 @@ describe('java generator : microservice integration test', function () {
         assert.file('build.gradle');
         assert.fileContent('build.gradle',"appName = '" + options.appName +"'");
         assert.fileContent('src/main/java/application/api/v1/Demo.java','list.add("Some data");'); //check no bx services present
+        assert.fileContent('cli-config.yml','image-name-run : "testapp"');  //make sure lowercase app name
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -81,6 +82,7 @@ describe('java generator : microservice integration test', function () {
         assert.file('pom.xml');
         assert.fileContent('pom.xml',"<app.name>" + options.appName + "</app.name>");
         assert.fileContent('src/main/java/application/api/v1/Demo.java','list.add("Some data");'); //check no bx services present
+        assert.fileContent('cli-config.yml','image-name-run : "testapp"');  //make sure lowercase app name
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -105,6 +107,7 @@ describe('java generator : microservice integration test', function () {
         assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
         assert.noFileContent('src/main/java/application/api/v1/Demo.java', 'Cloudant');
         assert.noFileContent('src/main/liberty/config/server.xml', 'cloudant');
+        assert.fileContent('cli-config.yml','image-name-run : "bxname"');  //make sure lowercase app name
         //Docker files
         assert.file('Dockerfile');
         assert.file('Dockerfile-tools');
@@ -134,6 +137,7 @@ describe('java generator : microservice integration test', function () {
         assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
         assert.fileContent('src/main/java/application/api/v1/Demo.java','Cloudant'); //check Cloudant service present
         assert.fileContent('src/main/liberty/config/server.xml', 'cloudant');
+        assert.fileContent('cli-config.yml','image-name-run : "bxname"');  //make sure lowercase app name
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
