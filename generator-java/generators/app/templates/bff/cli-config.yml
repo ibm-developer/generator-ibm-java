@@ -22,7 +22,7 @@ container-port-map-debug : "7777:7777"
 
 dockerfile-run : "Dockerfile-run"
 dockerfile-tools : "Dockerfile-tools"
-image-name-run : "{{appName}}"
+image-name-run : "{{#toLowerCase appName}}{{/toLowerCase}}"
 image-name-tools : "javaclitools"
 
 run-cmd : "server run"
