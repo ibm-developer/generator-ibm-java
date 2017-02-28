@@ -36,7 +36,7 @@ Handlebars.registerHelper('refLookup', function(ref) {
 
 //lookup and resolve references to data types, will return the Java class name
 Handlebars.registerHelper('tag', function(context) {
-  return "{{" + context + "}}"
+  return "{{" + context + "}}";
 });
 
 //allow slightly more sophisticated inclusion by checking the value of a property, not just it's presence or absence
@@ -67,7 +67,15 @@ Handlebars.registerHelper('has', function(context, options, handler) {
   return undefined;
 });
 
+//convert tag contents to lower case
+Handlebars.registerHelper('toLowerCase', function(context) {
+  return String(context).toLowerCase();
+});
 
+//convert tag contents to upper case
+Handlebars.registerHelper('toUpperCase', function(context) {
+  return String(context).toUpperCase();
+});
 
 module.exports = {
   //module doesn't export anything, all helpers are installed by requiring this module

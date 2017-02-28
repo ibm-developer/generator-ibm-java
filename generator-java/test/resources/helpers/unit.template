@@ -1,0 +1,4 @@
+LowerCase : [{{#toLowerCase value}}{{/toLowerCase}}]
+UpperCase : [{{#toUpperCase value}}{{/toUpperCase}}]
+has : [{{#has item 'red'}}red{{/has}}]
+has : [{{#has item 'green'}}green{{/has}}]
