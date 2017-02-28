@@ -41,6 +41,15 @@ function Options(buildType) {
     assert.file('src/main/java/application/api/v1/HealthEndpoint.java'); //application files
     assert.file('src/test/java/it/HealthEndpointTest.java');    //some tests
     assert.file('src/main/liberty/config/server.xml');    //liberty configuration
+    //Docker files
+    assert.file('Dockerfile');
+    assert.file('Dockerfile-tools');
+    assert.noFile('Dockerfile-run');//deprecated name
+    // Bluemix files
+    assert.file('manifest.yml');
+    assert.file('.bluemix/deploy.json');
+    assert.file('.bluemix/pipeline.yml');
+    assert.file('.bluemix/toolchain.yml');
   }
 }
 
@@ -108,15 +117,9 @@ describe('java generator : microservice integration test', function () {
         assert.noFileContent('src/main/java/application/api/v1/Demo.java', 'Cloudant');
         assert.noFileContent('src/main/liberty/config/server.xml', 'cloudant');
         assert.fileContent('cli-config.yml','image-name-run : "bxname"');  //make sure lowercase app name
-        //Docker files
-        assert.file('Dockerfile');
-        assert.file('Dockerfile-tools');
-        assert.noFile('Dockerfile-run');//deprecated name
         // Bluemix files
-        assert.file('manifest.yml');
-        assert.file('.bluemix/deploy.json');
-        assert.file('.bluemix/pipeline.yml');
-        assert.file('.bluemix/toolchain.yml');
+        assert.noFileContent('manifest.yml', 'cloudant');
+        assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -138,6 +141,9 @@ describe('java generator : microservice integration test', function () {
         assert.fileContent('src/main/java/application/api/v1/Demo.java','Cloudant'); //check Cloudant service present
         assert.fileContent('src/main/liberty/config/server.xml', 'cloudant');
         assert.fileContent('cli-config.yml','image-name-run : "bxname"');  //make sure lowercase app name
+        // Bluemix files
+        assert.fileContent('manifest.yml', 'cloudant');
+        assert.fileContent('.bluemix/pipeline.yml', 'cloudant');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);

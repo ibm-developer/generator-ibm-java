@@ -31,6 +31,11 @@ stages:
       application: ${CF_APP}
     script: |-
       #!/bin/bash
+{{#bluemix}}
+{{#cloudant}}
+      cf create-service cloudantNoSQLDB Lite Cloudant
+{{/cloudant}}
+{{/bluemix}}
       cf push "${CF_APP}" -p target/{{appName}}.zip
       # View logs
       # cf logs "${CF_APP}" --recent
