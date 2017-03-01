@@ -1,4 +1,4 @@
-package application.api.v1;
+package application.rest.v1;
 
 import java.util.List;
 import javax.ws.rs.GET;
