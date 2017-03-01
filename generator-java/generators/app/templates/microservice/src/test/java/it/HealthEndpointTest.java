@@ -10,10 +10,10 @@ import javax.ws.rs.core.Response;
 import org.junit.Test;
 
 public class HealthEndpointTest {
-    
+
     private String port = System.getProperty("liberty.test.port");
     private String warContext = System.getProperty("war.context");
-    private String endpoint = "/api/v1/health";
+    private String endpoint = "/health";
     private String url = "http://localhost:" + port + "/" + warContext + endpoint;
 
     @Test
