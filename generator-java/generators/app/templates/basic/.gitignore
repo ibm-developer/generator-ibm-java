@@ -1,0 +1,11 @@
+{{#has buildType 'maven'}}
+/target
+{{/has}}
+
+{{#has buildType 'gradle'}}
+/build
+{{/has}}
+
+/.classpath
+/.project
+/.settings
