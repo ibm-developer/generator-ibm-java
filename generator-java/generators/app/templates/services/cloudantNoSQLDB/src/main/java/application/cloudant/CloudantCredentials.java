@@ -27,7 +27,7 @@ public class CloudantCredentials {
 
     private void checkCredentialsValid(String url, String username, String password) throws InvalidCredentialsException {
         if (url == null || username == null || password == null) {
-            throw new InvalidCredentialsException("Invalid cloudant credentials. Found url:" + url + " username:" + username + " password:" + (password == null ? "null" : "non-null"));
+            throw new InvalidCredentialsException("Invalid cloudant credentials.");
         }
         try {
             this.url = new URL(url);
