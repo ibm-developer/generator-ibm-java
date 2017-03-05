@@ -1,17 +1,20 @@
 container-name-run : "{{appName}}"
-container-name-tools : "{{appName}}-tools"
+container-name-tools : "bx-dev-{{appName}}-tools"
+image-name-run : "bx-dev-{{#toLowerCase appName}}{{/toLowerCase}}"
 
 {{#has buildType 'maven'}}
+image-name-tools : "bx-dev-java-maven-tools"
 host-path-run : "target"
-build-cmd-run : "mvn install"
-test-cmd : "mvn install"
-build-cmd-debug : "mvn install"
+build-cmd-run : "mvn install -Dmaven.repo.local=/project/.m2/repository"
+test-cmd : "mvn install -Dmaven.repo.local=/project/.m2/repository"
+build-cmd-debug : "mvn install -Dmaven.repo.local=/project/.m2/repository"
 {{/has}}
 {{#has buildType 'gradle'}}
+image-name-tools : "bx-dev-java-gradle-tools"
 host-path-run : "build"
-build-cmd-run : "gradle build"
-test-cmd : "gradle build"
-build-cmd-debug : "gradle build"
+build-cmd-run : "gradle -g . build"
+test-cmd : "gradle -g . build"
+build-cmd-debug : "gradle -g . build"
 {{/has}}
 
 container-path-run : "/project"
@@ -22,8 +25,6 @@ container-port-map-debug : "7777:7777"
 
 dockerfile-run : "Dockerfile"
 dockerfile-tools : "Dockerfile-tools"
-image-name-run : "{{#toLowerCase appName}}{{/toLowerCase}}"
-image-name-tools : "javaclitools"
 
 run-cmd : "server run"
 debug-cmd : "server debug"

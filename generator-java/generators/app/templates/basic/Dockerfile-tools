@@ -4,8 +4,10 @@ MAINTAINER IBM Java engineering at IBM Cloud
 
 RUN apt-get update
 {{#has buildType 'maven'}}
+env PATH /project/target/liberty/wlp/bin/:$PATH
 RUN apt-get install -y maven
 {{/has}}
 {{#has buildType 'gradle'}}
+env PATH /project/build/wlp/bin/:$PATH
 RUN apt-get install -y gradle
 {{/has}}
