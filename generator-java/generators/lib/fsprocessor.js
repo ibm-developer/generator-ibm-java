@@ -108,7 +108,7 @@ var startWalk = function(cb) {
     throw 'Paths is not an array.';
   }
   if (!this.paths.length) {
-    throw 'No paths have been specified for the templates.';
+    throw 'No paths have been specified for the template ' + config.data.templateName;
   }
   var resolver = new Resolver();
   resolver.trackers = [];

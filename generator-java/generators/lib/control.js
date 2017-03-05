@@ -20,18 +20,16 @@ var fs = require('fs');
 var fspath = require('path');
 var Handlebars = require('handlebars');
 var controlBlock = undefined;
-var config = undefined;   //configuration for this project
+var config = require('./config');   //configuration for this project
 var javarules = require('./javarules');
 var logger = require('./log');
 
 //determines if the passed relative path is a control file or not
 const CONTROL_FILE = "control.js";
 
-function Control(path, config) {
+function Control(path) {
   this.path = path;   //this is immutable once created
-  if(config) {
-    this.processProject(config);
-  }
+  this.processProject();
 }
 
 Control.prototype.getPath = function() {
@@ -48,7 +46,7 @@ Control.prototype.hasControl = function() {
 }
 
 //process a project looking for the control file, this is a sync operation
-Control.prototype.processProject = function(config) {
+Control.prototype.processProject = function() {
   //see if control file exists
   this.controlBlock = undefined;    //remove any existing setting in case the files have been updated between invocations
   var file = fspath.resolve(this.path, CONTROL_FILE);
@@ -64,13 +62,21 @@ Control.prototype.processProject = function(config) {
   var output = compiledTemplate(config.data);
   try {
     this.controlBlock = eval("(" + output + ")");
+    if(this.controlBlock) {
+      var composition = this.controlBlock.composition;
+      if(composition) {
+        for(var i = 0; i < composition.length; i++) {
+          composition[i] = fspath.resolve(config.data.templateRoot, composition[i]);
+        }
+        composition.push(fspath.resolve(config.data.templateRoot, config.data.createType));
+      }
+    }
   } catch (err) {
     console.log("Error : " + this.path + ":" + output);
     logger.writeToLog("Control block error : template", template);
     throw err;
   }
   logger.writeToLog("Control data", this.controlBlock);
-  this.config = config;     //keep a ref to the config
 }
 
 //controls whether or not a file should be included in a generation
@@ -103,9 +109,18 @@ Control.prototype.shouldGenerate = function(relativePath) {
 
 Control.prototype.fileFound = function(relativePath, contents) {
   if(this.controlBlock && this.controlBlock.fileFound) {
-    return this.controlBlock.fileFound(relativePath, contents, this.config);
+    return this.controlBlock.fileFound(relativePath, contents, config);
   } else {
-    return [{path : relativePath, template : contents, data : this.config}];
+    return [{path : relativePath, template : contents, data : config}];
+  }
+}
+
+//return a string array for the composition of this template
+Control.prototype.getComposition = function() {
+  if(this.controlBlock && this.controlBlock.composition) {
+    return this.controlBlock.composition;
+  } else {
+    return [];
   }
 }
 
