@@ -34,6 +34,7 @@ before(function() {
   var template = fs.getContentsSync("./test/resources/helpers/unit.template")
   var compiledTemplate = Handlebars.compile(template);
   helpersTestResult = compiledTemplate(helpersTestData);
+  //console.log(helpersTestResult);
 });
 
 describe('Test custom Handlebars functions work as expected', function() {
@@ -60,6 +61,9 @@ describe('Test custom Handlebars functions work as expected', function() {
   });
   it('should select default string from list', function(){
     assert(helpersTestResult.includes("firstAvailableDefault : [valueString]"));
+  });
+  it('should return undefined when no non-null value', function(){
+    assert(helpersTestResult.includes("firstAvailableFallback : [undefined]"));
   });
 
 });

@@ -79,11 +79,11 @@ Handlebars.registerHelper('toUpperCase', function(context) {
 
 Handlebars.registerHelper('firstAvailable', function() {
   for(var i=0; i < arguments.length; i++) {
-    if (arguments[i]) {
+    if (arguments[i] && typeof arguments[i] === 'string') {
       return arguments[i];
     }
   }
-  return undefined;
+  return "undefined";
 });
 
 module.exports = {
