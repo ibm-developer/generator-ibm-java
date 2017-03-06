@@ -116,7 +116,7 @@ describe('java generator : basic integration test', function () {
         assert.fileContent('src/main/liberty/config/server.xml', 'cloudant');
         assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
         // Bluemix files
-        assert.fileContent('manifest.yml', 'name: testBxName', 'services:', '\\- cloudant', 'cloudantNoSQLDB=config');
+        assert.fileContent('manifest.yml', 'name: testBxName', 'host: host', 'domain: domain', 'services:', '\\- cloudant', 'cloudantNoSQLDB=config');
         assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
         done();
       }, function(err) {

@@ -77,6 +77,15 @@ Handlebars.registerHelper('toUpperCase', function(context) {
   return String(context).toUpperCase();
 });
 
+Handlebars.registerHelper('firstAvailable', function() {
+  for(var i=0; i < arguments.length; i++) {
+    if (arguments[i]) {
+      return arguments[i];
+    }
+  }
+  return undefined;
+});
+
 module.exports = {
   //module doesn't export anything, all helpers are installed by requiring this module
 }

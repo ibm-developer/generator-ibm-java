@@ -1,8 +1,14 @@
 applications:
-- name: {{bluemix.server.name}}
+- name: {{#firstAvailable bluemix.server.name appName}}{{/firstAvailable}}
   memory: 512M
+{{#bluemix.server}}
+  host: {{host}}
+  domain: {{domain}}
+{{/bluemix.server}}
+{{^bluemix.server}}
+random-route: true
+{{/bluemix.server}}
   instances: 1
-  random-route: true
   buildpack: liberty-for-java
 {{#bluemix}}
 {{#server.services}}
