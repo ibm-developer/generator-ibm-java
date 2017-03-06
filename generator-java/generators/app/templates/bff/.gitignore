@@ -1,4 +1,11 @@
+/build
+/caches
+/local.properties
 /target
 /.classpath
+/.gradle
+/.m2
 /.project
 /.settings
+.*.swp
+.DS_Store
