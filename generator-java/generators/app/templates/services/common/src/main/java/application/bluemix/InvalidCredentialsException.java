@@ -1,8 +1,10 @@
-package application.cloudant;
+package application.bluemix;
 
-public class InvalidCredentialsException extends CloudantException {
+public class InvalidCredentialsException extends Exception {
 
-    public InvalidCredentialsException() {
+  private static final long serialVersionUID = 1L;
+
+  public InvalidCredentialsException() {
     }
 
     public InvalidCredentialsException(String message) {

@@ -17,8 +17,8 @@ import com.cloudant.client.api.CloudantClient;
 {{/cloudant}}
 {{/bluemix}}
 
-@Path("v1/demo")
-public class Demo extends Application {
+@Path("v1/example")
+public class Example {
 
     {{#bluemix}}
     {{#cloudant}}
@@ -29,7 +29,7 @@ public class Demo extends Application {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response demo() {
+    public Response example() {
         List<String> list = new ArrayList<>();
         {{^bluemix}}
         //return a simple list of strings

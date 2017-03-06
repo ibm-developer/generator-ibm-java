@@ -73,6 +73,8 @@ describe('java generator : basic integration test', function () {
         // Bluemix files
         assert.noFileContent('manifest.yml', 'cloudant');
         assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
+        assert.noFile('src/main/java/application/bluemix/InvalidCredentialsException.java');
+        assert.noFile('src/main/java/application/bluemix/VCAPServices.java');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -93,6 +95,8 @@ describe('java generator : basic integration test', function () {
         // Bluemix files
         assert.noFileContent('manifest.yml', 'cloudant');
         assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
+        assert.noFile('src/main/java/application/bluemix/InvalidCredentialsException.java');
+        assert.noFile('src/main/java/application/bluemix/VCAPServices.java');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -118,6 +122,10 @@ describe('java generator : basic integration test', function () {
         // Bluemix files
         assert.fileContent('manifest.yml', 'name: testBxName', 'host: host', 'domain: domain', 'services:', '\\- cloudant', 'cloudantNoSQLDB=config');
         assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
+        assert.file('src/main/java/application/cloudant/Cloudant.java');
+        assert.file('src/main/java/application/cloudant/CloudantCredentials.java');
+        assert.file('src/main/java/application/bluemix/InvalidCredentialsException.java');
+        assert.file('src/main/java/application/bluemix/VCAPServices.java');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -137,6 +145,8 @@ describe('java generator : basic integration test', function () {
         // Bluemix files
         assert.fileContent('manifest.yml', 'name: testBxName', 'services:', '\\- objectStorage');
         assert.noFileContent('manifest.yml', 'cloudantNoSQLDB=config');
+        assert.file('src/main/java/application/bluemix/InvalidCredentialsException.java');
+        assert.file('src/main/java/application/bluemix/VCAPServices.java');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);

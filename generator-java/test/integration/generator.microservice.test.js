@@ -73,10 +73,11 @@ describe('java generator : microservice integration test', function () {
         assert.noFile('pom.xml');   //build file
         assert.file('build.gradle');
         assert.fileContent('build.gradle',"appName = '" + options.appName +"'");
-        assert.fileContent('src/main/java/application/rest/v1/Demo.java','list.add("Some data");'); //check no bx services present
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
         assert.fileContent('cli-config.yml','image-name-run : "bx-dev-testapp"');  //make sure lowercase app name
         assert.fileContent('README.md', 'gradle');
         assert.noFileContent('README.md', 'maven');
+        assert.noFile('src/main/java/application/bluemix/VCAPServices.java');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -93,10 +94,11 @@ describe('java generator : microservice integration test', function () {
         assert.noFile('build.gradle');   //build file
         assert.file('pom.xml');
         assert.fileContent('pom.xml',"<app.name>" + options.appName + "</app.name>");
-        assert.fileContent('src/main/java/application/rest/v1/Demo.java','list.add("Some data");'); //check no bx services present
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
         assert.fileContent('cli-config.yml','image-name-run : "bx-dev-testapp"');  //make sure lowercase app name
         assert.fileContent('README.md', 'maven');
         assert.noFileContent('README.md', 'gradle');
+        assert.noFile('src/main/java/application/bluemix/VCAPServices.java');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -119,7 +121,7 @@ describe('java generator : microservice integration test', function () {
         assert.file('build.gradle');
         assert.fileContent('build.gradle',"appName = 'bxName'");
         assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
-        assert.noFileContent('src/main/java/application/rest/v1/Demo.java', 'Cloudant');
+        assert.noFileContent('src/main/java/application/rest/v1/Example.java', 'Cloudant');
         assert.noFileContent('src/main/liberty/config/server.xml', 'cloudant');
         assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
         // Bluemix files
@@ -127,6 +129,8 @@ describe('java generator : microservice integration test', function () {
         assert.fileContent('manifest.yml', 'name: bxName', 'random-route: true') //Not using prompt so we get app name and random route
         assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
         assert.noFileContent('README.md', 'cloudant');
+        assert.noFile('src/main/java/application/cloudant/Cloudant.java');
+        assert.noFile('src/main/java/application/bluemix/VCAPServices.java');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -135,7 +139,7 @@ describe('java generator : microservice integration test', function () {
 
     it('with cloudant', function (done) {
       var options = new Options('maven');
-      options.bluemix = '{"cloudant" : true, "name" : "bxName"}';
+      options.bluemix = '{"cloudant" : true, "name" : "bxName", "server" : {"services" : ["cloudant"]}}';
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
         .withPrompts({})
@@ -145,13 +149,15 @@ describe('java generator : microservice integration test', function () {
         assert.file('pom.xml');
         assert.fileContent('pom.xml',"<app.name>bxName</app.name>");
         assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
-        assert.fileContent('src/main/java/application/rest/v1/Demo.java','Cloudant'); //check Cloudant service present
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','Cloudant'); //check Cloudant service present
         assert.fileContent('src/main/liberty/config/server.xml', 'cloudant');
         assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
         // Bluemix files
         assert.fileContent('manifest.yml', 'cloudant');
         assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
         assert.fileContent('README.md', 'cloudant');
+        assert.file('src/main/java/application/cloudant/Cloudant.java');
+        assert.file('src/main/java/application/bluemix/VCAPServices.java');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);

@@ -3,6 +3,8 @@ package application.cloudant;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import application.bluemix.InvalidCredentialsException;
+
 public class CloudantCredentials {
 
     private String username;
