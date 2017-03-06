@@ -25,11 +25,14 @@ var config = {
   artifactId : "artifactId",
   groupId : "groupId",
   version : "1.0",
-  headless : false,
-  createType : "rest"
+  headless : "false",
+  createType : "rest",
+  debug : "false",
+  bluemix : undefined,
+  input : undefined
 };    //the configuration object
 
-isValid = function() {
+var isValid = function() {
   var value = config.appName;
   if(!value || !PATTERN_NAME.test(value) || (value.length > 50)) return false;
   value = config.artifactId;
@@ -39,7 +42,22 @@ isValid = function() {
   return true;
 }
 
+var reset = function() {
+  this.config = {};
+  config.appName = "myLibertyProject";
+  config.buildType = "maven";
+  config.artifactId = "artifactId";
+  config.groupId = "groupId";
+  config.version = "1.0";
+  config.headless = "false";
+  config.createType = "rest";
+  config.debug = "false";
+  config.bluemix = undefined;
+  config.input = undefined;
+}
+
 module.exports = {
   isValid : isValid,
-  data : config
+  data : config,
+  reset : reset
 }

@@ -21,23 +21,30 @@
 var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
+var config = require('../../generators/lib/config');
 
 const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
 const VERSION = '1.0.0';
 const APPNAME = 'testApp';
 
+beforeEach(function() {
+  //make sure we start with a valid config object
+  config.reset();
+});
+
 describe('java generator integration test', function () {
 
-  describe('Generates a rest project in headless mode, using cmd line options', function () {
+  describe('Generates a basic project in headless mode, using cmd line options', function () {
 
     before(function () {
       // Mock the options, set up an output folder and run the generator
       return helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions({                       // Mock the prompt answers
-          headless: true,
+          headless: "true",
+          debug: "true",
           buildType: 'gradle',
-          createType: 'rest',
+          createType: 'basic',
           version : VERSION,
           appName : APPNAME,
           groupId : GROUPID
@@ -45,13 +52,9 @@ describe('java generator integration test', function () {
         .toPromise();                        // Get a Promise back when the generator finishes
     });
 
-
-
     it('should create a gradle based project', function () {
       assert.noFile('pom.xml');   //build file
       assert.file('build.gradle');
-      assert.file('src/main/java/application/rest/LibertyRestEndpoint.java'); //application files
-      assert.file('src/test/java/it/rest/LibertyRestEndpointTest.java');    //some tests
       assert.file('src/main/liberty/config/server.xml');    //liberty configuration
     });
 

@@ -16,26 +16,89 @@
 
 //test the fs (file system) processor
 
+var fs = require('fs');
 var assert = require('assert');
 var processor = require('../../generators/lib/fsprocessor');
 var path = require('path');
 
 describe('fsprocessor library', function() {
 
+  describe('processor does not allow invalid parameters', function() {
+    it('it should throw an exception if the paths is not an array', function() {
+      processor.paths = "string";
+      assert.throws(()=>{processor.scan()})
+    });
+    it('it should throw an exception if the paths is an empty array', function() {
+      processor.paths = [];
+      assert.throws(()=>{processor.scan()})
+    });
+  });
+
+  describe('processor provides file operations', function() {
+    it('it should throw an exception if the file does not exist', function() {
+      assert.throws(()=>{processor.getContentsSync("madeupfilename.txt")})
+    });
+    it('it should throw an exception if the file is a directory', function() {
+      assert.throws(()=>{processor.getContentsSync("./test/resources")})
+    });
+    it('it should get the contents of a file as a string', function() {
+      var contents = processor.getContentsSync("./test/resources/fsprocessor/test-templates-1file/file-1.txt");
+      assert.equal('string', typeof contents);
+      assert(contents.indexOf('sample text file'));
+    });
+    it('it should get the contents of a file as a JSON object', function() {
+      var contents = processor.getContentsSync("./test/resources/fsprocessor/sample.json");
+      assert.equal('object', typeof contents);
+      assert(contents.value);
+    });
+  });
+
   describe('walk tree specified with relative path', function() {
     it('it should walk a file system tree calling back when a file is found', function(done){
-      processor.path = "./test/resources/test-templates-1file";
+      processor.paths = ["./test/resources/fsprocessor/test-templates-1file"];
       processor.scan((relativePath, contents) => {
         assert.equal('file-1.txt', relativePath);
       }).then(() => { done(); })
         .catch((err) => { done(err);});
+    });
+    it('it should throw an exception for a non-existant path', function(done){
+      processor.paths = ["./test/resources/fsprocessor/test-folder-does-not-exist"];
+      processor.scan((relativePath, contents) => {
+        assert.fail(false, true, "Should not have found any projects");
+      }).then(() => { assert.fail(false, true, "Walk should not have completed without error"); })
+        .catch((err) => {
+          //this error is expected
+          done();
+        });
+    });
+    it('it should throw an exception when unable to read a file', function(done){
+      if (path.delimiter === ';') {
+        //can't check on Windows as can't set file permissions
+        done();
+        return;
+      }
+      var root = "./test/resources/fsprocessor/test-templates-badfile";
+      var fpath = "/filewithnoreadperms.txt";
+      fs.chmodSync(root + fpath, 222);
+      processor.paths = [root];
+      processor.scan((relativePath, contents) => {
+        fs.chmodSync(root + fpath, 755);
+        assert.fail(false, true, "Should not have found any projects");
+      }).then(() => {
+        fs.chmodSync(root + fpath, 755);
+        assert.fail(false, true, "Walk should not have completed without error");
+      }).catch((err) => {
+        fs.chmodSync(root + fpath, 755);
+        //this error is expected
+        done();
+      });
     });
   });
 
   describe('walk tree specified with an absolute path', function() {
     it('it should walk a file system tree calling back when a file is found', function(done){
       //path.resolve will convert to an absolute path
-      processor.path = path.resolve("./test/resources/test-templates-1file");
+      processor.paths = [path.resolve("./test/resources/fsprocessor/test-templates-1file")];
       processor.scan((relativePath, contents) => {
         assert.equal('file-1.txt', relativePath);
       }).then(() => { done(); })
@@ -46,12 +109,14 @@ describe('fsprocessor library', function() {
   describe('walk tree ', function() {
     it('it should walk a file system tree (with empty dirs) calling back when a file is found', function(done){
       //these are the files that should be found
-      var files = ['folder1/folder2/file-1.txt', 'folder1/folder2/folder3/folder4/file-2.txt', 'folder1/folder2/folder3/folder4/file-3.txt'];
+      var files = ['file-1.txt', 'file-2.txt', 'file-3.txt', 'file-4.txt', 'file-5.txt'];
+      var separator = (path.delimiter === ';' ? "\\" : "/");
       var unknown = [];
-      processor.path = path.resolve("./test/resources/test-templates-emptyDirs");
+      processor.paths = [path.resolve("./test/resources/fsprocessor/test-templates-emptyDirs"),
+                        path.resolve("./test/resources/fsprocessor/test-templates-second")];
       processor.scan((relativePath, contents) => {
         for(var i = 0; i < files.length; i++) {
-          if(files[i] === relativePath) {
+          if((relativePath === files[i]) || relativePath.endsWith(separator + files[i])) {
             //found a match so remove from the files list
             files.splice(i, 1);   //remove the item from the array
             //console.error("Removed [" + i + "]: " + files.length + " : " + JSON.stringify(files));

@@ -18,73 +18,110 @@
 
 var fs = require('fs');
 var fspath = require('path');
-var Mustache = require('mustache');
+var Handlebars = require('handlebars');
 var controlBlock = undefined;
-var config = undefined;   //configuration for this project
+var config = require('./config');   //configuration for this project
 var javarules = require('./javarules');
+var logger = require('./log');
 
 //determines if the passed relative path is a control file or not
-const CONTROL_FILE = "control.json";
-var isControl = function(relativePath) {
+const CONTROL_FILE = "control.js";
+
+function Control(path) {
+  this.path = path;   //this is immutable once created
+  this.processProject();
+}
+
+Control.prototype.getPath = function() {
+  return new String(this.path);
+}
+
+Control.prototype.isControl = function(relativePath) {
   return (relativePath === CONTROL_FILE);
 }
 
 //return true if a control block is active for this project
-var hasControl = function() {
+Control.prototype.hasControl = function() {
   return this.controlBlock != undefined;
 }
 
 //process a project looking for the control file, this is a sync operation
-var processProject = function(config) {
+Control.prototype.processProject = function() {
   //see if control file exists
   this.controlBlock = undefined;    //remove any existing setting in case the files have been updated between invocations
-  var file = fspath.resolve(config.data.templateFullPath, CONTROL_FILE);
+  var file = fspath.resolve(this.path, CONTROL_FILE);
   if(!fs.existsSync(file)) {
     //console.log("Control file " + file + " does not exist");
     return;   //no additional control file found in this project
   }
 
-  //it does, so parse it in and run it through Mustache
+  //it does, so parse it in and run it through Handlebars
   var template = fs.readFileSync(file, 'utf8');
-  var data = {};
-  data[config.data.buildType] = true;
-
-  var output = Mustache.render(template, data);
-  this.controlBlock = eval("(" + output + ")");
-  //console.log("Control data : \n" + JSON.stringify(this.controlBlock));
-  this.config = config;     //keep a ref to the config
+  logger.writeToLog("Config data for controlBlock", config.data);
+  var compiledTemplate = Handlebars.compile(template);
+  var output = compiledTemplate(config.data);
+  try {
+    this.controlBlock = eval("(" + output + ")");
+    if(this.controlBlock) {
+      var composition = this.controlBlock.composition;
+      if(composition) {
+        for(var i = 0; i < composition.length; i++) {
+          composition[i] = fspath.resolve(config.data.templateRoot, composition[i]);
+        }
+        composition.push(fspath.resolve(config.data.templateRoot, config.data.createType));
+      }
+    }
+  } catch (err) {
+    console.log("Error : " + this.path + ":" + output);
+    logger.writeToLog("Control block error : template", template);
+    throw err;
+  }
+  logger.writeToLog("Control data", this.controlBlock);
 }
 
 //controls whether or not a file should be included in a generation
-var shouldGenerate = function(relativePath) {
+Control.prototype.shouldGenerate = function(relativePath) {
   if(!this.controlBlock) {
-    return false;   //no control block configured so skip
+    return true;   //no control block configured so generate
   }
-  if(!this.controlBlock.excludes) {
-    return false;   //no excludes defined
+  if(!this.controlBlock.excludes && !this.controlBlock.excludesDir) {
+    return true;   //no excludes defined
   }
-  for(var i = 0; i < this.controlBlock.excludes.length; i++) {
-    if(this.controlBlock.excludes[i] === relativePath) {
-      //console.log("File exculed : " + relativePath);
-      return false;
+  if (this.controlBlock.excludes) {
+    for(var i = 0; i < this.controlBlock.excludes.length; i++) {
+      if(this.controlBlock.excludes[i] === relativePath) {
+        //console.log("File excluded : " + relativePath);
+        return false;
+      }
+    }
+  }
+  if (this.controlBlock.excludesDir) {
+    for(var i = 0; i < this.controlBlock.excludesDir.length; i++) {
+      if(relativePath.startsWith(this.controlBlock.excludesDir[i])) {
+        //console.log("Directory excluded : " + relativePath);
+        return false;
+      }
     }
   }
   //if get this far, then include the file in the processing
   return true;
 }
 
-var fileFound = function(relativePath, contents) {
+Control.prototype.fileFound = function(relativePath, contents) {
   if(this.controlBlock && this.controlBlock.fileFound) {
-    return this.controlBlock.fileFound(relativePath, contents, this.config);
+    return this.controlBlock.fileFound(relativePath, contents, config);
   } else {
-    return [{path : relativePath, template : contents, data : this.config}];
+    return [{path : relativePath, template : contents, data : config}];
   }
 }
 
-module.exports = {
-  isControl : isControl,
-  hasControl : hasControl,
-  processProject : processProject,
-  shouldGenerate : shouldGenerate,
-  fileFound : fileFound
-};
+//return a string array for the composition of this template
+Control.prototype.getComposition = function() {
+  if(this.controlBlock && this.controlBlock.composition) {
+    return this.controlBlock.composition;
+  } else {
+    return [];
+  }
+}
+
+module.exports = exports = Control;

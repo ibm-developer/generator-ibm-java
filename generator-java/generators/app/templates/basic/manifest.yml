@@ -1,0 +1,27 @@
+applications:
+- name: {{#firstAvailable bluemix.server.name appName}}{{/firstAvailable}}
+  memory: 512M
+{{#bluemix.server}}
+  host: {{host}}
+  domain: {{domain}}
+{{/bluemix.server}}
+{{^bluemix.server}}
+random-route: true
+{{/bluemix.server}}
+  instances: 1
+  buildpack: liberty-for-java
+{{#bluemix}}
+{{#server.services}}
+  services:
+{{/server.services}}
+{{#each server.services}}
+  - {{this}}
+{{/each}}
+{{/bluemix}}
+  timeout: 180
+{{#bluemix}}
+{{#cloudant}}
+env:
+  services_autoconfig_excludes: cloudantNoSQLDB=config
+{{/cloudant}}
+{{/bluemix}}

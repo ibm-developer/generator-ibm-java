@@ -1,0 +1,37 @@
+stages:
+- name: Build Stage
+  inputs:
+  - type: git
+    branch: master
+    service: ${REPO}
+  triggers:
+  - type: commit
+  jobs:
+  - name: Build
+    type: builder
+    build_type: shell
+    script: |
+      #!/bin/bash
+      export JAVA_HOME=$JAVA8_HOME
+      mvn install
+- name: Deploy Stage
+  inputs:
+  - type: job
+    stage: Build Stage
+    job: Build
+  triggers:
+  - type: stage
+  jobs:
+  - name: Deploy
+    type: deployer
+    target:
+      region_id: ${CF_REGION_ID}
+      organization: ${CF_ORGANIZATION}
+      space: ${CF_SPACE}
+      application: ${CF_APP}
+    script: |-
+      #!/bin/bash
+      cf create-service cloudantNoSQLDB Lite Cloudant
+      cf push "${CF_APP}" -p target/{{appName}}.zip
+      # View logs
+      # cf logs "${CF_APP}" --recent

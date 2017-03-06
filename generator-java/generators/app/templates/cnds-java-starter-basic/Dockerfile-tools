@@ -1,8 +1,0 @@
-FROM ibmjava:8-sdk
-
-MAINTAINER IBM Java engineering at IBM Cloud
-
-RUN apt-get update
-
-RUN apt-get install -y maven
-# RUN apt-get install -y gradle
