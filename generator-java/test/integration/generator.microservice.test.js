@@ -124,6 +124,7 @@ describe('java generator : microservice integration test', function () {
         assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
         // Bluemix files
         assert.noFileContent('manifest.yml', 'cloudant');
+        assert.fileContent('manifest.yml', 'name: bxName', 'random-route: true') //Not using prompt so we get app name and random route
         assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
         assert.noFileContent('README.md', 'cloudant');
         done();

@@ -23,7 +23,8 @@ var fs = require('../../generators/lib/fsprocessor');
 
 var helpersTestData = {
   value : "camelCaseName",
-  item : "green"
+  item : "green",
+  noValue : undefined
 }
 
 var helpersTestResult = undefined;
@@ -33,7 +34,6 @@ before(function() {
   var template = fs.getContentsSync("./test/resources/helpers/unit.template")
   var compiledTemplate = Handlebars.compile(template);
   helpersTestResult = compiledTemplate(helpersTestData);
-  console.log("Result : " + helpersTestResult);
 });
 
 describe('Test custom Handlebars functions work as expected', function() {
@@ -54,6 +54,12 @@ describe('Test custom Handlebars functions work as expected', function() {
   });
   it('should resolve a refLookup', function(){
     assert(helpersTestResult.includes("ref : [ClassName]"));
+  });
+  it('should select first non-null from list', function(){
+    assert(helpersTestResult.includes("firstAvailable : [camelCaseName]"));
+  });
+  it('should select default string from list', function(){
+    assert(helpersTestResult.includes("firstAvailableDefault : [valueString]"));
   });
 
 });
