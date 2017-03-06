@@ -10,6 +10,13 @@ This is a yeoman generator that will create Java code for you.
 * The node module is published as @arf/generator-java (note that it's [scoped](https://docs.npmjs.com/misc/scope#installing-scoped-packages) to @arf), see the [step above](https://github.ibm.com/Whitewater/npm) as to
 why this module is scoped.
 
+## Branches
+The generator has a number of branches that correspond to various bluemix environments and development lifecycles
+
+* **development** : this is the development branch, although this should build, it is the latest code for this generator and may not work as expected. This branch is needed to be able to do end-to-end testing as YaaS, scaffolder etc. work from git repositories.
+* **stage1** : this is what is deployed into stage1 (cf api https://api.stage1.ng.bluemix.net) and should be intended for production i.e. it's not supposed to be a test, we expect things to progress through **stage1** to **master** without change.
+* **master** : this is what is deployed into live.
+
 ## Overview
 The generator works by taking the answers that the user has supplied, either via the CLI or a UI, and then maps that
 to a folder under the templates directory (in future this will be to a Github repository or a cache of a repository).
@@ -78,10 +85,10 @@ One of the ways in which this generator can be invoked.
   "generatorVersion": "0.1.0",
   "registry": "https://npm-registry.whitewater.ibm.com",
   "generatorOptions": {
-    "--headless": true
+    "--headless": true,
+    "createType": "basic",
   },
   "bluemix": {
-   "createType": "basic",
     "server": {
       "memory": "512M"
     }
