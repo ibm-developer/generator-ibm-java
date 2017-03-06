@@ -79,6 +79,13 @@ describe('control library', function() {
       assert(Array.isArray(control.getComposition()));
       assert(control.getComposition()[0].includes("subTemplate"));
     });
+
+    it('it should support not having a composition element', function(){
+      config.data.templateFullPath = path.resolve("./test/resources/control/no-composition");
+      var control = new Control(config.data.templateFullPath);
+      assert(Array.isArray(control.getComposition()));
+      assert.equal(0, control.getComposition().length);
+    });
   });
 
   describe('process found files', function() {
