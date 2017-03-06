@@ -71,6 +71,11 @@ var questions = [{
   name    : 'appName',
   message : 'Enter a name for your project',
   default : "myProject"
+}, {
+  type    : 'input',
+  name    : 'bluemix',
+  message : 'Enter the bluemix JSON',
+  default : "{}"
 }];
 
 var toObject = function(value) {
@@ -122,6 +127,10 @@ module.exports = class extends Generator {
   prompting() {
     var promptWith = (config.data.headless === "true") ? [] : questions;
     return this.prompt(promptWith).then((answers) => {
+      //answers.bluemix is a JSON string and needs to be converted
+      if (typeof (answers.bluemix) === 'string') {
+        answers.bluemix = JSON.parse(answers.bluemix);
+      }
       logger.writeToLog("Answers", answers);
       //configure the sample to use based on the type we are creating
       if(answers.createType) {
