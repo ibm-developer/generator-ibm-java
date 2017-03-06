@@ -28,10 +28,7 @@ public class Cloudant {
         CloudantClient client = null;
         CloudantCredentials credentials;
         try {
-            System.out.println("Cloudant url from: " + System.getenv("CLOUDANT_URL") + " from JNDI:" + resourceUrl);
             credentials = getCloudantCredentials();
-            System.out.println("Found cloudant credentials - url:" + credentials.getUrl() +
-                    ", username:" + credentials.getUsername() + ", password:" + credentials.getPassword());
         } catch (InvalidCredentialsException e) {
             throw new CloudantException(e.getMessage());
         }

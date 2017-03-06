@@ -13,5 +13,14 @@
   "excludesDir" : [
     "target",
     ".settings"
+  ],
+  "composition" : [
+    "basic",
+    {{#bluemix}}
+    {{#cloudant}}
+    "services/cloudantNoSQLDB",
+    {{/cloudant}}
+    {{/bluemix}}
+    "microservice"
   ]
 }

@@ -33,6 +33,7 @@ before(function() {
   var template = fs.getContentsSync("./test/resources/helpers/unit.template")
   var compiledTemplate = Handlebars.compile(template);
   helpersTestResult = compiledTemplate(helpersTestData);
+  console.log("Result : " + helpersTestResult);
 });
 
 describe('Test custom Handlebars functions work as expected', function() {
@@ -47,6 +48,12 @@ describe('Test custom Handlebars functions work as expected', function() {
   });
   it('should be process when the item is "green"', function(){
     assert(helpersTestResult.includes("has : [green]"));
+  });
+  it('should generate a mustache tag for downstream processing', function(){
+    assert(helpersTestResult.includes("tag : [{{camelCaseName}}]"));
+  });
+  it('should resolve a refLookup', function(){
+    assert(helpersTestResult.includes("ref : [ClassName]"));
   });
 
 });

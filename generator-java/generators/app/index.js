@@ -22,6 +22,7 @@ var helpers = require("../lib/helpers");
 var fspath = require('path');
 var logger = require("../lib/log");
 var fs = require('fs');
+var Control = require('../lib/control');
 
 //clone any property, only if it is already present in the target object
 var clone = function(from, to) {
@@ -103,8 +104,8 @@ module.exports = class extends Generator {
     //overwrite any default values with those specified as options
     clone(this.options, config.data);
     //set values based on either defaults or passed in values
-    config.data.templatePath = config.data.createType;
-    config.data.templateFullPath = this.templatePath(config.data.templatePath);
+    config.data.templateName = config.data.createType;
+    config.data.templateRoot = this.templatePath();
     this._setProjectPath();
     logger.writeToLog("Config", config.data);
   }
@@ -114,7 +115,7 @@ module.exports = class extends Generator {
     if(config.data.headless === "true") {
       config.data.projectPath = fspath.resolve(this.destinationRoot());
     } else {
-      config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.data.createType);
+      config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.data.appName);
     }
   }
 
@@ -125,9 +126,7 @@ module.exports = class extends Generator {
       //configure the sample to use based on the type we are creating
       if(answers.createType) {
         config.data.createType = answers.createType;
-        config.data.templatePath = answers.createType;   //override with user selection
-        config.data.templateFullPath = this.templatePath(config.data.templatePath);
-        this._setProjectPath();
+        config.data.templateName = answers.createType;   //override with user selection
       }
       config.data.buildType = answers.buildType || config.data.buildType;
       config.data.bluemix = answers.bluemix || config.data.bluemix;
@@ -161,12 +160,13 @@ module.exports = class extends Generator {
           }
         }
       }
+      this._setProjectPath();
       logger.writeToLog("Config (after answers)", config.data);
     });
   }
 
   writing() {
-    logger.writeToLog('template path', config.data.templatePath);
+    logger.writeToLog('template path', config.data.templateName);
     logger.writeToLog('project path', config.data.projectPath);
     if(!config.isValid()) {
       //the config object is not valid, so need to exit at this point
@@ -175,12 +175,8 @@ module.exports = class extends Generator {
     }
     this.destinationRoot(config.data.projectPath);
     logger.writeToLog("Destination path", this.destinationRoot());
-    var paths = [this.templatePath(config.data.templatePath)];    //always have the base template to process
-    //now add any services that have been chosen
-    if(config.data.bluemix && config.data.bluemix.cloudant) {
-      paths.push(this.templatePath('services/cloudantNoSQLDB'));
-    }
-    processor.paths = paths;;
+    var control = new Control(fspath.resolve(config.data.templateRoot, config.data.templateName), config);
+    processor.paths = control.getComposition();
     logger.writeToLog("Processor", processor);
     return processor.scan((relativePath, template) => {
       var outFile = this.destinationPath(relativePath);
