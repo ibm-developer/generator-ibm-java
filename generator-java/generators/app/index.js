@@ -115,7 +115,7 @@ module.exports = class extends Generator {
     if(config.data.headless === "true") {
       config.data.projectPath = fspath.resolve(this.destinationRoot());
     } else {
-      config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.data.createType);
+      config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.data.appName);
     }
   }
 
@@ -127,7 +127,6 @@ module.exports = class extends Generator {
       if(answers.createType) {
         config.data.createType = answers.createType;
         config.data.templateName = answers.createType;   //override with user selection
-        this._setProjectPath();
       }
       config.data.buildType = answers.buildType || config.data.buildType;
       config.data.bluemix = answers.bluemix || config.data.bluemix;
@@ -161,6 +160,7 @@ module.exports = class extends Generator {
           }
         }
       }
+      this._setProjectPath();
       logger.writeToLog("Config (after answers)", config.data);
     });
   }
