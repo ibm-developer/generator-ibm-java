@@ -69,7 +69,7 @@ describe('java generator : basic integration test', function () {
         assert.noFile('pom.xml');   //build file
         assert.file('build.gradle');
         assert.fileContent('build.gradle',"appName = '" + APPNAME +"'");
-        assert.fileContent('cli-config.yml','image-name-run : "testapp"');  //make sure lowercase app name
+        assert.fileContent('cli-config.yml','image-name-run : "bx-dev-testapp"');  //make sure lowercase app name
         // Bluemix files
         assert.noFileContent('manifest.yml', 'cloudant');
         assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
@@ -89,7 +89,7 @@ describe('java generator : basic integration test', function () {
         assert.noFile('build.gradle');   //build file
         assert.file('pom.xml');
         assert.fileContent('pom.xml',"<app.name>" + APPNAME + "</app.name>");
-        assert.fileContent('cli-config.yml','image-name-run : "testapp"');  //make sure lowercase app name
+        assert.fileContent('cli-config.yml','image-name-run : "bx-dev-testapp"');  //make sure lowercase app name
         // Bluemix files
         assert.noFileContent('manifest.yml', 'cloudant');
         assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
@@ -114,7 +114,7 @@ describe('java generator : basic integration test', function () {
         assert.file('pom.xml');
         assert.fileContent('pom.xml',"<app.name>bxName</app.name>");
         assert.fileContent('src/main/liberty/config/server.xml', 'cloudant');
-        assert.fileContent('cli-config.yml','image-name-run : "bxname"');  //make sure lowercase app name
+        assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
         // Bluemix files
         assert.fileContent('manifest.yml', 'cloudant');
         assert.fileContent('.bluemix/pipeline.yml', 'cloudant');
