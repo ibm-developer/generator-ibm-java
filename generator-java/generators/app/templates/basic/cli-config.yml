@@ -1,7 +1,6 @@
 container-name-run : "{{appName}}"
 container-name-tools : "bx-dev-{{appName}}-tools"
 image-name-run : "bx-dev-{{#toLowerCase appName}}{{/toLowerCase}}"
-image-name-tools : "bx-dev-java-tools"
 
 {{#has buildType 'maven'}}
 image-name-tools : "bx-dev-java-maven-tools"
