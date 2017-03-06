@@ -149,7 +149,7 @@ describe('java generator : microservice integration test', function () {
         assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
         // Bluemix files
         assert.fileContent('manifest.yml', 'cloudant');
-        assert.fileContent('.bluemix/pipeline.yml', 'cloudant');
+        assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
         assert.fileContent('README.md', 'cloudant');
         done();
       }, function(err) {
