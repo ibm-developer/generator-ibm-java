@@ -141,6 +141,10 @@ module.exports = class extends Generator {
           config.data.bluemix = {};
         }
         logger.writeToLog("Processing interactive answers", answers.services);
+        config.data.bluemix.server = {
+          name : "testBxName"
+        }
+        config.data.bluemix.server.services = answers.services;
         for(var i = 0; i < answers.services.length; i++) {
           var service = answers.services[i];
           if(service === "none") {

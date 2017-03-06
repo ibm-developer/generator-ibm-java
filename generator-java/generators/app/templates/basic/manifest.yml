@@ -1,22 +1,16 @@
-{{#bluemix}}
-{{#cloudant}}
-declared-services:
-    Cloudant:
-        label: cloudantNoSQLDB
-        plan: Lite
-{{/cloudant}}
-{{/bluemix}}
 applications:
-- name: {{appName}}
+- name: {{bluemix.server.name}}
   memory: 512M
   instances: 1
   random-route: true
   buildpack: liberty-for-java
 {{#bluemix}}
-{{#cloudant}}
+{{#server.services}}
   services:
-  - Cloudant
-{{/cloudant}}
+{{/server.services}}
+{{#each server.services}}
+  - {{this}}
+{{/each}}
 {{/bluemix}}
   timeout: 180
 {{#bluemix}}
