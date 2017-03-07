@@ -41,6 +41,7 @@ function Options(buildType) {
     assert.file('src/main/java/application/rest/HealthEndpoint.java'); //application files
     assert.file('src/test/java/it/HealthEndpointTest.java');    //some tests
     assert.file('src/main/liberty/config/server.xml');    //liberty configuration
+    assert.file('src/main/liberty/config/server.env');
     //Docker files
     assert.file('Dockerfile');
     assert.file('Dockerfile-tools');
@@ -139,7 +140,7 @@ describe('java generator : microservice integration test', function () {
 
     it('with cloudant', function (done) {
       var options = new Options('maven');
-      options.bluemix = '{"cloudant" : true, "name" : "bxName", "server" : {"services" : ["cloudant"]}}';
+      options.bluemix = '{"cloudant" : true, "name" : "bxName", "server" : {"services" : ["cloudant"]}, "cloudant" : {"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}}';
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
         .withPrompts({})
@@ -158,6 +159,7 @@ describe('java generator : microservice integration test', function () {
         assert.fileContent('README.md', 'cloudant');
         assert.file('src/main/java/application/cloudant/Cloudant.java');
         assert.file('src/main/java/application/bluemix/VCAPServices.java');
+        assert.fileContent('src/main/liberty/config/server.env', 'CLOUDANT_URL=https://account.cloudant.com', 'CLOUDANT_PASSWORD=pass', 'CLOUDANT_USERNAME=user');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
