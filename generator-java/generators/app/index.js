@@ -97,7 +97,7 @@ module.exports = class extends Generator {
     this.option('buildType', {desc : 'Build system to use', type : String, default : 'maven'});
     this.option('createType', {desc : 'Type of application to generate', type : String, default : 'basic'});
     this.option('appName', {desc : 'Name of the application', type : String, default : 'LibertyProject'});
-    this.option('artifactId', {desc : 'Artifact ID to use for the build', type : String, default : 'demo'});
+    this.option('artifactId', {desc : 'Artifact ID to use for the build', type : String, default : 'example'});
     this.option('groupId', {desc : 'Name of the application', type : String, default : 'liberty.projects'});
     this.option('version', {desc : 'Version of the application', type : String, default : '1.0-SNAPSHOT'});
     this.option('headless', {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : String, default : "false"});
