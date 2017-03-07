@@ -37,6 +37,7 @@ function Options() {
     assert.noFile('src/main/java/application/api/v1/HealthEndpoint.java'); //application files
     assert.noFile('src/test/java/it/HealthEndpointTest.java');    //some tests
     assert.file('src/main/liberty/config/server.xml');    //liberty configuration
+    assert.file('src/main/liberty/config/server.env');
     assert.noFile('src/main/webapp/WEB-INF/ibm-web-ext.xml');
     //Docker files
     assert.file('Dockerfile');
@@ -126,6 +127,7 @@ describe('java generator : basic integration test', function () {
         assert.file('src/main/java/application/cloudant/CloudantCredentials.java');
         assert.file('src/main/java/application/bluemix/InvalidCredentialsException.java');
         assert.file('src/main/java/application/bluemix/VCAPServices.java');
+        assert.fileContent('src/main/liberty/config/server.env', 'CLOUDANT_URL=https://account.cloudant.com', 'CLOUDANT_PASSWORD=pass', 'CLOUDANT_USERNAME=user');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
