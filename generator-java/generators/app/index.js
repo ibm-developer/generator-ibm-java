@@ -144,6 +144,9 @@ module.exports = class extends Generator {
       } else {
         config.data.appName = answers.appName || config.data.appName;
       }
+      if(config.data.artifactId === 'example') {
+        config.data.artifactId = config.data.appName;
+      }
       //below this point, the only way to get these answers is to run the generator locally
       if(answers.services) {
         if(!config.data.bluemix) {

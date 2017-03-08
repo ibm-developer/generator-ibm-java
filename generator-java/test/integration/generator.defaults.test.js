@@ -53,7 +53,7 @@ describe('java generator integration test', function () {
 
     it('should have carried out replacements', function () {
       assert.fileContent('pom.xml', '<groupId>liberty.projects</groupId>');
-      assert.fileContent('pom.xml', '<artifactId>example</artifactId>');
+      assert.fileContent('pom.xml', '<artifactId>LibertyProject</artifactId>');
       assert.fileContent('pom.xml', '<version>1.0-SNAPSHOT</version>');
     });
 
