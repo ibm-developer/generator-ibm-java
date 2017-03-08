@@ -30,7 +30,7 @@ beforeEach(function() {
 
 describe('java generator integration test', function () {
 
-  describe('Generates a rest project in headless mode, no configuration', function () {
+  describe('Generates a basic project in headless mode, no configuration', function () {
 
     before(function () {
       // Mock the options, set up an output folder and run the generator
@@ -48,11 +48,12 @@ describe('java generator integration test', function () {
       assert.file('pom.xml');   //build file
       assert.noFile('build.gradle');
       assert.file('src/main/liberty/config/server.xml');    //liberty configuration
+      assert.file('kube.deploy.yml');
     });
 
     it('should have carried out replacements', function () {
       assert.fileContent('pom.xml', '<groupId>liberty.projects</groupId>');
-      assert.fileContent('pom.xml', '<artifactId>demo</artifactId>');
+      assert.fileContent('pom.xml', '<artifactId>LibertyProject</artifactId>');
       assert.fileContent('pom.xml', '<version>1.0-SNAPSHOT</version>');
     });
 

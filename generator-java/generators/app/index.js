@@ -64,7 +64,7 @@ var questions = [{
   type    : 'checkbox',
   name    : 'services',
   message : 'Select the services for your project.\n',
-  choices : ['none','cloudant'],
+  choices : ['none','cloudant', 'objectStorage'],
   default : 0 // Default to none
 }, {
   type    : 'input',
@@ -97,7 +97,7 @@ module.exports = class extends Generator {
     this.option('buildType', {desc : 'Build system to use', type : String, default : 'maven'});
     this.option('createType', {desc : 'Type of application to generate', type : String, default : 'basic'});
     this.option('appName', {desc : 'Name of the application', type : String, default : 'LibertyProject'});
-    this.option('artifactId', {desc : 'Artifact ID to use for the build', type : String, default : 'demo'});
+    this.option('artifactId', {desc : 'Artifact ID to use for the build', type : String, default : 'example'});
     this.option('groupId', {desc : 'Name of the application', type : String, default : 'liberty.projects'});
     this.option('version', {desc : 'Version of the application', type : String, default : '1.0-SNAPSHOT'});
     this.option('headless', {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : String, default : "false"});
@@ -144,6 +144,9 @@ module.exports = class extends Generator {
       } else {
         config.data.appName = answers.appName || config.data.appName;
       }
+      if(config.data.artifactId === 'example') {
+        config.data.artifactId = config.data.appName;
+      }
       //below this point, the only way to get these answers is to run the generator locally
       if(answers.services) {
         if(!config.data.bluemix) {
@@ -169,6 +172,18 @@ module.exports = class extends Generator {
                   "password": "pass",
                   "url": "https://account.cloudant.com",
                   "username": "user"
+                }
+              ];
+            }
+          }
+          if(service === "objectStorage") {
+            if(!config.data.bluemix.objectStorage) {
+              config.data.bluemix.objectStorage = [
+                {
+                  "projectId": "objectStorage-projectId",
+                  "userId": "objectStorage-userId",
+                  "password": "objectStorage-password",
+                  "region": "objectStorage-region"
                 }
               ];
             }

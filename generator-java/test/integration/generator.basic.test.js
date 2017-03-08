@@ -48,6 +48,7 @@ function Options() {
     assert.file('.bluemix/deploy.json');
     assert.file('.bluemix/pipeline.yml');
     assert.file('.bluemix/toolchain.yml');
+    assert.file('kube.deploy.yml');
   }
 }
 
@@ -121,7 +122,7 @@ describe('java generator : basic integration test', function () {
         assert.fileContent('src/main/liberty/config/server.xml', 'cloudant');
         assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
         // Bluemix files
-        assert.fileContent('manifest.yml', 'name: testBxName', 'host: host', 'domain: domain', 'services:', '\\- cloudant', 'cloudantNoSQLDB=config');
+        assert.fileContent('manifest.yml', 'name: testBxName', 'host: host', 'domain: domain', 'services:', '\\-cloudant', 'cloudantNoSQLDB=config');
         assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
         assert.file('src/main/java/application/cloudant/Cloudant.java');
         assert.file('src/main/java/application/cloudant/CloudantCredentials.java');
@@ -145,8 +146,9 @@ describe('java generator : basic integration test', function () {
         assert.fileContent('pom.xml',"<app.name>bxName</app.name>");
         assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
         // Bluemix files
-        assert.fileContent('manifest.yml', 'name: testBxName', 'services:', '\\- objectStorage');
-        assert.noFileContent('manifest.yml', 'cloudantNoSQLDB=config');
+        assert.fileContent('manifest.yml', 'name: testBxName', 'services:', '\\- objectStorage', 'Object-Storage=config');
+        assert.file('src/main/java/application/objectstorage/ObjectStorage.java');
+        assert.file('src/main/java/application/objectstorage/ObjectStorageCredentials.java');
         assert.file('src/main/java/application/bluemix/InvalidCredentialsException.java');
         assert.file('src/main/java/application/bluemix/VCAPServices.java');
         done();
@@ -166,7 +168,7 @@ describe('java generator : basic integration test', function () {
         assert.fileContent('pom.xml',"<app.name>bxName</app.name>");
         assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
         // Bluemix files
-        assert.fileContent('manifest.yml', 'name: testBxName', 'services:', '\\- objectStorage', '\\- cloudant', 'cloudantNoSQLDB=config');
+        assert.fileContent('manifest.yml', 'name: testBxName', 'services:', '\\- objectStorage', '\\- cloudant', 'cloudantNoSQLDB=config', 'Object-Storage=config');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);

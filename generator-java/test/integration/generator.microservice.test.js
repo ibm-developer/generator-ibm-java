@@ -48,6 +48,7 @@ function Options(buildType) {
     assert.noFile('Dockerfile-run');//deprecated name
     // Bluemix files
     assert.file('manifest.yml');
+    assert.file('kube.deploy.yml');
     assert.file('.bluemix/deploy.json');
     assert.file('.bluemix/pipeline.yml');
     assert.file('.bluemix/toolchain.yml');
@@ -160,6 +161,34 @@ describe('java generator : microservice integration test', function () {
         assert.file('src/main/java/application/cloudant/Cloudant.java');
         assert.file('src/main/java/application/bluemix/VCAPServices.java');
         assert.fileContent('src/main/liberty/config/server.env', 'CLOUDANT_URL=https://account.cloudant.com', 'CLOUDANT_PASSWORD=pass', 'CLOUDANT_USERNAME=user');
+        done();
+      }, function(err) {
+        assert.fail(false, "Test failure ", err);
+      });                        // Get a Promise back when the generator finishes
+    });
+
+    it('with object storage', function (done) {
+      var options = new Options('maven');
+      options.bluemix = '{"cloudant" : true, "name" : "bxName", "server" : {"services" : ["objectStorage"]}, "objectStorage" : {"password" : "objectStorage-pass", "url" : "objectStorage-url", "username" : "objectStorage-userId"}}';
+      helpers.run(path.join( __dirname, '../../generators/app'))
+        .withOptions(options)
+        .withPrompts({})
+      .toPromise().then(function() {
+        options.assertCommonFiles();
+        assert.noFile('build.gradle');   //build file
+        assert.file('pom.xml');
+        assert.fileContent('pom.xml',"<app.name>bxName</app.name>");
+        assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','OSClient'); //check Cloudant service present
+        //assert.fileContent('src/main/liberty/config/server.xml', 'cloudant');
+        assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
+        // Bluemix files
+        assert.fileContent('manifest.yml', 'Object-Storage');
+        assert.noFileContent('.bluemix/pipeline.yml', 'Object-Storage');
+        assert.fileContent('README.md', 'Object Storage service');
+        assert.file('src/main/java/application/objectstorage/ObjectStorage.java');
+        assert.file('src/main/java/application/bluemix/VCAPServices.java');
+        //assert.fileContent('src/main/liberty/config/server.env', 'CLOUDANT_URL=https://account.cloudant.com', 'CLOUDANT_PASSWORD=pass', 'CLOUDANT_USERNAME=user');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);

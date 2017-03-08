@@ -16,7 +16,9 @@
     {{#cloudant}}
     "services/cloudantNoSQLDB",
     {{/cloudant}}
+    {{#objectStorage}}
+    "services/objectStorage",
+    {{/objectStorage}}
     {{/bluemix}}
-    "basic"
   ]
 }

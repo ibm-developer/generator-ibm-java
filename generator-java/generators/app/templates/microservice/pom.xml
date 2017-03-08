@@ -105,6 +105,18 @@
             <version>2.7.0</version>
         </dependency>
         {{/cloudant}}
+        {{#objectStorage}}
+        <dependency>
+             <groupId>org.pacesys</groupId>
+             <artifactId>openstack4j-core</artifactId>
+             <version>3.0.3</version>
+         </dependency>
+         <dependency>
+             <groupId>org.pacesys.openstack4j.connectors</groupId>
+             <artifactId>openstack4j-httpclient</artifactId>
+             <version>3.0.3</version>
+         </dependency>
+        {{/objectStorage}}
         {{/bluemix}}
     </dependencies>
 
@@ -112,7 +124,7 @@
         <repository>
             <id>liberty-starter-maven-repo</id>
             <name>liberty-starter-maven-repo</name>
-        <url>http://liberty-starter.wasdev.developer.ibm.com/start/api/v1/repo</url>
+            <url>http://liberty-starter.wasdev.developer.ibm.com/start/api/v1/repo</url>
         </repository>
     </repositories>
 
