@@ -49,6 +49,8 @@ function Options() {
     assert.file('.bluemix/pipeline.yml');
     assert.file('.bluemix/toolchain.yml');
     assert.file('kube.deploy.yml');
+    // Liber8 files
+    assert.file('Jenkinsfile');
   }
 }
 
@@ -77,6 +79,8 @@ describe('java generator : basic integration test', function () {
         assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
         assert.noFile('src/main/java/application/bluemix/InvalidCredentialsException.java');
         assert.noFile('src/main/java/application/bluemix/VCAPServices.java');
+        // Liber8 files
+        assert.fileContent('Jenkinsfile',"utils.dockerBuild('" + APPNAME + "')");
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -99,6 +103,8 @@ describe('java generator : basic integration test', function () {
         assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
         assert.noFile('src/main/java/application/bluemix/InvalidCredentialsException.java');
         assert.noFile('src/main/java/application/bluemix/VCAPServices.java');
+        // Liber8 files
+        assert.fileContent('Jenkinsfile',"utils.dockerBuild('" + APPNAME + "')");
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -129,6 +135,8 @@ describe('java generator : basic integration test', function () {
         assert.file('src/main/java/application/bluemix/InvalidCredentialsException.java');
         assert.file('src/main/java/application/bluemix/VCAPServices.java');
         assert.fileContent('src/main/liberty/config/server.env', 'CLOUDANT_URL=https://account.cloudant.com', 'CLOUDANT_PASSWORD=pass', 'CLOUDANT_USERNAME=user');
+        // Liber8 files
+        assert.fileContent('Jenkinsfile',"utils.dockerBuild('bxName')");
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -151,6 +159,8 @@ describe('java generator : basic integration test', function () {
         assert.file('src/main/java/application/objectstorage/ObjectStorageCredentials.java');
         assert.file('src/main/java/application/bluemix/InvalidCredentialsException.java');
         assert.file('src/main/java/application/bluemix/VCAPServices.java');
+        // Liber8 files
+        assert.fileContent('Jenkinsfile',"utils.dockerBuild('bxName')");
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -169,6 +179,8 @@ describe('java generator : basic integration test', function () {
         assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
         // Bluemix files
         assert.fileContent('manifest.yml', 'name: testBxName', 'services:', '\\- objectStorage', '\\- cloudant', 'cloudantNoSQLDB=config', 'Object-Storage=config');
+        // Liber8 files
+        assert.fileContent('Jenkinsfile',"utils.dockerBuild('bxName')");
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
