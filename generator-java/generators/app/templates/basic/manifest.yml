@@ -24,4 +24,8 @@ random-route: true
 env:
   services_autoconfig_excludes: cloudantNoSQLDB=config
 {{/cloudant}}
+{{#objectStorage}}
+env:
+  services_autoconfig_excludes: Object-Storage=config
+{{/objectStorage}}
 {{/bluemix}}

@@ -43,8 +43,12 @@ The project contains Bluemix specific files that are used to deploy the applicat
 
 {{#bluemix}}
 {{#cloudant}}
-This microservice application is configured to connect to the [Bluemix Cloudant service](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db). Credentials are either taken from the VCAP_SERVICES environment variable that Bluemix provides or from environment variables passed in by JNDI (see the server config file `src/main/liberty/config/server.xml`).
+This microservice application is configured to connect to the [Bluemix Cloudant service](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db). 
 {{/cloudant}}
+{{#objectStorage}}
+This microservice application is configured to connect to the [Bluemix Object Storage service](https://console.ng.bluemix.net/catalog/services/object-storage).
+{{/objectStorage}}
+Credentials are either taken from the VCAP_SERVICES environment variable that Bluemix provides or from environment variables passed in by JNDI (see the server config file `src/main/liberty/config/server.xml`).
 {{/bluemix}}
 
 ### Run

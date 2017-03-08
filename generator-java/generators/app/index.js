@@ -64,7 +64,7 @@ var questions = [{
   type    : 'checkbox',
   name    : 'services',
   message : 'Select the services for your project.\n',
-  choices : ['none','cloudant'],
+  choices : ['none','cloudant', 'objectStorage'],
   default : 0 // Default to none
 }, {
   type    : 'input',
@@ -169,6 +169,18 @@ module.exports = class extends Generator {
                   "password": "pass",
                   "url": "https://account.cloudant.com",
                   "username": "user"
+                }
+              ];
+            }
+          }
+          if(service === "objectStorage") {
+            if(!config.data.bluemix.objectStorage) {
+              config.data.bluemix.objectStorage = [
+                {
+                  "projectId": "objectStorage-projectId",
+                  "userId": "objectStorage-userId",
+                  "password": "objectStorage-password",
+                  "region": "objectStorage-region"
                 }
               ];
             }
