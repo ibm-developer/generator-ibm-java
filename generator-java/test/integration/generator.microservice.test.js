@@ -53,6 +53,8 @@ function Options(buildType) {
     assert.file('.bluemix/pipeline.yml');
     assert.file('.bluemix/toolchain.yml');
     assert.file('README.md');
+    // Liber8 files
+    assert.file('Jenkinsfile');
   }
 }
 
