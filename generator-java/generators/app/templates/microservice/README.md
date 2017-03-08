@@ -42,12 +42,14 @@ The microservice application has a health endpoint which is accessible at `<host
 The project contains Bluemix specific files that are used to deploy the application as part of a Bluemix DevOps flow. The `.bluemix` directory contains files used to define the Bluemix toolchain and pipeline for your application. The `manifest.yml` file specifies the name of your application in Bluemix, the timeout value during deployment and which services to bind to.
 
 {{#bluemix}}
+This microservice application is configured to connect to the following services :
 {{#cloudant}}
-This microservice application is configured to connect to the [Bluemix Cloudant service](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db). 
+* [Bluemix Cloudant service](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db).
 {{/cloudant}}
 {{#objectStorage}}
-This microservice application is configured to connect to the [Bluemix Object Storage service](https://console.ng.bluemix.net/catalog/services/object-storage).
+* [Bluemix Object Storage service](https://console.ng.bluemix.net/catalog/services/object-storage).
 {{/objectStorage}}
+
 Credentials are either taken from the VCAP_SERVICES environment variable that Bluemix provides or from environment variables passed in by JNDI (see the server config file `src/main/liberty/config/server.xml`).
 {{/bluemix}}
 
