@@ -48,6 +48,7 @@ describe('java generator integration test', function () {
       assert.file('pom.xml');   //build file
       assert.noFile('build.gradle');
       assert.file('src/main/liberty/config/server.xml');    //liberty configuration
+      assert.file('kube.deploy.yml');
     });
 
     it('should have carried out replacements', function () {

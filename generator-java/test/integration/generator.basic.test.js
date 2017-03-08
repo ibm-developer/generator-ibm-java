@@ -48,6 +48,7 @@ function Options() {
     assert.file('.bluemix/deploy.json');
     assert.file('.bluemix/pipeline.yml');
     assert.file('.bluemix/toolchain.yml');
+    assert.file('kube.deploy.yml');
   }
 }
 

@@ -48,6 +48,7 @@ function Options(buildType) {
     assert.noFile('Dockerfile-run');//deprecated name
     // Bluemix files
     assert.file('manifest.yml');
+    assert.file('kube.deploy.yml');
     assert.file('.bluemix/deploy.json');
     assert.file('.bluemix/pipeline.yml');
     assert.file('.bluemix/toolchain.yml');
