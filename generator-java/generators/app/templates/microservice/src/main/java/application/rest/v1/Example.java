@@ -4,7 +4,6 @@ import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -16,7 +15,7 @@ import javax.inject.Inject;
 import com.cloudant.client.api.CloudantClient;
 {{/cloudant}}
 {{#objectStorage}}
-import org.openstack4j.api.OSClient;
+import org.openstack4j.api.OSClient.OSClientV3;
 import org.openstack4j.model.storage.object.SwiftAccount;
 import org.openstack4j.model.storage.object.SwiftContainer;
 {{/objectStorage}}
@@ -32,7 +31,7 @@ public class Example {
     {{/cloudant}}
     {{#objectStorage}}
     @Inject
-    protected OSClient os;
+    protected OSClientV3 os;
     {{/objectStorage}}
     {{/bluemix}}
 
@@ -52,7 +51,7 @@ public class Example {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("cloudant")
-    public Response example() {
+    public Response exampleCloudant() {
         List<String> list = new ArrayList<>();
         try {
             list = client.getAllDbs();
@@ -67,8 +66,7 @@ public class Example {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("objectstorage")
-    public Response example() {
-        List<String> list = new ArrayList<>();
+    public Response exampleObjectStorage() {
         try {
           SwiftAccount account = os.objectStorage().account().get();
           List<? extends SwiftContainer> containers = os.objectStorage().containers().list();
