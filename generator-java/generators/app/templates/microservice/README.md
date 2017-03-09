@@ -37,7 +37,7 @@ The application is configured to provide JAX-RS REST capabilities, JNDI, JSON pa
 These capabilities are provided through dependencies in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file and Liberty features enabled in the server config file found in `src/main/liberty/config/server.xml`.
 
 ### Project contents
-The microservice application has a health endpoint which is accessible at `<host>:<port>/<contextRoot>/health`. The ports and context root are set in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file.
+The microservice application has a health endpoint which is accessible at `<host>:<port>/{{appName}}/health`. The context root is set in the `src/main/webapp/WEB-INF/ibm-web-ext.xml` file. The ports are set in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file and exposed to the CLI in the cli-config.yml file.
 
 The project contains Bluemix specific files that are used to deploy the application as part of a Bluemix DevOps flow. The `.bluemix` directory contains files used to define the Bluemix toolchain and pipeline for your application. The `manifest.yml` file specifies the name of your application in Bluemix, the timeout value during deployment and which services to bind to.
 
@@ -61,3 +61,18 @@ To build and run the application:
 {{#has buildType 'gradle'}}1. To stop the application run `gradle libertyStop`{{/has}}
 
 To run the application in Docker use the Docker file called `Dockerfile`. If you do not want to install {{#has buildType 'maven'}}Maven{{/has}}{{#has buildType 'gradle'}}Gradle{{/has}} locally you can use `Dockerfile-tools` to build a container with {{#has buildType 'maven'}}Maven{{/has}}{{#has buildType 'gradle'}}Gradle{{/has}} installed.
+
+### Endpoints
+
+The application exposes the following endpoints:
+* Health endpoint: `<host>:<port>/<contextRoot>/health`
+{{#bluemix}}
+{{#cloudant}}
+* Cloudant example endpoint: `<host>:<port>/<contextRoot>/v1/example/cloudant`
+{{/cloudant}}
+{{#objectStorage}}
+* Object Storage example endpoint: `<host>:<port>/<contextRoot>/v1/example/objectstorage`
+{{/objectStorage}}
+{{/bluemix}}
+
+The context root is set in the `src/main/webapp/WEB-INF/ibm-web-ext.xml` file. The ports are set in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file and exposed to the CLI in the cli-config.yml file.
