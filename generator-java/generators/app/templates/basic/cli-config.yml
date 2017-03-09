@@ -25,3 +25,5 @@ container-port-map-debug : "7777:7777"
 
 dockerfile-run : "Dockerfile"
 dockerfile-tools : "Dockerfile-tools"
+
+debug-cmd : "server debug"

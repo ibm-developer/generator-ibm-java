@@ -1,6 +1,6 @@
 {
   "name": "@arf/generator-java",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "description": "Java code generation and modification",
   "license": "Apache-2.0",
   "files": [
