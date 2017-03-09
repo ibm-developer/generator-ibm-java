@@ -42,6 +42,7 @@ function Options(buildType) {
     assert.file('src/test/java/it/HealthEndpointTest.java');    //some tests
     assert.file('src/main/liberty/config/server.xml');    //liberty configuration
     assert.file('src/main/liberty/config/server.env');
+    assert.file('.gitignore');
     //Docker files
     assert.file('Dockerfile');
     assert.file('Dockerfile-tools');

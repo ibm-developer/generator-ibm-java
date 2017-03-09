@@ -39,6 +39,7 @@ function Options() {
     assert.file('src/main/liberty/config/server.xml');    //liberty configuration
     assert.file('src/main/liberty/config/server.env');
     assert.noFile('src/main/webapp/WEB-INF/ibm-web-ext.xml');
+    assert.file('.gitignore');
     //Docker files
     assert.file('Dockerfile');
     assert.file('Dockerfile-tools');
