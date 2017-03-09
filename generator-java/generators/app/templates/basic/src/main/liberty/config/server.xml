@@ -17,11 +17,11 @@
   <jndiEntry jndiName="cloudant/password" value="${env.CLOUDANT_PASSWORD}"/>
   {{/cloudant}}
   {{#objectStorage}}
-  <jndiEntry jndiName="objectstorage/auth_url" value=""/>
-  <jndiEntry jndiName="objectstorage/username" value=""/>
-  <jndiEntry jndiName="objectstorage/password" value=""/>
-  <jndiEntry jndiName="objectstorage/domain" value=""/>
-  <jndiEntry jndiName="objectstorage/project" value=""/>
+  <jndiEntry jndiName="objectstorage/auth_url" value="TBD"/>
+  <jndiEntry jndiName="objectstorage/username" value="TBD"/>
+  <jndiEntry jndiName="objectstorage/password" value="TBD"/>
+  <jndiEntry jndiName="objectstorage/domain" value="TBD"/>
+  <jndiEntry jndiName="objectstorage/project" value="TBD"/>
   {{/objectStorage}}
   {{/bluemix}}
 
