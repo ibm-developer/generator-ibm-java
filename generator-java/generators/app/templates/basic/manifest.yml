@@ -1,15 +1,11 @@
 applications:
 - name: {{#firstAvailable bluemix.server.name appName}}{{/firstAvailable}}
+  path: /{{#has buildType 'maven'}}target{{/has}}{{#has buildType 'gradle'}}build{{/has}}/{{appName}}.zip
   memory: 512M
-{{#bluemix.server}}
-  host: {{host}}
-  domain: {{domain}}
-{{/bluemix.server}}
-{{^bluemix.server}}
-random-route: true
-{{/bluemix.server}}
+  timeout: 180
   instances: 1
   buildpack: liberty-for-java
+  random-route: true
 {{#bluemix}}
 {{#server.services}}
   services:
@@ -17,9 +13,6 @@ random-route: true
 {{#each server.services}}
   - {{this}}
 {{/each}}
-{{/bluemix}}
-  timeout: 180
-{{#bluemix}}
 {{#cloudant}}
 env:
   services_autoconfig_excludes: cloudantNoSQLDB=config
