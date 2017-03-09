@@ -82,7 +82,7 @@ describe('java generator : microservice integration test', function () {
         assert.fileContent('cli-config.yml','image-name-run : "bx-dev-testapp"');  //make sure lowercase app name
         assert.fileContent('README.md', 'gradle');
         assert.noFileContent('README.md', 'maven');
-        assert.fileContent('manifest.yml', 'path: /build/' + APPNAME + '.zip');
+        assert.fileContent('manifest.yml', 'path: ./build/' + APPNAME + '.zip');
         assert.noFile('src/main/java/application/bluemix/VCAPServices.java');
         done();
       }, function(err) {
@@ -104,7 +104,7 @@ describe('java generator : microservice integration test', function () {
         assert.fileContent('cli-config.yml','image-name-run : "bx-dev-testapp"');  //make sure lowercase app name
         assert.fileContent('README.md', 'maven');
         assert.noFileContent('README.md', 'gradle');
-        assert.fileContent('manifest.yml', 'path: /target/' + APPNAME + '.zip');
+        assert.fileContent('manifest.yml', 'path: ./target/' + APPNAME + '.zip');
         assert.noFile('src/main/java/application/bluemix/VCAPServices.java');
         done();
       }, function(err) {

@@ -20,7 +20,7 @@ public class ObjectStorage {
 
     @Resource(lookup="objectstorage/password")
     protected String resourcePassword;
-    
+
     @Resource(lookup="objectstorage/domain")
     protected String resourceDomain;
 
@@ -30,13 +30,17 @@ public class ObjectStorage {
     @Produces
     public OSClientV3 expose() throws InvalidCredentialsException {
         ObjectStorageCredentials credentials;
-        credentials = getObjectStorageCredentials();
-        OSClientV3 os = OSFactory.builderV3()
-                .endpoint(credentials.getAuthUrl().toString())
-                .credentials(credentials.getUserId(), credentials.getPassword())
-                .scopeToProject(credentials.getProjectIdent(), credentials.getDomainIdent())
-                .authenticate();
-        return os;
+        try {
+          credentials = getObjectStorageCredentials();
+          OSClientV3 os = OSFactory.builderV3()
+                  .endpoint(credentials.getAuthUrl().toString())
+                  .credentials(credentials.getUserId(), credentials.getPassword())
+                  .scopeToProject(credentials.getProjectIdent(), credentials.getDomainIdent())
+                  .authenticate();
+          return os;
+        } catch (InvalidCredentialsException e) {
+          return null;
+        }
     }
 
     private ObjectStorageCredentials getObjectStorageCredentials() throws InvalidCredentialsException {

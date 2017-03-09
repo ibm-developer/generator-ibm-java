@@ -1,6 +1,6 @@
 applications:
 - name: {{#firstAvailable bluemix.server.name appName}}{{/firstAvailable}}
-  path: /{{#has buildType 'maven'}}target{{/has}}{{#has buildType 'gradle'}}build{{/has}}/{{appName}}.zip
+  path: ./{{#has buildType 'maven'}}target{{/has}}{{#has buildType 'gradle'}}build{{/has}}/{{appName}}.zip
   memory: 512M
   timeout: 180
   instances: 1
