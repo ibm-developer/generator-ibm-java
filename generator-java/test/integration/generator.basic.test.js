@@ -77,7 +77,7 @@ describe('java generator : basic integration test', function () {
         assert.fileContent('cli-config.yml','image-name-run : "bx-dev-testapp"');  //make sure lowercase app name
         // Bluemix files
         assert.noFileContent('manifest.yml', 'cloudant');
-        assert.fileContent('manifest.yml', 'path: /build/' + APPNAME + '.zip');
+        assert.fileContent('manifest.yml', 'path: ./build/' + APPNAME + '.zip');
 
         assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
         assert.noFile('src/main/java/application/bluemix/InvalidCredentialsException.java');
@@ -103,7 +103,7 @@ describe('java generator : basic integration test', function () {
         assert.fileContent('cli-config.yml','image-name-run : "bx-dev-testapp"');  //make sure lowercase app name
         // Bluemix files
         assert.noFileContent('manifest.yml', 'cloudant');
-        assert.fileContent('manifest.yml', 'path: /target/' + APPNAME + '.zip');
+        assert.fileContent('manifest.yml', 'path: ./target/' + APPNAME + '.zip');
         assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
         assert.noFile('src/main/java/application/bluemix/InvalidCredentialsException.java');
         assert.noFile('src/main/java/application/bluemix/VCAPServices.java');
