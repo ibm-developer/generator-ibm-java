@@ -37,15 +37,24 @@ repositories {
 }
 
 dependencies {
-    {{#bluemix}}
+    providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+    providedCompile 'com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.servlet:1.0.10'
     providedCompile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
     providedCompile 'com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.jaxrs20:1.0.10'
     providedCompile 'javax.json:javax.json-api:1.0'
     providedCompile 'com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.json:1.0.10'
     providedCompile 'javax.enterprise:cdi-api:1.2'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.apache.cxf:cxf-rt-rs-client:3.1.1'
+    testCompile 'org.glassfish:javax.json:1.0.4'
+    {{#bluemix}}
     {{#cloudant}}
     compile 'com.cloudant:cloudant-client:2.7.0'
     {{/cloudant}}
+    {{#objectStorage}}
+    compile 'org.pacesys:openstack4j-core:3.0.3'
+    compile 'org.pacesys.openstack4j.connectors:openstack4j-httpclient:3.0.3'
+    {{/objectStorage}}
     {{/bluemix}}
 }
 
@@ -63,7 +72,7 @@ task integrationTest(type: Test) {
     include '**/it/**'
     exclude '**/unit/**'
 
-    systemProperties = ['liberty.test.port': testServerHttpPort, 'war.name': warContext]
+    systemProperties = ['liberty.test.port': testServerHttpPort, 'war.context': warContext]
 }
 
 task printMessageAboutRunningServer {
@@ -74,7 +83,7 @@ task printMessageAboutRunningServer {
 }
 
 task publishServerConfig(type: Copy) {
-    from 'src/main/liberty/config/server.xml'
+    from 'src/main/liberty/config/'
     into serverDirectory
 }
 
@@ -95,7 +104,7 @@ task createServerBootstrap() {
 
 liberty {
     install {
-        runtimeUrl = "http://repo1.maven.org/maven2/com/ibm/websphere/appserver/runtime/wlp-webProfile7/16.0.0.3/wlp-webProfile7-16.0.0.3.zip"
+        runtimeUrl = "http://repo1.maven.org/maven2/com/ibm/websphere/appserver/runtime/wlp-webProfile7/16.0.0.4/wlp-webProfile7-16.0.0.4.zip"
     }
     packageLiberty {
         archive = packageFile
