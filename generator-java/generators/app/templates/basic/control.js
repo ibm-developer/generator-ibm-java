@@ -8,6 +8,11 @@
     "pom.xml",
     {{/has}}
   ],
+  "excludesDir" : [
+    "target",
+    ".settings",
+    "build"
+  ],
   "composition" : [
     {{#bluemix}}
     {{#server.services}}
