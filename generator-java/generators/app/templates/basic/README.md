@@ -1,5 +1,5 @@
 ## Basic Web
-Bluemix Basic Web Starter in Java
+Bluemix Basic Starter in Java
 
 [![](https://img.shields.io/badge/bluemix-powered-blue.svg)](https://bluemix.net)
 [![Platform](https://img.shields.io/badge/platform-java-lightgrey.svg?style=flat)](https://www.ibm.com/developerworks/learn/java/)
@@ -13,7 +13,7 @@ Bluemix Basic Web Starter in Java
 
 ### Summary
 
-The Bluemix Basic Web Starter in Java provides a starting point for creating web applications running on [WebSphere Liberty](https://developer.ibm.com/wasdev/).
+The Bluemix Basic Starter in Java provides a starting point for creating applications running on [WebSphere Liberty](https://developer.ibm.com/wasdev/).
 
 To deploy this application to Bluemix using a toolchain click the **Create Toolchain** button.
 [![Create Toolchain](https://console.ng.bluemix.net/devops/graphics/create_toolchain_button.png)](https://console.ng.bluemix.net/devops/setup/deploy/)
