@@ -13,7 +13,7 @@ public class HealthEndpoint extends Application {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response healthcheck() {
-        return Response.ok().build();
+        return Response.ok("OK").build();
     }
 
 }
