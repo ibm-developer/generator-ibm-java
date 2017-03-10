@@ -40,7 +40,7 @@ function Options() {
     common.assertCloudant(ymlName, cloudant);
     common.assertObjectStorage(ymlName, objectStorage);
     common.assertLiber8(appName);
-    common.assertFiles('src/main/webapp', 'index.html', '/css/default.css', 'js/bundle.js');
+    common.assertFiles('src/main/webapp', true, 'index.html', '/css/default.css', 'js/bundle.js');
   }
 }
 

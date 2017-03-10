@@ -35,19 +35,21 @@ var assertCommonFiles = function() {
   assert.file('kube.deploy.yml');
   // Liber8 files
   assert.file('Jenkinsfile');
+  assert.file('.gitignore');
 }
 
 var assertGradleFiles = function(appname) {
   assert.noFile('pom.xml');   //build file
   assert.file('build.gradle');
   assert.fileContent('build.gradle',"appName = '" + appname +"'");
-  assert.fileContent('Jenkinsfile',"utils.dockerBuild('" + appname + "')");
+  assert.fileContent('manifest.yml', 'path: ./build/' + appname + '.zip');
 }
 
 var assertMavenFiles = function(appname) {
   assert.noFile('build.gradle');   //build file
   assert.file('pom.xml');
   assert.fileContent('pom.xml',"<app.name>" + appname +"</app.name>");
+  assert.fileContent('manifest.yml', 'path: ./target/' + appname + '.zip');
 }
 
 //asserts that there are no source code files for bluemix
@@ -68,7 +70,7 @@ var assertServices = function(exists) {
       check('manifest.yml', arguments[i]);
       assert.noFileContent('.bluemix/pipeline.yml', arguments[i]);
       if(exists) {
-        //check('src/main/liberty/config/server.xml', arguments[i]);
+        check('src/main/liberty/config/server.xml', arguments[i].toLowerCase());
       }
     }
   }
@@ -80,13 +82,14 @@ var assertCLI = function(appname) {
 }
 
 //asserts all files exist relative to a given base location
-var assertFiles = function(base) {
-  if(arguments.length < 2) {
-    throw "assertFiles error : requires at least 2 arguments, base and a file to check";
+var assertFiles = function(base, exists) {
+  if(arguments.length < 3) {
+    throw "assertFiles error : requires at least 3 arguments, base, exists and a file to check";
   }
-  for(var i=1; i < arguments.length; i++) {
+  var check = exists ? assert.file : assert.noFile;
+  for(var i=2; i < arguments.length; i++) {
     if (arguments[i] && typeof arguments[i] === 'string') {
-      assert.file(path.join(base, arguments[i]));
+      check(path.join(base, arguments[i]));
     }
   }
 }
@@ -129,6 +132,9 @@ var assertObjectStorage = function(ymlName, exists) {
   check('manifest.yml', '- objectStorage', 'Object-Storage=config');
   assertObjectStorageJava(exists);
   assertServices(exists, 'objectStorage');
+  assertEnvVars(exists, 'OBJECTSTORAGE_AUTH_URL="objectStorage-url"', 'OBJECTSTORAGE_USERID="objectStorage-userId"',
+                        'OBJECTSTORAGE_PASSWORD="objectStorage-password"',
+                        'OBJECTSTORAGE_DOMAIN_NAME="objectStorage-domainName"', 'OBJECTSTORAGE_PROJECT="objectStorage-project"');
 }
 
 var assertCloudant = function(ymlName, exists) {
@@ -137,7 +143,7 @@ var assertCloudant = function(ymlName, exists) {
   check('manifest.yml', '- cloudant', 'cloudantNoSQLDB=config');
   assertCloudantJava(exists);
   assertServices(exists, 'cloudant');
-  assertEnvVars(exists, 'CLOUDANT_URL=https://account.cloudant.com', 'CLOUDANT_PASSWORD=pass', 'CLOUDANT_USERNAME=user');
+  assertEnvVars(exists, 'CLOUDANT_URL="https://account.cloudant.com"', 'CLOUDANT_PASSWORD="pass"', 'CLOUDANT_USERNAME="user"');
 }
 
 module.exports = {
