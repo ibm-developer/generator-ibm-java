@@ -22,6 +22,7 @@ var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 var config = require('../../generators/lib/config');
+var common = require('../lib/commontest');
 
 beforeEach(function() {
   //make sure we start with a valid config object
@@ -45,10 +46,7 @@ describe('java generator integration test', function () {
 
 
     it('should create a maven based project', function () {
-      assert.file('pom.xml');   //build file
-      assert.noFile('build.gradle');
-      assert.file('src/main/liberty/config/server.xml');    //liberty configuration
-      assert.file('kube.deploy.yml');
+      common.assertMavenFiles('LibertyProject');
     });
 
     it('should have carried out replacements', function () {

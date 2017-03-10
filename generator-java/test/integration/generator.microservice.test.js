@@ -43,7 +43,7 @@ function Options(buildType) {
     common.assertBluemixSrc(cloudant || objectStorage);
     common.assertCloudant(ymlName, cloudant);
     common.assertObjectStorage(ymlName, objectStorage);
-    common.assertLiber8(appName);
+    common.assertK8s(appName);
     common.assertFiles('', true, 'README.md');
     common.assertFiles('src', true, 'main/java/application/rest/HealthEndpoint.java',
                                     'test/java/it/HealthEndpointTest.java',
