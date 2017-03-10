@@ -180,10 +180,11 @@ module.exports = class extends Generator {
             if(!config.data.bluemix.objectStorage) {
               config.data.bluemix.objectStorage = [
                 {
-                  "projectId": "objectStorage-projectId",
+                  "project": "objectStorage-project",
                   "userId": "objectStorage-userId",
                   "password": "objectStorage-password",
-                  "region": "objectStorage-region"
+                  "auth_url": "objectStorage-url",
+                  "domainName": "objectStorage-domainName"
                 }
               ];
             }
