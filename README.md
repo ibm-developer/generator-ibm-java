@@ -4,6 +4,8 @@
 | development | [![Build Status](https://travis.ibm.com/arf/java-codegen-yeoman.svg?token=D9H1S9JmREZirtqjnxut&branch=development)](https://travis.ibm.com/arf/java-codegen-yeoman) |
 | master | [![Build Status](https://travis.ibm.com/arf/java-codegen-yeoman.svg?token=D9H1S9JmREZirtqjnxut&branch=master)](https://travis.ibm.com/arf/java-codegen-yeoman) |
 
+You can see builds for all branches here https://travis.ibm.com/arf/java-codegen-yeoman/branches.
+
 This is a yeoman generator that will create Java code for you.
 
 * It is published as a node module in the IBM NPM repository : https://npm.whitewater.ibm.com

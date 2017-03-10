@@ -45,9 +45,13 @@ var questions = [{
     value : 'basic',
     short : 'Basic Java microservice'
   }, {
-    name : 'Microservice : a basic Java microservice with Cloudant',
+    name : 'Microservice : a basic Java microservice',
     value : 'microservice',
     short : 'Basic Java microservice'
+  }, {
+    name : 'Basic Web : a basic web application',
+    value : 'basicweb',
+    short : 'Basic web application'
   }, {
     name : 'BFF : Backend For Frontend (generate java from Swagger/OpenAPI) (TBD)',
     value : 'bff',
