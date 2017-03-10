@@ -10,7 +10,9 @@ import javax.ws.rs.core.Response.Status;
 import java.util.ArrayList;
 
 {{#bluemix}}
+{{#server.services}}
 import javax.inject.Inject;
+{{/server.services}}
 {{#cloudant}}
 import com.cloudant.client.api.CloudantClient;
 {{/cloudant}}
