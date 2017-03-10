@@ -46,8 +46,8 @@ function Options(buildType) {
     common.assertLiber8(appName);
     common.assertFiles('', true, 'README.md');
     common.assertFiles('src', true, 'main/java/application/rest/HealthEndpoint.java',
-                                     'test/java/it/HealthEndpointTest.java',
-                                      'main/webapp/WEB-INF/ibm-web-ext.xml')
+                                    'test/java/it/HealthEndpointTest.java',
+                                    'main/webapp/WEB-INF/ibm-web-ext.xml')
   }
 }
 
