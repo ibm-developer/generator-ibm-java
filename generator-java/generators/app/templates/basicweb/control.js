@@ -17,5 +17,16 @@
   ],
   "composition" : [
     "basic",
+    {{#bluemix}}
+    {{#server.services}}
+    "services/common",
+    {{/server.services}}
+    {{#cloudant}}
+    "services/cloudantNoSQLDB",
+    {{/cloudant}}
+    {{#objectStorage}}
+    "services/objectStorage",
+    {{/objectStorage}}
+    {{/bluemix}}
   ]
 }

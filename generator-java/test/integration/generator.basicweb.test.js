@@ -33,6 +33,15 @@ function Options() {
   this.debug = "true";
   this.version = VERSION;
   this.groupId = GROUPID;
+  this.assert = function(appName, ymlName, cloudant, objectStorage) {
+    common.assertCommonFiles();
+    common.assertCLI(appName);
+    common.assertBluemixSrc(cloudant || objectStorage);
+    common.assertCloudant(ymlName, cloudant);
+    common.assertObjectStorage(ymlName, objectStorage);
+    common.assertLiber8(appName);
+    common.assertFiles('src/main/webapp', 'index.html', '/css/default.css', 'js/bundle.js');
+  }
 }
 
 beforeEach(function() {
@@ -44,38 +53,28 @@ describe('java generator : basic integration test', function () {
 
   describe('Generates a basic web project (no bluemix)', function () {
 
-    it('should create a basic project, gradle build system', function (done) {
+    it('with gradle build system', function (done) {
       var options = new Options();
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
         .withPrompts({ buildType : 'gradle', createType: 'basicweb', services: ['none'], appName: APPNAME})
       .toPromise().then(function() {
-        common.assertCommonFiles();
-        common.assertCommonGradleFiles(APPNAME);
+        options.assert(APPNAME, APPNAME, false, false);
+        common.assertGradleFiles(APPNAME);
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
       });                        // Get a Promise back when the generator finishes
     });
 
-    it('should create a basic project, maven build system', function (done) {
+    it('with maven build system', function (done) {
       var options = new Options();
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
-        .withPrompts({buildType : 'maven', createType: 'basic', appName: APPNAME })
+        .withPrompts({buildType : 'maven', createType: 'basicweb', appName: APPNAME })
       .toPromise().then(function() {
-        options.assertCommonFiles();
-        assert.noFile('build.gradle');   //build file
-        assert.file('pom.xml');
-        assert.fileContent('pom.xml',"<app.name>" + APPNAME + "</app.name>");
-        assert.fileContent('cli-config.yml','image-name-run : "bx-dev-testapp"');  //make sure lowercase app name
-        // Bluemix files
-        assert.noFileContent('manifest.yml', 'cloudant');
-        assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
-        assert.noFile('src/main/java/application/bluemix/InvalidCredentialsException.java');
-        assert.noFile('src/main/java/application/bluemix/VCAPServices.java');
-        // Liber8 files
-        assert.fileContent('Jenkinsfile',"utils.dockerBuild('" + APPNAME + "')");
+        options.assert(APPNAME, APPNAME, false, false);
+        common.assertMavenFiles(APPNAME);
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -83,31 +82,17 @@ describe('java generator : basic integration test', function () {
     });
 
   });
-/*
-  describe('Generates a basic project (bluemix)', function () {
+
+  describe('Generates a basic web project (bluemix)', function () {
 
     it('with cloudant', function (done) {
       var options = new Options();
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
-        .withPrompts({buildType : 'maven', createType: 'basic', services : ['cloudant'], appName : 'bxName' })
+        .withPrompts({buildType : 'maven', createType: 'basicweb', services : ['cloudant'], appName : 'bxName' })
       .toPromise().then(function() {
-        options.assertCommonFiles();
-        assert.noFile('build.gradle');   //build file
-        assert.file('pom.xml');
-        assert.fileContent('pom.xml',"<app.name>bxName</app.name>");
-        assert.fileContent('src/main/liberty/config/server.xml', 'cloudant');
-        assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
-        // Bluemix files
-        assert.fileContent('manifest.yml', 'name: testBxName', 'host: host', 'domain: domain', 'services:', '\\-cloudant', 'cloudantNoSQLDB=config');
-        assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
-        assert.file('src/main/java/application/cloudant/Cloudant.java');
-        assert.file('src/main/java/application/cloudant/CloudantCredentials.java');
-        assert.file('src/main/java/application/bluemix/InvalidCredentialsException.java');
-        assert.file('src/main/java/application/bluemix/VCAPServices.java');
-        assert.fileContent('src/main/liberty/config/server.env', 'CLOUDANT_URL=https://account.cloudant.com', 'CLOUDANT_PASSWORD=pass', 'CLOUDANT_USERNAME=user');
-        // Liber8 files
-        assert.fileContent('Jenkinsfile',"utils.dockerBuild('bxName')");
+        options.assert('bxName', 'testBxName', true, false);
+        common.assertMavenFiles('bxName');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -117,46 +102,30 @@ describe('java generator : basic integration test', function () {
       var options = new Options();
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
-        .withPrompts({buildType : 'maven', createType: 'basic', services : ['objectStorage'], appName : 'bxName' })
+        .withPrompts({buildType : 'maven', createType: 'basicweb', services : ['objectStorage'], appName : 'bxName' })
       .toPromise().then(function() {
-        options.assertCommonFiles();
-        assert.noFile('build.gradle');   //build file
-        assert.file('pom.xml');
-        assert.fileContent('pom.xml',"<app.name>bxName</app.name>");
-        assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
-        // Bluemix files
-        assert.fileContent('manifest.yml', 'name: testBxName', 'services:', '\\- objectStorage', 'Object-Storage=config');
-        assert.file('src/main/java/application/objectstorage/ObjectStorage.java');
-        assert.file('src/main/java/application/objectstorage/ObjectStorageCredentials.java');
-        assert.file('src/main/java/application/bluemix/InvalidCredentialsException.java');
-        assert.file('src/main/java/application/bluemix/VCAPServices.java');
-        // Liber8 files
-        assert.fileContent('Jenkinsfile',"utils.dockerBuild('bxName')");
+        options.assert('bxName', 'testBxName', false, true);
+        common.assertMavenFiles('bxName');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
       });                        // Get a Promise back when the generator finishes
     });
+
     it('with cloudant and objectStorage', function (done) {
       var options = new Options();
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
-        .withPrompts({buildType : 'maven', createType: 'basic', services : ['objectStorage', 'cloudant'], appName : 'bxName' })
+        .withPrompts({buildType : 'maven', createType: 'basicweb', services : ['objectStorage', 'cloudant'], appName : 'bxName' })
       .toPromise().then(function() {
-        options.assertCommonFiles();
-        assert.noFile('build.gradle');   //build file
-        assert.file('pom.xml');
-        assert.fileContent('pom.xml',"<app.name>bxName</app.name>");
-        assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
-        // Bluemix files
-        assert.fileContent('manifest.yml', 'name: testBxName', 'services:', '\\- objectStorage', '\\- cloudant', 'cloudantNoSQLDB=config', 'Object-Storage=config');
-        // Liber8 files
-        assert.fileContent('Jenkinsfile',"utils.dockerBuild('bxName')");
+        options.assert('bxName', 'testBxName', true, true);
+        common.assertMavenFiles('bxName');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
       });                        // Get a Promise back when the generator finishes
     });
+
   });
-*/
+
 });
