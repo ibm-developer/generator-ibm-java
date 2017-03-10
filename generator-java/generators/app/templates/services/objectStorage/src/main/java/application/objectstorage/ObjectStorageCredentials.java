@@ -5,9 +5,10 @@ import java.net.URL;
 
 import org.openstack4j.model.common.Identifier;
 
+import application.bluemix.BluemixCredentials;
 import application.bluemix.InvalidCredentialsException;
 
-public class ObjectStorageCredentials {
+public class ObjectStorageCredentials extends BluemixCredentials {
 
 	private String userId;
     private String password;
@@ -40,18 +41,15 @@ public class ObjectStorageCredentials {
 	}
 
 	private void checkCredentialsValid(String authurl, String userId, String password, String domain, String project) throws InvalidCredentialsException {
-        if (authurl == null || userId == null || password == null || project == null || domain == null) {
-            throw new InvalidCredentialsException("Invalid ObjectStore credentials.");
-        }
         try {
-            this.authurl = new URL(authurl);
+            this.authurl = new URL(sanitiseString(authurl));
         } catch (MalformedURLException e) {
             throw new InvalidCredentialsException("MalformedURLException thrown while parsing url string:" + authurl);
         }
-        this.userId = userId;
-        this.password = password;
-        domainIdent = Identifier.byName(domain);
-        projectIdent = Identifier.byName(project);
+        this.userId = sanitiseString(userId);
+        this.password = sanitiseString(password);
+        domainIdent = Identifier.byName(sanitiseString(domain));
+        projectIdent = Identifier.byName(sanitiseString(project));
     }
 
 }

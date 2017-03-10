@@ -13,19 +13,21 @@ import application.bluemix.VCAPServices;
 public class ObjectStorage {
 
     @Resource(lookup="objectstorage/auth_url")
-    protected String resourceUrl;
+    protected String resourceAuthUrl;
 
-    @Resource(lookup="objectstorage/username")
-    protected String resourceUsername;
+    @Resource(lookup="objectstorage/userId")
+    protected String resourceUserId;
 
     @Resource(lookup="objectstorage/password")
     protected String resourcePassword;
 
-    @Resource(lookup="objectstorage/domain")
-    protected String resourceDomain;
+    @Resource(lookup="objectstorage/domainName")
+    protected String resourceDomainName;
 
     @Resource(lookup="objectstorage/project")
     protected String resourceProject;
+
+    private static final String VERSION = "/v3";
 
     @Produces
     public OSClientV3 expose() throws InvalidCredentialsException {
@@ -48,7 +50,7 @@ public class ObjectStorage {
         try {
             credentials = getCredentialsFromVCAP();
         } catch (InvalidCredentialsException e) {
-            credentials = new ObjectStorageCredentials(resourceUrl, resourceUsername, resourcePassword, resourceDomain, resourceProject);
+            credentials = new ObjectStorageCredentials(resourceAuthUrl + VERSION, resourceUserId, resourcePassword, resourceDomainName, resourceProject);
         }
         return credentials;
     }
@@ -56,12 +58,12 @@ public class ObjectStorage {
     private ObjectStorageCredentials getCredentialsFromVCAP() throws InvalidCredentialsException {
         VCAPServices vcap = new VCAPServices();
         JsonObject credentials = vcap.getCredentialsObject("Object-Storage");
-        String username = credentials.getJsonString("userId").getString();
+        String userId = credentials.getJsonString("userId").getString();
         String password = credentials.getJsonString("password").getString();
-        String auth_url = credentials.getJsonString("auth_url").getString() + "/v3";
-        String domain = credentials.getJsonString("domainName").getString();
+        String auth_url = credentials.getJsonString("auth_url").getString() + VERSION;
+        String domainName = credentials.getJsonString("domainName").getString();
         String project = credentials.getJsonString("project").getString();
-        ObjectStorageCredentials creds = new ObjectStorageCredentials(auth_url, username, password, domain, project);
+        ObjectStorageCredentials creds = new ObjectStorageCredentials(auth_url, userId, password, domainName, project);
         return creds;
     }
 
