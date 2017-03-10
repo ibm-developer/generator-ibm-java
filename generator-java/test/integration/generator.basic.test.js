@@ -138,7 +138,7 @@ describe('java generator : basic integration test', function () {
         assert.file('src/main/java/application/cloudant/CloudantCredentials.java');
         assert.file('src/main/java/application/bluemix/InvalidCredentialsException.java');
         assert.file('src/main/java/application/bluemix/VCAPServices.java');
-        assert.fileContent('src/main/liberty/config/server.env', 'CLOUDANT_URL=https://account.cloudant.com', 'CLOUDANT_PASSWORD=pass', 'CLOUDANT_USERNAME=user');
+        assert.fileContent('src/main/liberty/config/server.env', 'CLOUDANT_URL="https://account.cloudant.com"', 'CLOUDANT_PASSWORD="pass"', 'CLOUDANT_USERNAME="user"');
         // Liber8 files
         assert.fileContent('Jenkinsfile',"utils.dockerBuild('bxName')");
         done();

@@ -165,7 +165,7 @@ describe('java generator : microservice integration test', function () {
         assert.fileContent('README.md', 'cloudant');
         assert.file('src/main/java/application/cloudant/Cloudant.java');
         assert.file('src/main/java/application/bluemix/VCAPServices.java');
-        assert.fileContent('src/main/liberty/config/server.env', 'CLOUDANT_URL=https://account.cloudant.com', 'CLOUDANT_PASSWORD=pass', 'CLOUDANT_USERNAME=user');
+        assert.fileContent('src/main/liberty/config/server.env', 'CLOUDANT_URL="https://account.cloudant.com"', 'CLOUDANT_PASSWORD="pass"', 'CLOUDANT_USERNAME="user"');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
