@@ -33,7 +33,7 @@ var assertCommonFiles = function() {
   assert.file('.bluemix/deploy.json');
   assert.file('.bluemix/pipeline.yml');
   assert.file('.bluemix/toolchain.yml');
-  assert.file('kube.deploy.yml');
+  assert.file('manifests/kube.deploy.yml');
   // Liber8 files
   assert.file('Jenkinsfile');
   assert.file('.gitignore');
@@ -122,8 +122,9 @@ var assertEnvVars = function(exists) {
   }
 }
 
-//assert that Liber8 specific files are present
-var assertLiber8 = function(appname) {
+//assert that K8s specific files are present
+var assertK8s = function(appname) {
+  assert.fileContent('manifests/kube.deploy.yml', 'name: "' + appname + '-service"')
   assert.fileContent('Jenkinsfile',"utils.dockerBuild('" + appname + "')");
 }
 
@@ -158,7 +159,7 @@ module.exports = {
   assertObjectStorageJava : assertObjectStorageJava,
   assertServices : assertServices,
   assertEnvVars : assertEnvVars,
-  assertLiber8 : assertLiber8,
+  assertK8s : assertK8s,
   assertObjectStorage : assertObjectStorage,
   assertCloudant : assertCloudant
 }

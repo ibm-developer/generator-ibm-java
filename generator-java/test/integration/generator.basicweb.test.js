@@ -39,7 +39,7 @@ function Options() {
     common.assertBluemixSrc(cloudant || objectStorage);
     common.assertCloudant(ymlName, cloudant);
     common.assertObjectStorage(ymlName, objectStorage);
-    common.assertLiber8(appName);
+    common.assertK8s(appName);
     common.assertFiles('src/main/webapp', true, 'index.html', '/css/default.css', 'js/bundle.js');
   }
 }
