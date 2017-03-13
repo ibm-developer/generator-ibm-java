@@ -8,3 +8,17 @@ install:
 script:
   - npm test
   - npm run testint
+after_success:
+  - npm run coverage
+  - npm run coverageint
+deploy:
+  provider: releases
+  api-key: ${GITHUB_TOKEN}
+  file_glob: true
+  file: coverage/*
+  skip_cleanup: true
+  on:
+    tags: true
+env:
+  global:
+    - OCTOKIT_API_ENDPOINT: "https://github.ibm.com/api/v3"
