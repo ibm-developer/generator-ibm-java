@@ -129,10 +129,18 @@ var assertK8s = function(appname) {
   assert.fileContent('Jenkinsfile',"utils.dockerBuild('" + appname + "')");
 }
 
-var assertObjectStorage = function(ymlName, exists) {
-  assert.fileContent('manifest.yml', 'name: ' + ymlName, 'host: host', 'domain: domain', 'services:');
+var assertManifestYml = function(ymlName, exists) {
+  assert.fileContent('manifest.yml', 'name: ' + ymlName);
+  var check = exists ? assert.fileContent : assert.noFileContent;
+  check('manifest.yml', 'services:');
+  check('manifest.yml', 'host: host');
+  check('manifest.yml', 'domain: domain');
+}
+
+var assertObjectStorage = function(exists) {
   var check = exists ? assert.fileContent : assert.noFileContent;
   check('manifest.yml', '- objectStorage', 'Object-Storage=config');
+  check('manifest.yml', 'Object-Storage=config');
   assertObjectStorageJava(exists);
   assertServices(exists, 'objectStorage');
   assertEnvVars(exists, 'OBJECTSTORAGE_AUTH_URL="objectStorage-url"', 'OBJECTSTORAGE_USERID="objectStorage-userId"',
@@ -140,20 +148,22 @@ var assertObjectStorage = function(ymlName, exists) {
                         'OBJECTSTORAGE_DOMAIN_NAME="objectStorage-domainName"', 'OBJECTSTORAGE_PROJECT="objectStorage-project"');
 }
 
-var assertCloudant = function(ymlName, exists) {
-  assert.fileContent('manifest.yml', 'name: ' + ymlName, 'host: host', 'domain: domain', 'services:');
+var assertCloudant = function(exists) {
   var check = exists ? assert.fileContent : assert.noFileContent;
   check('manifest.yml', '- cloudant', 'cloudantNoSQLDB=config');
+  check('manifest.yml', 'cloudantNoSQLDB=config');
   assertCloudantJava(exists);
   assertServices(exists, 'cloudant');
-  assertEnvVars(exists, 'CLOUDANT_URL="https://account.cloudant.com"', 'CLOUDANT_PASSWORD="pass"', 'CLOUDANT_USERNAME="user"');
+  assertEnvVars(exists, 'CLOUDANT_URL="https://account.cloudant.com"', 'CLOUDANT_PASSWORD="pass"',
+                        'CLOUDANT_USERNAME="user"');
 }
 
 module.exports = {
   assertCommonFiles : assertCommonFiles,
   assertGradleFiles : assertGradleFiles,
   assertMavenFiles : assertMavenFiles,
-  assertBluemixSrc: assertBluemixSrc,
+  assertBluemixSrc : assertBluemixSrc,
+  assertManifestYml : assertManifestYml,
   assertFiles : assertFiles,
   assertCLI : assertCLI,
   assertCloudantJava : assertCloudantJava,

@@ -41,8 +41,9 @@ function Options(buildType) {
     common.assertCommonFiles();
     common.assertCLI(appName);
     common.assertBluemixSrc(cloudant || objectStorage);
-    common.assertCloudant(ymlName, cloudant);
-    common.assertObjectStorage(ymlName, objectStorage);
+    common.assertManifestYml(ymlName, cloudant || objectStorage);
+    common.assertCloudant(cloudant);
+    common.assertObjectStorage(objectStorage);
     common.assertK8s(appName);
     common.assertFiles('', true, 'README.md');
     common.assertFiles('src', true, 'main/java/application/rest/HealthEndpoint.java',
@@ -112,7 +113,8 @@ describe('java generator : microservice integration test', function () {
         assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
         assert.noFileContent('src/main/java/application/rest/v1/Example.java', 'Cloudant');
 
-        assert.fileContent('manifest.yml', 'name: bxName', 'random-route: true') //Not using prompt so we get app name and random route
+        assert.fileContent('manifest.yml', 'name: bxName') //Not using prompt so we get app name and random route
+        assert.fileContent('manifest.yml', 'random-route: true') //Not using prompt so we get app name and random route
         assert.noFileContent('README.md', 'cloudant');
         done();
       }, function(err) {
@@ -122,7 +124,7 @@ describe('java generator : microservice integration test', function () {
 
     it('with cloudant', function (done) {
       var options = new Options('maven');
-      options.bluemix = '{"name" : "bxName", "server" : {"services" : ["cloudant"]}, "cloudant" : {"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}}';
+      options.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "domain", "services" : ["cloudant"]}, "cloudant" : {"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}}';
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
         .withPrompts({})
@@ -142,7 +144,7 @@ describe('java generator : microservice integration test', function () {
 
     it('with object storage', function (done) {
       var options = new Options('maven');
-      options.bluemix = '{"name" : "bxName", "server" : {"services" : ["objectStorage"]}, "objectStorage" : {"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}}';
+      options.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "domain", "services" : ["objectStorage"]}, "objectStorage" : {"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}}';
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
         .withPrompts({})
