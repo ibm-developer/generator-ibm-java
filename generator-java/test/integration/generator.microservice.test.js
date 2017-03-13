@@ -46,8 +46,7 @@ function Options(buildType) {
     common.assertK8s(appName);
     common.assertFiles('', true, 'README.md');
     common.assertFiles('src', true, 'main/java/application/rest/HealthEndpoint.java',
-                                    'test/java/it/HealthEndpointTest.java',
-                                    'main/webapp/WEB-INF/ibm-web-ext.xml')
+                                    'test/java/it/HealthEndpointTest.java')
   }
 }
 
