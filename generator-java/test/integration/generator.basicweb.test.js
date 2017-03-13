@@ -37,8 +37,9 @@ function Options() {
     common.assertCommonFiles();
     common.assertCLI(appName);
     common.assertBluemixSrc(cloudant || objectStorage);
-    common.assertCloudant(ymlName, cloudant);
-    common.assertObjectStorage(ymlName, objectStorage);
+    common.assertManifestYml(ymlName, cloudant || objectStorage);
+    common.assertCloudant(cloudant);
+    common.assertObjectStorage(objectStorage);
     common.assertK8s(appName);
     common.assertFiles('src/main/webapp', true, 'index.html', '/css/default.css', 'js/bundle.js');
   }

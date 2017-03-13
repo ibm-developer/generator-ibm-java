@@ -5,8 +5,16 @@ applications:
   timeout: 180
   instances: 1
   buildpack: liberty-for-java
-  random-route: true
 {{#bluemix}}
+{{#server.host}}
+  host: {{this}}
+{{/server.host}}
+{{^server.host}}
+  random-route: true
+{{/server.host}}
+{{#server.domain}}
+  domain: {{this}}
+{{/server.domain}}
 {{#server.services}}
   services:
 {{/server.services}}
