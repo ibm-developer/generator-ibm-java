@@ -92,6 +92,13 @@
          </dependency>
         {{/objectStorage}}
         {{/bluemix}}
+        {{#has createType 'bff'}}
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.5.3</version>
+        </dependency>
+        {{/has}}
     </dependencies>
 
     <build>
