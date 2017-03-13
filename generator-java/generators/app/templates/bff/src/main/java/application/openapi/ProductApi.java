@@ -29,10 +29,10 @@ public class ProductApi  {
     @Consumes({ "text/plain" })
     @Produces({ "application/json" })
     @ApiOperation(value = "", notes = "Delete product by ID", response = Product.class, tags={ "products",  })
-    @ApiResponses(value = { 
+    @ApiResponses(value = {
         @ApiResponse(code = 200, message = "One product", response = Product.class) })
     public Response delete(@PathParam("id") Long id) {
-    	return Response.ok().entity("magic!").build();
+    	return Response.ok().entity("{}").build();
     }
 
     @GET
@@ -40,10 +40,10 @@ public class ProductApi  {
     @Consumes({ "text/plain" })
     @Produces({ "application/json" })
     @ApiOperation(value = "", notes = "Get product by ID", response = Product.class, tags={ "products",  })
-    @ApiResponses(value = { 
+    @ApiResponses(value = {
         @ApiResponse(code = 200, message = "One product", response = Product.class) })
     public Response get(@PathParam("id") Long id) {
-    	return Response.ok().entity("magic!").build();
+    	return Response.ok().entity("{}").build();
     }
 
     @PUT
@@ -51,10 +51,9 @@ public class ProductApi  {
     @Consumes({ "text/plain" })
     @Produces({ "application/json" })
     @ApiOperation(value = "", notes = "Update product by ID", response = Product.class, tags={ "products" })
-    @ApiResponses(value = { 
+    @ApiResponses(value = {
         @ApiResponse(code = 200, message = "One product", response = Product.class) })
     public Response update(@PathParam("id") Long id,String productName) {
-    	return Response.ok().entity("magic!").build();
+    	return Response.ok().entity("{}").build();
     }
 }
-

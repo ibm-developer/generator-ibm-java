@@ -23,25 +23,24 @@ import io.swagger.annotations.ApiResponses;
 public class ProductsApi  {
 
     @POST
-    
+
     @Consumes({ "text/plain" })
     @Produces({ "application/json" })
     @ApiOperation(value = "", notes = "Add new product", response = Product.class, tags={ "products",  })
-    @ApiResponses(value = { 
+    @ApiResponses(value = {
         @ApiResponse(code = 200, message = "One product", response = Product.class) })
     public Response add(String productName) {
-    	return Response.ok().entity("magic!").build();
+    	return Response.ok().entity("{}").build();
     }
 
     @GET
-    
+
     @Consumes({ "text/plain" })
     @Produces({ "application/json" })
     @ApiOperation(value = "", notes = "Get all products", response = Product.class, responseContainer = "List", tags={ "products" })
-    @ApiResponses(value = { 
+    @ApiResponses(value = {
         @ApiResponse(code = 200, message = "List of all products", response = Product.class, responseContainer = "List") })
     public Response getAll() {
-    	return Response.ok().entity("magic!").build();
+    	return Response.ok().entity("{}").build();
     }
 }
-
