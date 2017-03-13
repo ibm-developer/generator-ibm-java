@@ -53,7 +53,7 @@ var questions = [{
     value : 'basicweb',
     short : 'Basic web application'
   }, {
-    name : 'BFF : Backend For Frontend (generate java from Swagger/OpenAPI) (TBD)',
+    name : 'BFF : Backend For Frontend (generate java from Swagger/OpenAPI)',
     value : 'bff',
     short : 'Backend For Frontend'
   }],
