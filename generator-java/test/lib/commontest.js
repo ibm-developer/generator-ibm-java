@@ -23,6 +23,7 @@ var assertCommonFiles = function() {
   //check common files are present for all configurations
   assert.file('src/main/liberty/config/server.xml');    //liberty configuration
   assert.file('src/main/liberty/config/server.env');
+  assert.file('src/main/webapp/WEB-INF/ibm-web-ext.xml');
   assert.file('README.md');
   //Docker files
   assert.file('Dockerfile');
