@@ -12,7 +12,22 @@
   ],
   "excludesDir" : [
     "target",
-    ".settings"
+    ".settings",
+    "build"
+  ],
+  "composition" : [
+    "basic",
+    {{#bluemix}}
+    {{#server.services}}
+    "services/common",
+    {{/server.services}}
+    {{#cloudant}}
+    "services/cloudantNoSQLDB",
+    {{/cloudant}}
+    {{#objectStorage}}
+    "services/objectStorage",
+    {{/objectStorage}}
+    {{/bluemix}}
   ],
   fileFound : function(path, contents, config) {
     var defaultFragment = {path : path, template : contents, data : config};

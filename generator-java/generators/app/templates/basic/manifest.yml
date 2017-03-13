@@ -22,3 +22,7 @@ env:
   services_autoconfig_excludes: Object-Storage=config
 {{/objectStorage}}
 {{/bluemix}}
+{{#has createType 'bff'}}
+env:
+  "OPENAPI_SPEC": "/{{appName}}/swagger.yml"
+{{/has}}
