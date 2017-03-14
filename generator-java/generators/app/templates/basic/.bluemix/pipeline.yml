@@ -31,6 +31,14 @@ stages:
       application: ${CF_APP}
     script: |-
       #!/bin/bash
+      {{#bluemix}}
+      {{#each cloudant}}
+      cf create-service "{{serviceInfo.label}}" "{{serviceInfo.plan}}" "{{serviceInfo.name}}"
+      {{/each}}
+      {{#each objectStorage}}
+      cf create-service "{{serviceInfo.label}}" "{{serviceInfo.plan}}" "{{serviceInfo.name}}"
+      {{/each}}
+      {{/bluemix}}
       cf push "${CF_APP}" -p target/{{appName}}.zip
       # View logs
       # cf logs "${CF_APP}" --recent

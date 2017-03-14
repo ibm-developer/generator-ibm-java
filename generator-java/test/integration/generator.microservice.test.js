@@ -124,7 +124,7 @@ describe('java generator : microservice integration test', function () {
 
     it('with cloudant', function (done) {
       var options = new Options('maven');
-      options.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "domain", "services" : ["cloudant"]}, "cloudant" : {"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user", "serviceInfo" : {"name" : "serviceName"}}}';
+      options.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "domain", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
         .withPrompts({})
@@ -134,7 +134,7 @@ describe('java generator : microservice integration test', function () {
 
         assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
         assert.fileContent('src/main/java/application/rest/v1/Example.java','Cloudant'); //check Cloudant service present
-        assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="serviceName")');
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-cloudantNoSQLDB-000")');
 
         assert.fileContent('README.md', 'cloudant');
         done();
@@ -145,7 +145,7 @@ describe('java generator : microservice integration test', function () {
 
     it('with object storage', function (done) {
       var options = new Options('maven');
-      options.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "domain", "services" : ["objectStorage"]}, "objectStorage" : {"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName", "serviceInfo" : {"name" : "serviceName"}}}';
+      options.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "domain", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
         .withPrompts({})
@@ -155,7 +155,7 @@ describe('java generator : microservice integration test', function () {
 
         assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
         assert.fileContent('src/main/java/application/rest/v1/Example.java','OSClient'); //check Cloudant service present
-        assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="serviceName")');
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-Object-Storage-000")');
 
         assert.fileContent('README.md', 'Object Storage service');
         done();

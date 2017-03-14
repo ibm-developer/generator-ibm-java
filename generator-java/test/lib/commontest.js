@@ -70,7 +70,18 @@ var assertServices = function(exists) {
   for(var i=1; i < arguments.length; i++) {
     if (arguments[i] && typeof arguments[i] === 'string') {
       check('manifest.yml', arguments[i]);
-      assert.noFileContent('.bluemix/pipeline.yml', arguments[i]);
+      check('.bluemix/pipeline.yml', arguments[i]);
+    }
+  }
+}
+
+var assertLibertyConfig = function(exists) {
+  if(arguments.length < 2) {
+    throw "assertLibertyConfig error : requires at least 2 arguments, base and a service to check";
+  }
+  var check = exists ? assert.fileContent : assert.noFileContent;
+  for(var i=1; i < arguments.length; i++) {
+    if (arguments[i] && typeof arguments[i] === 'string') {
       if(exists) {
         check('src/main/liberty/config/server.xml', arguments[i].toLowerCase());
       }
@@ -142,7 +153,8 @@ var assertObjectStorage = function(exists) {
   check('manifest.yml', '- objectStorage', 'Object-Storage=config');
   check('manifest.yml', 'Object-Storage=config');
   assertObjectStorageJava(exists);
-  assertServices(exists, 'objectStorage');
+  assertServices(exists, 'Object-Storage');
+  assertLibertyConfig(exists, 'objectStorage');
   assertEnvVars(exists, 'OBJECTSTORAGE_AUTH_URL="objectStorage-url"', 'OBJECTSTORAGE_USERID="objectStorage-userId"',
                         'OBJECTSTORAGE_PASSWORD="objectStorage-password"',
                         'OBJECTSTORAGE_DOMAIN_NAME="objectStorage-domainName"', 'OBJECTSTORAGE_PROJECT="objectStorage-project"');
@@ -154,6 +166,7 @@ var assertCloudant = function(exists) {
   check('manifest.yml', 'cloudantNoSQLDB=config');
   assertCloudantJava(exists);
   assertServices(exists, 'cloudant');
+  assertLibertyConfig(exists, 'cloudant');
   assertEnvVars(exists, 'CLOUDANT_URL="https://account.cloudant.com"', 'CLOUDANT_PASSWORD="pass"',
                         'CLOUDANT_USERNAME="user"');
 }

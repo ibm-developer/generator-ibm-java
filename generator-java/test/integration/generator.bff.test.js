@@ -43,6 +43,7 @@ function Options() {
     common.assertK8s(appName);
     common.assertFiles('', true, 'README.md');
     common.assertFiles('src', true, 'main/java/application/rest/HealthEndpoint.java',
+                                    'main/java/application/rest/SwaggerEndpoint.java',
                                     'main/java/application/model/Product.java',
                                     'main/java/application/openapi/ProductsApi.java',
                                     'main/java/application/openapi/ProductApi.java',
