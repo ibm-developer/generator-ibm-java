@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: {{appName}}
-        image: registry.ng.bluemix.net/MYSPACE/MYIMAGE:latest
+        image: {{appName}}:latest
         # resources:
         #   requests:
         #     cpu: 100m
