@@ -134,6 +134,7 @@ describe('java generator : microservice integration test', function () {
 
         assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
         assert.fileContent('src/main/java/application/rest/v1/Example.java','Cloudant'); //check Cloudant service present
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-cloudantNoSQLDB-000")');
 
         assert.fileContent('README.md', 'cloudant');
         done();
@@ -154,6 +155,7 @@ describe('java generator : microservice integration test', function () {
 
         assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
         assert.fileContent('src/main/java/application/rest/v1/Example.java','OSClient'); //check Cloudant service present
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-Object-Storage-000")');
 
         assert.fileContent('README.md', 'Object Storage service');
         done();
