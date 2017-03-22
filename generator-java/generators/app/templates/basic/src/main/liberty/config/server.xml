@@ -5,10 +5,21 @@
       <feature>jsonp-1.0</feature>
       <feature>jndi-1.0</feature>
       <feature>cdi-1.2</feature>
+      {{#has createType 'bff'}}
+      <feature>apiDiscovery-1.0</feature>
+      {{/has}}
   </featureManager>
 
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
       id="defaultHttpEndpoint" host="*" />
+
+  {{#has createType 'bff'}}
+  <keyStore id="defaultKeyStore"/>
+
+  <basicRegistry id="basic" realm="ibm/api">
+      <user name="guest" password="password" />
+  </basicRegistry>
+  {{/has}}
 
   {{#bluemix}}
   {{#cloudant}}
@@ -16,6 +27,12 @@
   <jndiEntry jndiName="cloudant/username" value="${env.CLOUDANT_USERNAME}"/>
   <jndiEntry jndiName="cloudant/password" value="${env.CLOUDANT_PASSWORD}"/>
   {{/cloudant}}
+  {{#objectStorage}}
+  <jndiEntry jndiName="objectstorage/auth_url" value="${env.OBJECTSTORAGE_AUTH_URL}"/>
+  <jndiEntry jndiName="objectstorage/userId" value="${env.OBJECTSTORAGE_USERID}"/>
+  <jndiEntry jndiName="objectstorage/password" value="${env.OBJECTSTORAGE_PASSWORD}"/>
+  <jndiEntry jndiName="objectstorage/domainName" value="${env.OBJECTSTORAGE_DOMAIN_NAME}"/>
+  <jndiEntry jndiName="objectstorage/project" value="${env.OBJECTSTORAGE_PROJECT}"/>
+  {{/objectStorage}}
   {{/bluemix}}
-
 </server>

@@ -3,7 +3,10 @@ package application.cloudant;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class CloudantCredentials {
+import application.bluemix.BluemixCredentials;
+import application.bluemix.InvalidCredentialsException;
+
+public class CloudantCredentials extends BluemixCredentials {
 
     private String username;
     private String password;
@@ -26,16 +29,13 @@ public class CloudantCredentials {
     }
 
     private void checkCredentialsValid(String url, String username, String password) throws InvalidCredentialsException {
-        if (url == null || username == null || password == null) {
-            throw new InvalidCredentialsException("Invalid cloudant credentials.");
-        }
         try {
-            this.url = new URL(url);
+            this.url = new URL(sanitiseString(url));
         } catch (MalformedURLException e) {
             throw new InvalidCredentialsException("MalformedURLException thrown while parsing url string:" + url);
         }
-        this.username = username;
-        this.password = password;
+        this.username = sanitiseString(username);
+        this.password = sanitiseString(password);
     }
 
 }

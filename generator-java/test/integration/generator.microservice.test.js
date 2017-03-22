@@ -22,6 +22,7 @@ var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 var config = require('../../generators/lib/config');
+var common = require('../lib/commontest');
 
 const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
@@ -36,21 +37,17 @@ function Options(buildType) {
   this.version = VERSION;
   this.appName = APPNAME;
   this.groupId = GROUPID;
-  this.assertCommonFiles = function() {
-    //check common files are present for all configurations
-    assert.file('src/main/java/application/rest/HealthEndpoint.java'); //application files
-    assert.file('src/test/java/it/HealthEndpointTest.java');    //some tests
-    assert.file('src/main/liberty/config/server.xml');    //liberty configuration
-    //Docker files
-    assert.file('Dockerfile');
-    assert.file('Dockerfile-tools');
-    assert.noFile('Dockerfile-run');//deprecated name
-    // Bluemix files
-    assert.file('manifest.yml');
-    assert.file('.bluemix/deploy.json');
-    assert.file('.bluemix/pipeline.yml');
-    assert.file('.bluemix/toolchain.yml');
-    assert.file('README.md');
+  this.assert = function(appName, ymlName, cloudant, objectStorage) {
+    common.assertCommonFiles();
+    common.assertCLI(appName);
+    common.assertBluemixSrc(cloudant || objectStorage);
+    common.assertManifestYml(ymlName, cloudant || objectStorage);
+    common.assertCloudant(cloudant);
+    common.assertObjectStorage(objectStorage);
+    common.assertK8s(appName);
+    common.assertFiles('', true, 'README.md');
+    common.assertFiles('src', true, 'main/java/application/rest/HealthEndpoint.java',
+                                    'test/java/it/HealthEndpointTest.java')
   }
 }
 
@@ -69,12 +66,10 @@ describe('java generator : microservice integration test', function () {
         .withOptions(options)
         .withPrompts({})
       .toPromise().then(function() {
-        options.assertCommonFiles();
-        assert.noFile('pom.xml');   //build file
-        assert.file('build.gradle');
-        assert.fileContent('build.gradle',"appName = '" + options.appName +"'");
-        assert.fileContent('src/main/java/application/rest/v1/Demo.java','list.add("Some data");'); //check no bx services present
-        assert.fileContent('cli-config.yml','image-name-run : "bx-dev-testapp"');  //make sure lowercase app name
+        options.assert(APPNAME, APPNAME, false, false)
+        common.assertGradleFiles(APPNAME);
+
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
         assert.fileContent('README.md', 'gradle');
         assert.noFileContent('README.md', 'maven');
         done();
@@ -89,12 +84,10 @@ describe('java generator : microservice integration test', function () {
         .withOptions(options)
         .withPrompts({})
       .toPromise().then(function() {
-        options.assertCommonFiles();
-        assert.noFile('build.gradle');   //build file
-        assert.file('pom.xml');
-        assert.fileContent('pom.xml',"<app.name>" + options.appName + "</app.name>");
-        assert.fileContent('src/main/java/application/rest/v1/Demo.java','list.add("Some data");'); //check no bx services present
-        assert.fileContent('cli-config.yml','image-name-run : "bx-dev-testapp"');  //make sure lowercase app name
+        options.assert(APPNAME, APPNAME, false, false)
+        common.assertMavenFiles(APPNAME);
+
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
         assert.fileContent('README.md', 'maven');
         assert.noFileContent('README.md', 'gradle');
         done();
@@ -114,18 +107,14 @@ describe('java generator : microservice integration test', function () {
         .withOptions(options)
         .withPrompts({})
       .toPromise().then(function() {
-        options.assertCommonFiles();
-        assert.noFile('pom.xml');   //build file
-        assert.file('build.gradle');
-        assert.fileContent('build.gradle',"appName = 'bxName'");
+        options.assert('bxName', 'bxName', false, false)
+        common.assertGradleFiles('bxName');
+
         assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
-        assert.noFileContent('src/main/java/application/rest/v1/Demo.java', 'Cloudant');
-        assert.noFileContent('src/main/liberty/config/server.xml', 'cloudant');
-        assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
-        // Bluemix files
-        assert.noFileContent('manifest.yml', 'cloudant');
-        assert.fileContent('manifest.yml', 'name: bxName', 'random-route: true') //Not using prompt so we get app name and random route
-        assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
+        assert.noFileContent('src/main/java/application/rest/v1/Example.java', 'Cloudant');
+
+        assert.fileContent('manifest.yml', 'name: bxName') //Not using prompt so we get app name and random route
+        assert.fileContent('manifest.yml', 'random-route: true') //Not using prompt so we get app name and random route
         assert.noFileContent('README.md', 'cloudant');
         done();
       }, function(err) {
@@ -135,23 +124,40 @@ describe('java generator : microservice integration test', function () {
 
     it('with cloudant', function (done) {
       var options = new Options('maven');
-      options.bluemix = '{"cloudant" : true, "name" : "bxName"}';
+      options.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "domain", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
         .withPrompts({})
       .toPromise().then(function() {
-        options.assertCommonFiles();
-        assert.noFile('build.gradle');   //build file
-        assert.file('pom.xml');
-        assert.fileContent('pom.xml',"<app.name>bxName</app.name>");
+        options.assert('bxName', 'bxName', true, false)
+        common.assertMavenFiles('bxName');
+
         assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
-        assert.fileContent('src/main/java/application/rest/v1/Demo.java','Cloudant'); //check Cloudant service present
-        assert.fileContent('src/main/liberty/config/server.xml', 'cloudant');
-        assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
-        // Bluemix files
-        assert.fileContent('manifest.yml', 'cloudant');
-        assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','Cloudant'); //check Cloudant service present
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-cloudantNoSQLDB-000")');
+
         assert.fileContent('README.md', 'cloudant');
+        done();
+      }, function(err) {
+        assert.fail(false, "Test failure ", err);
+      });                        // Get a Promise back when the generator finishes
+    });
+
+    it('with object storage', function (done) {
+      var options = new Options('maven');
+      options.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "domain", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
+      helpers.run(path.join( __dirname, '../../generators/app'))
+        .withOptions(options)
+        .withPrompts({})
+      .toPromise().then(function() {
+        options.assert('bxName', 'bxName', false, true)
+        common.assertMavenFiles('bxName');
+
+        assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','OSClient'); //check Cloudant service present
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-Object-Storage-000")');
+
+        assert.fileContent('README.md', 'Object Storage service');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);

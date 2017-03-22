@@ -58,9 +58,9 @@ Handlebars.registerHelper('has', function(context, options, handler) {
       frame._parent = handler.data;
     }
     //call down and process the contents of the block
-    return handler.fn(context, {
+    return handler.fn(handler.data.root, {
       data: frame,
-      blockParams: [context]
+      blockParams: [handler.data.root]
     });
   }
   //parameters didn't match, so don't render anything in the template

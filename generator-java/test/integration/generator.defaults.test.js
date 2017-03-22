@@ -22,6 +22,7 @@ var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 var config = require('../../generators/lib/config');
+var common = require('../lib/commontest');
 
 beforeEach(function() {
   //make sure we start with a valid config object
@@ -30,7 +31,7 @@ beforeEach(function() {
 
 describe('java generator integration test', function () {
 
-  describe('Generates a rest project in headless mode, no configuration', function () {
+  describe('Generates a basic project in headless mode, no configuration', function () {
 
     before(function () {
       // Mock the options, set up an output folder and run the generator
@@ -45,14 +46,12 @@ describe('java generator integration test', function () {
 
 
     it('should create a maven based project', function () {
-      assert.file('pom.xml');   //build file
-      assert.noFile('build.gradle');
-      assert.file('src/main/liberty/config/server.xml');    //liberty configuration
+      common.assertMavenFiles('LibertyProject');
     });
 
     it('should have carried out replacements', function () {
       assert.fileContent('pom.xml', '<groupId>liberty.projects</groupId>');
-      assert.fileContent('pom.xml', '<artifactId>demo</artifactId>');
+      assert.fileContent('pom.xml', '<artifactId>LibertyProject</artifactId>');
       assert.fileContent('pom.xml', '<version>1.0-SNAPSHOT</version>');
     });
 

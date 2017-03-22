@@ -22,6 +22,7 @@ var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 var config = require('../../generators/lib/config');
+var common = require('../lib/commontest');
 
 const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
@@ -32,21 +33,16 @@ function Options() {
   this.debug = "true";
   this.version = VERSION;
   this.groupId = GROUPID;
-  this.assertCommonFiles = function() {
-    //check common files are present for all configurations
-    assert.noFile('src/main/java/application/api/v1/HealthEndpoint.java'); //application files
-    assert.noFile('src/test/java/it/HealthEndpointTest.java');    //some tests
-    assert.file('src/main/liberty/config/server.xml');    //liberty configuration
-    assert.noFile('src/main/webapp/WEB-INF/ibm-web-ext.xml');
-    //Docker files
-    assert.file('Dockerfile');
-    assert.file('Dockerfile-tools');
-    assert.noFile('Dockerfile-run');//deprecated name
-    // Bluemix files
-    assert.file('manifest.yml');
-    assert.file('.bluemix/deploy.json');
-    assert.file('.bluemix/pipeline.yml');
-    assert.file('.bluemix/toolchain.yml');
+  this.assert = function(appName, ymlName, cloudant, objectStorage) {
+    common.assertCommonFiles();
+    common.assertCLI(appName);
+    common.assertBluemixSrc(cloudant || objectStorage);
+    common.assertManifestYml(ymlName, cloudant || objectStorage);
+    common.assertCloudant(cloudant);
+    common.assertObjectStorage(objectStorage);
+    common.assertK8s(appName);
+    common.assertFiles('src', false, 'main/java/application/api/v1/HealthEndpoint.java',
+                                     'test/java/it/HealthEndpointTest.java')
   }
 }
 
@@ -65,14 +61,8 @@ describe('java generator : basic integration test', function () {
         .withOptions(options)
         .withPrompts({ buildType : 'gradle', createType: 'basic', services: ['none'], appName: APPNAME})
       .toPromise().then(function() {
-        options.assertCommonFiles();
-        assert.noFile('pom.xml');   //build file
-        assert.file('build.gradle');
-        assert.fileContent('build.gradle',"appName = '" + APPNAME +"'");
-        assert.fileContent('cli-config.yml','image-name-run : "bx-dev-testapp"');  //make sure lowercase app name
-        // Bluemix files
-        assert.noFileContent('manifest.yml', 'cloudant');
-        assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
+        options.assert(APPNAME, APPNAME, false, false)
+        common.assertGradleFiles(APPNAME);
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -85,14 +75,8 @@ describe('java generator : basic integration test', function () {
         .withOptions(options)
         .withPrompts({buildType : 'maven', createType: 'basic', appName: APPNAME })
       .toPromise().then(function() {
-        options.assertCommonFiles();
-        assert.noFile('build.gradle');   //build file
-        assert.file('pom.xml');
-        assert.fileContent('pom.xml',"<app.name>" + APPNAME + "</app.name>");
-        assert.fileContent('cli-config.yml','image-name-run : "bx-dev-testapp"');  //make sure lowercase app name
-        // Bluemix files
-        assert.noFileContent('manifest.yml', 'cloudant');
-        assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
+        options.assert(APPNAME, APPNAME, false, false)
+        common.assertMavenFiles(APPNAME);
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -109,15 +93,8 @@ describe('java generator : basic integration test', function () {
         .withOptions(options)
         .withPrompts({buildType : 'maven', createType: 'basic', services : ['cloudant'], appName : 'bxName' })
       .toPromise().then(function() {
-        options.assertCommonFiles();
-        assert.noFile('build.gradle');   //build file
-        assert.file('pom.xml');
-        assert.fileContent('pom.xml',"<app.name>bxName</app.name>");
-        assert.fileContent('src/main/liberty/config/server.xml', 'cloudant');
-        assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
-        // Bluemix files
-        assert.fileContent('manifest.yml', 'name: testBxName', 'host: host', 'domain: domain', 'services:', '\\- cloudant', 'cloudantNoSQLDB=config');
-        assert.noFileContent('.bluemix/pipeline.yml', 'cloudant');
+        options.assert('bxName', 'testBxName', true, false)
+        common.assertMavenFiles('bxName');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -129,14 +106,8 @@ describe('java generator : basic integration test', function () {
         .withOptions(options)
         .withPrompts({buildType : 'maven', createType: 'basic', services : ['objectStorage'], appName : 'bxName' })
       .toPromise().then(function() {
-        options.assertCommonFiles();
-        assert.noFile('build.gradle');   //build file
-        assert.file('pom.xml');
-        assert.fileContent('pom.xml',"<app.name>bxName</app.name>");
-        assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
-        // Bluemix files
-        assert.fileContent('manifest.yml', 'name: testBxName', 'services:', '\\- objectStorage');
-        assert.noFileContent('manifest.yml', 'cloudantNoSQLDB=config');
+        options.assert('bxName', 'testBxName', false, true)
+        common.assertMavenFiles('bxName');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);
@@ -148,13 +119,8 @@ describe('java generator : basic integration test', function () {
         .withOptions(options)
         .withPrompts({buildType : 'maven', createType: 'basic', services : ['objectStorage', 'cloudant'], appName : 'bxName' })
       .toPromise().then(function() {
-        options.assertCommonFiles();
-        assert.noFile('build.gradle');   //build file
-        assert.file('pom.xml');
-        assert.fileContent('pom.xml',"<app.name>bxName</app.name>");
-        assert.fileContent('cli-config.yml','image-name-run : "bx-dev-bxname"');  //make sure lowercase app name
-        // Bluemix files
-        assert.fileContent('manifest.yml', 'name: testBxName', 'services:', '\\- objectStorage', '\\- cloudant', 'cloudantNoSQLDB=config');
+        options.assert('bxName', 'testBxName', true, true)
+        common.assertMavenFiles('bxName');
         done();
       }, function(err) {
         assert.fail(false, "Test failure ", err);

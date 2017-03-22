@@ -8,12 +8,35 @@
     "pom.xml",
     {{/has}}
   ],
+  "excludesDir" : [
+    "target",
+    ".settings",
+    "build"
+  ],
   "composition" : [
     {{#bluemix}}
+    {{#server.services}}
+    "services/common",
+    {{/server.services}}
     {{#cloudant}}
     "services/cloudantNoSQLDB",
     {{/cloudant}}
+    {{#objectStorage}}
+    "services/objectStorage",
+    {{/objectStorage}}
     {{/bluemix}}
-    "basic"
-  ]
+  ],
+  fileFound : function(path, contents, config) {
+    var defaultFragment = {path : path, template : contents, data : config};
+    if(path == 'gitignore') {
+      var fragment = {
+        path : '.gitignore',
+        template : contents,
+        data : config
+      }
+      return [fragment];
+    } else {
+      return [defaultFragment];
+    }
+  }
 }

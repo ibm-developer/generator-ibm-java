@@ -22,6 +22,7 @@ var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 var config = require('../../generators/lib/config');
+var common = require('../lib/commontest');
 
 const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
@@ -53,9 +54,7 @@ describe('java generator integration test', function () {
     });
 
     it('should create a gradle based project', function () {
-      assert.noFile('pom.xml');   //build file
-      assert.file('build.gradle');
-      assert.file('src/main/liberty/config/server.xml');    //liberty configuration
+      common.assertGradleFiles(APPNAME)
     });
 
     it('should have carried out replacements', function () {

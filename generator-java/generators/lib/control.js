@@ -97,7 +97,8 @@ Control.prototype.shouldGenerate = function(relativePath) {
   }
   if (this.controlBlock.excludesDir) {
     for(var i = 0; i < this.controlBlock.excludesDir.length; i++) {
-      if(relativePath.startsWith(this.controlBlock.excludesDir[i])) {
+      var path = fspath.parse(relativePath);
+      if(path.dir === this.controlBlock.excludesDir[i]) {
         //console.log("Directory excluded : " + relativePath);
         return false;
       }

@@ -1,16 +1,16 @@
 package application.cloudant;
 
-import java.io.StringReader;
-
 import javax.annotation.Resource;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonString;
 import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.InjectionPoint;
+import javax.json.JsonObject;
 
 import com.cloudant.client.api.ClientBuilder;
 import com.cloudant.client.api.CloudantClient;
+
+import application.bluemix.InvalidCredentialsException;
+import application.bluemix.VCAPServices;
+import application.bluemix.ServiceName;
 
 public class Cloudant {
 
@@ -24,14 +24,13 @@ public class Cloudant {
     protected String resourcePassword;
 
     @Produces
-    public CloudantClient expose() throws CloudantException {
+    @ServiceName
+    public CloudantClient expose(InjectionPoint ip) throws InvalidCredentialsException {
+        ServiceName config = ip.getAnnotated().getAnnotation(ServiceName.class);
+        String serviceName = config.name();
         CloudantClient client = null;
         CloudantCredentials credentials;
-        try {
-            credentials = getCloudantCredentials();
-        } catch (InvalidCredentialsException e) {
-            throw new CloudantException(e.getMessage());
-        }
+        credentials = getCloudantCredentials(serviceName);
         client = ClientBuilder.url(credentials.getUrl())
             .username(credentials.getUsername())
             .password(credentials.getPassword())
@@ -39,30 +38,22 @@ public class Cloudant {
         return client;
     }
 
-    private CloudantCredentials getCloudantCredentials() throws InvalidCredentialsException {
+    private CloudantCredentials getCloudantCredentials(String serviceName) throws InvalidCredentialsException {
         CloudantCredentials credentials;
         try {
-            credentials = getCredentialsFromVCAP(System.getenv("VCAP_SERVICES"));
+            credentials = getCredentialsFromVCAP(serviceName);
         } catch (InvalidCredentialsException e) {
             credentials = new CloudantCredentials(resourceUrl, resourceUsername, resourcePassword);
         }
         return credentials;
     }
 
-    private CloudantCredentials getCredentialsFromVCAP(String vcapServicesEnv) throws InvalidCredentialsException {
-        if (vcapServicesEnv == null) {
-            throw new InvalidCredentialsException();
-        }
-        JsonObject vcapServices = Json.createReader(new StringReader(vcapServicesEnv)).readObject();
-        JsonArray cloudantObjectArray = vcapServices.getJsonArray("cloudantNoSQLDB");
-        JsonObject cloudantObject = cloudantObjectArray.getJsonObject(0);
-        JsonObject cloudantCredentials = cloudantObject.getJsonObject("credentials");
-        JsonString cloudantUsername = cloudantCredentials.getJsonString("username");
-        String username = cloudantUsername.getString();
-        JsonString cloudantPassword = cloudantCredentials.getJsonString("password");
-        String password = cloudantPassword.getString();
-        JsonString cloudantUrl = cloudantCredentials.getJsonString("url");
-        String url = cloudantUrl.getString();
+    private CloudantCredentials getCredentialsFromVCAP(String serviceName) throws InvalidCredentialsException {
+        VCAPServices vcap = new VCAPServices();
+        JsonObject credentials = vcap.getCredentialsObject("cloudantNoSQLDB", serviceName);
+        String username = credentials.getJsonString("username").getString();
+        String password = credentials.getJsonString("password").getString();
+        String url = credentials.getJsonString("url").getString();
         CloudantCredentials creds = new CloudantCredentials(url, username, password);
         return creds;
     }

@@ -6,20 +6,6 @@
     <version>{{version}}</version>
     <packaging>war</packaging>
 
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>https://raw.github.com/WASdev/tool.accelerate.cloudant/master/LICENSE</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <scm>
-        <connection>scm:git:git@github.com:WASdev/tool.accelerate.cloudant.git</connection>
-        <developerConnection>scm:git@github.com:WASdev/tool.accelerate.cloudant.git</developerConnection>
-        <url>git@github.com:WASdev/tool.accelerate.cloudant.git</url>
-    </scm>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -37,7 +23,6 @@
     </properties>
 
     <dependencies>
-        {{#bluemix}}
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
@@ -68,6 +53,25 @@
             <version>1.2</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-client</artifactId>
+            <version>3.1.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>1.0.4</version>
+            <scope>test</scope>
+        </dependency>
+        {{#bluemix}}
         {{#cloudant}}
         <dependency>
             <groupId>com.cloudant</groupId>
@@ -75,7 +79,26 @@
             <version>2.7.0</version>
         </dependency>
         {{/cloudant}}
+        {{#objectStorage}}
+        <dependency>
+             <groupId>org.pacesys</groupId>
+             <artifactId>openstack4j-core</artifactId>
+             <version>3.0.3</version>
+         </dependency>
+         <dependency>
+             <groupId>org.pacesys.openstack4j.connectors</groupId>
+             <artifactId>openstack4j-httpclient</artifactId>
+             <version>3.0.3</version>
+         </dependency>
+        {{/objectStorage}}
         {{/bluemix}}
+        {{#has createType 'bff'}}
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.5.3</version>
+        </dependency>
+        {{/has}}
     </dependencies>
 
     <build>
@@ -145,7 +168,8 @@
                         <version>16.0.0.4</version>
                         <type>zip</type>
                     </assemblyArtifact>
-                    <configFile>src/main/liberty/config/server.xml</configFile>
+                    <configFile>${basedir}/src/main/liberty/config/server.xml</configFile>
+                    <serverEnv>${basedir}/src/main/liberty/config/server.env</serverEnv>
                     <packageFile>${package.file}</packageFile>
                     <include>${packaging.type}</include>
                     <bootstrapProperties>
@@ -188,8 +212,7 @@
                             </includes>
                             <systemPropertyVariables>
                                 <liberty.test.port>${testServerHttpPort}</liberty.test.port>
-                                <war.name>${warContext}</war.name>
-                                <cf.context.root>${cf.context.root}</cf.context.root>
+                                <war.context>${warContext}</war.context>
                             </systemPropertyVariables>
                         </configuration>
                     </execution>
