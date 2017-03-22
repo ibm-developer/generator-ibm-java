@@ -20,13 +20,13 @@ if [[ $TRAVIS_BRANCH == "master"  ]]; then
         echo "Tests passed, continuing release cycle, revving version"
         npm run release
         echo "Committing to git"
-        git push --follow-tags origin HEAD:master
+        echo "git push --follow-tags origin HEAD:master"
       else
         exit $?
       fi
     else
       echo "Version numbers don't match, so publishing to the registry"
-      npm publish --scope=arf
+      echo "npm publish --scope=arf"
     fi
 
   fi
