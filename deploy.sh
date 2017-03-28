@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Auto publish script : version 0.0.1"
+echo "Auto publish script : version 0.0.2"
 echo "Checking if a new publish cycle is required ..."
 PKG_NAME=`node -e "console.log(require('./package.json').name);"`
 PKG_VER=`node -e "console.log(require('./package.json').version);"`
@@ -20,14 +20,17 @@ if [[ $TRAVIS_BRANCH == "master"  ]]; then
         echo "Tests passed, continuing release cycle, revving version"
         npm run release
         echo "Committing to git"
-        echo "git push --follow-tags origin HEAD:master"
+        PKG_VER_NEXT=`node -e "console.log(require('./package.json').version);"`
+        BRANCH="updateTo${PKG_VER_NEXT}"
+        git checkout -b $BRANCH
+        #this branch will need to be reviewed and approved in the usual manner
+        git push --follow-tags origin $BRANCH
       else
         exit $?
       fi
     else
       echo "Version numbers don't match, so publishing to the registry"
-      echo "npm publish --scope=arf"
+      npm publish --scope=arf
     fi
-
   fi
 fi
