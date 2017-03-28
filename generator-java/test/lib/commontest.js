@@ -16,8 +16,9 @@
 
 //common test functions in a handy module
 
+'use strict'
+const path = require('path');
 var assert = require('yeoman-assert');
-var path = require('path');
 const LIBERTY_VERSION = '17.0.0.1';   //current Liberty version to check for
 
 var assertCommonFiles = function() {
