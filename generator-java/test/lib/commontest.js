@@ -18,6 +18,7 @@
 
 var assert = require('yeoman-assert');
 var path = require('path');
+const LIBERTY_VERSION = '17.0.0.1';   //current Liberty version to check for
 
 var assertCommonFiles = function() {
   //check common files are present for all configurations
@@ -44,6 +45,7 @@ var assertGradleFiles = function(appname) {
   assert.noFile('pom.xml');   //build file
   assert.file('build.gradle');
   assert.fileContent('build.gradle',"appName = '" + appname +"'");
+  assert.fileContent('build.gradle', 'wlp-webProfile7-' + LIBERTY_VERSION);
   assert.fileContent('manifest.yml', 'path: ./build/' + appname + '.zip');
 }
 
@@ -51,6 +53,7 @@ var assertMavenFiles = function(appname) {
   assert.noFile('build.gradle');   //build file
   assert.file('pom.xml');
   assert.fileContent('pom.xml',"<app.name>" + appname +"</app.name>");
+  assert.fileContent('pom.xml', '<version>' + LIBERTY_VERSION + '</version>');
   assert.fileContent('manifest.yml', 'path: ./target/' + appname + '.zip');
 }
 
