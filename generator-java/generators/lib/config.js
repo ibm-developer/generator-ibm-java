@@ -19,45 +19,31 @@
 const PATTERN_NAME = new RegExp("^[a-zA-Z0-9_-]+$");
 const PATTERN_ARTIFACT_ID = new RegExp("^[a-zA-Z0-9-_.]*$");
 
-var config = {
-  appName : "myLibertyProject",
-  buildType : "maven",
-  artifactId : "artifactId",
-  groupId : "groupId",
-  version : "1.0",
-  headless : "false",
-  createType : "rest",
-  debug : "false",
-  bluemix : undefined,
-  input : undefined
+function Config() {
+  this.reset();
 };    //the configuration object
 
-var isValid = function() {
-  var value = config.appName;
+Config.prototype.isValid = function() {
+  var value = this.appName;
   if(!value || !PATTERN_NAME.test(value) || (value.length > 50)) return false;
-  value = config.artifactId;
+  value = this.artifactId;
   if(!value || !PATTERN_ARTIFACT_ID.test(value)) return false;
-  value = config.groupId;
+  value = this.groupId;
   if(!value || !PATTERN_ARTIFACT_ID.test(value)) return false;
   return true;
 }
 
-var reset = function() {
-  this.config = {};
-  config.appName = "myLibertyProject";
-  config.buildType = "maven";
-  config.artifactId = "artifactId";
-  config.groupId = "groupId";
-  config.version = "1.0";
-  config.headless = "false";
-  config.createType = "rest";
-  config.debug = "false";
-  config.bluemix = undefined;
-  config.input = undefined;
+Config.prototype.reset = function() {
+  this.appName = "myLibertyProject";
+  this.buildType = "maven";
+  this.artifactId = "artifactId";
+  this.groupId = "groupId";
+  this.version = "1.0";
+  this.headless = "false";
+  this.createType = "rest";
+  this.debug = "false";
+  this.bluemix = undefined;
+  this.input = undefined;
 }
 
-module.exports = {
-  isValid : isValid,
-  data : config,
-  reset : reset
-}
+module.exports = exports = Config;

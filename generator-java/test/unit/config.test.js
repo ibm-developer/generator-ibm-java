@@ -17,63 +17,69 @@
 //test the config module
 
 var assert = require('assert');
-var config = require('../../generators/lib/config');
-
-beforeEach(function() {
-  //make sure we start with a valid config object
-  config.reset();
-});
+var Config = require('../../generators/lib/config');
 
 describe('Config behaviour', function() {
   it('should be possible to reset config values', function(){
-    config.data.artifactId = 'testID';
-    config.data.bluemix = {name : 'bxName'};
+    var config = new Config();
+    config.artifactId = 'testID';
+    config.bluemix = {name : 'bxName'};
     config.reset();
-    assert.equal('artifactId', config.data.artifactId);
-    assert.equal(undefined, config.data.bluemix);
+    assert.equal('artifactId', config.artifactId);
+    assert.equal(undefined, config.bluemix);
   });
 });
 
 describe('Config defaults', function() {
   it('artifactId should be set to "artifactId" when the value has not been set', function(){
-    assert.equal('artifactId', config.data.artifactId);
+    var config = new Config();
+    assert.equal('artifactId', config.artifactId);
   });
   it('groupId should be set to "groupId" when the value has not been set', function(){
-    assert.equal('groupId', config.data.groupId);
+    var config = new Config();
+    assert.equal('groupId', config.groupId);
   });
   it('name should be set to "myLibertyProject" when the value has not been set', function(){
-    assert.equal('myLibertyProject', config.data.appName);
+    var config = new Config();
+    assert.equal('myLibertyProject', config.appName);
   });
   it('build should be set to "maven" when the build type has not been set', function(){
-    assert.equal('maven', config.data.buildType);
+    var config = new Config();
+    assert.equal('maven', config.buildType);
   });
 });
 
 
 describe('Config validation', function() {
   it('should not be valid when the name contains invalid characters', function(){
+    var config = new Config();
     assert.equal(true, config.isValid());
   });
   it('should not be valid when the name is either missing or an empty string', function(){
-    config.data.appName = undefined;
+    var config = new Config();
+    config.appName = undefined;
     assert.equal(false, config.isValid());
-    config.data.appName = '';
+    config.appName = '';
     assert.equal(false, config.isValid());
   });
   it('should not be valid when the name contains invalid characters', function(){
-    config.data.appName = "wibble%";
+    var config = new Config();
+    config.appName = "wibble%";
     assert.equal(false, config.isValid());
   });
   it('should not be valid when the name contains too many characters', function(){
-    config.data.appName = "ThisIsAReallyLongNameButIsItLongEnoughNotQuiteSoLetsKeepGoing";
+    var config = new Config();
+    config.appName = "ThisIsAReallyLongNameButIsItLongEnoughNotQuiteSoLetsKeepGoing";
     assert.equal(false, config.isValid());
   });
   it('should not be valid when the artifactId contains invalid characters', function(){
-    config.data.artifactId = "%wibble";
+    var config = new Config();
+    config.artifactId = "%wibble";
     assert.equal(false, config.isValid());
   });
   it('should not be valid when the groupId contains invalid characters', function(){
-    config.data.groupId = "%wibble";
+    var config = new Config();
+    config.groupId = "%wibble";
     assert.equal(false, config.isValid());
   });
 });

@@ -22,7 +22,6 @@
 const tests = require('@arf/common-codegen-tests');
 const generatorLocation = require('path').join(__dirname, '../../generators/app');
 const APPNAME = 'testApp';
-var config = require('../../generators/lib/config');
 
 //common generator tests
 function assertCommonTests(options) {
@@ -32,7 +31,6 @@ function assertCommonTests(options) {
 }
 
 describe('java generator : bff/yaas : gradle build, no bluemix services', function () {
-  config.reset();
   var ymock = new tests.YMock(APPNAME, "JAVA", {headless : 'true', buildType : 'gradle', createType: 'bff'});
   assertCommonTests(ymock.getOptions());
 });

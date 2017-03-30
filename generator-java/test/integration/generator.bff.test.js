@@ -21,7 +21,6 @@
 var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
-var config = require('../../generators/lib/config');
 var common = require('../lib/commontest');
 
 const ARTIFACTID = 'artifact.0.1';
@@ -52,11 +51,6 @@ function Options() {
   }
 }
 
-beforeEach(function() {
-  //make sure we start with a valid config object
-  config.reset();
-});
-
 describe('java generator : bff integration test', function () {
 
   describe('Generates a basic bff project (no bluemix)', function () {
@@ -67,11 +61,15 @@ describe('java generator : bff integration test', function () {
         .withOptions(options)
         .withPrompts({ buildType : 'gradle', createType: 'bff', services: ['none'], appName: APPNAME})
       .toPromise().then(function() {
-        options.assert(APPNAME, APPNAME, false, false);
-        common.assertGradleFiles(APPNAME);
-        done();
+        try {
+          options.assert(APPNAME, APPNAME, false, false);
+          common.assertGradleFiles(APPNAME);
+          done();
+        } catch (err) {
+          done(err);
+        }
       }, function(err) {
-        assert.fail(false, "Test failure ", err);
+        done(err);
       });                        // Get a Promise back when the generator finishes
     });
 
@@ -81,11 +79,15 @@ describe('java generator : bff integration test', function () {
         .withOptions(options)
         .withPrompts({buildType : 'maven', createType: 'bff', appName: APPNAME })
       .toPromise().then(function() {
-        options.assert(APPNAME, APPNAME, false, false);
-        common.assertMavenFiles(APPNAME);
-        done();
+        try {
+          options.assert(APPNAME, APPNAME, false, false);
+          common.assertMavenFiles(APPNAME);
+          done();
+        } catch (err) {
+          done(err);
+        }
       }, function(err) {
-        assert.fail(false, "Test failure ", err);
+        done(err);
       });                        // Get a Promise back when the generator finishes
     });
 
@@ -99,11 +101,15 @@ describe('java generator : bff integration test', function () {
         .withOptions(options)
         .withPrompts({buildType : 'maven', createType: 'bff', services : ['cloudant'], appName : 'bxName' })
       .toPromise().then(function() {
-        options.assert('bxName', 'testBxName', true, false);
-        common.assertMavenFiles('bxName');
-        done();
+        try {
+          options.assert('bxName', 'testBxName', true, false);
+          common.assertMavenFiles('bxName');
+          done();
+        } catch (err) {
+          done(err);
+        }
       }, function(err) {
-        assert.fail(false, "Test failure ", err);
+        done(err);
       });                        // Get a Promise back when the generator finishes
     });
     it('with objectStorage', function (done) {
@@ -112,11 +118,15 @@ describe('java generator : bff integration test', function () {
         .withOptions(options)
         .withPrompts({buildType : 'maven', createType: 'bff', services : ['objectStorage'], appName : 'bxName' })
       .toPromise().then(function() {
-        options.assert('bxName', 'testBxName', false, true);
-        common.assertMavenFiles('bxName');
-        done();
+        try {
+          options.assert('bxName', 'testBxName', false, true);
+          common.assertMavenFiles('bxName');
+          done();
+        } catch (err) {
+          done(err);
+        }
       }, function(err) {
-        assert.fail(false, "Test failure ", err);
+        done(err);
       });                        // Get a Promise back when the generator finishes
     });
 
@@ -126,14 +136,19 @@ describe('java generator : bff integration test', function () {
         .withOptions(options)
         .withPrompts({buildType : 'maven', createType: 'bff', services : ['objectStorage', 'cloudant'], appName : 'bxName' })
       .toPromise().then(function() {
-        options.assert('bxName', 'testBxName', true, true);
-        common.assertMavenFiles('bxName');
-        done();
+        try {
+          options.assert('bxName', 'testBxName', true, true);
+          common.assertMavenFiles('bxName');
+          done();
+        } catch (err) {
+          done(err);
+        }
       }, function(err) {
-        assert.fail(false, "Test failure ", err);
+        done(err);
       });                        // Get a Promise back when the generator finishes
     });
 
   });
 
 });
+  
