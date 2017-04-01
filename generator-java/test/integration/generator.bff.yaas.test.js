@@ -34,3 +34,8 @@ describe('java generator : bff/yaas : gradle build, no bluemix services', functi
   var ymock = new tests.YMock(APPNAME, "JAVA", {headless : 'true', buildType : 'gradle', createType: 'bff'});
   assertCommonTests(ymock.getOptions());
 });
+
+describe('java generator : bff/yaas : maven build, no bluemix services', function () {
+  var ymock = new tests.YMock(APPNAME, "JAVA", {headless : 'true', buildType : 'maven', createType: 'bff'});
+  assertCommonTests(ymock.getOptions());
+});
