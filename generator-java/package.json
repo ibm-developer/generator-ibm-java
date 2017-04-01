@@ -16,7 +16,7 @@
     "yeoman-test": "^1.6.0",
     "istanbul" : "^0.4.5",
     "standard-version": "^4.0.0",
-    "common-codegen-tests": "git+ssh://git@github.ibm.com:arf/common-codegen-tests.git#master"
+    "common-codegen-tests": "0.0.1"
   },
   "scripts": {
     "test": "mocha test/unit/*",
