@@ -15,13 +15,13 @@
     "yeoman-assert": "^2.2.2",
     "yeoman-test": "^1.6.0",
     "istanbul" : "^0.4.5",
-    "standard-version": "^4.0.0",
-    "@arf/common-codegen-tests": "0.0.1"
+    "standard-version": "^4.0.0"
   },
   "scripts": {
     "test": "mocha test/unit/*",
     "testint": "mocha test/integration/*",
     "testbasic": "mocha test/integration/generator.basic.test.js",
+    "testcommon": "mocha test/common/*",
     "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/unit/*",
     "coverageint": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/integration/*",
     "istanbul" : "./node_modules/istanbul/lib/cli.js",
