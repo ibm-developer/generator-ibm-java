@@ -20,15 +20,21 @@ var fs = require('fs');
 var fspath = require('path');
 var Handlebars = require('handlebars');
 var controlBlock = undefined;
-var config = require('./config');   //configuration for this project
 var javarules = require('./javarules');
 var logger = require('./log');
 
 //determines if the passed relative path is a control file or not
 const CONTROL_FILE = "control.js";
 
-function Control(path) {
+function Control(path, config) {
+  if(!path) {
+    throw 'Missing path parameter, unable to construct a Control.';
+  }
+  if(!config) {
+    throw 'Missing config parameter, unable to construct a Control.';
+  }
   this.path = path;   //this is immutable once created
+  this.config = config;
   this.processProject();
 }
 
@@ -57,18 +63,18 @@ Control.prototype.processProject = function() {
 
   //it does, so parse it in and run it through Handlebars
   var template = fs.readFileSync(file, 'utf8');
-  logger.writeToLog("Config data for controlBlock", config.data);
+  logger.writeToLog("Config data for controlBlock", this.config);
   var compiledTemplate = Handlebars.compile(template);
-  var output = compiledTemplate(config.data);
+  var output = compiledTemplate(this.config);
   try {
     this.controlBlock = eval("(" + output + ")");
     if(this.controlBlock) {
       var composition = this.controlBlock.composition;
       if(composition) {
         for(var i = 0; i < composition.length; i++) {
-          composition[i] = fspath.resolve(config.data.templateRoot, composition[i]);
+          composition[i] = fspath.resolve(this.config.templateRoot, composition[i]);
         }
-        composition.push(fspath.resolve(config.data.templateRoot, config.data.createType));
+        composition.push(fspath.resolve(this.config.templateRoot, this.config.createType));
       }
     }
   } catch (err) {
@@ -110,9 +116,9 @@ Control.prototype.shouldGenerate = function(relativePath) {
 
 Control.prototype.fileFound = function(relativePath, contents) {
   if(this.controlBlock && this.controlBlock.fileFound) {
-    return this.controlBlock.fileFound(relativePath, contents, config);
+    return this.controlBlock.fileFound(relativePath, contents, this.config);
   } else {
-    return [{path : relativePath, template : contents, data : config}];
+    return [{path : relativePath, template : contents, data : this.config}];
   }
 }
 

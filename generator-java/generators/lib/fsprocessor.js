@@ -22,7 +22,6 @@ var fs = require('fs');
 var fspath = require('path');
 var Control = require('./control');
 var logger = require('./log');
-var config = require('./config');
 
 var paths = [];
 var id = 0;
@@ -103,12 +102,15 @@ function Resolver() {
 
 //return a promise that will complete when all files have been processed
 //used to ensure the generator does not move beyond the current lifecycle step
-var startWalk = function(cb) {
+var startWalk = function(config, cb) {
   if (!Array.isArray(this.paths)) {
     throw 'Paths is not an array.';
   }
   if (!this.paths.length) {
     throw 'No paths have been specified for the template ' + config.data.templateName;
+  }
+  if(!config) {
+    throw 'Missing config parameter, unable to start file walk.';
   }
   var resolver = new Resolver();
   resolver.trackers = [];
