@@ -6,6 +6,7 @@ before_install:
   - npm i -g makeshift && makeshift -r https://npm-registry.whitewater.ibm.com -s arf ibm
 install:
   - npm install
+  - npm install @arf/common-codegen-tests
 script:
   - npm test
   - npm run testint
