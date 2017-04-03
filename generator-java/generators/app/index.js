@@ -16,7 +16,7 @@
 
 var Generator = require('yeoman-generator');
 var Handlebars = require('handlebars');
-var config = require("../lib/config");
+var Config = require("../lib/config");
 var processor = require("../lib/fsprocessor");
 var helpers = require("../lib/helpers");
 var fspath = require('path');
@@ -92,6 +92,8 @@ var toObject = function(value) {
   return value;
 }
 
+var config = new Config();
+
 module.exports = class extends Generator {
 
   constructor(args, opts) {
@@ -109,27 +111,31 @@ module.exports = class extends Generator {
     this.option('bluemix', {desc : 'Bluemix options', type : (value)=>{return toObject(value);}, default : undefined});
     this.option('input', {desc : 'Input data file', type : processor.getContentsSync, default : undefined});
     logger.writeToLog("Options", this.options);
-    logger.writeToLog("Config (default)", config.data);
+  }
+
+  initializing() {
+    config = new Config();
+    logger.writeToLog("Config (default)", config);
     //overwrite any default values with those specified as options
-    clone(this.options, config.data);
+    clone(this.options, config);
     //set values based on either defaults or passed in values
-    config.data.templateName = config.data.createType;
-    config.data.templateRoot = this.templatePath();
+    config.templateName = config.createType;
+    config.templateRoot = this.templatePath();
     this._setProjectPath();
-    logger.writeToLog("Config", config.data);
+    logger.writeToLog("Config", config);
   }
 
   _setProjectPath() {
     //headless assumes that the output will be handled by the calling process / service
-    if(config.data.headless === "true") {
-      config.data.projectPath = fspath.resolve(this.destinationRoot());
+    if(config.headless === "true") {
+      config.projectPath = fspath.resolve(this.destinationRoot());
     } else {
-      config.data.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.data.appName);
+      config.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.appName);
     }
   }
 
   prompting() {
-    var promptWith = (config.data.headless === "true") ? [] : questions;
+    var promptWith = (config.headless === "true") ? [] : questions;
     return this.prompt(promptWith).then((answers) => {
       //answers.bluemix is a JSON string and needs to be converted
       if (typeof (answers.bluemix) === 'string') {
@@ -138,40 +144,40 @@ module.exports = class extends Generator {
       logger.writeToLog("Answers", answers);
       //configure the sample to use based on the type we are creating
       if(answers.createType) {
-        config.data.createType = answers.createType;
-        config.data.templateName = answers.createType;   //override with user selection
+        config.createType = answers.createType;
+        config.templateName = answers.createType;   //override with user selection
       }
-      config.data.buildType = answers.buildType || config.data.buildType;
-      config.data.bluemix = answers.bluemix || config.data.bluemix;
-      if(config.data.bluemix) {
-        config.data.appName = config.data.bluemix.name || answers.appName || config.data.appName;
+      config.buildType = answers.buildType || config.buildType;
+      config.bluemix = answers.bluemix || config.bluemix;
+      if(config.bluemix) {
+        config.appName = config.bluemix.name || answers.appName || config.appName;
       } else {
-        config.data.appName = answers.appName || config.data.appName;
+        config.appName = answers.appName || config.appName;
       }
-      if(config.data.artifactId === 'example') {
-        config.data.artifactId = config.data.appName;
+      if(config.artifactId === 'example') {
+        config.artifactId = config.appName;
       }
       //below this point, the only way to get these answers is to run the generator locally
       if(answers.services) {
-        if(!config.data.bluemix) {
-          config.data.bluemix = {};
+        if(!config.bluemix) {
+          config.bluemix = {};
         }
         logger.writeToLog("Processing interactive answers", answers.services);
-        config.data.bluemix.server = {
+        config.bluemix.server = {
           name : "testBxName",
           host : "host",
           domain : "domain"
         }
-        config.data.bluemix.server.services = answers.services;
+        config.bluemix.server.services = answers.services;
         for(var i = 0; i < answers.services.length; i++) {
           var service = answers.services[i];
           if(service === "none") {
-            config.data.bluemix = undefined;
+            config.bluemix = undefined;
             break;    //stop processing if none has been selected
           }
           if(service === "cloudant") {
-            if(!config.data.bluemix.cloudant) {
-              config.data.bluemix.cloudant = [
+            if(!config.bluemix.cloudant) {
+              config.bluemix.cloudant = [
                 {
                   "serviceInfo": {
                     "name": "test-cloudantNoSQLDB-000",
@@ -186,8 +192,8 @@ module.exports = class extends Generator {
             }
           }
           if(service === "objectStorage") {
-            if(!config.data.bluemix.objectStorage) {
-              config.data.bluemix.objectStorage = [
+            if(!config.bluemix.objectStorage) {
+              config.bluemix.objectStorage = [
                 {
                   "serviceInfo": {
                     "name": "test-Object-Storage-000",
@@ -206,29 +212,29 @@ module.exports = class extends Generator {
         }
       }
       this._setProjectPath();
-      logger.writeToLog("Config (after answers)", config.data);
+      logger.writeToLog("Config (after answers)", this.config);
     });
   }
 
   writing() {
-    logger.writeToLog('template path', config.data.templateName);
-    logger.writeToLog('project path', config.data.projectPath);
+    logger.writeToLog('template path', config.templateName);
+    logger.writeToLog('project path', config.projectPath);
     if(!config.isValid()) {
       //the config object is not valid, so need to exit at this point
       this.log("Error : configuration is invalid, code generation is aborted");
       throw "Invalid configuration";
     }
-    this.destinationRoot(config.data.projectPath);
+    this.destinationRoot(config.projectPath);
     logger.writeToLog("Destination path", this.destinationRoot());
-    var control = new Control(fspath.resolve(config.data.templateRoot, config.data.templateName), config);
+    var control = new Control(fspath.resolve(config.templateRoot, config.templateName), config);
     processor.paths = control.getComposition();
     logger.writeToLog("Processor", processor);
-    return processor.scan((relativePath, template) => {
+    return processor.scan(config, (relativePath, template) => {
       var outFile = this.destinationPath(relativePath);
       logger.writeToLog("CB : writing to", outFile);
       try {
         var compiledTemplate = Handlebars.compile(template);
-        var output = compiledTemplate(config.data);
+        var output = compiledTemplate(config);
         this.fs.write(outFile, output);
       } catch (err) {
         logger.writeToLog("Template error : " + relativePath, err.message);
@@ -237,7 +243,7 @@ module.exports = class extends Generator {
   }
 
   end() {
-    if(config.data.debug == "true") {
+    if(config.debug == "true") {
       var compiledTemplate = Handlebars.compile("{{#.}}\n{{{.}}}\n{{/.}}\n");
       var log = compiledTemplate(logger.getLogs);
       this.fs.write("log.txt", log);

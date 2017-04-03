@@ -21,7 +21,6 @@
 var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
-var config = require('../../generators/lib/config');
 var common = require('../lib/commontest');
 
 const ARTIFACTID = 'artifact.0.1';
@@ -51,11 +50,6 @@ function Options(buildType) {
   }
 }
 
-beforeEach(function() {
-  //make sure we start with a valid config object
-  config.reset();
-});
-
 describe('java generator : microservice integration test', function () {
 
   describe('Generates a basic microservices project (no bluemix)', function () {
@@ -66,15 +60,19 @@ describe('java generator : microservice integration test', function () {
         .withOptions(options)
         .withPrompts({})
       .toPromise().then(function() {
-        options.assert(APPNAME, APPNAME, false, false)
-        common.assertGradleFiles(APPNAME);
+        try {
+          options.assert(APPNAME, APPNAME, false, false)
+          common.assertGradleFiles(APPNAME);
 
-        assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
-        assert.fileContent('README.md', 'gradle');
-        assert.noFileContent('README.md', 'maven');
-        done();
+          assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
+          assert.fileContent('README.md', 'gradle');
+          assert.noFileContent('README.md', 'maven');
+          done();
+        } catch (err) {
+          done(err);
+        }
       }, function(err) {
-        assert.fail(false, "Test failure ", err);
+        done(err);
       });                        // Get a Promise back when the generator finishes
     });
 
@@ -84,15 +82,19 @@ describe('java generator : microservice integration test', function () {
         .withOptions(options)
         .withPrompts({})
       .toPromise().then(function() {
-        options.assert(APPNAME, APPNAME, false, false)
-        common.assertMavenFiles(APPNAME);
+        try {
+          options.assert(APPNAME, APPNAME, false, false)
+          common.assertMavenFiles(APPNAME);
 
-        assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
-        assert.fileContent('README.md', 'maven');
-        assert.noFileContent('README.md', 'gradle');
-        done();
+          assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
+          assert.fileContent('README.md', 'maven');
+          assert.noFileContent('README.md', 'gradle');
+          done();
+        } catch (err) {
+          done(err);
+        }
       }, function(err) {
-        assert.fail(false, "Test failure ", err);
+        done(err);
       });                        // Get a Promise back when the generator finishes
     });
 
@@ -107,18 +109,22 @@ describe('java generator : microservice integration test', function () {
         .withOptions(options)
         .withPrompts({})
       .toPromise().then(function() {
-        options.assert('bxName', 'bxName', false, false)
-        common.assertGradleFiles('bxName');
+        try {
+          options.assert('bxName', 'bxName', false, false)
+          common.assertGradleFiles('bxName');
 
-        assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
-        assert.noFileContent('src/main/java/application/rest/v1/Example.java', 'Cloudant');
+          assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
+          assert.noFileContent('src/main/java/application/rest/v1/Example.java', 'Cloudant');
 
-        assert.fileContent('manifest.yml', 'name: bxName') //Not using prompt so we get app name and random route
-        assert.fileContent('manifest.yml', 'random-route: true') //Not using prompt so we get app name and random route
-        assert.noFileContent('README.md', 'cloudant');
-        done();
+          assert.fileContent('manifest.yml', 'name: bxName') //Not using prompt so we get app name and random route
+          assert.fileContent('manifest.yml', 'random-route: true') //Not using prompt so we get app name and random route
+          assert.noFileContent('README.md', 'cloudant');
+          done();
+        } catch (err) {
+          done(err);
+        }
       }, function(err) {
-        assert.fail(false, "Test failure ", err);
+        done(err);
       });                        // Get a Promise back when the generator finishes
     });
 
@@ -129,17 +135,21 @@ describe('java generator : microservice integration test', function () {
         .withOptions(options)
         .withPrompts({})
       .toPromise().then(function() {
-        options.assert('bxName', 'bxName', true, false)
-        common.assertMavenFiles('bxName');
+        try {
+          options.assert('bxName', 'bxName', true, false)
+          common.assertMavenFiles('bxName');
 
-        assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
-        assert.fileContent('src/main/java/application/rest/v1/Example.java','Cloudant'); //check Cloudant service present
-        assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-cloudantNoSQLDB-000")');
+          assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
+          assert.fileContent('src/main/java/application/rest/v1/Example.java','Cloudant'); //check Cloudant service present
+          assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-cloudantNoSQLDB-000")');
 
-        assert.fileContent('README.md', 'cloudant');
-        done();
+          assert.fileContent('README.md', 'cloudant');
+          done();
+        } catch (err) {
+          done(err);
+        }
       }, function(err) {
-        assert.fail(false, "Test failure ", err);
+        done(err);
       });                        // Get a Promise back when the generator finishes
     });
 
@@ -150,17 +160,21 @@ describe('java generator : microservice integration test', function () {
         .withOptions(options)
         .withPrompts({})
       .toPromise().then(function() {
-        options.assert('bxName', 'bxName', false, true)
-        common.assertMavenFiles('bxName');
+        try {
+          options.assert('bxName', 'bxName', false, true)
+          common.assertMavenFiles('bxName');
 
-        assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
-        assert.fileContent('src/main/java/application/rest/v1/Example.java','OSClient'); //check Cloudant service present
-        assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-Object-Storage-000")');
+          assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
+          assert.fileContent('src/main/java/application/rest/v1/Example.java','OSClient'); //check Cloudant service present
+          assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-Object-Storage-000")');
 
-        assert.fileContent('README.md', 'Object Storage service');
-        done();
+          assert.fileContent('README.md', 'Object Storage service');
+          done();
+        } catch (err) {
+          done(err);
+        }
       }, function(err) {
-        assert.fail(false, "Test failure ", err);
+        done(err);
       });                        // Get a Promise back when the generator finishes
     });
 

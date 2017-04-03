@@ -20,6 +20,7 @@ var fs = require('fs');
 var assert = require('assert');
 var processor = require('../../generators/lib/fsprocessor');
 var path = require('path');
+var Config = require('../../generators/lib/config');
 
 describe('fsprocessor library', function() {
 
@@ -30,6 +31,10 @@ describe('fsprocessor library', function() {
     });
     it('it should throw an exception if the paths is an empty array', function() {
       processor.paths = [];
+      assert.throws(()=>{processor.scan()})
+    });
+    it('it should throw an exception if the config is missing', function() {
+      processor.paths = ["./test/resources/fsprocessor/test-templates-1file"];
       assert.throws(()=>{processor.scan()})
     });
   });
@@ -56,14 +61,14 @@ describe('fsprocessor library', function() {
   describe('walk tree specified with relative path', function() {
     it('it should walk a file system tree calling back when a file is found', function(done){
       processor.paths = ["./test/resources/fsprocessor/test-templates-1file"];
-      processor.scan((relativePath, contents) => {
+      processor.scan(new Config(), (relativePath, contents) => {
         assert.equal('file-1.txt', relativePath);
       }).then(() => { done(); })
         .catch((err) => { done(err);});
     });
     it('it should throw an exception for a non-existant path', function(done){
       processor.paths = ["./test/resources/fsprocessor/test-folder-does-not-exist"];
-      processor.scan((relativePath, contents) => {
+      processor.scan(new Config(), (relativePath, contents) => {
         assert.fail(false, true, "Should not have found any projects");
       }).then(() => { assert.fail(false, true, "Walk should not have completed without error"); })
         .catch((err) => {
@@ -81,7 +86,7 @@ describe('fsprocessor library', function() {
       var fpath = "/filewithnoreadperms.txt";
       fs.chmodSync(root + fpath, 222);
       processor.paths = [root];
-      processor.scan((relativePath, contents) => {
+      processor.scan(new Config(), (relativePath, contents) => {
         fs.chmodSync(root + fpath, 755);
         assert.fail(false, true, "Should not have found any projects");
       }).then(() => {
@@ -99,7 +104,7 @@ describe('fsprocessor library', function() {
     it('it should walk a file system tree calling back when a file is found', function(done){
       //path.resolve will convert to an absolute path
       processor.paths = [path.resolve("./test/resources/fsprocessor/test-templates-1file")];
-      processor.scan((relativePath, contents) => {
+      processor.scan(new Config(), (relativePath, contents) => {
         assert.equal('file-1.txt', relativePath);
       }).then(() => { done(); })
         .catch((err) => { done(err);});
@@ -114,7 +119,7 @@ describe('fsprocessor library', function() {
       var unknown = [];
       processor.paths = [path.resolve("./test/resources/fsprocessor/test-templates-emptyDirs"),
                         path.resolve("./test/resources/fsprocessor/test-templates-second")];
-      processor.scan((relativePath, contents) => {
+      processor.scan(new Config(), (relativePath, contents) => {
         for(var i = 0; i < files.length; i++) {
           if((relativePath === files[i]) || relativePath.endsWith(separator + files[i])) {
             //found a match so remove from the files list
