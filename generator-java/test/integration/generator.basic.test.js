@@ -33,12 +33,12 @@ function Options() {
   this.version = VERSION;
   this.groupId = GROUPID;
   this.assert = function(appName, ymlName, cloudant, objectStorage) {
-    common.assertCommonFiles();
+    common.assertCommonFiles(undefined);
     common.assertCLI(appName);
     common.assertBluemixSrc(cloudant || objectStorage);
     common.assertManifestYml(ymlName, cloudant || objectStorage);
-    common.assertCloudant(cloudant);
-    common.assertObjectStorage(objectStorage);
+    common.assertCloudant(cloudant, undefined);
+    common.assertObjectStorage(objectStorage, undefined);
     common.assertK8s(appName);
     common.assertFiles('src', false, 'main/java/application/api/v1/HealthEndpoint.java',
                                      'test/java/it/HealthEndpointTest.java')

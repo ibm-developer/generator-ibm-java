@@ -27,18 +27,19 @@ const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
 const VERSION = '1.0.0';
 const APPNAME = 'testApp';
+const FRAMEWORK = 'liberty';
 
 function Options() {
   this.debug = "true";
   this.version = VERSION;
   this.groupId = GROUPID;
   this.assert = function(appName, ymlName, cloudant, objectStorage) {
-    common.assertCommonFiles();
+    common.assertCommonFiles(FRAMEWORK);
     common.assertCLI(appName);
     common.assertBluemixSrc(cloudant || objectStorage);
     common.assertManifestYml(ymlName, cloudant || objectStorage);
-    common.assertCloudant(cloudant);
-    common.assertObjectStorage(objectStorage);
+    common.assertCloudant(cloudant, FRAMEWORK);
+    common.assertObjectStorage(objectStorage, FRAMEWORK);
     common.assertK8s(appName);
     common.assertFiles('', true, 'README.md');
     common.assertFiles('src', true, 'main/java/application/rest/HealthEndpoint.java',
@@ -151,4 +152,3 @@ describe('java generator : bff integration test', function () {
   });
 
 });
-  

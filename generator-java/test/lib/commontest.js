@@ -20,12 +20,10 @@
 const path = require('path');
 var assert = require('yeoman-assert');
 const LIBERTY_VERSION = '17.0.0.1';   //current Liberty version to check for
+const LIBERTY_FRAMEWORK = 'liberty';
 
-var assertCommonFiles = function() {
+var assertCommonFiles = function(framework) {
   //check common files are present for all configurations
-  assert.file('src/main/liberty/config/server.xml');    //liberty configuration
-  assert.file('src/main/liberty/config/server.env');
-  assert.file('src/main/webapp/WEB-INF/ibm-web-ext.xml');
   assert.file('README.md');
   //Docker files
   assert.file('Dockerfile');
@@ -40,6 +38,17 @@ var assertCommonFiles = function() {
   // Liber8 files
   assert.file('Jenkinsfile');
   assert.file('.gitignore');
+  if (framework === LIBERTY_FRAMEWORK) {
+    assertCommonLibertyFiles();
+  }
+}
+
+var assertCommonLibertyFiles = function() {
+  //check common files that are present in all configurations using Liberty
+  assert.file('src/main/liberty/config/server.xml');
+  assert.file('src/main/liberty/config/server.env');
+  assert.file('src/main/webapp/WEB-INF/ibm-web-ext.xml');
+
 }
 
 var assertGradleFiles = function(appname) {
@@ -126,9 +135,9 @@ var assertObjectStorageJava = function(exists) {
 }
 
 //asserts that the specified environment variables will flow through JNDI
-var assertEnvVars = function(exists) {
+var assertLibertyEnvVars = function(exists) {
   if(arguments.length < 2) {
-    throw "assertEnvVars error : requires at least 2 arguments, exists and a variable to check";
+    throw "assertLibertyEnvVars error : requires at least 2 arguments, exists and a variable to check";
   }
   var check = exists ? assert.fileContent : assert.noFileContent;
   for(var i=1; i < arguments.length; i++) {
@@ -152,27 +161,31 @@ var assertManifestYml = function(ymlName, exists) {
   check('manifest.yml', 'domain: domain');
 }
 
-var assertObjectStorage = function(exists) {
+var assertObjectStorage = function(exists, framework) {
   var check = exists ? assert.fileContent : assert.noFileContent;
   check('manifest.yml', '- objectStorage', 'Object-Storage=config');
   check('manifest.yml', 'Object-Storage=config');
   assertObjectStorageJava(exists);
   assertServices(exists, 'Object-Storage');
-  assertLibertyConfig(exists, 'objectStorage');
-  assertEnvVars(exists, 'OBJECTSTORAGE_AUTH_URL="objectStorage-url"', 'OBJECTSTORAGE_USERID="objectStorage-userId"',
-                        'OBJECTSTORAGE_PASSWORD="objectStorage-password"',
-                        'OBJECTSTORAGE_DOMAIN_NAME="objectStorage-domainName"', 'OBJECTSTORAGE_PROJECT="objectStorage-project"');
+  if (framework === LIBERTY_FRAMEWORK) {
+    assertLibertyConfig(exists, 'objectStorage');
+    assertLibertyEnvVars(exists, 'OBJECTSTORAGE_AUTH_URL="objectStorage-url"', 'OBJECTSTORAGE_USERID="objectStorage-userId"',
+                          'OBJECTSTORAGE_PASSWORD="objectStorage-password"',
+                          'OBJECTSTORAGE_DOMAIN_NAME="objectStorage-domainName"', 'OBJECTSTORAGE_PROJECT="objectStorage-project"');
+  }
 }
 
-var assertCloudant = function(exists) {
+var assertCloudant = function(exists, framework) {
   var check = exists ? assert.fileContent : assert.noFileContent;
   check('manifest.yml', '- cloudant', 'cloudantNoSQLDB=config');
   check('manifest.yml', 'cloudantNoSQLDB=config');
   assertCloudantJava(exists);
   assertServices(exists, 'cloudant');
-  assertLibertyConfig(exists, 'cloudant');
-  assertEnvVars(exists, 'CLOUDANT_URL="https://account.cloudant.com"', 'CLOUDANT_PASSWORD="pass"',
-                        'CLOUDANT_USERNAME="user"');
+  if (framework === LIBERTY_FRAMEWORK) {
+    assertLibertyConfig(exists, 'cloudant');
+    assertLibertyEnvVars(exists, 'CLOUDANT_URL="https://account.cloudant.com"', 'CLOUDANT_PASSWORD="pass"',
+                            'CLOUDANT_USERNAME="user"');
+  }
 }
 
 module.exports = {
@@ -186,7 +199,6 @@ module.exports = {
   assertCloudantJava : assertCloudantJava,
   assertObjectStorageJava : assertObjectStorageJava,
   assertServices : assertServices,
-  assertEnvVars : assertEnvVars,
   assertK8s : assertK8s,
   assertObjectStorage : assertObjectStorage,
   assertCloudant : assertCloudant
