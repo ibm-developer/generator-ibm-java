@@ -22,6 +22,7 @@ var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 var common = require('../lib/commontest');
+var framework = require('../lib/test-framework');
 
 const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
@@ -34,12 +35,12 @@ function Options() {
   this.version = VERSION;
   this.groupId = GROUPID;
   this.assert = function(appName, ymlName, cloudant, objectStorage) {
-    common.assertCommonFiles(FRAMEWORK);
+    common.assertCommonFiles();
     common.assertCLI(appName);
     common.assertBluemixSrc(cloudant || objectStorage);
     common.assertManifestYml(ymlName, cloudant || objectStorage);
-    common.assertCloudant(cloudant, FRAMEWORK);
-    common.assertObjectStorage(objectStorage, FRAMEWORK);
+    common.assertCloudant(cloudant);
+    common.assertObjectStorage(objectStorage);
     common.assertK8s(appName);
     common.assertFiles('', true, 'README.md');
     common.assertFiles('src', true, 'main/java/application/rest/HealthEndpoint.java',
@@ -47,8 +48,10 @@ function Options() {
                                     'main/java/application/model/Product.java',
                                     'main/java/application/openapi/ProductsApi.java',
                                     'main/java/application/openapi/ProductApi.java',
-                                    'test/java/it/HealthEndpointTest.java',
-                                    'main/webapp/WEB-INF/ibm-web-ext.xml')
+                                    'test/java/it/HealthEndpointTest.java')
+    var frameworkTest = framework.test(FRAMEWORK);
+    frameworkTest.testCloudant(cloudant);
+    frameworkTest.testObjectStorage(objectStorage);
   }
 }
 

@@ -22,7 +22,7 @@ var assert = require('yeoman-assert');
 const LIBERTY_VERSION = '17.0.0.1';   //current Liberty version to check for
 const LIBERTY_FRAMEWORK = 'liberty';
 
-var assertCommonFiles = function(framework) {
+var assertCommonFiles = function() {
   //check common files are present for all configurations
   assert.file('README.md');
   //Docker files
@@ -38,17 +38,6 @@ var assertCommonFiles = function(framework) {
   // Liber8 files
   assert.file('Jenkinsfile');
   assert.file('.gitignore');
-  if (framework === LIBERTY_FRAMEWORK) {
-    assertCommonLibertyFiles();
-  }
-}
-
-var assertCommonLibertyFiles = function() {
-  //check common files that are present in all configurations using Liberty
-  assert.file('src/main/liberty/config/server.xml');
-  assert.file('src/main/liberty/config/server.env');
-  assert.file('src/main/webapp/WEB-INF/ibm-web-ext.xml');
-
 }
 
 var assertGradleFiles = function(appname) {
@@ -88,20 +77,6 @@ var assertServices = function(exists) {
   }
 }
 
-var assertLibertyConfig = function(exists) {
-  if(arguments.length < 2) {
-    throw "assertLibertyConfig error : requires at least 2 arguments, base and a service to check";
-  }
-  var check = exists ? assert.fileContent : assert.noFileContent;
-  for(var i=1; i < arguments.length; i++) {
-    if (arguments[i] && typeof arguments[i] === 'string') {
-      if(exists) {
-        check('src/main/liberty/config/server.xml', arguments[i].toLowerCase());
-      }
-    }
-  }
-}
-
 //asserts that files required for the CLI are present and correct
 var assertCLI = function(appname) {
   assert.fileContent('cli-config.yml','image-name-run : "bx-dev-' + appname.toLowerCase() + '"');  //make sure lowercase app name
@@ -134,19 +109,6 @@ var assertObjectStorageJava = function(exists) {
   check('src/main/java/application/objectstorage/ObjectStorageCredentials.java');
 }
 
-//asserts that the specified environment variables will flow through JNDI
-var assertLibertyEnvVars = function(exists) {
-  if(arguments.length < 2) {
-    throw "assertLibertyEnvVars error : requires at least 2 arguments, exists and a variable to check";
-  }
-  var check = exists ? assert.fileContent : assert.noFileContent;
-  for(var i=1; i < arguments.length; i++) {
-    if (arguments[i] && typeof arguments[i] === 'string') {
-      check('src/main/liberty/config/server.env', arguments[i]);
-    }
-  }
-}
-
 //assert that K8s specific files are present
 var assertK8s = function(appname) {
   assert.fileContent('manifests/kube.deploy.yml', 'name: "' + appname + '-service"')
@@ -161,31 +123,20 @@ var assertManifestYml = function(ymlName, exists) {
   check('manifest.yml', 'domain: domain');
 }
 
-var assertObjectStorage = function(exists, framework) {
+var assertObjectStorage = function(exists) {
   var check = exists ? assert.fileContent : assert.noFileContent;
   check('manifest.yml', '- objectStorage', 'Object-Storage=config');
   check('manifest.yml', 'Object-Storage=config');
   assertObjectStorageJava(exists);
   assertServices(exists, 'Object-Storage');
-  if (framework === LIBERTY_FRAMEWORK) {
-    assertLibertyConfig(exists, 'objectStorage');
-    assertLibertyEnvVars(exists, 'OBJECTSTORAGE_AUTH_URL="objectStorage-url"', 'OBJECTSTORAGE_USERID="objectStorage-userId"',
-                          'OBJECTSTORAGE_PASSWORD="objectStorage-password"',
-                          'OBJECTSTORAGE_DOMAIN_NAME="objectStorage-domainName"', 'OBJECTSTORAGE_PROJECT="objectStorage-project"');
-  }
 }
 
-var assertCloudant = function(exists, framework) {
+var assertCloudant = function(exists) {
   var check = exists ? assert.fileContent : assert.noFileContent;
   check('manifest.yml', '- cloudant', 'cloudantNoSQLDB=config');
   check('manifest.yml', 'cloudantNoSQLDB=config');
   assertCloudantJava(exists);
   assertServices(exists, 'cloudant');
-  if (framework === LIBERTY_FRAMEWORK) {
-    assertLibertyConfig(exists, 'cloudant');
-    assertLibertyEnvVars(exists, 'CLOUDANT_URL="https://account.cloudant.com"', 'CLOUDANT_PASSWORD="pass"',
-                            'CLOUDANT_USERNAME="user"');
-  }
 }
 
 module.exports = {

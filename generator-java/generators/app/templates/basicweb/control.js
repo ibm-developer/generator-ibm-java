@@ -17,7 +17,7 @@
   ],
   "composition" : [
     "basic",
-    "liberty",
+    "frameworks/liberty",
     {{#bluemix}}
     {{#server.services}}
     "services/common",
