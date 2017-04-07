@@ -25,13 +25,23 @@ function test_liberty() {
   assert.file('src/main/webapp/WEB-INF/ibm-web-ext.xml');
 }
 
-test_liberty.prototype.testCloudant = function(exists) {
+test_liberty.prototype.assertMavenFiles = function() {
+  assert.fileContent('pom.xml', '<testServerHttpPort>9080</testServerHttpPort>');
+  assert.fileContent('pom.xml', '<testServerHttpsPort>9443</testServerHttpsPort>');
+}
+
+test_liberty.prototype.assertGradleFiles = function() {
+  assert.fileContent('build.gradle', 'testServerHttpPort = 9080');
+  assert.fileContent('build.gradle', 'testServerHttpsPort = 9443');
+}
+
+test_liberty.prototype.assertCloudant = function(exists) {
   assertLibertyConfig(exists, 'cloudant');
   assertLibertyEnvVars(exists, 'CLOUDANT_URL="https://account.cloudant.com"', 'CLOUDANT_PASSWORD="pass"',
                           'CLOUDANT_USERNAME="user"');
 }
 
-test_liberty.prototype.testObjectStorage = function(exists) {
+test_liberty.prototype.assertObjectStorage = function(exists) {
   assertLibertyConfig(exists, 'objectStorage');
   assertLibertyEnvVars(exists, 'OBJECTSTORAGE_AUTH_URL="objectStorage-url"', 'OBJECTSTORAGE_USERID="objectStorage-userId"',
                         'OBJECTSTORAGE_PASSWORD="objectStorage-password"',

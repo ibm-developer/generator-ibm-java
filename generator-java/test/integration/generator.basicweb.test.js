@@ -23,6 +23,7 @@ var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 var common = require('../lib/commontest');
 var framework = require('../lib/test-framework');
+var frameworkTest;
 
 const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
@@ -43,9 +44,9 @@ function Options() {
     common.assertObjectStorage(objectStorage);
     common.assertK8s(appName);
     common.assertFiles('src/main/webapp', true, 'index.html', '/css/default.css', 'js/bundle.js');
-    var frameworkTest = framework.test(FRAMEWORK);
-    frameworkTest.testCloudant(cloudant);
-    frameworkTest.testObjectStorage(objectStorage);
+    frameworkTest = framework.test(FRAMEWORK);
+    frameworkTest.assertCloudant(cloudant);
+    frameworkTest.assertObjectStorage(objectStorage);
   }
 }
 
@@ -62,6 +63,7 @@ describe('java generator : basic integration test', function () {
         try {
           options.assert(APPNAME, APPNAME, false, false);
           common.assertGradleFiles(APPNAME);
+          frameworkTest.assertGradleFiles();
           done();
         } catch (err) {
           done(err);
@@ -80,6 +82,7 @@ describe('java generator : basic integration test', function () {
         try {
           options.assert(APPNAME, APPNAME, false, false);
           common.assertMavenFiles(APPNAME);
+          frameworkTest.assertMavenFiles();
           done();
         } catch (err) {
           done(err);
@@ -102,6 +105,7 @@ describe('java generator : basic integration test', function () {
         try {
           options.assert('bxName', 'testBxName', true, false);
           common.assertMavenFiles('bxName');
+          frameworkTest.assertMavenFiles();
           done();
         } catch (err) {
           done(err);
@@ -119,6 +123,7 @@ describe('java generator : basic integration test', function () {
         try {
           options.assert('bxName', 'testBxName', false, true);
           common.assertMavenFiles('bxName');
+          frameworkTest.assertMavenFiles();
           done();
         } catch (err) {
           done(err);
@@ -137,6 +142,7 @@ describe('java generator : basic integration test', function () {
         try {
           options.assert('bxName', 'testBxName', true, true);
           common.assertMavenFiles('bxName');
+          frameworkTest.assertMavenFiles();
           done();
         } catch (err) {
           done(err);
