@@ -16,8 +16,12 @@
 
 //configuration module for controlling the template creation.
 
+var fs = require('fs');
+var fspath = require('path');
+
 const PATTERN_NAME = new RegExp("^[a-zA-Z0-9_-]+$");
 const PATTERN_ARTIFACT_ID = new RegExp("^[a-zA-Z0-9-_.]*$");
+const CONFIG_FILE = "config.js";
 
 function Config() {
   this.reset();
@@ -44,6 +48,53 @@ Config.prototype.reset = function() {
   this.debug = "false";
   this.bluemix = undefined;
   this.input = undefined;
+}
+
+Config.prototype.processProject = function(paths) {
+  for(var i = 0; i < paths.length; i++) {
+    var file = fspath.resolve(paths[i], CONFIG_FILE);
+    if(fs.existsSync(file)) {
+      if(this.configFiles) {
+        this.configFiles.push(file);
+      }else {
+        this.configFiles = [file];
+      }
+    }
+  }
+  if (this.configFiles) {
+    for(var i = 0; i < this.configFiles.length; i++) {
+      var fileContent = fs.readFileSync(this.configFiles[i], 'utf8');
+      this.processProperties(JSON.parse(fileContent));
+    }
+  }
+}
+
+Config.prototype.processProperties = function(configFile) {
+  if(configFile.properties) {
+    for(var i = 0; i < configFile.properties.length; i++) {
+      var property = configFile.properties[i];
+      var stringProperty;
+      if(this.buildType === 'maven') {
+        stringProperty = this.processMavenProperty(property);
+      }
+      if(this.buildType === 'gradle') {
+        stringProperty = this.processGradleProperty(property);
+      }
+      if(this.properties) {
+        this.properties.push(stringProperty);
+      } else {
+        this.properties = [stringProperty];
+      }
+    }
+  }
+}
+
+Config.prototype.processMavenProperty = function(property) {
+  return "<" + property.name + ">" + property.value + "</" + property.name + ">";
+}
+
+Config.prototype.processGradleProperty = function(property) {
+  return property.name + " = " + property.value;
 }
 
 module.exports = exports = Config;

@@ -13,8 +13,9 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- Liberty server properties -->
-        <testServerHttpPort>9080</testServerHttpPort>
-        <testServerHttpsPort>9443</testServerHttpsPort>
+        {{#each properties}}
+        {{{this}}}
+        {{/each}}
         <app.name>{{appName}}</app.name>
         <!--This is set in the ibm-web-ext.xml file -->
         <warContext>${app.name}</warContext>

@@ -229,6 +229,7 @@ module.exports = class extends Generator {
     var control = new Control(fspath.resolve(config.templateRoot, config.templateName), config);
     processor.paths = control.getComposition();
     logger.writeToLog("Processor", processor);
+    config.processProject(processor.paths);
     return processor.scan(config, (relativePath, template) => {
       var outFile = this.destinationPath(relativePath);
       logger.writeToLog("CB : writing to", outFile);

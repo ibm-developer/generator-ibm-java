@@ -18,6 +18,9 @@
 
 var assert = require('assert');
 var Config = require('../../generators/lib/config');
+var path = require('path');
+
+const CONFIG_FILE = "config.js";
 
 describe('Config behaviour', function() {
   it('should be possible to reset config values', function(){
@@ -81,5 +84,37 @@ describe('Config validation', function() {
     var config = new Config();
     config.groupId = "%wibble";
     assert.equal(false, config.isValid());
+  });
+});
+
+describe('Config file processing', function() {
+  it('it should find the control file in the root', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-config")];
+    config.processProject(templatePath);
+    assert(config.configFiles);
+    assert.equal(config.configFiles.length, 1);
+    assert.equal(config.configFiles[0], path.resolve(templatePath[0], CONFIG_FILE));
+  });
+  it('it should support not having a config file in a directory', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-config"), path.resolve("./test/resources/config/without-config")];
+    config.processProject(templatePath);
+    assert(config.configFiles);
+    assert.equal(config.configFiles.length, 1);
+    assert.equal(config.configFiles[0], path.resolve(templatePath[0], CONFIG_FILE));
+  });
+  it('it should add the maven config into the config.properties object', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-config"), path.resolve("./test/resources/config/without-config")];
+    config.processProject(templatePath);
+    assert.equal(config.properties[0], '<testName>testValue</testName>');
+  });
+  it('it should add the gradle config into the config.properties object', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-config"), path.resolve("./test/resources/config/without-config")];
+    config.buildType = 'gradle';
+    config.processProject(templatePath);
+    assert.equal(config.properties[0], 'testName = testValue');
   });
 });
