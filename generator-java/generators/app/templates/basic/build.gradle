@@ -21,16 +21,12 @@ compileJava.options.encoding = 'UTF-8'
 
 ext {
     // Liberty server properties
-    serverDirectory = "${buildDir}/wlp/usr/servers/defaultServer"
     {{#each properties}}
-    {{this.name}} = {{this.value}}
+    {{this.name}} = {{{this.value}}}
     {{/each}}
-
     appName = '{{appName}}'
     // This is set in the ibm-web-ext.xml file
-    warContext = "${appName}"
-    packageFile = "${project.buildDir}/${appName}.zip"
-    packagingType = 'usr'
+
 }
 
 repositories {

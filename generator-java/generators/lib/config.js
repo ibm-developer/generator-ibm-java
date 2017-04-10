@@ -18,6 +18,7 @@
 
 var fs = require('fs');
 var fspath = require('path');
+var Handlebars = require('handlebars');
 
 const PATTERN_NAME = new RegExp("^[a-zA-Z0-9_-]+$");
 const PATTERN_ARTIFACT_ID = new RegExp("^[a-zA-Z0-9-_.]*$");
@@ -63,7 +64,10 @@ Config.prototype.processProject = function(paths) {
   }
   if (this.configFiles) {
     for(var i = 0; i < this.configFiles.length; i++) {
-      var fileContent = JSON.parse(fs.readFileSync(this.configFiles[i], 'utf8'));
+      var template = fs.readFileSync(this.configFiles[i], 'utf8');
+      var compiledTemplate = Handlebars.compile(template);
+      var output = compiledTemplate(this);
+      var fileContent = eval("(" + output + ")");
       this.processProperties(fileContent);
       if (fileContent.dependencies) {
         this.processDependencies(fileContent.dependencies);

@@ -18,9 +18,6 @@
         {{/each}}
         <app.name>{{appName}}</app.name>
         <!--This is set in the ibm-web-ext.xml file -->
-        <warContext>${app.name}</warContext>
-        <package.file>${project.build.directory}/${app.name}.zip</package.file>
-        <packaging.type>usr</packaging.type>
     </properties>
 
     <dependencies>

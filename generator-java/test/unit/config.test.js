@@ -111,6 +111,19 @@ describe('Config file processing', function() {
     assert.equal(config.properties[0].name, 'testName');
     assert.equal(config.properties[0].value, 'testValue');
   });
+  it('it should set alternative Gradle names and values when the build type is Gradle', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-gradle-config")];
+    config.buildType = 'gradle';
+    config.processProject(templatePath);
+    var properties = [config.properties[0].name + "=" + config.properties[0].value];
+    for(var i = 1; i < config.properties.length; i++) {
+      properties.push(config.properties[i].name + "=" + config.properties[i].value);
+    }
+    assert.equal(properties.length, 2)
+    assert(properties.includes('testGradleName1=testValue1'), 'properties=' + properties);
+    assert(properties.includes('testName2=testGradleValue2'), 'properties=' + properties);
+  });
   it('it should add the dependencies into the config.deps object', function() {
     var config = new Config();
     var templatePath = [path.resolve("./test/resources/config/with-config")];

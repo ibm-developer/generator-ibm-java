@@ -28,6 +28,9 @@ function test_liberty() {
 test_liberty.prototype.assertMavenFiles = function() {
   assertMavenProperty('testServerHttpPort', '9080');
   assertMavenProperty('testServerHttpsPort', '9443');
+  assertMavenProperty('warContext', '${app.name}');
+  assertMavenProperty('package.file', '${project.build.directory}/${app.name}.zip');
+  assertMavenProperty('packaging.type', 'usr');
   assertMavenDependencies();
 }
 
@@ -48,6 +51,10 @@ var assertMavenDependencies = function() {
 test_liberty.prototype.assertGradleFiles = function() {
   assertGradleProperty('testServerHttpPort', '9080');
   assertGradleProperty('testServerHttpsPort', '9443');
+  assertGradleProperty('serverDirectory', '"${buildDir}/wlp/usr/servers/defaultServer"');
+  assertGradleProperty('warContext', '"${appName}"');
+  assertGradleProperty('packageFile', '"${project.buildDir}/${appName}.zip"');
+  assertGradleProperty('packagingType', 'usr');
   assertGradleDependency('providedCompile', 'javax.servlet', 'javax.servlet-api', '3.1.0');
   assertGradleDependency('providedCompile', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
   assertGradleDependency('providedCompile', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
