@@ -26,15 +26,43 @@ function test_liberty() {
 }
 
 test_liberty.prototype.assertMavenFiles = function() {
-  assert.fileContent('pom.xml', '<testServerHttpPort>9080</testServerHttpPort>');
-  assert.fileContent('pom.xml', '<testServerHttpsPort>9443</testServerHttpsPort>');
+  assertMavenProperty('testServerHttpPort', '9080');
+  assertMavenProperty('testServerHttpsPort', '9443');
+  assertMavenDependencies();
+}
+
+var assertMavenProperty = function(name, value) {
+  assert.fileContent('pom.xml', '<' + name + '>' + value + '</' + name + '>');
+}
+
+var assertMavenDependencies = function() {
+  assert.fileContent('pom.xml', /<groupId>javax\.servlet<\/groupId>\s*<artifactId>javax\.servlet-api<\/artifactId>\s*<version>3\.1\.0<\/version>\s*<scope>provided<\/scope>/);
+  assert.fileContent('pom.xml', /<groupId>com\.ibm\.websphere\.appserver\.api<\/groupId>\s*<artifactId>com\.ibm\.websphere\.appserver\.api\.servlet<\/artifactId>\s*<version>1\.0\.10<\/version>\s*<scope>provided<\/scope>/);
   assert.fileContent('pom.xml', /<groupId>javax\.ws\.rs<\/groupId>\s*<artifactId>javax\.ws\.rs-api<\/artifactId>\s*<version>2\.0\.1<\/version>\s*<scope>provided<\/scope>/);
+  assert.fileContent('pom.xml', /<groupId>com\.ibm\.websphere\.appserver\.api<\/groupId>\s*<artifactId>com\.ibm\.websphere\.appserver\.api\.jaxrs20<\/artifactId>\s*<version>1\.0\.10<\/version>\s*<scope>provided<\/scope>/);
+  assert.fileContent('pom.xml', /<groupId>javax\.json<\/groupId>\s*<artifactId>javax\.json-api<\/artifactId>\s*<version>1\.0<\/version>\s*<scope>provided<\/scope>/);
+  assert.fileContent('pom.xml', /<groupId>com\.ibm\.websphere\.appserver\.api<\/groupId>\s*<artifactId>com\.ibm\.websphere\.appserver\.api\.json<\/artifactId>\s*<version>1\.0\.10<\/version>\s*<scope>provided<\/scope>/);
+  assert.fileContent('pom.xml', /<groupId>javax\.enterprise<\/groupId>\s*<artifactId>cdi-api<\/artifactId>\s*<version>1\.2<\/version>\s*<scope>provided<\/scope>/);
 }
 
 test_liberty.prototype.assertGradleFiles = function() {
-  assert.fileContent('build.gradle', 'testServerHttpPort = 9080');
-  assert.fileContent('build.gradle', 'testServerHttpsPort = 9443');
-  assert.fileContent('build.gradle', "providedCompile 'javax.ws.rs:javax.ws.rs-api:2.0.1'");
+  assertGradleProperty('testServerHttpPort', '9080');
+  assertGradleProperty('testServerHttpsPort', '9443');
+  assertGradleDependency('providedCompile', 'javax.servlet', 'javax.servlet-api', '3.1.0');
+  assertGradleDependency('providedCompile', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
+  assertGradleDependency('providedCompile', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
+  assertGradleDependency('providedCompile', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+  assertGradleDependency('providedCompile', 'javax.json', 'javax.json-api', '1.0');
+  assertGradleDependency('providedCompile', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
+  assertGradleDependency('providedCompile', 'javax.enterprise', 'cdi-api', '1.2');
+}
+
+var assertGradleProperty = function(name, value) {
+  assert.fileContent('build.gradle', name + ' = ' + value);
+}
+
+var assertGradleDependency = function(scope, groupId, artifactId, version) {
+  assert.fileContent('build.gradle', scope + " '" + groupId + ':' + artifactId + ':' + version + "'");
 }
 
 test_liberty.prototype.assertCloudant = function(exists) {

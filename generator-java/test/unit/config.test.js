@@ -111,24 +111,13 @@ describe('Config file processing', function() {
     assert.equal(config.properties[0].name, 'testName');
     assert.equal(config.properties[0].value, 'testValue');
   });
-  /*it('it should add the gradle config into the config.properties object', function() {
-    var config = new Config();
-    var templatePath = [path.resolve("./test/resources/config/with-config"), path.resolve("./test/resources/config/without-config")];
-    config.buildType = 'gradle';
-    config.processProject(templatePath);
-    assert.equal(config.properties[0], 'testName = testValue');
-  });*/
-  /*it('it should add the maven dependencies into the config.deps object', function() {
+  it('it should add the dependencies into the config.deps object', function() {
     var config = new Config();
     var templatePath = [path.resolve("./test/resources/config/with-config")];
     config.processProject(templatePath);
-    assert.equal(config.deps[0], '<groupId>javax.ws.rs</groupId><artifactId>javax.ws.rs-api</artifactId><version>2.0.1</version><scope>provided</scope>');
+    assert.equal(config.deps[0].groupId, 'test.group.id');
+    assert.equal(config.deps[0].artifactId, 'testArtifactId');
+    assert.equal(config.deps[0].version, '0.0.1');
+    assert.equal(config.deps[0].scope, 'provided');
   });
-  it('it should add the gradle dependencies into the config.deps object', function() {
-    var config = new Config();
-    var templatePath = [path.resolve("./test/resources/config/with-config")];
-    config.buildType = 'gradle';
-    config.processProject(templatePath);
-    assert.equal(config.deps[0], "providedCompile 'javax.ws.rs:javax.ws.rs-api:2.0.1'");
-  });*/
 });
