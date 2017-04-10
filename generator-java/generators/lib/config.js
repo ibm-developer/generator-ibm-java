@@ -18,6 +18,7 @@
 
 var fs = require('fs');
 var fspath = require('path');
+var buildDeps = require('./build-deps')
 
 const PATTERN_NAME = new RegExp("^[a-zA-Z0-9_-]+$");
 const PATTERN_ARTIFACT_ID = new RegExp("^[a-zA-Z0-9-_.]*$");
@@ -75,10 +76,10 @@ Config.prototype.processProperties = function(configFile) {
       var property = configFile.properties[i];
       var stringProperty;
       if(this.buildType === 'maven') {
-        stringProperty = this.processMavenProperty(property);
+        stringProperty = buildDeps.processMavenProperty(property);
       }
       if(this.buildType === 'gradle') {
-        stringProperty = this.processGradleProperty(property);
+        stringProperty = buildDeps.processGradleProperty(property);
       }
       if(this.properties) {
         this.properties.push(stringProperty);
@@ -87,14 +88,6 @@ Config.prototype.processProperties = function(configFile) {
       }
     }
   }
-}
-
-Config.prototype.processMavenProperty = function(property) {
-  return "<" + property.name + ">" + property.value + "</" + property.name + ">";
-}
-
-Config.prototype.processGradleProperty = function(property) {
-  return property.name + " = " + property.value;
 }
 
 module.exports = exports = Config;
