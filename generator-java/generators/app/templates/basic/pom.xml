@@ -14,7 +14,7 @@
 
         <!-- Liberty server properties -->
         {{#each properties}}
-        {{{this}}}
+        <{{this.name}}>{{this.value}}</{{this.name}}>
         {{/each}}
         <app.name>{{appName}}</app.name>
         <!--This is set in the ibm-web-ext.xml file -->

@@ -28,11 +28,13 @@ function test_liberty() {
 test_liberty.prototype.assertMavenFiles = function() {
   assert.fileContent('pom.xml', '<testServerHttpPort>9080</testServerHttpPort>');
   assert.fileContent('pom.xml', '<testServerHttpsPort>9443</testServerHttpsPort>');
+  assert.fileContent('pom.xml', /<groupId>javax\.ws\.rs<\/groupId>\s*<artifactId>javax\.ws\.rs-api<\/artifactId>\s*<version>2\.0\.1<\/version>\s*<scope>provided<\/scope>/);
 }
 
 test_liberty.prototype.assertGradleFiles = function() {
   assert.fileContent('build.gradle', 'testServerHttpPort = 9080');
   assert.fileContent('build.gradle', 'testServerHttpsPort = 9443');
+  assert.fileContent('build.gradle', "providedCompile 'javax.ws.rs:javax.ws.rs-api:2.0.1'");
 }
 
 test_liberty.prototype.assertCloudant = function(exists) {

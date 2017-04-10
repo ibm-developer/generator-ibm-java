@@ -74,17 +74,10 @@ Config.prototype.processProperties = function(configFile) {
   if(configFile.properties) {
     for(var i = 0; i < configFile.properties.length; i++) {
       var property = configFile.properties[i];
-      var stringProperty;
-      if(this.buildType === 'maven') {
-        stringProperty = buildDeps.processMavenProperty(property);
-      }
-      if(this.buildType === 'gradle') {
-        stringProperty = buildDeps.processGradleProperty(property);
-      }
       if(this.properties) {
-        this.properties.push(stringProperty);
+        this.properties.push(property);
       } else {
-        this.properties = [stringProperty];
+        this.properties = [property];
       }
     }
   }

@@ -23,7 +23,7 @@ ext {
     // Liberty server properties
     serverDirectory = "${buildDir}/wlp/usr/servers/defaultServer"
     {{#each properties}}
-    {{{this}}}
+    {{this.name}} = {{this.value}}
     {{/each}}
 
     appName = '{{appName}}'
