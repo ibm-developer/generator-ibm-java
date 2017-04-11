@@ -37,8 +37,8 @@ fi
 git config user.email "travisci@travis.ibm.com"
 git config user.name "Travis CI"
 git config push.default simple
-npm run coverage > unitCoverage.txt
-BRANCH="addCoverageTextFile"
+npm run coverage > ../unitCoverage.txt
+BRANCH="addCoverageTxtFile"
 git checkout -b $BRANCH
 git add unitCoverage.txt
 git commit -m "Add unit coverage"
