@@ -15,7 +15,7 @@ script:
   - ../deploy.sh
 deploy:
   provider: releases
-  file: coverage/*
+  file: coverage/lcov-report/*
   skip_cleanup: true
   on:
     tags: true
