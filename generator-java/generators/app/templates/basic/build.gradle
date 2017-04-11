@@ -40,9 +40,6 @@ dependencies {
     {{#has createType 'bff'}}
     providedCompile 'io.swagger:swagger-annotations:1.5.3'
     {{/has}}
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.apache.cxf:cxf-rt-rs-client:3.1.1'
-    testCompile 'org.glassfish:javax.json:1.0.4'
     {{#bluemix}}
     {{#cloudant}}
     compile 'com.cloudant:cloudant-client:2.7.0'

@@ -46,6 +46,9 @@ var assertMavenDependencies = function() {
   assert.fileContent('pom.xml', /<groupId>javax\.json<\/groupId>\s*<artifactId>javax\.json-api<\/artifactId>\s*<version>1\.0<\/version>\s*<scope>provided<\/scope>/);
   assert.fileContent('pom.xml', /<groupId>com\.ibm\.websphere\.appserver\.api<\/groupId>\s*<artifactId>com\.ibm\.websphere\.appserver\.api\.json<\/artifactId>\s*<version>1\.0\.10<\/version>\s*<scope>provided<\/scope>/);
   assert.fileContent('pom.xml', /<groupId>javax\.enterprise<\/groupId>\s*<artifactId>cdi-api<\/artifactId>\s*<version>1\.2<\/version>\s*<scope>provided<\/scope>/);
+  assert.fileContent('pom.xml', /<groupId>junit<\/groupId>\s*<artifactId>junit<\/artifactId>\s*<version>4\.12<\/version>\s*<scope>test<\/scope>/);
+  assert.fileContent('pom.xml', /<groupId>org\.apache\.cxf<\/groupId>\s*<artifactId>cxf-rt-rs-client<\/artifactId>\s*<version>3\.1\.1<\/version>\s*<scope>test<\/scope>/);
+  assert.fileContent('pom.xml', /<groupId>org\.glassfish<\/groupId>\s*<artifactId>javax\.json<\/artifactId>\s*<version>1\.0\.4<\/version>\s*<scope>test<\/scope>/);
 }
 
 test_liberty.prototype.assertGradleFiles = function() {
@@ -62,6 +65,9 @@ test_liberty.prototype.assertGradleFiles = function() {
   assertGradleDependency('providedCompile', 'javax.json', 'javax.json-api', '1.0');
   assertGradleDependency('providedCompile', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
   assertGradleDependency('providedCompile', 'javax.enterprise', 'cdi-api', '1.2');
+  assertGradleDependency('testCompile', 'junit', 'junit', '4.12');
+  assertGradleDependency('testCompile', 'org.apache.cxf', 'cxf-rt-rs-client', '3.1.1');
+  assertGradleDependency('testCompile', 'org.glassfish', 'javax.json', '1.0.4');
 }
 
 var assertGradleProperty = function(name, value) {
