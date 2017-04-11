@@ -34,7 +34,7 @@ if [[ $TRAVIS_BRANCH == "master"  ]]; then
     fi
   fi
 fi
-if [[$TRAVIs_BRANCH == "addCodeCoverage"]]; then
+if [[$TRAVIS_BRANCH == "addCodeCoverage"]]; then
   git config user.email "travisci@travis.ibm.com"
   git config user.name "Travis CI"
   git config push.default simple
