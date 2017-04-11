@@ -34,3 +34,14 @@ if [[ $TRAVIS_BRANCH == "master"  ]]; then
     fi
   fi
 fi
+if [[$TRAVIs_BRANCH == "addCodeCoverage"]]; then
+  git config user.email "travisci@travis.ibm.com"
+  git config user.name "Travis CI"
+  git config push.default simple
+  npm run coverage > unitCoverage.txt
+  BRANCH="addCoverageTextFile"
+  git checkout -b $BRANCH
+  git add unitCoverage.txt
+  git commit -m "Add unit coverage"
+  git push origin $BRANCH
+fi
