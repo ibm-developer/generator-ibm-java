@@ -1,0 +1,112 @@
+
+> @arf/generator-java@0.1.26 coverage /home/travis/build/arf/java-codegen-yeoman/generator-java
+> ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/unit/*
+
+Config : {"appName":"myLibertyProject","buildType":"maven","artifactId":"artifactId","groupId":"groupId","version":"1.0","headless":"false","createType":"rest","debug":"false"}
+
+
+Config : {"appName":"myLibertyProject","buildType":"maven","artifactId":"artifactId","groupId":"groupId","version":"1.0","headless":"false","createType":"rest","debug":"false","templateRoot":"/home/travis/build/arf/java-codegen-yeoman/generator-java/test/resources/control"}
+  Config behaviour
+    ✓ should be possible to reset config values
+
+  Config defaults
+    ✓ artifactId should be set to "artifactId" when the value has not been set
+    ✓ groupId should be set to "groupId" when the value has not been set
+    ✓ name should be set to "myLibertyProject" when the value has not been set
+    ✓ build should be set to "maven" when the build type has not been set
+
+  Config validation
+    ✓ should not be valid when the name contains invalid characters
+    ✓ should not be valid when the name is either missing or an empty string
+    ✓ should not be valid when the name contains invalid characters
+    ✓ should not be valid when the name contains too many characters
+    ✓ should not be valid when the artifactId contains invalid characters
+    ✓ should not be valid when the groupId contains invalid characters
+
+  control library
+    can create instances
+      ✓ it should throw an exception if the path is missing
+      ✓ it should throw an exception if the config is missing
+      ✓ it should be possible to have more than one instance of a control
+    can find a control file
+Config : {"appName":"myLibertyProject","buildType":"maven","artifactId":"artifactId","groupId":"groupId","version":"1.0","headless":"false","createType":"rest","debug":"false","templateRoot":"/home/travis/build/arf/java-codegen-yeoman/generator-java/test/resources/control","templateFullPath":"/home/travis/build/arf/java-codegen-yeoman/generator-java/test/resources/control/with-control"}
+      ✓ it should find the control.js file in the root
+      ✓ it should ignore any control.js file not found in the root
+Error : /home/travis/build/arf/java-codegen-yeoman/generator-java/test/resources/control/with-invalid-control:This is not valid javascript
+
+      ✓ it should throw an exception when the contol.js file does not contain valid javascript
+    process a control file
+      ✓ it should exclude a file in the file exclusion list
+      ✓ it should include any file not in the file exclusion list
+      ✓ it should exclude a directory in the directory exclusion list
+      ✓ it should support a composition element
+      ✓ it should support not having a composition element
+    process found files
+      ✓ it should use a custom fileFound callback if defined
+      ✓ it should use the default callback if no custom one is defined
+    generates file
+      ✓ it should generate a file if a control block is not present
+      ✓ it should generate a file if a control block present, but has no exclusions defined
+
+  fsprocessor library
+    processor does not allow invalid parameters
+      ✓ it should throw an exception if the paths is not an array
+      ✓ it should throw an exception if the paths is an empty array
+      ✓ it should throw an exception if the config is missing
+    processor provides file operations
+      ✓ it should throw an exception if the file does not exist
+      ✓ it should throw an exception if the file is a directory
+      ✓ it should get the contents of a file as a string
+      ✓ it should get the contents of a file as a JSON object
+    walk tree specified with relative path
+      ✓ it should walk a file system tree calling back when a file is found
+      ✓ it should throw an exception for a non-existant path
+      ✓ it should throw an exception when unable to read a file
+    walk tree specified with an absolute path
+      ✓ it should walk a file system tree calling back when a file is found
+    walk tree 
+      ✓ it should walk a file system tree (with empty dirs) calling back when a file is found
+
+  Test custom Handlebars functions work as expected
+    ✓ should be convert tag values to lowercase
+    ✓ should be convert tag values to uppercase
+    ✓ should be not process when the item is "red"
+    ✓ should be process when the item is "green"
+    ✓ should generate a mustache tag for downstream processing
+    ✓ should resolve a refLookup
+    ✓ should select first non-null from list
+    ✓ should select default string from list
+    ✓ should return undefined when no non-null value
+
+  javarules library
+    can convert data types
+      ✓ it should default unknown data types to Object
+      ✓ it should default convert string to String
+      ✓ it should default convert integer to long
+    can provide valid class names
+      ✓ it should not change a valid class name
+      ✓ it should replace spaces with underscores
+      ✓ it should always capitalise the first letter of a class name
+      ✓ it should return anonymous for a missing class name
+    can provide valid method names
+      ✓ it should always lower case the first letter of a method name
+      ✓ it should return anonymous for a missing method name
+
+  logging module
+    manage log entries
+      ✓ it should clear the log
+    can log different data types
+      ✓ it should log a String as is
+      ✓ it should log an objects properties and method names
+      ✓ it should log missing data as undefined
+
+
+  60 passing (65ms)
+
+
+=============================== Coverage summary ===============================
+Statements   : 100% ( 250/250 ), 3 ignored
+Branches     : 92.31% ( 96/104 )
+Functions    : 100% ( 29/29 )
+Lines        : 100% ( 244/244 )
+================================================================================
