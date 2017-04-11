@@ -111,6 +111,18 @@ describe('Config file processing', function() {
     assert.equal(config.properties[0].name, 'testName');
     assert.equal(config.properties[0].value, 'testValue');
   });
+  it('it should add the properties from all config files', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-config"), path.resolve("./test/resources/config/with-other-config")];
+    config.processProject(templatePath);
+    var properties = [config.properties[0].name + "=" + config.properties[0].value];
+    for(var i = 1; i < config.properties.length; i++) {
+      properties.push(config.properties[i].name + "=" + config.properties[i].value);
+    }
+    assert.equal(properties.length, 2)
+    assert(properties.includes('testName=testValue'), 'properties=' + properties);
+    assert(properties.includes('testOtherName=testOtherValue'), 'properties=' + properties);
+  });
   it('it should set alternative Gradle names and values when the build type is Gradle', function() {
     var config = new Config();
     var templatePath = [path.resolve("./test/resources/config/with-gradle-config")];
@@ -132,5 +144,17 @@ describe('Config file processing', function() {
     assert.equal(config.deps[0].artifactId, 'testArtifactId');
     assert.equal(config.deps[0].version, '0.0.1');
     assert.equal(config.deps[0].scope, 'provided');
+  });
+  it('it should add the dependencies from all config files', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-config"), path.resolve("./test/resources/config/with-other-config")];
+    config.processProject(templatePath);
+    var dependencies = [config.deps[0].groupId + ":" + config.deps[0].artifactId + ":" + config.deps[0].version + ":" + config.deps[0].scope];
+    for(var i = 1; i < config.deps.length; i++) {
+      dependencies.push(config.deps[i].groupId + ":" + config.deps[i].artifactId + ":" + config.deps[i].version + ":" + config.deps[i].scope);
+    }
+    assert.equal(dependencies.length, 2)
+    assert(dependencies.includes('test.group.id:testArtifactId:0.0.1:provided'), 'dependencies=' + dependencies);
+    assert(dependencies.includes('test.other.group.id:testOtherArtifactId:0.0.2:provided'), 'dependencies=' + dependencies);
   });
 });
