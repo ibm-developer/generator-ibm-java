@@ -1,10 +1,11 @@
 <server description="Sample Liberty server">
 
   <featureManager>
-      <feature>jaxrs-2.0</feature>
-      <feature>jsonp-1.0</feature>
-      <feature>jndi-1.0</feature>
-      <feature>cdi-1.2</feature>
+      {{#framework}}
+      {{#each dependencies}}
+      <feature>{{this.feature}}</feature>
+      {{/each}}
+      {{/framework}}
       {{#has createType 'bff'}}
       <feature>apiDiscovery-1.0</feature>
       {{/has}}

@@ -18,10 +18,16 @@
  const path = require('path');
  var assert = require('yeoman-assert');
  const LIBERTY_VERSION = '17.0.0.1';   //current Liberty version to check for
+ const LIBERTY_CONFIG_FILE = 'src/main/liberty/config/server.xml';
+ const LIBERTY_ENV_FILE = 'src/main/liberty/config/server.env';
 
 function test_liberty() {
-  assert.file('src/main/liberty/config/server.xml');
-  assert.file('src/main/liberty/config/server.env');
+  assert.file(LIBERTY_CONFIG_FILE);
+  assert.fileContent(LIBERTY_CONFIG_FILE, '<feature>jaxrs-2.0</feature>');
+  assert.fileContent(LIBERTY_CONFIG_FILE, '<feature>jsonp-1.0</feature>');
+  assert.fileContent(LIBERTY_CONFIG_FILE, '<feature>jndi-1.0</feature>');
+  assert.fileContent(LIBERTY_CONFIG_FILE, '<feature>cdi-1.2</feature>');
+  assert.file(LIBERTY_ENV_FILE);
   assert.file('src/main/webapp/WEB-INF/ibm-web-ext.xml');
 }
 
@@ -99,7 +105,7 @@ var assertLibertyConfig = function(exists) {
   for(var i=1; i < arguments.length; i++) {
     if (arguments[i] && typeof arguments[i] === 'string') {
       if(exists) {
-        check('src/main/liberty/config/server.xml', arguments[i].toLowerCase());
+        check(LIBERTY_CONFIG_FILE, arguments[i].toLowerCase());
       }
     }
   }
@@ -113,7 +119,7 @@ var assertLibertyEnvVars = function(exists) {
   var check = exists ? assert.fileContent : assert.noFileContent;
   for(var i=1; i < arguments.length; i++) {
     if (arguments[i] && typeof arguments[i] === 'string') {
-      check('src/main/liberty/config/server.env', arguments[i]);
+      check(LIBERTY_ENV_FILE, arguments[i]);
     }
   }
 }

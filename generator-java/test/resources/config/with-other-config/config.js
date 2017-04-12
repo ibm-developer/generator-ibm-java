@@ -4,5 +4,10 @@
   ],
   "dependencies" : [
     {"groupId" : "test.other.group.id", "artifactId" : "testOtherArtifactId", "version" : "0.0.2", "scope" : "provided"}
-  ]
+  ],
+  "framework" : {
+    "dependencies" : [
+      {"name" : "testOtherFrameworkDep"}
+    ]
+  }
 }

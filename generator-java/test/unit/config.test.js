@@ -157,4 +157,23 @@ describe('Config file processing', function() {
     assert(dependencies.includes('test.group.id:testArtifactId:0.0.1:provided'), 'dependencies=' + dependencies);
     assert(dependencies.includes('test.other.group.id:testOtherArtifactId:0.0.2:provided'), 'dependencies=' + dependencies);
   });
+  it('it should add the framework dependencies to the config.framework object', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-config")];
+    config.processProject(templatePath);
+    assert(config.framework.dependencies)
+    assert.equal(config.framework.dependencies[0].name, 'testFrameworkDep');
+  });
+  it('it should add the framework dependencies from all config files', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-config"), path.resolve("./test/resources/config/with-other-config")];
+    config.processProject(templatePath);
+    var dependencies = [config.framework.dependencies[0].name];
+    for(var i = 1; i < config.framework.dependencies.length; i++) {
+      dependencies.push(config.framework.dependencies[i].name);
+    }
+    assert.equal(dependencies.length, 2)
+    assert(dependencies.includes('testFrameworkDep'), 'dependencies=' + dependencies);
+    assert(dependencies.includes('testOtherFrameworkDep'), 'dependencies=' + dependencies);
+  });
 });

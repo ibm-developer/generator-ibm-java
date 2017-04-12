@@ -72,6 +72,9 @@ Config.prototype.processProject = function(paths) {
       if (fileContent.dependencies) {
         this.processDependencies(fileContent.dependencies);
       }
+      if(fileContent.framework) {
+        this.processFramework(fileContent.framework);
+      }
     }
   }
 }
@@ -97,6 +100,26 @@ Config.prototype.processDependencies = function(depList) {
     }
     else {
       this.deps = [dependency];
+    }
+  }
+}
+
+Config.prototype.processFramework = function(framework) {
+  if(this.framework && framework.dependencies) {
+    this.processFrameworkDependencies(framework.dependencies)
+  } else {
+    this.framework = framework
+  }
+}
+
+Config.prototype.processFrameworkDependencies = function(depList) {
+  for(var i = 0; i < depList.length; i++) {
+    var dependency = depList[i];
+    if(this.framework.dependencies) {
+      this.framework.dependencies.push(dependency);
+    }
+    else {
+      this.framework.dependencies = [dependency];
     }
   }
 }
