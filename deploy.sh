@@ -23,6 +23,11 @@ if [[ $TRAVIS_BRANCH == "master"  ]]; then
         PKG_VER_NEXT=`node -e "console.log(require('./package.json').version);"`
         BRANCH="updateTo${PKG_VER_NEXT}"
         git checkout -b $BRANCH
+        npm run coverage > ../unitCoverage-generated.txt
+        npm run coverageint > ../intCoverage-generated.txt
+        git add ../unitCoverage-generated.txt
+        git add ../intCoverage-generated.txt
+        git commit -m "Update test coverage files"
         #this branch will need to be reviewed and approved in the usual manner
         git push --follow-tags origin $BRANCH
       else
@@ -34,12 +39,3 @@ if [[ $TRAVIS_BRANCH == "master"  ]]; then
     fi
   fi
 fi
-git config user.email "travisci@travis.ibm.com"
-git config user.name "Travis CI"
-git config push.default simple
-npm run coverage > ../unitCoverage.txt
-BRANCH="addCoverageTxtFile"
-git checkout -b $BRANCH
-git add unitCoverage.txt
-git commit -m "Add unit coverage"
-git push origin $BRANCH
