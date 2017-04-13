@@ -50,28 +50,23 @@ Config.prototype.reset = function() {
   this.bluemix = undefined;
   this.input = undefined;
   this.technologies = [];
+  this.configFiles = [];
 }
 
 Config.prototype.processProject = function(paths) {
   for(var i = 0; i < paths.length; i++) {
     var file = fspath.resolve(paths[i], CONFIG_FILE);
     if(fs.existsSync(file)) {
-      if(this.configFiles) {
-        this.configFiles.push(file);
-      }else {
-        this.configFiles = [file];
-      }
+      this.configFiles.push(file);
     }
   }
-  if (this.configFiles) {
-    for(var i = 0; i < this.configFiles.length; i++) {
-      var template = fs.readFileSync(this.configFiles[i], 'utf8');
-      var compiledTemplate = Handlebars.compile(template);
-      var output = compiledTemplate(this);
-      var fileContent = eval("(" + output + ")");
-      for(var array in fileContent) {
-        this.processArray(fileContent, array);
-      }
+  for(var i = 0; i < this.configFiles.length; i++) {
+    var template = fs.readFileSync(this.configFiles[i], 'utf8');
+    var compiledTemplate = Handlebars.compile(template);
+    var output = compiledTemplate(this);
+    var fileContent = eval("(" + output + ")");
+    for(var array in fileContent) {
+      this.processArray(fileContent, array);
     }
   }
 }
