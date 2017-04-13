@@ -21,7 +21,7 @@
     </properties>
 
     <dependencies>
-        {{#each deps}}
+        {{#each dependencies}}
         <dependency>
             <groupId>{{this.groupId}}</groupId>
             <artifactId>{{this.artifactId}}</artifactId>

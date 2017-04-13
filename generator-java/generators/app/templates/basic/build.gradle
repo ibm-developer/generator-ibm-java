@@ -34,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    {{#each deps}}
+    {{#each dependencies}}
     {{this.scope}}Compile '{{this.groupId}}:{{this.artifactId}}:{{this.version}}'
     {{/each}}
     {{#has createType 'bff'}}

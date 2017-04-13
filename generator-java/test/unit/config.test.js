@@ -136,41 +136,41 @@ describe('Config file processing', function() {
     assert(properties.includes('testGradleName1=testValue1'), 'properties=' + properties);
     assert(properties.includes('testName2=testGradleValue2'), 'properties=' + properties);
   });
-  it('it should add the dependencies into the config.deps object', function() {
+  it('it should add the dependencies into the config.dependencies object', function() {
     var config = new Config();
     var templatePath = [path.resolve("./test/resources/config/with-config")];
     config.processProject(templatePath);
-    assert.equal(config.deps[0].groupId, 'test.group.id');
-    assert.equal(config.deps[0].artifactId, 'testArtifactId');
-    assert.equal(config.deps[0].version, '0.0.1');
-    assert.equal(config.deps[0].scope, 'provided');
+    assert.equal(config.dependencies[0].groupId, 'test.group.id');
+    assert.equal(config.dependencies[0].artifactId, 'testArtifactId');
+    assert.equal(config.dependencies[0].version, '0.0.1');
+    assert.equal(config.dependencies[0].scope, 'provided');
   });
   it('it should add the dependencies from all config files', function() {
     var config = new Config();
     var templatePath = [path.resolve("./test/resources/config/with-config"), path.resolve("./test/resources/config/with-other-config")];
     config.processProject(templatePath);
-    var dependencies = [config.deps[0].groupId + ":" + config.deps[0].artifactId + ":" + config.deps[0].version + ":" + config.deps[0].scope];
-    for(var i = 1; i < config.deps.length; i++) {
-      dependencies.push(config.deps[i].groupId + ":" + config.deps[i].artifactId + ":" + config.deps[i].version + ":" + config.deps[i].scope);
+    var dependencies = [config.dependencies[0].groupId + ":" + config.dependencies[0].artifactId + ":" + config.dependencies[0].version + ":" + config.dependencies[0].scope];
+    for(var i = 1; i < config.dependencies.length; i++) {
+      dependencies.push(config.dependencies[i].groupId + ":" + config.dependencies[i].artifactId + ":" + config.dependencies[i].version + ":" + config.dependencies[i].scope);
     }
     assert.equal(dependencies.length, 2)
     assert(dependencies.includes('test.group.id:testArtifactId:0.0.1:provided'), 'dependencies=' + dependencies);
     assert(dependencies.includes('test.other.group.id:testOtherArtifactId:0.0.2:provided'), 'dependencies=' + dependencies);
   });
-  it('it should add the framework dependencies to the config.framework object', function() {
+  it('it should add the framework dependencies to the config.frameworkDependencies object', function() {
     var config = new Config();
     var templatePath = [path.resolve("./test/resources/config/with-config")];
     config.processProject(templatePath);
-    assert(config.framework.dependencies)
-    assert.equal(config.framework.dependencies[0].name, 'testFrameworkDep');
+    assert(config.frameworkDependencies)
+    assert.equal(config.frameworkDependencies[0].name, 'testFrameworkDep');
   });
   it('it should add the framework dependencies from all config files', function() {
     var config = new Config();
     var templatePath = [path.resolve("./test/resources/config/with-config"), path.resolve("./test/resources/config/with-other-config")];
     config.processProject(templatePath);
-    var dependencies = [config.framework.dependencies[0].name];
-    for(var i = 1; i < config.framework.dependencies.length; i++) {
-      dependencies.push(config.framework.dependencies[i].name);
+    var dependencies = [config.frameworkDependencies[0].name];
+    for(var i = 1; i < config.frameworkDependencies.length; i++) {
+      dependencies.push(config.frameworkDependencies[i].name);
     }
     assert.equal(dependencies.length, 2)
     assert(dependencies.includes('testFrameworkDep'), 'dependencies=' + dependencies);

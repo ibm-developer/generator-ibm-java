@@ -68,58 +68,20 @@ Config.prototype.processProject = function(paths) {
       var compiledTemplate = Handlebars.compile(template);
       var output = compiledTemplate(this);
       var fileContent = eval("(" + output + ")");
-      this.processProperties(fileContent);
-      if (fileContent.dependencies) {
-        this.processDependencies(fileContent.dependencies);
-      }
-      if(fileContent.framework) {
-        this.processFramework(fileContent.framework);
+      for(var array in fileContent) {
+        this.processArray(fileContent, array);
       }
     }
   }
 }
 
-Config.prototype.processProperties = function(configFile) {
-  if(configFile.properties) {
-    for(var i = 0; i < configFile.properties.length; i++) {
-      var property = configFile.properties[i];
-      if(this.properties) {
-        this.properties.push(property);
-      } else {
-        this.properties = [property];
-      }
-    }
-  }
-}
-
-Config.prototype.processDependencies = function(depList) {
-  for(var i = 0; i < depList.length; i++) {
-    var dependency = depList[i];
-    if(this.deps) {
-      this.deps.push(dependency);
-    }
-    else {
-      this.deps = [dependency];
-    }
-  }
-}
-
-Config.prototype.processFramework = function(framework) {
-  if(this.framework && framework.dependencies) {
-    this.processFrameworkDependencies(framework.dependencies)
-  } else {
-    this.framework = framework
-  }
-}
-
-Config.prototype.processFrameworkDependencies = function(depList) {
-  for(var i = 0; i < depList.length; i++) {
-    var dependency = depList[i];
-    if(this.framework.dependencies) {
-      this.framework.dependencies.push(dependency);
-    }
-    else {
-      this.framework.dependencies = [dependency];
+Config.prototype.processArray = function(content, objectsName) {
+  for(var i = 0; i < content[objectsName].length; i++) {
+    var object = content[objectsName][i];
+    if(this[objectsName]) {
+      this[objectsName].push(object);
+    } else {
+      this[objectsName] = [object];
     }
   }
 }
