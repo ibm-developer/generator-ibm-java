@@ -35,20 +35,8 @@ repositories {
 
 dependencies {
     {{#each dependencies}}
-    {{this.scope}}Compile '{{this.groupId}}:{{this.artifactId}}:{{this.version}}'
+    {{#if scope}}{{this.scope}}Compile{{else}}compile{{/if}} '{{this.groupId}}:{{this.artifactId}}:{{this.version}}'
     {{/each}}
-    {{#has createType 'bff'}}
-    providedCompile 'io.swagger:swagger-annotations:1.5.3'
-    {{/has}}
-    {{#bluemix}}
-    {{#cloudant}}
-    compile 'com.cloudant:cloudant-client:2.7.0'
-    {{/cloudant}}
-    {{#objectStorage}}
-    compile 'org.pacesys:openstack4j-core:3.0.3'
-    compile 'org.pacesys.openstack4j.connectors:openstack4j-httpclient:3.0.3'
-    {{/objectStorage}}
-    {{/bluemix}}
 }
 
 test {

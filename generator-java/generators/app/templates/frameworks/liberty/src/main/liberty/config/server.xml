@@ -4,9 +4,6 @@
       {{#each frameworkDependencies}}
       <feature>{{this.feature}}</feature>
       {{/each}}
-      {{#has createType 'bff'}}
-      <feature>apiDiscovery-1.0</feature>
-      {{/has}}
   </featureManager>
 
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"

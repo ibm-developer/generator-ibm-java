@@ -26,37 +26,11 @@
             <groupId>{{this.groupId}}</groupId>
             <artifactId>{{this.artifactId}}</artifactId>
             <version>{{this.version}}</version>
+            {{#if scope}}
             <scope>{{this.scope}}</scope>
+            {{/if}}
         </dependency
         {{/each}}
-        {{#bluemix}}
-        {{#cloudant}}
-        <dependency>
-            <groupId>com.cloudant</groupId>
-            <artifactId>cloudant-client</artifactId>
-            <version>2.7.0</version>
-        </dependency>
-        {{/cloudant}}
-        {{#objectStorage}}
-        <dependency>
-             <groupId>org.pacesys</groupId>
-             <artifactId>openstack4j-core</artifactId>
-             <version>3.0.3</version>
-         </dependency>
-         <dependency>
-             <groupId>org.pacesys.openstack4j.connectors</groupId>
-             <artifactId>openstack4j-httpclient</artifactId>
-             <version>3.0.3</version>
-         </dependency>
-        {{/objectStorage}}
-        {{/bluemix}}
-        {{#has createType 'bff'}}
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        {{/has}}
     </dependencies>
 
     <build>

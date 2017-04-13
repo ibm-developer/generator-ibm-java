@@ -156,7 +156,7 @@ describe('java generator : microservice integration test', function () {
       });                        // Get a Promise back when the generator finishes
     });
 
-    it('with cloudant', function (done) {
+    it('with cloudant and maven', function (done) {
       var options = new Options('maven');
       options.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "domain", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
       helpers.run(path.join( __dirname, '../../generators/app'))
@@ -173,6 +173,7 @@ describe('java generator : microservice integration test', function () {
           assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-cloudantNoSQLDB-000")');
 
           assert.fileContent('README.md', 'cloudant');
+          assert.fileContent('pom.xml', /<groupId>com\.cloudant<\/groupId>\s*<artifactId>cloudant-client<\/artifactId>\s*<version>2\.7\.0<\/version>/);
           done();
         } catch (err) {
           done(err);
@@ -182,7 +183,34 @@ describe('java generator : microservice integration test', function () {
       });                        // Get a Promise back when the generator finishes
     });
 
-    it('with object storage', function (done) {
+    it('with cloudant and maven', function (done) {
+      var options = new Options('gradle');
+      options.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "domain", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
+      helpers.run(path.join( __dirname, '../../generators/app'))
+        .withOptions(options)
+        .withPrompts({})
+      .toPromise().then(function() {
+        try {
+          options.assert('bxName', 'bxName', true, false)
+          common.assertGradleFiles('bxName');
+          frameworkTest.assertGradleFiles();
+
+          assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
+          assert.fileContent('src/main/java/application/rest/v1/Example.java','Cloudant'); //check Cloudant service present
+          assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-cloudantNoSQLDB-000")');
+
+          assert.fileContent('README.md', 'cloudant');
+          assert.fileContent('build.gradle', "compile 'com.cloudant:cloudant-client:2.7.0'");
+          done();
+        } catch (err) {
+          done(err);
+        }
+      }, function(err) {
+        done(err);
+      });                        // Get a Promise back when the generator finishes
+    });
+
+    it('with object storage and maven', function (done) {
       var options = new Options('maven');
       options.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "domain", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
       helpers.run(path.join( __dirname, '../../generators/app'))
@@ -199,6 +227,36 @@ describe('java generator : microservice integration test', function () {
           assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-Object-Storage-000")');
 
           assert.fileContent('README.md', 'Object Storage service');
+          assert.fileContent('pom.xml', /<groupId>org\.pacesys<\/groupId>\s*<artifactId>openstack4j-core<\/artifactId>\s*<version>3\.0\.3<\/version>/);
+          assert.fileContent('pom.xml', /<groupId>org\.pacesys\.openstack4j\.connectors<\/groupId>\s*<artifactId>openstack4j-httpclient<\/artifactId>\s*<version>3\.0\.3<\/version>/);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      }, function(err) {
+        done(err);
+      });                        // Get a Promise back when the generator finishes
+    });
+
+    it('with object storage and gradle', function (done) {
+      var options = new Options('gradle');
+      options.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "domain", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
+      helpers.run(path.join( __dirname, '../../generators/app'))
+        .withOptions(options)
+        .withPrompts({})
+      .toPromise().then(function() {
+        try {
+          options.assert('bxName', 'bxName', false, true)
+          common.assertGradleFiles('bxName');
+          frameworkTest.assertGradleFiles();
+
+          assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
+          assert.fileContent('src/main/java/application/rest/v1/Example.java','OSClient'); //check Cloudant service present
+          assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-Object-Storage-000")');
+
+          assert.fileContent('README.md', 'Object Storage service');
+          assert.fileContent('build.gradle', "compile 'org.pacesys:openstack4j-core:3.0.3'");
+          assert.fileContent('build.gradle', "compile 'org.pacesys.openstack4j.connectors:openstack4j-httpclient:3.0.3'");
           done();
         } catch (err) {
           done(err);
