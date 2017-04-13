@@ -16,8 +16,13 @@
 
 //configuration module for controlling the template creation.
 
+var fs = require('fs');
+var fspath = require('path');
+var Handlebars = require('handlebars');
+
 const PATTERN_NAME = new RegExp("^[a-zA-Z0-9_-]+$");
 const PATTERN_ARTIFACT_ID = new RegExp("^[a-zA-Z0-9-_.]*$");
+const CONFIG_FILE = "config.js";
 
 function Config() {
   this.reset();
@@ -44,6 +49,36 @@ Config.prototype.reset = function() {
   this.debug = "false";
   this.bluemix = undefined;
   this.input = undefined;
+  this.configFiles = [];
+}
+
+Config.prototype.processProject = function(paths) {
+  for(var i = 0; i < paths.length; i++) {
+    var file = fspath.resolve(paths[i], CONFIG_FILE);
+    if(fs.existsSync(file)) {
+      this.configFiles.push(file);
+    }
+  }
+  for(var i = 0; i < this.configFiles.length; i++) {
+    var template = fs.readFileSync(this.configFiles[i], 'utf8');
+    var compiledTemplate = Handlebars.compile(template);
+    var output = compiledTemplate(this);
+    var fileContent = eval("(" + output + ")");
+    for(var array in fileContent) {
+      this.processArray(fileContent, array);
+    }
+  }
+}
+
+Config.prototype.processArray = function(content, objectsName) {
+  for(var i = 0; i < content[objectsName].length; i++) {
+    var object = content[objectsName][i];
+    if(this[objectsName]) {
+      this[objectsName].push(object);
+    } else {
+      this[objectsName] = [object];
+    }
+  }
 }
 
 module.exports = exports = Config;

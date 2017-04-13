@@ -22,11 +22,15 @@ var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 var common = require('../lib/commontest');
+var framework = require('../lib/test-framework');
+var frameworkTest;
 
 const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
 const VERSION = '1.0.0';
 const APPNAME = 'testApp';
+const FRAMEWORK = 'liberty';
+const LIBERTY_CONFIG_FILE = 'src/main/liberty/config/server.xml';
 
 function Options() {
   this.debug = "true";
@@ -46,8 +50,11 @@ function Options() {
                                     'main/java/application/model/Product.java',
                                     'main/java/application/openapi/ProductsApi.java',
                                     'main/java/application/openapi/ProductApi.java',
-                                    'test/java/it/HealthEndpointTest.java',
-                                    'main/webapp/WEB-INF/ibm-web-ext.xml')
+                                    'test/java/it/HealthEndpointTest.java')
+    frameworkTest = framework.test(FRAMEWORK);
+    frameworkTest.assertCloudant(cloudant);
+    frameworkTest.assertObjectStorage(objectStorage);
+    assert.fileContent(LIBERTY_CONFIG_FILE, '<feature>apiDiscovery-1.0</feature>');
   }
 }
 
@@ -64,6 +71,8 @@ describe('java generator : bff integration test', function () {
         try {
           options.assert(APPNAME, APPNAME, false, false);
           common.assertGradleFiles(APPNAME);
+          frameworkTest.assertGradleFiles();
+          assert.fileContent('build.gradle', "providedCompile 'io.swagger:swagger-annotations:1.5.3'");
           done();
         } catch (err) {
           done(err);
@@ -82,6 +91,8 @@ describe('java generator : bff integration test', function () {
         try {
           options.assert(APPNAME, APPNAME, false, false);
           common.assertMavenFiles(APPNAME);
+          frameworkTest.assertMavenFiles();
+          assert.fileContent('pom.xml', /<groupId>io\.swagger<\/groupId>\s*<artifactId>swagger-annotations<\/artifactId>\s*<version>1\.5\.3<\/version>/);
           done();
         } catch (err) {
           done(err);
@@ -104,6 +115,7 @@ describe('java generator : bff integration test', function () {
         try {
           options.assert('bxName', 'testBxName', true, false);
           common.assertMavenFiles('bxName');
+          frameworkTest.assertMavenFiles();
           done();
         } catch (err) {
           done(err);
@@ -121,6 +133,7 @@ describe('java generator : bff integration test', function () {
         try {
           options.assert('bxName', 'testBxName', false, true);
           common.assertMavenFiles('bxName');
+          frameworkTest.assertMavenFiles();
           done();
         } catch (err) {
           done(err);
@@ -139,6 +152,7 @@ describe('java generator : bff integration test', function () {
         try {
           options.assert('bxName', 'testBxName', true, true);
           common.assertMavenFiles('bxName');
+          frameworkTest.assertMavenFiles();
           done();
         } catch (err) {
           done(err);
@@ -151,4 +165,3 @@ describe('java generator : bff integration test', function () {
   });
 
 });
-  

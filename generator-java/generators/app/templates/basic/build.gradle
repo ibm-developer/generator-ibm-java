@@ -21,15 +21,12 @@ compileJava.options.encoding = 'UTF-8'
 
 ext {
     // Liberty server properties
-    serverDirectory = "${buildDir}/wlp/usr/servers/defaultServer"
-    testServerHttpPort = 9080
-    testServerHttpsPort = 9443
-
+    {{#each properties}}
+    {{this.name}} = {{{this.value}}}
+    {{/each}}
     appName = '{{appName}}'
     // This is set in the ibm-web-ext.xml file
-    warContext = "${appName}"
-    packageFile = "${project.buildDir}/${appName}.zip"
-    packagingType = 'usr'
+
 }
 
 repositories {
@@ -37,28 +34,9 @@ repositories {
 }
 
 dependencies {
-    providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
-    providedCompile 'com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.servlet:1.0.10'
-    providedCompile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
-    providedCompile 'com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.jaxrs20:1.0.10'
-    providedCompile 'javax.json:javax.json-api:1.0'
-    providedCompile 'com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.json:1.0.10'
-    providedCompile 'javax.enterprise:cdi-api:1.2'
-    {{#has createType 'bff'}}
-    providedCompile 'io.swagger:swagger-annotations:1.5.3'
-    {{/has}}
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.apache.cxf:cxf-rt-rs-client:3.1.1'
-    testCompile 'org.glassfish:javax.json:1.0.4'
-    {{#bluemix}}
-    {{#cloudant}}
-    compile 'com.cloudant:cloudant-client:2.7.0'
-    {{/cloudant}}
-    {{#objectStorage}}
-    compile 'org.pacesys:openstack4j-core:3.0.3'
-    compile 'org.pacesys.openstack4j.connectors:openstack4j-httpclient:3.0.3'
-    {{/objectStorage}}
-    {{/bluemix}}
+    {{#each dependencies}}
+    {{#if scope}}{{this.scope}}Compile{{else}}compile{{/if}} '{{this.groupId}}:{{this.artifactId}}:{{this.version}}'
+    {{/each}}
 }
 
 test {

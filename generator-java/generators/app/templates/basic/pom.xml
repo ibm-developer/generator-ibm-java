@@ -13,92 +13,24 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- Liberty server properties -->
-        <testServerHttpPort>9080</testServerHttpPort>
-        <testServerHttpsPort>9443</testServerHttpsPort>
+        {{#each properties}}
+        <{{this.name}}>{{this.value}}</{{this.name}}>
+        {{/each}}
         <app.name>{{appName}}</app.name>
         <!--This is set in the ibm-web-ext.xml file -->
-        <warContext>${app.name}</warContext>
-        <package.file>${project.build.directory}/${app.name}.zip</package.file>
-        <packaging.type>usr</packaging.type>
     </properties>
 
     <dependencies>
+        {{#each dependencies}}
         <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
-            <version>2.0.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.ibm.websphere.appserver.api</groupId>
-            <artifactId>com.ibm.websphere.appserver.api.jaxrs20</artifactId>
-            <version>1.0.10</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.json</groupId>
-            <artifactId>javax.json-api</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.ibm.websphere.appserver.api</groupId>
-            <artifactId>com.ibm.websphere.appserver.api.json</artifactId>
-            <version>1.0.10</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-            <version>1.2</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-rs-client</artifactId>
-            <version>3.1.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.json</artifactId>
-            <version>1.0.4</version>
-            <scope>test</scope>
-        </dependency>
-        {{#bluemix}}
-        {{#cloudant}}
-        <dependency>
-            <groupId>com.cloudant</groupId>
-            <artifactId>cloudant-client</artifactId>
-            <version>2.7.0</version>
-        </dependency>
-        {{/cloudant}}
-        {{#objectStorage}}
-        <dependency>
-             <groupId>org.pacesys</groupId>
-             <artifactId>openstack4j-core</artifactId>
-             <version>3.0.3</version>
-         </dependency>
-         <dependency>
-             <groupId>org.pacesys.openstack4j.connectors</groupId>
-             <artifactId>openstack4j-httpclient</artifactId>
-             <version>3.0.3</version>
-         </dependency>
-        {{/objectStorage}}
-        {{/bluemix}}
-        {{#has createType 'bff'}}
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        {{/has}}
+            <groupId>{{this.groupId}}</groupId>
+            <artifactId>{{this.artifactId}}</artifactId>
+            <version>{{this.version}}</version>
+            {{#if scope}}
+            <scope>{{this.scope}}</scope>
+            {{/if}}
+        </dependency
+        {{/each}}
     </dependencies>
 
     <build>
