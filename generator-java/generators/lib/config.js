@@ -59,15 +59,13 @@ Config.prototype.processProject = function(paths) {
       this.configFiles.push(file);
     }
   }
-  if (this.configFiles) {
-    for(var i = 0; i < this.configFiles.length; i++) {
-      var template = fs.readFileSync(this.configFiles[i], 'utf8');
-      var compiledTemplate = Handlebars.compile(template);
-      var output = compiledTemplate(this);
-      var fileContent = eval("(" + output + ")");
-      for(var array in fileContent) {
-        this.processArray(fileContent, array);
-      }
+  for(var i = 0; i < this.configFiles.length; i++) {
+    var template = fs.readFileSync(this.configFiles[i], 'utf8');
+    var compiledTemplate = Handlebars.compile(template);
+    var output = compiledTemplate(this);
+    var fileContent = eval("(" + output + ")");
+    for(var array in fileContent) {
+      this.processArray(fileContent, array);
     }
   }
 }
