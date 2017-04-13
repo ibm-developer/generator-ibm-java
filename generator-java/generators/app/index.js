@@ -56,8 +56,19 @@ var questions = [{
     name : 'BFF : Backend For Frontend (generate java from Swagger/OpenAPI)',
     value : 'bff',
     short : 'Backend For Frontend'
+  }, {
+    name : 'Pick and Mix : Choose from a selection of technologies',
+    value : 'pickandmix',
+    short : 'Tech - rest'
   }],
   default : 0 // Default to rest sample
+}, {
+  when : (answers) => answers.createType === 'pickandmix',
+  type : 'checkbox',
+  name : 'technologies',
+  message : 'Select the technologies for your project.\n',
+  choices : ['rest'],
+  default : 0 // Default to rest
 }, {
   type    : 'list',
   name    : 'buildType',

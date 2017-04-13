@@ -29,7 +29,7 @@
             {{#if scope}}
             <scope>{{this.scope}}</scope>
             {{/if}}
-        </dependency
+        </dependency>
         {{/each}}
     </dependencies>
 

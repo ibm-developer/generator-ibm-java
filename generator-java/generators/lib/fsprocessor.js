@@ -55,7 +55,7 @@ var dirwalk = function(root, tracker, resolver) {
               resolver.reject(err);
               return;
             }
-            if(tracker.control.isControl(relativePath)) {
+            if(tracker.control.isControl(relativePath) || tracker.control.isConfig(relativePath)) {
               //console.log("CONTROL FILE found, skipping processing");
             } else {
               //fileFound passes back an array of fragments so that data can be repeated
