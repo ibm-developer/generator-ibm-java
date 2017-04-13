@@ -30,6 +30,7 @@ const GROUPID = 'test.group';
 const VERSION = '1.0.0';
 const APPNAME = 'testApp';
 const FRAMEWORK = 'liberty';
+const LIBERTY_CONFIG_FILE = 'src/main/liberty/config/server.xml';
 
 function Options(buildType) {
   this.headless = "true";
@@ -53,6 +54,10 @@ function Options(buildType) {
     frameworkTest = framework.test(FRAMEWORK);
     frameworkTest.assertCloudant(cloudant);
     frameworkTest.assertObjectStorage(objectStorage);
+    assert.fileContent(LIBERTY_CONFIG_FILE, '<feature>jaxrs-2.0</feature>');
+    assert.fileContent(LIBERTY_CONFIG_FILE, '<feature>jsonp-1.0</feature>');
+    assert.fileContent(LIBERTY_CONFIG_FILE, '<feature>jndi-1.0</feature>');
+    assert.fileContent(LIBERTY_CONFIG_FILE, '<feature>cdi-1.2</feature>');
   }
 }
 
@@ -74,6 +79,13 @@ describe('java generator : microservice integration test', function () {
           assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
           assert.fileContent('README.md', 'gradle');
           assert.noFileContent('README.md', 'maven');
+          assert.fileContent('build.gradle', "providedCompile 'javax.servlet:javax.servlet-api:3.1.0'");
+          assert.fileContent('build.gradle', "providedCompile 'com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.servlet:1.0.10'");
+          assert.fileContent('build.gradle', "providedCompile 'javax.ws.rs:javax.ws.rs-api:2.0.1'");
+          assert.fileContent('build.gradle', "providedCompile 'com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.jaxrs20:1.0.10'");
+          assert.fileContent('build.gradle', "providedCompile 'javax.json:javax.json-api:1.0'");
+          assert.fileContent('build.gradle', "providedCompile 'com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.json:1.0.10'");
+          assert.fileContent('build.gradle', "providedCompile 'javax.enterprise:cdi-api:1.2'");
           done();
         } catch (err) {
           done(err);
@@ -97,6 +109,13 @@ describe('java generator : microservice integration test', function () {
           assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
           assert.fileContent('README.md', 'maven');
           assert.noFileContent('README.md', 'gradle');
+          assert.fileContent('pom.xml', /<groupId>javax\.servlet<\/groupId>\s*<artifactId>javax\.servlet-api<\/artifactId>\s*<version>3\.1\.0<\/version>\s*<scope>provided<\/scope>/);
+          assert.fileContent('pom.xml', /<groupId>com\.ibm\.websphere\.appserver\.api<\/groupId>\s*<artifactId>com\.ibm\.websphere\.appserver\.api\.servlet<\/artifactId>\s*<version>1\.0\.10<\/version>\s*<scope>provided<\/scope>/);
+          assert.fileContent('pom.xml', /<groupId>javax\.ws\.rs<\/groupId>\s*<artifactId>javax\.ws\.rs-api<\/artifactId>\s*<version>2\.0\.1<\/version>\s*<scope>provided<\/scope>/);
+          assert.fileContent('pom.xml', /<groupId>com\.ibm\.websphere\.appserver\.api<\/groupId>\s*<artifactId>com\.ibm\.websphere\.appserver\.api\.jaxrs20<\/artifactId>\s*<version>1\.0\.10<\/version>\s*<scope>provided<\/scope>/);
+          assert.fileContent('pom.xml', /<groupId>javax\.json<\/groupId>\s*<artifactId>javax\.json-api<\/artifactId>\s*<version>1\.0<\/version>\s*<scope>provided<\/scope>/);
+          assert.fileContent('pom.xml', /<groupId>com\.ibm\.websphere\.appserver\.api<\/groupId>\s*<artifactId>com\.ibm\.websphere\.appserver\.api\.json<\/artifactId>\s*<version>1\.0\.10<\/version>\s*<scope>provided<\/scope>/);
+          assert.fileContent('pom.xml', /<groupId>javax\.enterprise<\/groupId>\s*<artifactId>cdi-api<\/artifactId>\s*<version>1\.2<\/version>\s*<scope>provided<\/scope>/);
           done();
         } catch (err) {
           done(err);
