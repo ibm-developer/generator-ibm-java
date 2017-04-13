@@ -49,17 +49,14 @@ Config.prototype.reset = function() {
   this.debug = "false";
   this.bluemix = undefined;
   this.input = undefined;
+  this.configFiles = [];
 }
 
 Config.prototype.processProject = function(paths) {
   for(var i = 0; i < paths.length; i++) {
     var file = fspath.resolve(paths[i], CONFIG_FILE);
     if(fs.existsSync(file)) {
-      if(this.configFiles) {
-        this.configFiles.push(file);
-      }else {
-        this.configFiles = [file];
-      }
+      this.configFiles.push(file);
     }
   }
   if (this.configFiles) {
