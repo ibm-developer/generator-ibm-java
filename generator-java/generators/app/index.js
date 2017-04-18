@@ -23,6 +23,7 @@ var fspath = require('path');
 var logger = require("../lib/log");
 var fs = require('fs');
 var Control = require('../lib/control');
+var ExtMgr = require('../lib/extmgr');
 
 //clone any property, only if it is already present in the target object
 var clone = function(from, to) {
@@ -57,13 +58,13 @@ var questions = [{
     value : 'bff',
     short : 'Backend For Frontend'
   }, {
-    name : 'Pick and Mix : Choose from a selection of technologies',
-    value : 'pickandmix',
-    short : 'Tech - rest'
+    name : 'Pic \'n\' Mix : Choose from a selection of technologies',
+    value : 'picnmix',
+    short : 'Technology selection'
   }],
   default : 0 // Default to rest sample
 }, {
-  when : (answers) => answers.createType === 'pickandmix',
+  when : (answers) => answers.createType === 'picnmix',
   type : 'checkbox',
   name : 'technologies',
   message : 'Select the technologies for your project.\n',
@@ -104,6 +105,10 @@ var toObject = function(value) {
 }
 
 var config = new Config();
+var extmgr = new ExtMgr();
+
+extmgr.add('common');
+extmgr.add('bluemix');
 
 module.exports = class extends Generator {
 
@@ -146,82 +151,11 @@ module.exports = class extends Generator {
   }
 
   prompting() {
-    var promptWith = (config.headless === "true") ? [] : questions;
+    var promptWith = (config.headless === "true") ? [] : extmgr.getQuestions();
     return this.prompt(promptWith).then((answers) => {
-      //answers.bluemix is a JSON string and needs to be converted
-      if (typeof (answers.bluemix) === 'string') {
-        answers.bluemix = JSON.parse(answers.bluemix);
-      }
       logger.writeToLog("Answers", answers);
-      //configure the sample to use based on the type we are creating
-      if(answers.createType) {
-        config.createType = answers.createType;
-        config.templateName = answers.createType;   //override with user selection
-      }
-      config.buildType = answers.buildType || config.buildType;
-      config.bluemix = answers.bluemix || config.bluemix;
-      if(config.bluemix) {
-        config.appName = config.bluemix.name || answers.appName || config.appName;
-      } else {
-        config.appName = answers.appName || config.appName;
-      }
-      if(config.artifactId === 'example') {
-        config.artifactId = config.appName;
-      }
-      //below this point, the only way to get these answers is to run the generator locally
-      if(answers.services) {
-        if(!config.bluemix) {
-          config.bluemix = {};
-        }
-        logger.writeToLog("Processing interactive answers", answers.services);
-        config.bluemix.server = {
-          name : "testBxName",
-          host : "host",
-          domain : "domain"
-        }
-        config.bluemix.server.services = answers.services;
-        for(var i = 0; i < answers.services.length; i++) {
-          var service = answers.services[i];
-          if(service === "none") {
-            config.bluemix = undefined;
-            break;    //stop processing if none has been selected
-          }
-          if(service === "cloudant") {
-            if(!config.bluemix.cloudant) {
-              config.bluemix.cloudant = [
-                {
-                  "serviceInfo": {
-                    "name": "test-cloudantNoSQLDB-000",
-                    "label": "cloudantNoSQLDB",
-                    "plan": "Lite"
-                  },
-                  "password": "pass",
-                  "url": "https://account.cloudant.com",
-                  "username": "user"
-                }
-              ];
-            }
-          }
-          if(service === "objectStorage") {
-            if(!config.bluemix.objectStorage) {
-              config.bluemix.objectStorage = [
-                {
-                  "serviceInfo": {
-                    "name": "test-Object-Storage-000",
-                    "label": "Object-Storage",
-                    "plan": "standard"
-                  },
-                  "project": "objectStorage-project",
-                  "userId": "objectStorage-userId",
-                  "password": "objectStorage-password",
-                  "auth_url": "objectStorage-url",
-                  "domainName": "objectStorage-domainName"
-                }
-              ];
-            }
-          }
-        }
-      }
+      extmgr.afterPrompt(answers, config, 'ext:common');
+      extmgr.afterPrompt(answers, config);
       this._setProjectPath();
       logger.writeToLog("Config (after answers)", this.config);
     });
@@ -237,6 +171,7 @@ module.exports = class extends Generator {
     }
     this.destinationRoot(config.projectPath);
     logger.writeToLog("Destination path", this.destinationRoot());
+    console.error('Config : ' + JSON.stringify(config));
     var control = new Control(fspath.resolve(config.templateRoot, config.templateName), config);
     processor.paths = control.getComposition();
     logger.writeToLog("Processor", processor);
