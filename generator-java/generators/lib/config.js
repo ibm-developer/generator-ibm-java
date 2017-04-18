@@ -49,6 +49,7 @@ Config.prototype.reset = function() {
   this.debug = "false";
   this.bluemix = undefined;
   this.input = undefined;
+  this.technologies = [];
   this.configFiles = [];
 }
 

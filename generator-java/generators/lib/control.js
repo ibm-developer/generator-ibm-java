@@ -25,6 +25,8 @@ var logger = require('./log');
 
 //determines if the passed relative path is a control file or not
 const CONTROL_FILE = "control.js";
+//determines if the passed relative path is a config file or not
+const CONFIG_FILE = "config.js";
 
 function Control(path, config) {
   if(!path) {
@@ -44,6 +46,10 @@ Control.prototype.getPath = function() {
 
 Control.prototype.isControl = function(relativePath) {
   return (relativePath === CONTROL_FILE);
+}
+
+Control.prototype.isConfig = function(relativePath) {
+  return (relativePath === CONFIG_FILE);
 }
 
 //return true if a control block is active for this project
