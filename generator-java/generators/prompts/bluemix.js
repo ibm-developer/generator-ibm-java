@@ -18,49 +18,22 @@
 
 var logger = require("../lib/log");
 
-const EXT_ID = 'ext:bluemix';
+const PROMPT_ID = 'prompt:bluemix';
 
 function Extension() {
-  this.id = EXT_ID;
+  this.id = PROMPT_ID;
 }
 
 Extension.prototype.getChoice = function() {
-  return {
-    name : 'Bluemix : generate source for Bluemix starters',
-    value : EXT_ID,
-    short : 'Bluemix source generation'
-  };
+  return undefined;
 }
 
 Extension.prototype.show = function(answers) {
-  return answers && (answers.extName === EXT_ID);
+  return answers && (answers.extName === 'prompt:patterns');
 }
 
 Extension.prototype.getQuestions = function() {
   return [{
-    when    : this.show,
-    type    : 'list',
-    name    : 'createType',
-    message : 'This is a test front end for manually driving the Java code generator.\n',
-    choices : [{
-      name : 'Basic : a basic Java microservice',
-      value : 'basic',
-      short : 'Basic Java microservice'
-    }, {
-      name : 'Microservice : a basic Java microservice',
-      value : 'microservice',
-      short : 'Basic Java microservice'
-    }, {
-      name : 'Basic Web : a basic web application',
-      value : 'basicweb',
-      short : 'Basic web application'
-    }, {
-      name : 'BFF : Backend For Frontend (generate java from Swagger/OpenAPI)',
-      value : 'bff',
-      short : 'Backend For Frontend'
-    }],
-    default : 0 // Default to rest sample
-  }, {
     when    : this.show,
     type    : 'checkbox',
     name    : 'services',

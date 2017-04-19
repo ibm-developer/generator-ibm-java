@@ -18,26 +18,22 @@
 
 var logger = require("../lib/log");
 
-const EXT_ID = 'ext:picnmix';
+const PROMPT_ID = 'ext:liberty';
 
 function Extension() {
-  this.id = EXT_ID;
+  this.id = PROMPT_ID;
 }
 
 Extension.prototype.getChoice = function() {
   return {
-    name : 'App Accelerator : generate source by selecting technologies.\n',
-    value : EXT_ID,
+    name : 'Liberty : generate source for WebSphere Liberty.\n',
+    value : PROMPT_ID,
     short : 'Technology selection'
   };
 }
 
-Extension.prototype.getServices = function() {
-  return undefined;
-}
-
 Extension.prototype.show = function(answers) {
-  return answers && (answers.extName === EXT_ID);
+  return answers && (answers.extName === PROMPT_ID);
 }
 
 Extension.prototype.getQuestions = function() {
@@ -45,9 +41,9 @@ Extension.prototype.getQuestions = function() {
     when    : this.show,
     type    : 'list',
     name    : 'createType',
-    message : 'Pic \'n\' Mix : Choose from a selection of technologies',
+    message : 'What type of source do you want to generate?',
     choices : [{
-      name : 'Pic\'n\'Mix : a technology selection',
+      name : 'Pic\'n\'Mix : pick from a list of technologies',
       value : 'picnmix',
       short : 'Basic technology selection'
     }]

@@ -16,8 +16,8 @@
 
 'use strict'
 
-function ExtensionManager() {
-  this.extensions = [];
+function PromptManager() {
+  this.prompts = [];
   this.types = {};
   this.prompt = {
     type    : 'list',
@@ -27,10 +27,10 @@ function ExtensionManager() {
   };
 }
 
-ExtensionManager.prototype.add = function(name) {
-  var Ext = require('../extensions/' + name + '.js');
+PromptManager.prototype.add = function(name) {
+  var Ext = require('../prompts/' + name + '.js');
   var ext = new Ext();
-  this.extensions.push(ext);
+  this.prompts.push(ext);
 
   var value = ext.getChoice();
   if(value) {
@@ -49,22 +49,22 @@ ExtensionManager.prototype.add = function(name) {
   }
 }
 
-ExtensionManager.prototype.getQuestions = function() {
+PromptManager.prototype.getQuestions = function() {
   var questions = [];
   questions.push(this.prompt);
-  for(var i = 0; i < this.extensions.length; i++) {
-    questions = questions.concat(this.extensions[i].getQuestions());
+  for(var i = 0; i < this.prompts.length; i++) {
+    questions = questions.concat(this.prompts[i].getQuestions());
   }
   return questions;
 }
 
-ExtensionManager.prototype.afterPrompt = function(answers, config, id) {
+PromptManager.prototype.afterPrompt = function(answers, config, id) {
   var ext = undefined;
   if(id) {
     //execute by named ID
-    for(var i = 0; i < this.extensions.length; i++) {
-      if(this.extensions[i].id === id) {
-        ext = this.extensions[i];
+    for(var i = 0; i < this.prompts.length; i++) {
+      if(this.prompts[i].id === id) {
+        ext = this.prompts[i];
         break;
       }
     }
@@ -75,4 +75,4 @@ ExtensionManager.prototype.afterPrompt = function(answers, config, id) {
   ext.afterPrompt(answers, config);
 }
 
-module.exports = exports = ExtensionManager;
+module.exports = exports = PromptManager;

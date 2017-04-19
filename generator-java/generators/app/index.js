@@ -23,7 +23,7 @@ var fspath = require('path');
 var logger = require("../lib/log");
 var fs = require('fs');
 var Control = require('../lib/control');
-var ExtMgr = require('../lib/extmgr');
+var PromptMgr = require('../lib/promptmgr');
 
 //clone any property, only if it is already present in the target object
 var clone = function(from, to) {
@@ -36,64 +36,6 @@ var clone = function(from, to) {
   }
 }
 
-//questions to ask when running in interactive mode
-var questions = [{
-  type    : 'list',
-  name    : 'createType',
-  message : 'This is a test front end for manually driving the Java code generator.\n',
-  choices : [{
-    name : 'Basic : a basic Java microservice',
-    value : 'basic',
-    short : 'Basic Java microservice'
-  }, {
-    name : 'Microservice : a basic Java microservice',
-    value : 'microservice',
-    short : 'Basic Java microservice'
-  }, {
-    name : 'Basic Web : a basic web application',
-    value : 'basicweb',
-    short : 'Basic web application'
-  }, {
-    name : 'BFF : Backend For Frontend (generate java from Swagger/OpenAPI)',
-    value : 'bff',
-    short : 'Backend For Frontend'
-  }, {
-    name : 'Pic \'n\' Mix : Choose from a selection of technologies',
-    value : 'picnmix',
-    short : 'Technology selection'
-  }],
-  default : 0 // Default to rest sample
-}, {
-  when : (answers) => answers.createType === 'picnmix',
-  type : 'checkbox',
-  name : 'technologies',
-  message : 'Select the technologies for your project.\n',
-  choices : ['rest'],
-  default : 0 // Default to rest
-}, {
-  type    : 'list',
-  name    : 'buildType',
-  message : 'Select the build type for your project.\n',
-  choices : ['maven', 'gradle'],
-  default : 0 // Default to maven
-}, {
-  type    : 'checkbox',
-  name    : 'services',
-  message : 'Select the services for your project.\n',
-  choices : ['none','cloudant', 'objectStorage'],
-  default : 0 // Default to none
-}, {
-  type    : 'input',
-  name    : 'appName',
-  message : 'Enter a name for your project',
-  default : "myProject"
-}, {
-  type    : 'input',
-  name    : 'bluemix',
-  message : 'Enter the bluemix JSON',
-  default : "{}"
-}];
-
 var toObject = function(value) {
   if(typeof value == 'string') {
     return JSON.parse(value);
@@ -105,11 +47,13 @@ var toObject = function(value) {
 }
 
 var config = new Config();
-var extmgr = new ExtMgr();
+var promptmgr = new PromptMgr();
 
-extmgr.add('common');
-extmgr.add('bluemix');
-extmgr.add('picnmix');
+promptmgr.add('common');
+promptmgr.add('liberty');
+promptmgr.add('patterns');
+promptmgr.add('bluemix');
+
 
 module.exports = class extends Generator {
 
@@ -152,11 +96,11 @@ module.exports = class extends Generator {
   }
 
   prompting() {
-    var promptWith = (config.headless === "true") ? [] : extmgr.getQuestions();
+    var promptWith = (config.headless === "true") ? [] : promptmgr.getQuestions();
     return this.prompt(promptWith).then((answers) => {
       logger.writeToLog("Answers", answers);
-      extmgr.afterPrompt(answers, config, 'ext:common');
-      extmgr.afterPrompt(answers, config);
+      promptmgr.afterPrompt(answers, config, 'ext:common');
+      promptmgr.afterPrompt(answers, config);
       this._setProjectPath();
       logger.writeToLog("Config (after answers)", this.config);
     });

@@ -18,10 +18,10 @@
 
 var logger = require("../lib/log");
 
-const EXT_ID = 'ext:common';
+const PROMPT_ID = 'ext:common';
 
 function Extension() {
-  this.id = EXT_ID;
+  this.id = PROMPT_ID;
 }
 
 Extension.prototype.getChoice = function() {
