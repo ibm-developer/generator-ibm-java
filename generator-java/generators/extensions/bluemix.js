@@ -36,10 +36,6 @@ Extension.prototype.show = function(answers) {
   return answers && (answers.extName === EXT_ID);
 }
 
-Extension.prototype.getServices = function() {
-  return ['cloudant', 'objectStorage'];
-}
-
 Extension.prototype.getQuestions = function() {
   return [{
     when    : this.show,
@@ -64,6 +60,13 @@ Extension.prototype.getQuestions = function() {
       short : 'Backend For Frontend'
     }],
     default : 0 // Default to rest sample
+  }, {
+    when    : this.show,
+    type    : 'checkbox',
+    name    : 'services',
+    message : 'Select the services for your project.\n',
+    choices : ['none','cloudant', 'objectStorage'],
+    default : 0 // Default to none
   }, {
     when    : this.show,
     type    : 'input',

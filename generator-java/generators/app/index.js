@@ -109,6 +109,7 @@ var extmgr = new ExtMgr();
 
 extmgr.add('common');
 extmgr.add('bluemix');
+extmgr.add('picnmix');
 
 module.exports = class extends Generator {
 
@@ -171,7 +172,6 @@ module.exports = class extends Generator {
     }
     this.destinationRoot(config.projectPath);
     logger.writeToLog("Destination path", this.destinationRoot());
-    console.error('Config : ' + JSON.stringify(config));
     var control = new Control(fspath.resolve(config.templateRoot, config.templateName), config);
     processor.paths = control.getComposition();
     logger.writeToLog("Processor", processor);

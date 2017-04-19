@@ -53,7 +53,7 @@ describe('java generator : basic integration test', function () {
       var options = new Options();
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
-        .withPrompts({ buildType : 'gradle', createType: 'basic', services: ['none'], appName: APPNAME})
+        .withPrompts({extName : 'ext:bluemix', buildType : 'gradle', createType: 'basic', services: ['none'], appName: APPNAME})
       .toPromise().then(function() {
         try {
           options.assert(APPNAME, APPNAME, false, false)
@@ -71,7 +71,7 @@ describe('java generator : basic integration test', function () {
       var options = new Options();
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
-        .withPrompts({buildType : 'maven', createType: 'basic', appName: APPNAME })
+        .withPrompts({extName : 'ext:bluemix', buildType : 'maven', createType: 'basic', appName: APPNAME })
       .toPromise().then(function() {
         try {
           options.assert(APPNAME, APPNAME, false, false)
@@ -93,7 +93,7 @@ describe('java generator : basic integration test', function () {
       var options = new Options();
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
-        .withPrompts({buildType : 'maven', createType: 'basic', services : ['cloudant'], appName : 'bxName' })
+        .withPrompts({extName : 'ext:bluemix', buildType : 'maven', createType: 'basic', services : ['cloudant'], appName : 'bxName' })
       .toPromise().then(function() {
         try {
           options.assert('bxName', 'testBxName', true, false)
@@ -110,7 +110,7 @@ describe('java generator : basic integration test', function () {
       var options = new Options();
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
-        .withPrompts({buildType : 'maven', createType: 'basic', services : ['objectStorage'], appName : 'bxName' })
+        .withPrompts({extName : 'ext:bluemix', buildType : 'maven', createType: 'basic', services : ['objectStorage'], appName : 'bxName' })
       .toPromise().then(function() {
         try {
           options.assert('bxName', 'testBxName', false, true)
@@ -127,7 +127,7 @@ describe('java generator : basic integration test', function () {
       var options = new Options();
       helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(options)
-        .withPrompts({buildType : 'maven', createType: 'basic', services : ['objectStorage', 'cloudant'], appName : 'bxName' })
+        .withPrompts({extName : 'ext:bluemix', buildType : 'maven', createType: 'basic', services : ['objectStorage', 'cloudant'], appName : 'bxName' })
       .toPromise().then(function() {
         try {
           options.assert('bxName', 'testBxName', true, true)

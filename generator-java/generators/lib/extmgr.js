@@ -25,13 +25,6 @@ function ExtensionManager() {
     message : 'Select from the list of available generation options.\n',
     choices : []
   };
-  this.services = {
-      type    : 'checkbox',
-      name    : 'services',
-      message : 'Select the services for your project.\n',
-      choices : ['none'],
-      default : 0 // Default to none
-  }
 }
 
 ExtensionManager.prototype.add = function(name) {
@@ -42,11 +35,6 @@ ExtensionManager.prototype.add = function(name) {
   var value = ext.getChoice();
   if(value) {
     this.prompt.choices.push(value);
-  }
-
-  value = ext.getServices();
-  if(value) {
-    for(var i = 0; i < value.length; this.services.choices.push(value[i++]));
   }
 
   //create an index of createType by extension
@@ -67,7 +55,6 @@ ExtensionManager.prototype.getQuestions = function() {
   for(var i = 0; i < this.extensions.length; i++) {
     questions = questions.concat(this.extensions[i].getQuestions());
   }
-  questions.push(this.services);
   return questions;
 }
 

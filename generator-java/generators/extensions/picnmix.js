@@ -18,46 +18,51 @@
 
 var logger = require("../lib/log");
 
-const EXT_ID = 'ext:common';
+const EXT_ID = 'ext:picnmix';
 
 function Extension() {
   this.id = EXT_ID;
 }
 
 Extension.prototype.getChoice = function() {
+  return {
+    name : 'App Accelerator : generate source by selecting technologies.\n',
+    value : EXT_ID,
+    short : 'Technology selection'
+  };
+}
+
+Extension.prototype.getServices = function() {
   return undefined;
 }
 
 Extension.prototype.show = function(answers) {
-  return true;
+  return answers && (answers.extName === EXT_ID);
 }
 
 Extension.prototype.getQuestions = function() {
   return [{
+    when    : this.show,
     type    : 'list',
-    name    : 'buildType',
-    message : 'Select the build type for your project.\n',
-    choices : ['maven', 'gradle'],
-    default : 0 // Default to maven
-  }, {
-    type    : 'input',
-    name    : 'appName',
-    message : 'Enter a name for your project',
-    default : "myProject"
+    name    : 'createType',
+    message : 'Pic \'n\' Mix : Choose from a selection of technologies',
+    choices : [{
+      name : 'Pic\'n\'Mix : a technology selection',
+      value : 'picnmix',
+      short : 'Basic technology selection'
+    }]
+    }, {
+    when : this.show,
+    type : 'checkbox',
+    name : 'technologies',
+    message : 'Select the technologies for your project.\n',
+    choices : ['rest'],
+    default : 0 // Default to rest
   }];
 }
 
 Extension.prototype.afterPrompt = function(answers, config) {
-  //configure the sample to use based on the type we are creating
-  if(answers.createType) {
-    config.createType = answers.createType;
-    config.templateName = answers.createType;   //override with user selection
-  }
-  config.buildType = answers.buildType || config.buildType;
-  if(config.artifactId === 'example') {
-    config.artifactId = config.appName;
-  }
-  config.appName = answers.appName || config.appName;
+  //do nothing
 }
 
 module.exports = exports = Extension;
