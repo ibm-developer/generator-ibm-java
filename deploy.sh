@@ -39,3 +39,4 @@ if [[ $TRAVIS_BRANCH == "master"  ]]; then
     fi
   fi
 fi
+../prerelease.sh
