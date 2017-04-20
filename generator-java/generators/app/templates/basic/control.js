@@ -14,6 +14,7 @@
     "build"
   ],
   "composition" : [
+    "bluemix",
     {{#bluemix}}
     {{#server.services}}
     "services/common",
