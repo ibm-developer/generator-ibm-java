@@ -14,6 +14,9 @@
     "build"
   ],
   "composition" : [
+    "platform/cli",
+    "platform/bluemix",
+    "platform/kube",
     {{#bluemix}}
     {{#server.services}}
     "services/common",
