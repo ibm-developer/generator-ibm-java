@@ -36,7 +36,7 @@ function Options(buildType, technologies) {
   this.headless = "true";
   this.debug = "true";
   this.buildType = buildType;
-  this.createType = 'pickandmix';
+  this.createType = 'picnmix';
   this.technologies = technologies;
   this.version = VERSION;
   this.appName = APPNAME;

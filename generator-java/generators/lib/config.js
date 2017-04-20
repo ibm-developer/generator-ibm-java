@@ -47,6 +47,7 @@ Config.prototype.reset = function() {
   this.headless = "false";
   this.createType = "rest";
   this.debug = "false";
+  this.promptType = "prompt:patterns";
   this.bluemix = undefined;
   this.input = undefined;
   this.technologies = [];
