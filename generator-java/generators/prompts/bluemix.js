@@ -20,9 +20,9 @@ var logger = require("../lib/log");
 
 const PROMPT_ID = 'prompt:bluemix';
 
-function Extension() {
+function Extension(config) {
   this.id = PROMPT_ID;
-  this.participant = false;
+  this.config = config;
 }
 
 Extension.prototype.getChoice = function() {
@@ -30,8 +30,16 @@ Extension.prototype.getChoice = function() {
 }
 
 Extension.prototype.show = function(answers) {
-  var result = answers && ((answers.extName === 'prompt:patterns')
-                   ||(answers.addbluemix));
+  var result = false;
+  if (answers) {
+    if(answers.promptType) {
+      result = (answers.promptType === 'prompt:patterns')||(answers.addbluemix);
+    } else {
+      result = (this.config.promptType === 'prompt:patterns')||(answers.addbluemix);
+    }
+  }  else {
+    result = (this.config.promptType === 'prompt:patterns');
+  }
   this.participant |= result;
   return result;
 }
@@ -54,7 +62,7 @@ Extension.prototype.getQuestions = function() {
 }
 
 Extension.prototype.afterPrompt = function(answers, config) {
-  if(!this.participant) {
+  if(!(config.bluemix || answers.bluemix)) {
     return;   //hasn't participated in the questions.
   }
   //answers.bluemix is a JSON string and needs to be converted

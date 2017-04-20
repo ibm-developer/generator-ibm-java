@@ -20,8 +20,9 @@ var logger = require("../lib/log");
 
 const PROMPT_ID = 'prompt:patterns';
 
-function Extension() {
+function Extension(config) {
   this.id = PROMPT_ID;
+  this.config = config;
 }
 
 Extension.prototype.getChoice = function() {
@@ -33,7 +34,16 @@ Extension.prototype.getChoice = function() {
 }
 
 Extension.prototype.show = function(answers) {
-  var result = answers && (answers.extName === PROMPT_ID);
+  var result = false;
+  if (answers) {
+    if(answers.promptType) {
+      result = (answers.promptType === PROMPT_ID);
+    } else {
+      result = (this.config.promptType === PROMPT_ID);
+    }
+  }  else {
+    result = (this.config.promptType === PROMPT_ID);
+  }
   this.participant |= result;
   return result;
 }

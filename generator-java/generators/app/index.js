@@ -47,13 +47,7 @@ var toObject = function(value) {
 }
 
 var config = new Config();
-var promptmgr = new PromptMgr();
-
-promptmgr.add('common');
-promptmgr.add('liberty');
-promptmgr.add('patterns');
-promptmgr.add('bluemix');
-
+var promptmgr = undefined;
 
 module.exports = class extends Generator {
 
@@ -62,6 +56,7 @@ module.exports = class extends Generator {
 
     //create command line options that will be passed by YaaS
     this.option('buildType', {desc : 'Build system to use', type : String, default : 'maven'});
+    this.option('promptType', {desc : 'The prompts to use', type : String, default : 'prompt:patterns'});
     this.option('createType', {desc : 'Type of application to generate', type : String, default : 'basic'});
     this.option('appName', {desc : 'Name of the application', type : String, default : 'LibertyProject'});
     this.option('artifactId', {desc : 'Artifact ID to use for the build', type : String, default : 'example'});
@@ -76,6 +71,12 @@ module.exports = class extends Generator {
 
   initializing() {
     config = new Config();
+    promptmgr = new PromptMgr(config);
+
+    promptmgr.add('common');
+    promptmgr.add('liberty');
+    promptmgr.add('patterns');
+    promptmgr.add('bluemix');
     logger.writeToLog("Config (default)", config);
     //overwrite any default values with those specified as options
     clone(this.options, config);

@@ -18,7 +18,7 @@
 
 var logger = require("../lib/log");
 
-const PROMPT_ID = 'ext:liberty';
+const PROMPT_ID = 'prompt:liberty';
 
 function Extension() {
   this.id = PROMPT_ID;
@@ -33,7 +33,7 @@ Extension.prototype.getChoice = function() {
 }
 
 Extension.prototype.show = function(answers) {
-  return answers && (answers.extName === PROMPT_ID);
+  return answers && (answers.promptType === PROMPT_ID);
 }
 
 Extension.prototype.getQuestions = function() {

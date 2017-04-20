@@ -23,6 +23,7 @@
     "testint": "mocha test/integration/*",
     "testbasic": "mocha test/integration/generator.basic.test.js",
     "testbasicweb": "mocha test/integration/generator.basicweb.test.js",
+    "testms": "mocha test/integration/generator.microservice.test.js",
     "testcommon": "mocha test/common/*",
     "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/unit/*",
     "coverageint": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/integration/*",

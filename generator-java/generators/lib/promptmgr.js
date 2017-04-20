@@ -16,20 +16,21 @@
 
 'use strict'
 
-function PromptManager() {
+function PromptManager(config) {
   this.prompts = [];
   this.types = {};
   this.prompt = {
     type    : 'list',
-    name    : 'extName',
+    name    : 'promptType',
     message : 'Select from the list of available generation options.\n',
     choices : []
   };
+  this.config = config;
 }
 
 PromptManager.prototype.add = function(name) {
   var Ext = require('../prompts/' + name + '.js');
-  var ext = new Ext();
+  var ext = new Ext(this.config);
   this.prompts.push(ext);
 
   var value = ext.getChoice();
@@ -56,6 +57,19 @@ PromptManager.prototype.getQuestions = function() {
     questions = questions.concat(this.prompts[i].getQuestions());
   }
   return questions;
+}
+
+//this was run headless, so need to work out which extension provides the selected createType
+PromptManager.prototype.setExtension = function(createType) {
+  console.log("Setting extension type to " + createType);
+  for (var type in this.types) {
+    if (this.types.hasOwnProperty(type)) {
+      if(type === createType) {
+        answers.promptType = this.types[type].id;
+        break;
+      }
+    }
+  }
 }
 
 PromptManager.prototype.afterPrompt = function(answers, config) {
