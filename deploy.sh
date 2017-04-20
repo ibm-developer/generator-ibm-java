@@ -11,25 +11,11 @@ if [[ $TRAVIS_BRANCH == "master"  ]]; then
     echo "This is a build on master, performing additional steps"
     if [[ $PKG_VER == $NPM_VER ]]; then
       echo "Version numbers match, so changing version and committing changes"
-      git config user.email "travisci@travis.ibm.com"
-      git config user.name "Travis CI"
-      git config push.default simple
       npm run prerelease
       if [ $? == 0 ]; then
         #If you are running a protected master branch then you *could* disable re-running the tests
-        echo "Tests passed, continuing release cycle, revving version"
-        npm run release
-        echo "Committing to git"
-        PKG_VER_NEXT=`node -e "console.log(require('./package.json').version);"`
-        BRANCH="updateTo${PKG_VER_NEXT}"
-        git checkout -b $BRANCH
-        npm run coverage > ../unitCoverage-generated.txt
-        npm run coverageint > ../intCoverage-generated.txt
-        git add ../unitCoverage-generated.txt
-        git add ../intCoverage-generated.txt
-        git commit -m "Update test coverage files"
-        #this branch will need to be reviewed and approved in the usual manner
-        git push --follow-tags origin $BRANCH
+        echo "Tests passed, continuing release cycle"
+        ../prerelease.sh
       else
         exit $?
       fi
