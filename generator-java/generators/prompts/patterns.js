@@ -33,12 +33,14 @@ Extension.prototype.getChoice = function() {
 }
 
 Extension.prototype.show = function(answers) {
-  return answers && (answers.extName === PROMPT_ID);
+  var result = answers && (answers.extName === PROMPT_ID);
+  this.participant |= result;
+  return result;
 }
 
 Extension.prototype.getQuestions = function() {
   return [{
-    when    : this.show,
+    when    : this.show.bind(this),
     type    : 'list',
     name    : 'createType',
     message : 'What pattern do you want to generate source for?',
@@ -65,6 +67,9 @@ Extension.prototype.getQuestions = function() {
 
 Extension.prototype.afterPrompt = function(answers, config) {
   //answers.bluemix is a JSON string and needs to be converted
+  if(!this.participant) {
+    return;   //hasn't participated in the questions.
+  }
   if (typeof (answers.bluemix) === 'string') {
     answers.bluemix = JSON.parse(answers.bluemix);
   }

@@ -21,5 +21,16 @@
     {{#each technologies}}
     "technologies/{{this.name}}",
     {{/each}}
+    {{#bluemix}}
+    {{#server.services}}
+    "services/common",
+    {{/server.services}}
+    {{#cloudant}}
+    "services/cloudantNoSQLDB",
+    {{/cloudant}}
+    {{#objectStorage}}
+    "services/objectStorage",
+    {{/objectStorage}}
+    {{/bluemix}}
   ]
 }

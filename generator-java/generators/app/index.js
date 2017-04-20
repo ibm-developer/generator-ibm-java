@@ -99,10 +99,9 @@ module.exports = class extends Generator {
     var promptWith = (config.headless === "true") ? [] : promptmgr.getQuestions();
     return this.prompt(promptWith).then((answers) => {
       logger.writeToLog("Answers", answers);
-      promptmgr.afterPrompt(answers, config, 'ext:common');
       promptmgr.afterPrompt(answers, config);
       this._setProjectPath();
-      logger.writeToLog("Config (after answers)", this.config);
+      logger.writeToLog("Config (after answers)", config);
     });
   }
 

@@ -26,7 +26,7 @@ function Extension() {
 
 Extension.prototype.getChoice = function() {
   return {
-    name : 'Liberty : generate source for WebSphere Liberty.\n',
+    name : 'Liberty : generate source for WebSphere Liberty.',
     value : PROMPT_ID,
     short : 'Technology selection'
   };
@@ -46,14 +46,24 @@ Extension.prototype.getQuestions = function() {
       name : 'Pic\'n\'Mix : pick from a list of technologies',
       value : 'picnmix',
       short : 'Basic technology selection'
+    }, {
+      name : 'Microservice Builder : develop and deliver microservices, hybrid and containerized apps',
+      value : 'msbuilder',
+      short : 'Microservice Builder'
     }]
     }, {
     when : this.show,
     type : 'checkbox',
     name : 'technologies',
-    message : 'Select the technologies for your project.\n',
+    message : 'Select the technologies for your project.',
     choices : ['rest'],
     default : 0 // Default to rest
+  }, {
+    when : this.show,
+    type : 'confirm',
+    name : 'addbluemix',
+    message : 'Add bluemix to your application?',
+    default : false // Default to rest
   }];
 }
 

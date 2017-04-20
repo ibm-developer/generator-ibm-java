@@ -58,21 +58,10 @@ PromptManager.prototype.getQuestions = function() {
   return questions;
 }
 
-PromptManager.prototype.afterPrompt = function(answers, config, id) {
-  var ext = undefined;
-  if(id) {
-    //execute by named ID
-    for(var i = 0; i < this.prompts.length; i++) {
-      if(this.prompts[i].id === id) {
-        ext = this.prompts[i];
-        break;
-      }
-    }
-  } else {
-    //execute by matching the create type
-    ext = this.types[config.createType];
+PromptManager.prototype.afterPrompt = function(answers, config) {
+  for(var i = 0; i < this.prompts.length; i++) {
+    this.prompts[i].afterPrompt(answers, config);
   }
-  ext.afterPrompt(answers, config);
 }
 
 module.exports = exports = PromptManager;

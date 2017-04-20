@@ -22,6 +22,7 @@ const PROMPT_ID = 'prompt:bluemix';
 
 function Extension() {
   this.id = PROMPT_ID;
+  this.participant = false;
 }
 
 Extension.prototype.getChoice = function() {
@@ -29,19 +30,22 @@ Extension.prototype.getChoice = function() {
 }
 
 Extension.prototype.show = function(answers) {
-  return answers && (answers.extName === 'prompt:patterns');
+  var result = answers && ((answers.extName === 'prompt:patterns')
+                   ||(answers.addbluemix));
+  this.participant |= result;
+  return result;
 }
 
 Extension.prototype.getQuestions = function() {
   return [{
-    when    : this.show,
+    when    : this.show.bind(this),
     type    : 'checkbox',
     name    : 'services',
     message : 'Select the services for your project.\n',
     choices : ['none','cloudant', 'objectStorage'],
     default : 0 // Default to none
   }, {
-    when    : this.show,
+    when    : this.show.bind(this),
     type    : 'input',
     name    : 'bluemix',
     message : 'Enter the bluemix JSON',
@@ -50,6 +54,9 @@ Extension.prototype.getQuestions = function() {
 }
 
 Extension.prototype.afterPrompt = function(answers, config) {
+  if(!this.participant) {
+    return;   //hasn't participated in the questions.
+  }
   //answers.bluemix is a JSON string and needs to be converted
   if (typeof (answers.bluemix) === 'string') {
     answers.bluemix = JSON.parse(answers.bluemix);
