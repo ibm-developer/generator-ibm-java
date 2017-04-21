@@ -12,7 +12,7 @@ This is a yeoman generator that will create Java code for you.
 * The node module is published as @arf/generator-java (note that it's [scoped](https://docs.npmjs.com/misc/scope#installing-scoped-packages) to @arf), see the [step above](https://github.ibm.com/Whitewater/npm) as to
 why this module is scoped.
 
-The code coverage for the latest version of the module posted to the IBM repository can be viewed [here](https://pages.github.ibm.com/arf/java-codegen-yeoman/cc/lcov-report/index.html).
+The code coverage for the latest version of the generator hosted in the [IBM NPM repository](https://npm.whitewater.ibm.com/package/@arf/generator-java) can be viewed [here](https://pages.github.ibm.com/arf/java-codegen-yeoman/cc/lcov-report/index.html).
 
 ## Branches
 The generator has a number of branches that correspond to various bluemix environments and development lifecycles
@@ -104,8 +104,13 @@ Signed-off-by: Bob <bob@uk.ibm.com>
 3. Use the `git config` command to set the `commit.template` property to the location of your template file.
 4. Use the `git config` command to set the `core.editor` property to an editor of your choice. e.g. on Mac `git --add --global core.editor="atom -w"`, on Windows `git --add --global core.editor vi`
 5. When creating a commit type `git commit -e` to edit the commit message.
-6. Set the Type for the commit based on the [convential changelog conventions](https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md).
-7. The Scope of the commit refers to a particular feature, the current list of features: infrastructure
+6. Set the Type for the commit based on the [conventional changelog conventions](https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md).
+7. The Scope of the commit refers to a particular feature
+
+### Features
+The current list of features:
+
+* infrastructure
 
 ## Build automation
 
@@ -117,7 +122,7 @@ When a pull request is merged into the master branch that includes a version cha
 
 ## Publishing
 
-Publishing of the node module is done automatically by the travis build when a pull request is submitted to the master branch that changes the version specified in package.json. Note: Revving the package version should not be done manually (see)
+Publishing of the node module is done automatically by the travis build when a pull request is submitted to the master branch that changes the version specified in package.json. Note: Revving the package version should not be done manually (see #build-automation)
 
 ## Yeoman as a Service (YaaS)
 One of the ways in which this generator can be invoked.
