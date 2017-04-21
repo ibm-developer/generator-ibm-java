@@ -12,11 +12,12 @@ This is a yeoman generator that will create Java code for you.
 * The node module is published as @arf/generator-java (note that it's [scoped](https://docs.npmjs.com/misc/scope#installing-scoped-packages) to @arf), see the [step above](https://github.ibm.com/Whitewater/npm) as to
 why this module is scoped.
 
+The code coverage for the latest version of the module posted to the IBM repository can be viewed [here](https://pages.github.ibm.com/arf/java-codegen-yeoman/cc/lcov-report/index.html).
+
 ## Branches
 The generator has a number of branches that correspond to various bluemix environments and development lifecycles
 
 * **development** : this is the development branch, although this should build, it is the latest code for this generator and may not work as expected. This branch is needed to be able to do end-to-end testing as YaaS, scaffolder etc. work from git repositories.
-* **stage1** : this is what is deployed into stage1 (cf api https://api.stage1.ng.bluemix.net) and should be intended for production i.e. it's not supposed to be a test, we expect things to progress through **stage1** to **master** without change.
 * **master** : this is what is deployed into live.
 
 ## Overview
@@ -67,13 +68,56 @@ Unit and function tests have been written using [mocha](https://mochajs.org) and
 npm test
 ```
 
+## Committing changes
+
+When committing changes to the repository, by using our custom commit template you will allow the Travis build to increase the NPM package version correctly.
+
+1. Create a commitTemplate.txt file with the following contents:
+```
+feat/fix/perf(<scope>): <subject>
+
+<body>
+
+<footer>
+
+Signed-off-by: Bob <bob@uk.ibm.com>
+# The header is mandatory and the scope of the header is optional.
+# Revert
+# If the commit reverts a previous commit, it should begin with revert:, followed by the header of the reverted commit. In the body it should say: This reverts commit <hash>., where the hash is the SHA of the commit being reverted.
+# Type
+# If the prefix is feat, fix or perf, it will appear in the changelog. However if there is any BREAKING CHANGE, the commit will always appear in the changelog.
+# Other prefixes are up to your discretion. Suggested prefixes are docs, chore, style, refactor, and test for non-changelog related tasks.
+# Scope
+# The scope could be anything specifying place of the commit change. For example $location, $browser, $compile, $rootScope, ngHref, ngClick, ngView, etc...
+# Subject
+# The subject contains succinct description of the change:
+# use the imperative, present tense: "change" not "changed" nor "changes"
+# don't capitalize first letter
+# no dot (.) at the end
+# Body
+# Just as in the subject, use the imperative, present tense: "change" not "changed" nor "changes". The body should include the motivation for the change and contrast this with previous behavior.
+# Footer
+# The footer should contain any information about Breaking Changes and is also the place to reference GitHub issues that this commit Closes.
+# Breaking Changes should start with the word BREAKING CHANGE: with a space or two newlines. The rest of the commit message is then used for this.
+```
+2. Update the commitTemplate.txt file with your name and email address.
+3. Use the `git config` command to set the `commit.template` property to the location of your template file.
+4. Use the `git config` command to set the `core.editor` property to an editor of your choice. e.g. on Mac `git --add --global core.editor="atom -w"`, on Windows `git --add --global core.editor vi`
+5. When creating a commit type `git commit -e` to edit the commit message.
+6. Set the Type for the commit based on the [convential changelog conventions](https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md).
+7. The Scope of the commit refers to a particular feature, the current list of features: infrastructure
+
+## Build automation
+
+The application is built in Travis whenever a pull request is submitted. The Travis build runs the unit and integration tests and is required to pass before a pull request can be accepted.
+
+When a pull request is merged into the master branch a special script called prerelease.sh is run. This creates code coverage and code scan reports for the code and increases the version in the package.json depending on the commit contents. Travis puts these new files and the version update into a new branch that can be merged into master.
+
+When a pull request is merged into the master branch that includes a version change (the version update should have been created by Travis as above) Travis will automatically publish the new version of the module to the IBM repository.
+
 ## Publishing
 
-This needs to be moved to a build pipeline, but at the moment it is a manual publication (obviously after you make sure the tests pass !).
-
-```
-npm publish --scope=@arf
-```
+Publishing of the node module is done automatically by the travis build when a pull request is submitted to the master branch that changes the version specified in package.json. Note: Revving the package version should not be done manually (see)
 
 ## Yeoman as a Service (YaaS)
 One of the ways in which this generator can be invoked.
