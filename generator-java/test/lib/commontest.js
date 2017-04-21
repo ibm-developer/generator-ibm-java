@@ -20,12 +20,10 @@
 const path = require('path');
 var assert = require('yeoman-assert');
 const LIBERTY_VERSION = '17.0.0.1';   //current Liberty version to check for
+const LIBERTY_FRAMEWORK = 'liberty';
 
 var assertCommonFiles = function() {
   //check common files are present for all configurations
-  assert.file('src/main/liberty/config/server.xml');    //liberty configuration
-  assert.file('src/main/liberty/config/server.env');
-  assert.file('src/main/webapp/WEB-INF/ibm-web-ext.xml');
   assert.file('README.md');
   //Docker files
   assert.file('Dockerfile');
@@ -79,20 +77,6 @@ var assertServices = function(exists) {
   }
 }
 
-var assertLibertyConfig = function(exists) {
-  if(arguments.length < 2) {
-    throw "assertLibertyConfig error : requires at least 2 arguments, base and a service to check";
-  }
-  var check = exists ? assert.fileContent : assert.noFileContent;
-  for(var i=1; i < arguments.length; i++) {
-    if (arguments[i] && typeof arguments[i] === 'string') {
-      if(exists) {
-        check('src/main/liberty/config/server.xml', arguments[i].toLowerCase());
-      }
-    }
-  }
-}
-
 //asserts that files required for the CLI are present and correct
 var assertCLI = function(appname) {
   assert.fileContent('cli-config.yml','image-name-run : "bx-dev-' + appname.toLowerCase() + '"');  //make sure lowercase app name
@@ -125,19 +109,6 @@ var assertObjectStorageJava = function(exists) {
   check('src/main/java/application/objectstorage/ObjectStorageCredentials.java');
 }
 
-//asserts that the specified environment variables will flow through JNDI
-var assertEnvVars = function(exists) {
-  if(arguments.length < 2) {
-    throw "assertEnvVars error : requires at least 2 arguments, exists and a variable to check";
-  }
-  var check = exists ? assert.fileContent : assert.noFileContent;
-  for(var i=1; i < arguments.length; i++) {
-    if (arguments[i] && typeof arguments[i] === 'string') {
-      check('src/main/liberty/config/server.env', arguments[i]);
-    }
-  }
-}
-
 //assert that K8s specific files are present
 var assertK8s = function(appname) {
   assert.fileContent('manifests/kube.deploy.yml', 'name: "' + appname + '-service"')
@@ -158,10 +129,6 @@ var assertObjectStorage = function(exists) {
   check('manifest.yml', 'Object-Storage=config');
   assertObjectStorageJava(exists);
   assertServices(exists, 'Object-Storage');
-  assertLibertyConfig(exists, 'objectStorage');
-  assertEnvVars(exists, 'OBJECTSTORAGE_AUTH_URL="objectStorage-url"', 'OBJECTSTORAGE_USERID="objectStorage-userId"',
-                        'OBJECTSTORAGE_PASSWORD="objectStorage-password"',
-                        'OBJECTSTORAGE_DOMAIN_NAME="objectStorage-domainName"', 'OBJECTSTORAGE_PROJECT="objectStorage-project"');
 }
 
 var assertCloudant = function(exists) {
@@ -170,9 +137,6 @@ var assertCloudant = function(exists) {
   check('manifest.yml', 'cloudantNoSQLDB=config');
   assertCloudantJava(exists);
   assertServices(exists, 'cloudant');
-  assertLibertyConfig(exists, 'cloudant');
-  assertEnvVars(exists, 'CLOUDANT_URL="https://account.cloudant.com"', 'CLOUDANT_PASSWORD="pass"',
-                        'CLOUDANT_USERNAME="user"');
 }
 
 module.exports = {
@@ -186,7 +150,6 @@ module.exports = {
   assertCloudantJava : assertCloudantJava,
   assertObjectStorageJava : assertObjectStorageJava,
   assertServices : assertServices,
-  assertEnvVars : assertEnvVars,
   assertK8s : assertK8s,
   assertObjectStorage : assertObjectStorage,
   assertCloudant : assertCloudant

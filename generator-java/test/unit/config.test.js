@@ -18,6 +18,9 @@
 
 var assert = require('assert');
 var Config = require('../../generators/lib/config');
+var path = require('path');
+
+const CONFIG_FILE = "config.js";
 
 describe('Config behaviour', function() {
   it('should be possible to reset config values', function(){
@@ -81,5 +84,96 @@ describe('Config validation', function() {
     var config = new Config();
     config.groupId = "%wibble";
     assert.equal(false, config.isValid());
+  });
+});
+
+describe('Config file processing', function() {
+  it('it should find the control file in the root', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-config")];
+    config.processProject(templatePath);
+    assert(config.configFiles);
+    assert.equal(config.configFiles.length, 1);
+    assert.equal(config.configFiles[0], path.resolve(templatePath[0], CONFIG_FILE));
+  });
+  it('it should support not having a config file in a directory', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-config"), path.resolve("./test/resources/config/without-config")];
+    config.processProject(templatePath);
+    assert(config.configFiles);
+    assert.equal(config.configFiles.length, 1);
+    assert.equal(config.configFiles[0], path.resolve(templatePath[0], CONFIG_FILE));
+  });
+  it('it should add the config into the config.properties object', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-config"), path.resolve("./test/resources/config/without-config")];
+    config.processProject(templatePath);
+    assert.equal(config.properties[0].name, 'testName');
+    assert.equal(config.properties[0].value, 'testValue');
+  });
+  it('it should add the properties from all config files', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-config"), path.resolve("./test/resources/config/with-other-config")];
+    config.processProject(templatePath);
+    var properties = [config.properties[0].name + "=" + config.properties[0].value];
+    for(var i = 1; i < config.properties.length; i++) {
+      properties.push(config.properties[i].name + "=" + config.properties[i].value);
+    }
+    assert.equal(properties.length, 2)
+    assert(properties.includes('testName=testValue'), 'properties=' + properties);
+    assert(properties.includes('testOtherName=testOtherValue'), 'properties=' + properties);
+  });
+  it('it should set alternative Gradle names and values when the build type is Gradle', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-gradle-config")];
+    config.buildType = 'gradle';
+    config.processProject(templatePath);
+    var properties = [config.properties[0].name + "=" + config.properties[0].value];
+    for(var i = 1; i < config.properties.length; i++) {
+      properties.push(config.properties[i].name + "=" + config.properties[i].value);
+    }
+    assert.equal(properties.length, 2)
+    assert(properties.includes('testGradleName1=testValue1'), 'properties=' + properties);
+    assert(properties.includes('testName2=testGradleValue2'), 'properties=' + properties);
+  });
+  it('it should add the dependencies into the config.dependencies object', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-config")];
+    config.processProject(templatePath);
+    assert.equal(config.dependencies[0].groupId, 'test.group.id');
+    assert.equal(config.dependencies[0].artifactId, 'testArtifactId');
+    assert.equal(config.dependencies[0].version, '0.0.1');
+    assert.equal(config.dependencies[0].scope, 'provided');
+  });
+  it('it should add the dependencies from all config files', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-config"), path.resolve("./test/resources/config/with-other-config")];
+    config.processProject(templatePath);
+    var dependencies = [config.dependencies[0].groupId + ":" + config.dependencies[0].artifactId + ":" + config.dependencies[0].version + ":" + config.dependencies[0].scope];
+    for(var i = 1; i < config.dependencies.length; i++) {
+      dependencies.push(config.dependencies[i].groupId + ":" + config.dependencies[i].artifactId + ":" + config.dependencies[i].version + ":" + config.dependencies[i].scope);
+    }
+    assert.equal(dependencies.length, 2)
+    assert(dependencies.includes('test.group.id:testArtifactId:0.0.1:provided'), 'dependencies=' + dependencies);
+    assert(dependencies.includes('test.other.group.id:testOtherArtifactId:0.0.2:provided'), 'dependencies=' + dependencies);
+  });
+  it('it should add the framework dependencies to the config.frameworkDependencies object', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-config")];
+    config.processProject(templatePath);
+    assert(config.frameworkDependencies)
+    assert.equal(config.frameworkDependencies[0].name, 'testFrameworkDep');
+  });
+  it('it should add the framework dependencies from all config files', function() {
+    var config = new Config();
+    var templatePath = [path.resolve("./test/resources/config/with-config"), path.resolve("./test/resources/config/with-other-config")];
+    config.processProject(templatePath);
+    var dependencies = [config.frameworkDependencies[0].name];
+    for(var i = 1; i < config.frameworkDependencies.length; i++) {
+      dependencies.push(config.frameworkDependencies[i].name);
+    }
+    assert.equal(dependencies.length, 2)
+    assert(dependencies.includes('testFrameworkDep'), 'dependencies=' + dependencies);
+    assert(dependencies.includes('testOtherFrameworkDep'), 'dependencies=' + dependencies);
   });
 });

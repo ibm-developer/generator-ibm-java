@@ -28,6 +28,7 @@ function assertCommonTests(options) {
   tests.test('test-cli-config', generatorLocation, 'JAVA', options);
   tests.test('test-docker', generatorLocation, 'JAVA', options);
   tests.test('test-bluemix', generatorLocation, 'JAVA', options);
+  tests.test('test-pattern-bff', generatorLocation, 'JAVA', options);
 }
 
 describe('java generator : bff/yaas : gradle build, no bluemix services', function () {

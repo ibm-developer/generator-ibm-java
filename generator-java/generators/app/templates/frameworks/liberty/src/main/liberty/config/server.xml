@@ -1,13 +1,9 @@
 <server description="Sample Liberty server">
 
   <featureManager>
-      <feature>jaxrs-2.0</feature>
-      <feature>jsonp-1.0</feature>
-      <feature>jndi-1.0</feature>
-      <feature>cdi-1.2</feature>
-      {{#has createType 'bff'}}
-      <feature>apiDiscovery-1.0</feature>
-      {{/has}}
+      {{#each frameworkDependencies}}
+      <feature>{{this.feature}}</feature>
+      {{/each}}
   </featureManager>
 
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
