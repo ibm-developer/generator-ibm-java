@@ -111,6 +111,7 @@ Signed-off-by: Bob <bob@uk.ibm.com>
 The current list of features:
 
 * infrastructure
+* test
 
 ## Build automation
 
