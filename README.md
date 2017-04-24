@@ -124,6 +124,16 @@ When a pull request is merged into the master branch that includes a version cha
 
 Publishing of the node module is done automatically by the travis build when a pull request is submitted to the master branch that changes the version specified in package.json. Note: Revving the package version should not be done manually (see #build-automation)
 
+## Updating the master branch
+
+The master branch contains the code for the latest version of the generator hosted in the [IBM NPM repository](https://npm.whitewater.ibm.com/package/@arf/generator-java) and the corresponding files showing code coverage and security. It is not possible to merge a branch into master unless it is up-to-date with the master branch. As a result you **MUST NOT** attempt to merge directly from development to master as this will add the code coverage and security files to the development branch. Instead follow the below process:
+
+Merging from development to master:
+* Create a branch from development called devToMaster
+* Push the branch and create a pull request into the master branch
+* In the pull request click the `update branch` button
+* After review merge the devToMaster branch into master
+
 ## Yeoman as a Service (YaaS)
 One of the ways in which this generator can be invoked.
 
