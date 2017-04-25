@@ -22,8 +22,6 @@ var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 
-//
-
 const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
 const VERSION = '1.0.0';
@@ -31,26 +29,34 @@ const APPNAME = 'testApp';
 const FRAMEWORK = 'liberty';
 const LIBERTY_CONFIG_FILE = 'src/main/liberty/config/server.xml';
 
-//var common = require('../lib/commontest');
 var framework = require('../lib/test-framework');
 var frameworkTest;
 
 var common = require('../lib/test-common');
 var gradle = require('../lib/test-gradle');
 var maven = require('../lib/test-maven');
+var bluemix = require('../lib/test-bluemix.js');
 
 function Options(buildType, technologies) {
-  this.headless = "true";
-  this.debug = "true";
-  this.buildType = buildType;
-  this.createType = 'picnmix';
-  this.technologies = technologies;
-  this.version = VERSION;
-  this.appName = APPNAME;
-  this.groupId = GROUPID;
+  this.options = {
+    headless :  "true",
+    debug : "true",
+    buildType : buildType,
+    createType : 'picnmix',
+    technologies : technologies,
+    version : VERSION,
+    appName : APPNAME,
+    groupId : GROUPID
+  }
   this.assert = function() {
     common.assertCommonFiles();
     framework.test(FRAMEWORK).assertCommonFiles();
+  }
+  this.before = function() {
+    return helpers.run(path.join( __dirname, '../../generators/app'))
+      .withOptions(this.options)
+      .withPrompts({})
+      .toPromise();
   }
 }
 
@@ -60,12 +66,7 @@ describe('java generator : technologies integration test', function () {
 
     var options = new Options('gradle', [{"name" : "rest"}]);
 
-    before(function() {
-      return helpers.run(path.join( __dirname, '../../generators/app'))
-        .withOptions(options)
-        .withPrompts({})
-        .toPromise();
-    });
+    before(options.before.bind(options));
 
     options.assert();
     gradle.assertApplication(APPNAME);
@@ -74,18 +75,14 @@ describe('java generator : technologies integration test', function () {
     gradle.assertGradleDependency('providedCompile', 'javax.json', 'javax.json-api', '1.0');
     gradle.assertGradleDependency('providedCompile', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
     framework.test(FRAMEWORK).assertGradleFiles();
+    bluemix.test(false);
   });
 
   describe('Generates a basic technologies project (maven, no bluemix)', function () {
 
     var options = new Options('maven', [{"name" : "rest"}]);
 
-    before(function() {
-      return helpers.run(path.join( __dirname, '../../generators/app'))
-        .withOptions(options)
-        .withPrompts({})
-        .toPromise();
-    });
+    before(options.before.bind(options));
 
     options.assert();
     maven.assertApplication(APPNAME);
@@ -94,7 +91,7 @@ describe('java generator : technologies integration test', function () {
     maven.assertMavenDependency('provided', 'javax.json', 'javax.json-api', '1.0');
     maven.assertMavenDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
     framework.test(FRAMEWORK).assertMavenFiles();
-
+    bluemix.test(false);
   });
 
 });
