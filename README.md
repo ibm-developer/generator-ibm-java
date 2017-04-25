@@ -12,7 +12,7 @@ This is a yeoman generator that will create Java code for you.
 * The node module is published as @arf/generator-java (note that it's [scoped](https://docs.npmjs.com/misc/scope#installing-scoped-packages) to @arf), see the [step above](https://github.ibm.com/Whitewater/npm) as to
 why this module is scoped.
 
-The code coverage for the latest version of the generator hosted in the [IBM NPM repository](https://npm.whitewater.ibm.com/package/@arf/generator-java) can be viewed [here](https://pages.github.ibm.com/arf/java-codegen-yeoman/cc/lcov-report/index.html).
+The code coverage for the latest version of the generator hosted in the [IBM NPM repository](https://npm.whitewater.ibm.com/package/@arf/generator-java) can be viewed in GitHub Pages. There are separate reports for [unit test coverage](https://pages.github.ibm.com/arf/java-codegen-yeoman/cc/unit/lcov-report/index.html) and [integration test coverage](https://pages.github.ibm.com/arf/java-codegen-yeoman/cc/int/lcov-report/index.html).
 
 ## Branches
 The generator has a number of branches that correspond to various bluemix environments and development lifecycles
@@ -111,6 +111,7 @@ Signed-off-by: Bob <bob@uk.ibm.com>
 The current list of features:
 
 * infrastructure
+* test
 
 ## Build automation
 

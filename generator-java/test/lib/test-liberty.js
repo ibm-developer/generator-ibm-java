@@ -14,56 +14,49 @@
  * limitations under the License.
  */
 
- 'use strict'
- const path = require('path');
- var assert = require('yeoman-assert');
- const LIBERTY_VERSION = '17.0.0.1';   //current Liberty version to check for
- const LIBERTY_CONFIG_FILE = 'src/main/liberty/config/server.xml';
- const LIBERTY_ENV_FILE = 'src/main/liberty/config/server.env';
+'use strict'
+const path = require('path');
+var assert = require('yeoman-assert');
+var gradle = require('./test-gradle');
+var maven = require('./test-maven');
+
+const LIBERTY_VERSION = '17.0.0.1';   //current Liberty version to check for
+const LIBERTY_CONFIG_FILE = 'src/main/liberty/config/server.xml';
+const LIBERTY_ENV_FILE = 'src/main/liberty/config/server.env';
 
 function test_liberty() {
-  assert.file(LIBERTY_CONFIG_FILE);
-  assert.file(LIBERTY_ENV_FILE);
-  assert.file('src/main/webapp/WEB-INF/ibm-web-ext.xml');
+}
+
+test_liberty.prototype.assertCommonFiles = function() {
+  it('should contain Liberty files common across all project types', function() {
+    assert.file(LIBERTY_CONFIG_FILE);
+    assert.file(LIBERTY_ENV_FILE);
+    assert.file('src/main/webapp/WEB-INF/ibm-web-ext.xml');
+  });
 }
 
 test_liberty.prototype.assertMavenFiles = function() {
-  assertMavenProperty('testServerHttpPort', '9080');
-  assertMavenProperty('testServerHttpsPort', '9443');
-  assertMavenProperty('warContext', '${app.name}');
-  assertMavenProperty('package.file', '${project.build.directory}/${app.name}.zip');
-  assertMavenProperty('packaging.type', 'usr');
-  assertMavenDependencies();
-}
-
-var assertMavenProperty = function(name, value) {
-  assert.fileContent('pom.xml', '<' + name + '>' + value + '</' + name + '>');
-}
-
-var assertMavenDependencies = function() {
-  assert.fileContent('pom.xml', /<groupId>junit<\/groupId>\s*<artifactId>junit<\/artifactId>\s*<version>4\.12<\/version>\s*<scope>test<\/scope>/);
-  assert.fileContent('pom.xml', /<groupId>org\.apache\.cxf<\/groupId>\s*<artifactId>cxf-rt-rs-client<\/artifactId>\s*<version>3\.1\.1<\/version>\s*<scope>test<\/scope>/);
-  assert.fileContent('pom.xml', /<groupId>org\.glassfish<\/groupId>\s*<artifactId>javax\.json<\/artifactId>\s*<version>1\.0\.4<\/version>\s*<scope>test<\/scope>/);
+  maven.assertMavenProperty('testServerHttpPort', '9080');
+  maven.assertMavenProperty('testServerHttpsPort', '9443');
+  maven.assertMavenProperty('warContext', '${app.name}');
+  maven.assertMavenProperty('package.file', '${project.build.directory}/${app.name}.zip');
+  maven.assertMavenProperty('packaging.type', 'usr');
+  maven.assertMavenDependency('test', 'junit', 'junit', '4.12');
+  maven.assertMavenDependency('test', 'org.apache.cxf', 'cxf-rt-rs-client', '3.1.1');
+  maven.assertMavenDependency('test', 'org.glassfish', 'javax.json', '1.0.4');
 }
 
 test_liberty.prototype.assertGradleFiles = function() {
-  assertGradleProperty('testServerHttpPort', '9080');
-  assertGradleProperty('testServerHttpsPort', '9443');
-  assertGradleProperty('serverDirectory', '"${buildDir}/wlp/usr/servers/defaultServer"');
-  assertGradleProperty('warContext', '"${appName}"');
-  assertGradleProperty('packageFile', '"${project.buildDir}/${appName}.zip"');
-  assertGradleProperty('packagingType', 'usr');
-  assertGradleDependency('testCompile', 'junit', 'junit', '4.12');
-  assertGradleDependency('testCompile', 'org.apache.cxf', 'cxf-rt-rs-client', '3.1.1');
-  assertGradleDependency('testCompile', 'org.glassfish', 'javax.json', '1.0.4');
-}
-
-var assertGradleProperty = function(name, value) {
-  assert.fileContent('build.gradle', name + ' = ' + value);
-}
-
-var assertGradleDependency = function(scope, groupId, artifactId, version) {
-  assert.fileContent('build.gradle', scope + " '" + groupId + ':' + artifactId + ':' + version + "'");
+  gradle.assertContent('wlp-webProfile7-' + LIBERTY_VERSION);
+  gradle.assertGradleProperty('testServerHttpPort', '9080');
+  gradle.assertGradleProperty('testServerHttpsPort', '9443');
+  gradle.assertGradleProperty('serverDirectory', '"${buildDir}/wlp/usr/servers/defaultServer"');
+  gradle.assertGradleProperty('warContext', '"${appName}"');
+  gradle.assertGradleProperty('packageFile', '"${project.buildDir}/${appName}.zip"');
+  gradle.assertGradleProperty('packagingType', 'usr');
+  gradle.assertGradleDependency('testCompile', 'junit', 'junit', '4.12');
+  gradle.assertGradleDependency('testCompile', 'org.apache.cxf', 'cxf-rt-rs-client', '3.1.1');
+  gradle.assertGradleDependency('testCompile', 'org.glassfish', 'javax.json', '1.0.4');
 }
 
 test_liberty.prototype.assertCloudant = function(exists) {
