@@ -44,6 +44,16 @@ Extension.prototype.getQuestions = function() {
     name    : 'appName',
     message : 'Enter a name for your project',
     default : "myProject"
+  }, {
+    type    : 'input',
+    name    : 'groupId',
+    message : 'Enter a group id for your project',
+    default : "projects.java"
+  }, {
+    type    : 'input',
+    name    : 'artifactId',
+    message : 'Enter an artifact id for your project',
+    default : (answers) => {return answers.appName}
   }];
 }
 
@@ -54,9 +64,8 @@ Extension.prototype.afterPrompt = function(answers, config) {
     config.templateName = answers.createType;   //override with user selection
   }
   config.buildType = answers.buildType || config.buildType;
-  if(config.artifactId === 'example') {
-    config.artifactId = config.appName;
-  }
+  config.artifactId = answers.artifactId || config.artifactId;
+  config.groupId = answers.groupId || config.groupId;
   config.appName = answers.appName || config.appName;
 }
 
