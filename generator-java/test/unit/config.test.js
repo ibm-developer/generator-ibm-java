@@ -28,27 +28,65 @@ describe('Config behaviour', function() {
     config.artifactId = 'testID';
     config.bluemix = {name : 'bxName'};
     config.reset();
-    assert.equal('artifactId', config.artifactId);
+    assert.equal('example', config.artifactId);
     assert.equal(undefined, config.bluemix);
   });
 });
 
 describe('Config defaults', function() {
-  it('artifactId should be set to "artifactId" when the value has not been set', function(){
+  it('name should be set to "LibertyProject" when the value has not been set', function(){
     var config = new Config();
-    assert.equal('artifactId', config.artifactId);
-  });
-  it('groupId should be set to "groupId" when the value has not been set', function(){
-    var config = new Config();
-    assert.equal('groupId', config.groupId);
-  });
-  it('name should be set to "myLibertyProject" when the value has not been set', function(){
-    var config = new Config();
-    assert.equal('myLibertyProject', config.appName);
+    assert.equal('LibertyProject', config.appName);
   });
   it('build should be set to "maven" when the build type has not been set', function(){
     var config = new Config();
     assert.equal('maven', config.buildType);
+  });
+  it('promptType should be set to "prompt:patterns" when the promptType has not been set', function(){
+    var config = new Config();
+    assert.equal('prompt:patterns', config.promptType);
+  });
+  it('createType should be set to "basic" when the createType has not been set', function(){
+    var config = new Config();
+    assert.equal('basic', config.createType);
+  });
+  it('groupId should be set to "groupId" when the value has not been set', function(){
+    var config = new Config();
+    assert.equal('liberty.projects', config.groupId);
+  });
+  it('artifactId should be set to "artifactId" when the value has not been set', function(){
+    var config = new Config();
+    assert.equal('example', config.artifactId);
+  });
+  it('version should be set to "1.0-SNAPSHOT" when the version has not been set', function(){
+    var config = new Config();
+    assert.equal('1.0-SNAPSHOT', config.version);
+  });
+
+  it('headless should be set to "false" when the headless has not been set', function(){
+    var config = new Config();
+    assert.equal('false', config.headless);
+  });
+
+  it('debug should be set to "false" when the debug has not been set', function(){
+    var config = new Config();
+    assert.equal('false', config.debug);
+  });
+
+  it('bluemix should be set to "undefined" when the bluemix has not been set', function(){
+    var config = new Config();
+    assert.equal(undefined, config.bluemix);
+  });
+
+  it('input should be set to "undefined" when the input has not been set', function(){
+    var config = new Config();
+    assert.equal(undefined, config.input);
+  });
+
+  it('technologies should be set to "[]" when the technologies has not been set', function(){
+    var config = new Config();
+    assert(Array.isArray(config.technologies));
+    assert.equal(0, config.technologies.length);
   });
 });
 

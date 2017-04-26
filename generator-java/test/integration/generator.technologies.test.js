@@ -46,7 +46,8 @@ function Options(buildType, technologies) {
     technologies : technologies,
     version : VERSION,
     appName : APPNAME,
-    groupId : GROUPID
+    groupId : GROUPID,
+    artifactId : ARTIFACTID
   }
   this.assert = function() {
     common.assertCommonFiles();
@@ -64,12 +65,12 @@ describe('java generator : technologies integration test', function () {
 
   describe('Generates a basic technologies project (gradle, no bluemix)', function () {
 
-    var options = new Options('gradle', [{"name" : "rest"}]);
+    var options = new Options('gradle', ["rest"]);
 
     before(options.before.bind(options));
 
     options.assert();
-    gradle.assertApplication(APPNAME);
+    gradle.assertApplication(APPNAME, GROUPID, ARTIFACTID, VERSION);
     gradle.assertGradleDependency('providedCompile', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
     gradle.assertGradleDependency('providedCompile', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
     gradle.assertGradleDependency('providedCompile', 'javax.json', 'javax.json-api', '1.0');
@@ -80,12 +81,12 @@ describe('java generator : technologies integration test', function () {
 
   describe('Generates a basic technologies project (maven, no bluemix)', function () {
 
-    var options = new Options('maven', [{"name" : "rest"}]);
+    var options = new Options('maven', ["rest"]);
 
     before(options.before.bind(options));
 
     options.assert();
-    maven.assertApplication(APPNAME);
+    maven.assertApplication(APPNAME, GROUPID, ARTIFACTID, VERSION);
     maven.assertMavenDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
     maven.assertMavenDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
     maven.assertMavenDependency('provided', 'javax.json', 'javax.json-api', '1.0');

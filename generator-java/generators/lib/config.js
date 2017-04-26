@@ -19,6 +19,7 @@
 var fs = require('fs');
 var fspath = require('path');
 var Handlebars = require('handlebars');
+var defaults = require('./defaults');
 
 const PATTERN_NAME = new RegExp("^[a-zA-Z0-9_-]+$");
 const PATTERN_ARTIFACT_ID = new RegExp("^[a-zA-Z0-9-_.]*$");
@@ -39,18 +40,11 @@ Config.prototype.isValid = function() {
 }
 
 Config.prototype.reset = function() {
-  this.appName = "myLibertyProject";
-  this.buildType = "maven";
-  this.artifactId = "artifactId";
-  this.groupId = "groupId";
-  this.version = "1.0";
-  this.headless = "false";
-  this.createType = "rest";
-  this.debug = "false";
-  this.promptType = "prompt:patterns";
-  this.bluemix = undefined;
-  this.input = undefined;
-  this.technologies = [];
+  var defaultValues = defaults.get();
+  for(var i = 0; i < defaultValues.length; i++) {
+    var defaultValue = defaultValues[i];
+    this[defaultValue] = defaults.get(defaultValue);
+  }
   this.configFiles = [];
 }
 

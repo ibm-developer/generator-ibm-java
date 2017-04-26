@@ -17,6 +17,7 @@
 'use strict'
 
 var logger = require("../lib/log");
+var defaults = require('../lib/defaults');
 
 const PROMPT_ID = 'prompt:patterns';
 
@@ -71,7 +72,7 @@ Extension.prototype.getQuestions = function() {
       value : 'bff',
       short : 'Backend For Frontend'
     }],
-    default : 0 // Default to rest sample
+    default : defaults.get('createType')
   }];
 }
 

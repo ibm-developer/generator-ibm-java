@@ -43,6 +43,7 @@ var assertCommonFiles = function() {
 var assertGradleFiles = function(appname) {
   assert.noFile('pom.xml');   //build file
   assert.file('build.gradle');
+  assert.file('settings.gradle');
   assert.fileContent('build.gradle',"appName = '" + appname +"'");
   assert.fileContent('build.gradle', 'wlp-webProfile7-' + LIBERTY_VERSION);
   assert.fileContent('manifest.yml', 'path: ./build/' + appname + '.zip');
@@ -50,6 +51,7 @@ var assertGradleFiles = function(appname) {
 
 var assertMavenFiles = function(appname) {
   assert.noFile('build.gradle');   //build file
+  assert.noFile('settings.gradle');
   assert.file('pom.xml');
   assert.fileContent('pom.xml',"<app.name>" + appname +"</app.name>");
   assert.fileContent('pom.xml', '<version>' + LIBERTY_VERSION + '</version>');

@@ -21,14 +21,18 @@
 var assert = require('yeoman-assert');
 
 
-var assertApplication = function(appname) {
+var assertApplication = function(appname, groupId, artifactId, version) {
   it('does not generate a pom.xml', function() {
     assert.noFile('pom.xml');   //build file
   });
 
-  it('generates a gradle file', function() {
+  it('generates a build.gradle and settings.gradle file', function() {
     assert.file('build.gradle');
+    assert.file('settings.gradle');
     assert.fileContent('build.gradle',"appName = '" + appname +"'");
+    assert.fileContent('build.gradle', "group = '" + groupId + "'");
+    assert.fileContent('build.gradle', "version = '" + version + "'");
+    assert.fileContent('settings.gradle', "rootProject.name = '" + artifactId + "'");
   });
 }
 

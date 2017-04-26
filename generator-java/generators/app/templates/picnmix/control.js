@@ -1,15 +1,7 @@
 {
   "excludes" : [
     ".classpath",
-    ".project",
-    {{#has buildType 'maven'}}
-    "build.gradle",
-    "settings.gradle",
-    {{/has}}
-
-    {{#has buildType 'gradle'}}
-    "pom.xml",
-    {{/has}}
+    ".project"
   ],
   "excludesDir" : [
     "target",
@@ -21,7 +13,7 @@
     "platform/kube",
     "frameworks/liberty",
     {{#each technologies}}
-    "technologies/{{this.name}}",
+    "technologies/{{this}}",
     {{/each}}
     {{#bluemix}}
     "platform/cli",

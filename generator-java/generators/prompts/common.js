@@ -17,6 +17,7 @@
 'use strict'
 
 var logger = require("../lib/log");
+var defaults = require('../lib/defaults');
 
 const PROMPT_ID = 'ext:common';
 
@@ -38,17 +39,17 @@ Extension.prototype.getQuestions = function() {
     name    : 'buildType',
     message : 'Select the build type for your project.\n',
     choices : ['maven', 'gradle'],
-    default : 0 // Default to maven
+    default : defaults.get('buildType')
   }, {
     type    : 'input',
     name    : 'appName',
     message : 'Enter a name for your project',
-    default : "myProject"
+    default : defaults.get('appName')
   }, {
     type    : 'input',
     name    : 'groupId',
     message : 'Enter a group id for your project',
-    default : "projects.java"
+    default : defaults.get('groupId')
   }, {
     type    : 'input',
     name    : 'artifactId',

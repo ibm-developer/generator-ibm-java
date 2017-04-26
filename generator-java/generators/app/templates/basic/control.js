@@ -1,7 +1,10 @@
 {
   "excludes" : [
+    ".classpath",
+    ".project",
     {{#has buildType 'maven'}}
     "build.gradle",
+    "settings.gradle",
     {{/has}}
 
     {{#has buildType 'gradle'}}

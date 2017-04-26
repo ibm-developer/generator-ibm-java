@@ -112,6 +112,7 @@ The current list of features:
 
 * infrastructure
 * test
+* config
 
 ## Build automation
 
