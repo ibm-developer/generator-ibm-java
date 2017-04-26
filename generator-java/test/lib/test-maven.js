@@ -22,14 +22,19 @@ var assert = require('yeoman-assert');
 const BUILD_FILE = 'pom.xml'
 
 
-var assertApplication = function(appname) {
+var assertApplication = function(appname, groupId, artifactId, version) {
   it('does not generate a build.gradle', function() {
-    assert.noFile('build.gradle');   //build file
+    assert.noFile('build.gradle');
   });
-
+  it('does not generate a settings.gradle', function() {
+    assert.noFile('settings.gradle');
+  });
   it('generates a ' + BUILD_FILE + ' file', function() {
     assert.file(BUILD_FILE);
     assert.fileContent(BUILD_FILE,"<app.name>" + appname + "</app.name>");
+    assert.fileContent(BUILD_FILE,"<groupId>" + groupId + "</groupId>");
+    assert.fileContent(BUILD_FILE,"<artifactId>" + artifactId + "</artifactId>");
+    assert.fileContent(BUILD_FILE,"<version>" + version + "</version>");
   });
 }
 

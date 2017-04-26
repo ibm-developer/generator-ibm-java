@@ -63,7 +63,7 @@ Extension.prototype.getQuestions = function() {
     type : 'confirm',
     name : 'addbluemix',
     message : 'Add bluemix to your application?',
-    default : false // Default to rest
+    default : false
   }];
 }
 

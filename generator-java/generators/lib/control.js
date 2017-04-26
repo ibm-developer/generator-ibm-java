@@ -102,7 +102,7 @@ Control.prototype.shouldGenerate = function(relativePath) {
   if (this.controlBlock.excludes) {
     for(var i = 0; i < this.controlBlock.excludes.length; i++) {
       if(this.controlBlock.excludes[i] === relativePath) {
-        //console.log("File excluded : " + relativePath);
+        // console.log("File excluded : " + relativePath);
         return false;
       }
     }
