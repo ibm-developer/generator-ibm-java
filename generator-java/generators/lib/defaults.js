@@ -23,7 +23,7 @@ const DEFAULTS = {
   buildType : {desc : 'Build system to use', type : String, default : 'maven'},
   promptType : {desc : 'The prompts to use', type : String, default : 'prompt:patterns'},
   createType : {desc : 'Type of application to generate', type : String, default : 'basic'},
-  groupId : {desc : 'Name of the application', type : String, default : 'liberty.projects'},
+  groupId : {desc : 'Group ID to use for the build', type : String, default : 'liberty.projects'},
   artifactId : {desc : 'Artifact ID to use for the build', type : String, default : 'example'},
   version : {desc : 'Version of the application', type : String, default : '1.0-SNAPSHOT'},
   headless : {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : String, default : "false"},
