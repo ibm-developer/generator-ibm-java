@@ -4,7 +4,6 @@
     ".project",
     {{#has buildType 'maven'}}
     "build.gradle",
-    "settings.gradle",
     {{/has}}
 
     {{#has buildType 'gradle'}}
@@ -17,10 +16,15 @@
     "build"
   ],
   "composition" : [
+    "basic",
+    "platform/kube",
+    "frameworks/liberty",
+    {{#each technologies}}
+    "technologies/{{this.name}}",
+    {{/each}}
+    {{#bluemix}}
     "platform/cli",
     "platform/bluemix",
-    "platform/kube",
-    {{#bluemix}}
     {{#server.services}}
     "services/common",
     {{/server.services}}
@@ -31,18 +35,5 @@
     "services/objectStorage",
     {{/objectStorage}}
     {{/bluemix}}
-  ],
-  fileFound : function(path, contents, config) {
-    var defaultFragment = {path : path, template : contents, data : config};
-    if(path == 'gitignore') {
-      var fragment = {
-        path : '.gitignore',
-        template : contents,
-        data : config
-      }
-      return [fragment];
-    } else {
-      return [defaultFragment];
-    }
-  }
+  ]
 }

@@ -48,7 +48,7 @@ Extension.prototype.getQuestions = function() {
       short : 'Basic technology selection'
     }, {
       name : 'Microservice Builder : develop and deliver microservices, hybrid and containerized apps',
-      value : 'msbuilder',
+      value : 'technologies/ms-builder',
       short : 'Microservice Builder'
     }]
     }, {
@@ -63,7 +63,7 @@ Extension.prototype.getQuestions = function() {
     type : 'confirm',
     name : 'addbluemix',
     message : 'Add bluemix to your application?',
-    default : false // Default to rest
+    default : false
   }];
 }
 

@@ -24,6 +24,7 @@ var logger = require("../lib/log");
 var fs = require('fs');
 var Control = require('../lib/control');
 var PromptMgr = require('../lib/promptmgr');
+var defaults = require('../lib/defaults');
 
 //clone any property, only if it is already present in the target object
 var clone = function(from, to) {
@@ -36,16 +37,6 @@ var clone = function(from, to) {
   }
 }
 
-var toObject = function(value) {
-  if(typeof value == 'string') {
-    return JSON.parse(value);
-  }
-  if(typeof value === 'object') {
-    return value;
-  }
-  return value;
-}
-
 var config = new Config();
 var promptmgr = undefined;
 
@@ -55,17 +46,11 @@ module.exports = class extends Generator {
     super(args, opts);
 
     //create command line options that will be passed by YaaS
-    this.option('buildType', {desc : 'Build system to use', type : String, default : 'maven'});
-    this.option('promptType', {desc : 'The prompts to use', type : String, default : 'prompt:patterns'});
-    this.option('createType', {desc : 'Type of application to generate', type : String, default : 'basic'});
-    this.option('appName', {desc : 'Name of the application', type : String, default : 'LibertyProject'});
-    this.option('artifactId', {desc : 'Artifact ID to use for the build', type : String, default : 'example'});
-    this.option('groupId', {desc : 'Name of the application', type : String, default : 'liberty.projects'});
-    this.option('version', {desc : 'Version of the application', type : String, default : '1.0-SNAPSHOT'});
-    this.option('headless', {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : String, default : "false"});
-    this.option('debug', {desc : 'Generate a log.txt file in the root of the project', type : String, default : "false"});
-    this.option('bluemix', {desc : 'Bluemix options', type : (value)=>{return toObject(value);}, default : undefined});
-    this.option('input', {desc : 'Input data file', type : processor.getContentsSync, default : undefined});
+    var defaultValues = defaults.get();
+    for(var i = 0; i < defaultValues.length; i++) {
+      var defaultValue = defaultValues[i];
+      this.option(defaultValue, defaults.getObject(defaultValue));
+    }
     logger.writeToLog("Options", this.options);
   }
 

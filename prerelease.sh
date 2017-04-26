@@ -7,17 +7,8 @@ echo "Creating git branch"
 PKG_VER_NEXT=`node -e "console.log(require('./package.json').version);"`
 BRANCH="updateTo${PKG_VER_NEXT}"
 git checkout -b $BRANCH
-ls -l
-echo "Creating ../docs"
-mkdir -p ../docs/cc
-mkdir -p ../docs/scan
-ls -l ../docs
-echo "Copying ./coverage to ../docs"
-cp -r ./coverage/* ../docs/cc
-ls -l ../docs/cc
+../coverage.sh
 ../scan.sh
-echo "Copying scan results file to ../docs"
-cp ./production/java-codegen-yeoman/generator-java/generator-java_scanresults* ../docs/scan
 git status
 git add ../docs
 git status
