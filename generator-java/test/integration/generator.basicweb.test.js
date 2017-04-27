@@ -63,7 +63,7 @@ describe('java generator : basic integration test', function () {
         try {
           options.assert(APPNAME, APPNAME, false, false);
           common.assertGradleFiles(APPNAME);
-          frameworkTest.assertGradleFiles();
+          frameworkTest.assertBuildFiles('gradle');
           done();
         } catch (err) {
           done(err);
@@ -82,7 +82,7 @@ describe('java generator : basic integration test', function () {
         try {
           options.assert(APPNAME, APPNAME, false, false);
           common.assertMavenFiles(APPNAME);
-          frameworkTest.assertMavenFiles();
+          frameworkTest.assertBuildFiles('maven');
           done();
         } catch (err) {
           done(err);
@@ -105,7 +105,7 @@ describe('java generator : basic integration test', function () {
         try {
           options.assert('bxName', 'testBxName', true, false);
           common.assertMavenFiles('bxName');
-          frameworkTest.assertMavenFiles();
+          frameworkTest.assertBuildFiles('maven');
           done();
         } catch (err) {
           done(err);
@@ -123,7 +123,7 @@ describe('java generator : basic integration test', function () {
         try {
           options.assert('bxName', 'testBxName', false, true);
           common.assertMavenFiles('bxName');
-          frameworkTest.assertMavenFiles();
+          frameworkTest.assertBuildFiles('maven');
           done();
         } catch (err) {
           done(err);
@@ -142,7 +142,7 @@ describe('java generator : basic integration test', function () {
         try {
           options.assert('bxName', 'testBxName', true, true);
           common.assertMavenFiles('bxName');
-          frameworkTest.assertMavenFiles();
+          frameworkTest.assertBuildFiles('maven');
           done();
         } catch (err) {
           done(err);

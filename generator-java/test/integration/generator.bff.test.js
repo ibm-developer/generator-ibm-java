@@ -71,7 +71,7 @@ describe('java generator : bff integration test', function () {
         try {
           options.assert(APPNAME, APPNAME, false, false);
           common.assertGradleFiles(APPNAME);
-          frameworkTest.assertGradleFiles();
+          frameworkTest.assertBuildFiles('gradle');
           assert.fileContent('build.gradle', "providedCompile 'io.swagger:swagger-annotations:1.5.3'");
           done();
         } catch (err) {
@@ -91,7 +91,7 @@ describe('java generator : bff integration test', function () {
         try {
           options.assert(APPNAME, APPNAME, false, false);
           common.assertMavenFiles(APPNAME);
-          frameworkTest.assertMavenFiles();
+          frameworkTest.assertBuildFiles('maven');
           assert.fileContent('pom.xml', /<groupId>io\.swagger<\/groupId>\s*<artifactId>swagger-annotations<\/artifactId>\s*<version>1\.5\.3<\/version>/);
           done();
         } catch (err) {
@@ -115,7 +115,7 @@ describe('java generator : bff integration test', function () {
         try {
           options.assert('bxName', 'testBxName', true, false);
           common.assertMavenFiles('bxName');
-          frameworkTest.assertMavenFiles();
+          frameworkTest.assertBuildFiles('maven');
           done();
         } catch (err) {
           done(err);
@@ -133,7 +133,7 @@ describe('java generator : bff integration test', function () {
         try {
           options.assert('bxName', 'testBxName', false, true);
           common.assertMavenFiles('bxName');
-          frameworkTest.assertMavenFiles();
+          frameworkTest.assertBuildFiles('maven');
           done();
         } catch (err) {
           done(err);
@@ -152,7 +152,7 @@ describe('java generator : bff integration test', function () {
         try {
           options.assert('bxName', 'testBxName', true, true);
           common.assertMavenFiles('bxName');
-          frameworkTest.assertMavenFiles();
+          frameworkTest.assertBuildFiles('maven');
           done();
         } catch (err) {
           done(err);

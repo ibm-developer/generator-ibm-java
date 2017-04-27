@@ -30,28 +30,31 @@ const FRAMEWORK = 'liberty';
 const LIBERTY_CONFIG_FILE = 'src/main/liberty/config/server.xml';
 
 var framework = require('../lib/test-framework');
-var frameworkTest;
+var build = require('../lib/test-build');
 
 var common = require('../lib/test-common');
 var gradle = require('../lib/test-gradle');
 var maven = require('../lib/test-maven');
 var bluemix = require('../lib/test-bluemix.js');
 
-function Options(buildType, technologies) {
+function Options(buildType, testBluemix, technologies) {
   this.options = {
     headless :  "true",
     debug : "true",
     buildType : buildType,
     createType : 'picnmix',
     technologies : technologies,
-    version : VERSION,
     appName : APPNAME,
     groupId : GROUPID,
-    artifactId : ARTIFACTID
+    artifactId : ARTIFACTID,
+    version : VERSION
   }
   this.assert = function() {
     common.assertCommonFiles();
     framework.test(FRAMEWORK).assertCommonFiles();
+    framework.test(FRAMEWORK).assertBuildFiles(this.options.buildType);
+    build.test(this.options.buildType).assertApplication(APPNAME, GROUPID, ARTIFACTID, VERSION);
+    bluemix.test(testBluemix);
   }
   this.before = function() {
     return helpers.run(path.join( __dirname, '../../generators/app'))
@@ -59,40 +62,35 @@ function Options(buildType, technologies) {
       .withPrompts({})
       .toPromise();
   }
+  this.assertRest = function() {
+    build.test(this.options.buildType).assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
+    build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+    build.test(this.options.buildType).assertDependency('provided', 'javax.json', 'javax.json-api', '1.0');
+    build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
+    framework.test(FRAMEWORK).assertFeatures('jaxrs-2.0', 'jsonp-1.0');
+    it('generates sample file LibertyRestEndpoint.java', function() {
+      assert.file('src/main/java/application/rest/LibertyRestEndpoint.java');
+    });
+    it('generates sample file LibertyRestEndpoinTestIT.java', function() {
+      assert.file('src/test/java/it/rest/LibertyRestEndpointTestIT.java');
+    });
+  }
 }
 
 describe('java generator : technologies integration test', function () {
 
   describe('Generates a basic technologies project (gradle, no bluemix)', function () {
-
-    var options = new Options('gradle', ["rest"]);
-
+    var options = new Options('gradle', false, ["rest"]);
     before(options.before.bind(options));
-
     options.assert();
-    gradle.assertApplication(APPNAME, GROUPID, ARTIFACTID, VERSION);
-    gradle.assertGradleDependency('providedCompile', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
-    gradle.assertGradleDependency('providedCompile', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
-    gradle.assertGradleDependency('providedCompile', 'javax.json', 'javax.json-api', '1.0');
-    gradle.assertGradleDependency('providedCompile', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
-    framework.test(FRAMEWORK).assertGradleFiles();
-    bluemix.test(false);
+    options.assertRest();
   });
 
   describe('Generates a basic technologies project (maven, no bluemix)', function () {
-
-    var options = new Options('maven', ["rest"]);
-
+    var options = new Options('maven', false, ["rest"]);
     before(options.before.bind(options));
-
     options.assert();
-    maven.assertApplication(APPNAME, GROUPID, ARTIFACTID, VERSION);
-    maven.assertMavenDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
-    maven.assertMavenDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
-    maven.assertMavenDependency('provided', 'javax.json', 'javax.json-api', '1.0');
-    maven.assertMavenDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
-    framework.test(FRAMEWORK).assertMavenFiles();
-    bluemix.test(false);
+    options.assertRest();
   });
 
 });

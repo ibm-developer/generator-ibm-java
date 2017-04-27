@@ -21,8 +21,10 @@
 var assert = require('yeoman-assert');
 const BUILD_FILE = 'pom.xml'
 
+function test_maven() {
+}
 
-var assertApplication = function(appname, groupId, artifactId, version) {
+test_maven.prototype.assertApplication = function(appname, groupId, artifactId, version) {
   it('does not generate a build.gradle', function() {
     assert.noFile('build.gradle');
   });
@@ -38,26 +40,26 @@ var assertApplication = function(appname, groupId, artifactId, version) {
   });
 }
 
-var assertBluemix = function(appname) {
+test_maven.prototype.assertBluemix = function(appname) {
   it('manifest.yml contains a path to a zip file with the same name as the application (' + appname + ')'), function() {
     assert.fileContent('manifest.yml', 'path: ./target/' + appname + '.zip');
   }
 }
 
-var assertMavenProperty = function(name, value) {
+test_maven.prototype.assertProperty = function(name, value) {
   it(BUILD_FILE + ' contains a property called ' + name + ' with a value of ' + value, function() {
     assert.fileContent(BUILD_FILE, '<' + name + '>' + value + '</' + name + '>');
   });
 }
 
-var assertContent = function(value) {
+test_maven.prototype.assertContent = function(value) {
   it(BUILD_FILE + ' contains content a value of ' + value, function() {
     assert.fileContent(BUILD_FILE, value);
   });
 
 }
 
-var assertMavenDependency = function(scope, groupId, artifactId, version) {
+test_maven.prototype.assertDependency = function(scope, groupId, artifactId, version) {
   it(BUILD_FILE + ' contains a dependency with scope ' + scope + ', groupId = ' + groupId + ', artifactId = ' + artifactId + ' and version = ' + version, function() {
     groupId = groupId.replace(/\./g, '\\.');
     artifactId = artifactId.replace(/\./g, '\\.');
@@ -66,10 +68,4 @@ var assertMavenDependency = function(scope, groupId, artifactId, version) {
   });
 }
 
-module.exports = {
-  assertApplication : assertApplication,
-  assertContent : assertContent,
-  assertBluemix : assertBluemix,
-  assertMavenProperty : assertMavenProperty,
-  assertMavenDependency : assertMavenDependency
-}
+module.exports = test_maven;
