@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.0"></a>
+# [0.4.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.3.0...v0.4.0) (2017-04-27)
+
+
+### Bug Fixes
+
+* **infrastructure:** Make the coverage.sh file executable ([ab80a1a](https://github.ibm.com/arf/java-codegen-yeoman/commit/ab80a1a))
+
+
+### Features
+
+* **test:** Refactor tests to pass in build type ([011c323](https://github.ibm.com/arf/java-codegen-yeoman/commit/011c323))
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.2.0...v0.3.0) (2017-04-26)
 
