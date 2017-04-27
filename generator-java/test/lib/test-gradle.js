@@ -19,54 +19,64 @@
 'use strict'
 
 var assert = require('yeoman-assert');
+const BUILD_FILE = 'build.gradle';
+const SETTINGS_FILE = 'settings.gradle';
 
+function test_gradle() {
+}
 
-var assertApplication = function(appname, groupId, artifactId, version) {
+test_gradle.prototype.assertApplication = function(appname, groupId, artifactId, version) {
   it('does not generate a pom.xml', function() {
     assert.noFile('pom.xml');   //build file
   });
 
   it('generates a build.gradle and settings.gradle file', function() {
-    assert.file('build.gradle');
-    assert.file('settings.gradle');
-    assert.fileContent('build.gradle',"appName = '" + appname +"'");
-    assert.fileContent('build.gradle', "group = '" + groupId + "'");
-    assert.fileContent('build.gradle', "version = '" + version + "'");
-    assert.fileContent('settings.gradle', "rootProject.name = '" + artifactId + "'");
+    assert.file(BUILD_FILE);
+    assert.file(SETTINGS_FILE);
+    assert.fileContent(BUILD_FILE,"appName = '" + appname +"'");
+    assert.fileContent(BUILD_FILE, "group = '" + groupId + "'");
+    assert.fileContent(BUILD_FILE, "version = '" + version + "'");
+    assert.fileContent(SETTINGS_FILE, "rootProject.name = '" + artifactId + "'");
   });
 }
 
 
-var assertBluemix = function(appname) {
+test_gradle.prototype.assertBluemix = function(appname) {
   it('manifest.yml contains a path to a zip file with the same name as the application (' + appname + ')'), function() {
     assert.fileContent('manifest.yml', 'path: ./build/' + appname + '.zip');
   }
 }
 
-var assertGradleProperty = function(name, value) {
+test_gradle.prototype.assertProperty = function(name, value) {
   it('build.gradle contains a property called ' + name + ' with a value of ' + value, function() {
-    assert.fileContent('build.gradle', name + ' = ' + value);
+    assert.fileContent(BUILD_FILE, name + ' = ' + value);
   });
 
 }
 
-var assertContent = function(value) {
+test_gradle.prototype.assertContent = function(value) {
   it('build.gradle contains content a value of ' + value, function() {
-    assert.fileContent('build.gradle', value);
+    assert.fileContent(BUILD_FILE, value);
   });
 
 }
 
-var assertGradleDependency = function(scope, groupId, artifactId, version) {
+test_gradle.prototype.assertDependency = function(scopeName, groupId, artifactId, version) {
+  var scope = convertScope(scopeName);
   it('build.gradle contains a dependency with scope ' + scope + ', groupId = ' + groupId + ', artifactId = ' + artifactId + ' and version = ' + version, function() {
-    assert.fileContent('build.gradle', scope + " '" + groupId + ':' + artifactId + ':' + version + "'");
+    assert.fileContent(BUILD_FILE, scope + " '" + groupId + ':' + artifactId + ':' + version + "'");
   });
 }
 
-module.exports = {
-  assertApplication : assertApplication,
-  assertContent : assertContent,
-  assertBluemix : assertBluemix,
-  assertGradleProperty : assertGradleProperty,
-  assertGradleDependency : assertGradleDependency
+var convertScope = function(scope) {
+  switch(scope) {
+    case 'provided':
+      return 'providedCompile';
+    case 'test':
+      return 'testCompile';
+    default:
+      throw "convertScope error : expected one of provided or test";
+  }
 }
+
+module.exports = test_gradle;

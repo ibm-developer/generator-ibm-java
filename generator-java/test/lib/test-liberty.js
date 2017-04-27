@@ -17,8 +17,7 @@
 'use strict'
 const path = require('path');
 var assert = require('yeoman-assert');
-var gradle = require('./test-gradle');
-var maven = require('./test-maven');
+var build = require('./test-build');
 
 const LIBERTY_VERSION = '17.0.0.1';   //current Liberty version to check for
 const LIBERTY_CONFIG_FILE = 'src/main/liberty/config/server.xml';
@@ -35,28 +34,47 @@ test_liberty.prototype.assertCommonFiles = function() {
   });
 }
 
-test_liberty.prototype.assertMavenFiles = function() {
-  maven.assertMavenProperty('testServerHttpPort', '9080');
-  maven.assertMavenProperty('testServerHttpsPort', '9443');
-  maven.assertMavenProperty('warContext', '${app.name}');
-  maven.assertMavenProperty('package.file', '${project.build.directory}/${app.name}.zip');
-  maven.assertMavenProperty('packaging.type', 'usr');
-  maven.assertMavenDependency('test', 'junit', 'junit', '4.12');
-  maven.assertMavenDependency('test', 'org.apache.cxf', 'cxf-rt-rs-client', '3.1.1');
-  maven.assertMavenDependency('test', 'org.glassfish', 'javax.json', '1.0.4');
+test_liberty.prototype.assertBuildFiles = function(buildType) {
+  build.test(buildType).assertProperty('testServerHttpPort', '9080');
+  build.test(buildType).assertProperty('testServerHttpsPort', '9443');
+  build.test(buildType).assertDependency('test', 'junit', 'junit', '4.12');
+  build.test(buildType).assertDependency('test', 'org.apache.cxf', 'cxf-rt-rs-client', '3.1.1');
+  build.test(buildType).assertDependency('test', 'org.glassfish', 'javax.json', '1.0.4');
+  if(buildType === 'maven') {
+    assertMavenFiles();
+  }
+  if(buildType === 'gradle') {
+    assertGradleFiles();
+  }
 }
 
-test_liberty.prototype.assertGradleFiles = function() {
-  gradle.assertContent('wlp-webProfile7-' + LIBERTY_VERSION);
-  gradle.assertGradleProperty('testServerHttpPort', '9080');
-  gradle.assertGradleProperty('testServerHttpsPort', '9443');
-  gradle.assertGradleProperty('serverDirectory', '"${buildDir}/wlp/usr/servers/defaultServer"');
-  gradle.assertGradleProperty('warContext', '"${appName}"');
-  gradle.assertGradleProperty('packageFile', '"${project.buildDir}/${appName}.zip"');
-  gradle.assertGradleProperty('packagingType', 'usr');
-  gradle.assertGradleDependency('testCompile', 'junit', 'junit', '4.12');
-  gradle.assertGradleDependency('testCompile', 'org.apache.cxf', 'cxf-rt-rs-client', '3.1.1');
-  gradle.assertGradleDependency('testCompile', 'org.glassfish', 'javax.json', '1.0.4');
+var assertMavenFiles = function() {
+  build.test('maven').assertProperty('warContext', '${app.name}');
+  build.test('maven').assertProperty('package.file', '${project.build.directory}/${app.name}.zip');
+  build.test('maven').assertProperty('packaging.type', 'usr');
+
+}
+
+var assertGradleFiles = function() {
+  build.test('gradle').assertContent('wlp-webProfile7-' + LIBERTY_VERSION);
+  build.test('gradle').assertProperty('serverDirectory', '"${buildDir}/wlp/usr/servers/defaultServer"');
+  build.test('gradle').assertProperty('warContext', '"${appName}"');
+  build.test('gradle').assertProperty('packageFile', '"${project.buildDir}/${appName}.zip"');
+  build.test('gradle').assertProperty('packagingType', 'usr');
+}
+
+test_liberty.prototype.assertFeatures = function() {
+  if(arguments.length < 1) {
+    throw "assertFeatures error : requires at least 1 argument, a feature to check";
+  }
+  for(var i = 0; i < arguments.length; i++) {
+    if (arguments[i] && typeof arguments[i] === 'string') {
+      var feature = arguments[i];
+      it('server.xml contains <feature>' + feature + '</feature>', function() {
+        assert.fileContent(LIBERTY_CONFIG_FILE, "<feature>" + feature + "</feature>");
+      });
+    }
+  }
 }
 
 test_liberty.prototype.assertCloudant = function(exists) {

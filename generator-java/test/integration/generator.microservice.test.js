@@ -74,7 +74,7 @@ describe('java generator : microservice integration test', function () {
         try {
           options.assert(APPNAME, APPNAME, false, false)
           common.assertGradleFiles(APPNAME);
-          frameworkTest.assertGradleFiles();
+          frameworkTest.assertBuildFiles('gradle');
 
           assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
           assert.fileContent('README.md', 'gradle');
@@ -104,7 +104,7 @@ describe('java generator : microservice integration test', function () {
         try {
           options.assert(APPNAME, APPNAME, false, false)
           common.assertMavenFiles(APPNAME);
-          frameworkTest.assertMavenFiles();
+          frameworkTest.assertBuildFiles('maven');
 
           assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
           assert.fileContent('README.md', 'maven');
@@ -139,7 +139,7 @@ describe('java generator : microservice integration test', function () {
         try {
           options.assert('bxName', 'bxName', false, false)
           common.assertGradleFiles('bxName');
-          frameworkTest.assertGradleFiles();
+          frameworkTest.assertBuildFiles('gradle');
 
           assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
           assert.noFileContent('src/main/java/application/rest/v1/Example.java', 'Cloudant');
@@ -166,7 +166,7 @@ describe('java generator : microservice integration test', function () {
         try {
           options.assert('bxName', 'bxName', true, false)
           common.assertMavenFiles('bxName');
-          frameworkTest.assertMavenFiles();
+          frameworkTest.assertBuildFiles('maven');
 
           assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
           assert.fileContent('src/main/java/application/rest/v1/Example.java','Cloudant'); //check Cloudant service present
@@ -193,7 +193,7 @@ describe('java generator : microservice integration test', function () {
         try {
           options.assert('bxName', 'bxName', true, false)
           common.assertGradleFiles('bxName');
-          frameworkTest.assertGradleFiles();
+          frameworkTest.assertBuildFiles('gradle');
 
           assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
           assert.fileContent('src/main/java/application/rest/v1/Example.java','Cloudant'); //check Cloudant service present
@@ -220,7 +220,7 @@ describe('java generator : microservice integration test', function () {
         try {
           options.assert('bxName', 'bxName', false, true)
           common.assertMavenFiles('bxName');
-          frameworkTest.assertMavenFiles();
+          frameworkTest.assertBuildFiles('maven');
 
           assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
           assert.fileContent('src/main/java/application/rest/v1/Example.java','OSClient'); //check Cloudant service present
@@ -248,7 +248,7 @@ describe('java generator : microservice integration test', function () {
         try {
           options.assert('bxName', 'bxName', false, true)
           common.assertGradleFiles('bxName');
-          frameworkTest.assertGradleFiles();
+          frameworkTest.assertBuildFiles('gradle');
 
           assert.fileContent('src/main/webapp/WEB-INF/ibm-web-ext.xml','uri="/bxName"');
           assert.fileContent('src/main/java/application/rest/v1/Example.java','OSClient'); //check Cloudant service present
