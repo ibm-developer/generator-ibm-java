@@ -36,13 +36,15 @@ var common = require('../lib/test-common');
 var gradle = require('../lib/test-gradle');
 var maven = require('../lib/test-maven');
 var bluemix = require('../lib/test-bluemix.js');
+var kube = require('../lib/test-kube.js');
 
-function Options(buildType, testBluemix, technologies) {
+function Options(createType, buildType, testBluemix, technologies) {
   this.options = {
     headless :  "true",
     debug : "true",
     buildType : buildType,
-    createType : 'picnmix',
+    createType : createType,
+    promptType : 'prompt:liberty',
     technologies : technologies,
     appName : APPNAME,
     groupId : GROUPID,
@@ -56,13 +58,21 @@ function Options(buildType, testBluemix, technologies) {
     build.test(this.options.buildType).assertApplication(APPNAME, GROUPID, ARTIFACTID, VERSION);
     bluemix.test(testBluemix);
   }
+  this.assertpicnmix = function() {
+    this.assert();    //there are no additional files to check for
+    kube.test(this.options.appName, false);
+  }
+  this.assertmsbuilder = function() {
+    this.assert();    //there are no additional files to check for
+    kube.test(this.options.appName, true);
+  }
   this.before = function() {
     return helpers.run(path.join( __dirname, '../../generators/app'))
       .withOptions(this.options)
       .withPrompts({})
       .toPromise();
   }
-  this.assertRest = function() {
+  this.assertrest = function() {
     build.test(this.options.buildType).assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
     build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
     build.test(this.options.buildType).assertDependency('provided', 'javax.json', 'javax.json-api', '1.0');
@@ -77,20 +87,26 @@ function Options(buildType, testBluemix, technologies) {
   }
 }
 
-describe('java generator : technologies integration test', function () {
+var services = ['rest'];
+var buildTypes = ['gradle', 'maven'];
 
-  describe('Generates a basic technologies project (gradle, no bluemix)', function () {
-    var options = new Options('gradle', false, ["rest"]);
-    before(options.before.bind(options));
-    options.assert();
-    options.assertRest();
+execute('picnmix', 'picnmix', services);
+execute('technologies/msbuilder', 'msbuilder', services);
+
+function execute(createType, assertFunc, servicesToTest) {
+
+  describe('java generator : technologies integration test', function () {
+
+    for(var i = 0; i < servicesToTest.length; i++) {
+      for(var j = 0; j < buildTypes.length; j++) {
+        describe('Generates a ' + createType + ' project for ' + servicesToTest[i] + ' (' + buildTypes[j] + ', no bluemix)', function () {
+          var options = new Options(createType, buildTypes[j], false, [servicesToTest[i]]);
+          before(options.before.bind(options));
+          options['assert' + assertFunc]();
+          options['assert' + servicesToTest[i]]();
+        });
+      }
+    }
+
   });
-
-  describe('Generates a basic technologies project (maven, no bluemix)', function () {
-    var options = new Options('maven', false, ["rest"]);
-    before(options.before.bind(options));
-    options.assert();
-    options.assertRest();
-  });
-
-});
+}

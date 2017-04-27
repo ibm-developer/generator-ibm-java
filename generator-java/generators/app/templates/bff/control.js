@@ -29,8 +29,8 @@
   fileFound : function(path, contents, config) {
     var defaultFragment = {path : path, template : contents, data : config};
     if(path.endsWith('Bean.java')) {
-      if(config.data.input.definitions) {
-        var defs = config.data.input.definitions;
+      if(config.input.definitions) {
+        var defs = config.input.definitions;
         var fragments = [];
         for (var prop in defs) {
           if (defs.hasOwnProperty(prop)) {
