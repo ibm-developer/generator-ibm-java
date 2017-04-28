@@ -16,6 +16,9 @@ if [[ $TRAVIS_BRANCH == "master"  ]]; then
         #If you are running a protected master branch then you *could* disable re-running the tests
         echo "Tests passed, continuing release cycle"
         ../prerelease.sh
+        if [ $? != 0 ]; then
+          exit $?
+        fi
       else
         exit $?
       fi
