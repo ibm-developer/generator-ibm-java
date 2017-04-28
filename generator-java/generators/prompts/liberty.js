@@ -67,7 +67,7 @@ Extension.prototype.getQuestions = function() {
     type : 'checkbox',
     name : 'technologies',
     message : 'Select the technologies for your project.',
-    choices : [{name: 'rest'}],
+    choices : [{name: 'rest'}, {name: 'microprofile'}, {name: 'persistence'}],
     validate : function (answer) {
       if (answer.length < 1) {
         return 'You must choose at least one technology.';

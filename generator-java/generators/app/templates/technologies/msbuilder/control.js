@@ -13,6 +13,7 @@
     "picnmix",
     "platform/kube",
     "frameworks/liberty",
+    "technologies/microprofile",
     {{#each technologies}}
     "technologies/{{this}}",
     {{/each}}
