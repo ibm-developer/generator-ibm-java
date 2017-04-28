@@ -22,10 +22,8 @@ var path = require('path');
 var Config = require("../../generators/lib/config");
 var config = new Config();
 
-console.log("Config : " + JSON.stringify(config));
 before(function() {
   config.templateRoot = path.resolve("./test/resources/control");
-  console.log("Config : " + JSON.stringify(config));
 });
 
 describe('control library', function() {

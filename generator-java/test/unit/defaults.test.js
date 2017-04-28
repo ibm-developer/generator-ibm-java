@@ -59,4 +59,22 @@ describe('Defaults module', function() {
       assert(foundBuildType);
     });
   });
+  describe('Bluemix default type is a function', function() {
+    var bluemixType = defaults.getObject('bluemix').type;
+    it('returns a function', function() {
+      assert.equal(typeof bluemixType, 'function');
+    });
+    it('returns a function which returns a JSON object when passed a string', function() {
+      var string = '{"name":"bob"}';
+      var json = bluemixType(string);
+      assert.equal(typeof json, 'object');
+      assert.equal(json.name, 'bob');
+    });
+    it('returns a function which returns a JSON object when passed an object', function() {
+      var object = JSON.parse('{"name":"bob"}');
+      var json = bluemixType(object);
+      assert.equal(typeof json, 'object');
+      assert.equal(json.name, 'bob');
+    });
+  });
 })

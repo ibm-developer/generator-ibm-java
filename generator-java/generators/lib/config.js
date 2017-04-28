@@ -48,6 +48,17 @@ Config.prototype.reset = function() {
   this.configFiles = [];
 }
 
+Config.prototype.apply = function(options) {
+  //clone any property, only if it is already present in the target object
+  for (var prop in this) {
+    if (this.hasOwnProperty(prop)) {
+        if(options[prop]) {
+          this[prop] = options[prop];
+        }
+    }
+  }
+}
+
 Config.prototype.processProject = function(paths) {
   for(var i = 0; i < paths.length; i++) {
     var file = fspath.resolve(paths[i], CONFIG_FILE);

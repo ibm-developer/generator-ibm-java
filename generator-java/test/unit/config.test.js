@@ -31,6 +31,32 @@ describe('Config behaviour', function() {
     assert.equal('example', config.artifactId);
     assert.equal(undefined, config.bluemix);
   });
+  it('should be possible to replace default config with options', function(){
+    var config = new Config();
+    var options = {appName : 'testName'};
+    config.apply(options);
+    assert.equal(config.appName, 'testName');
+  });
+  it('should be possible to replace default config arrays with options', function(){
+    var config = new Config();
+    var options = {technologies : ['rest', 'websocket']};
+    config.apply(options);
+    assert.equal(config.technologies.length, 2);
+    assert.equal(config.technologies[0], 'rest');
+    assert.equal(config.technologies[1], 'websocket');
+  });
+  it('should be possible to replace default config arrays with empty array options', function(){
+    var config = new Config();
+    var options = {technologies : []};
+    config.apply(options);
+    assert.equal(config.technologies.length, 0);
+  });
+  it('should not be possible to create config with options', function(){
+    var config = new Config();
+    var options = {someConfig : 'someValue'};
+    config.apply(options);
+    assert.equal(config.someConfig, undefined);
+  });
 });
 
 describe('Config defaults', function() {

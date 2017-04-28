@@ -45,7 +45,6 @@ Extension.prototype.show = function(answers) {
   }  else {
     result = (this.config.promptType === PROMPT_ID);
   }
-  this.participant |= result;
   return result;
 }
 
@@ -77,17 +76,7 @@ Extension.prototype.getQuestions = function() {
 }
 
 Extension.prototype.afterPrompt = function(answers, config) {
-  //answers.bluemix is a JSON string and needs to be converted
-  if(!this.participant) {
-    return;   //hasn't participated in the questions.
-  }
-  if (typeof (answers.bluemix) === 'string') {
-    answers.bluemix = JSON.parse(answers.bluemix);
-  }
-  config.bluemix = answers.bluemix || config.bluemix;
-  if(config.bluemix) {
-    config.appName = config.bluemix.name || answers.appName || config.appName;
-  }
+  config.apply(answers);
 }
 
 module.exports = exports = Extension;

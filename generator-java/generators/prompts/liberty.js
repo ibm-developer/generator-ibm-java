@@ -20,8 +20,9 @@ var logger = require("../lib/log");
 
 const PROMPT_ID = 'prompt:liberty';
 
-function Extension() {
+function Extension(config) {
   this.id = PROMPT_ID;
+  this.config = config;
 }
 
 Extension.prototype.getChoice = function() {
@@ -33,12 +34,22 @@ Extension.prototype.getChoice = function() {
 }
 
 Extension.prototype.show = function(answers) {
-  return answers && (answers.promptType === PROMPT_ID);
+  var result = false;
+  if (answers) {
+    if(answers.promptType) {
+      result = (answers.promptType === PROMPT_ID);
+    } else {
+      result = (this.config.promptType === PROMPT_ID);
+    }
+  }  else {
+    result = (this.config.promptType === PROMPT_ID);
+  }
+  return result;
 }
 
 Extension.prototype.getQuestions = function() {
   return [{
-    when    : this.show,
+    when    : this.show.bind(this),
     type    : 'list',
     name    : 'createType',
     message : 'What type of source do you want to generate?',
@@ -52,14 +63,19 @@ Extension.prototype.getQuestions = function() {
       short : 'Microservice Builder'
     }]
     }, {
-    when : this.show,
+    when : this.show.bind(this),
     type : 'checkbox',
     name : 'technologies',
     message : 'Select the technologies for your project.',
-    choices : ['rest'],
-    default : 0 // Default to rest
+    choices : [{name: 'rest'}],
+    validate : function (answer) {
+      if (answer.length < 1) {
+        return 'You must choose at least one technology.';
+      }
+      return true;
+    }
   }, {
-    when : this.show,
+    when : this.show.bind(this),
     type : 'confirm',
     name : 'addbluemix',
     message : 'Add bluemix to your application?',
@@ -68,7 +84,7 @@ Extension.prototype.getQuestions = function() {
 }
 
 Extension.prototype.afterPrompt = function(answers, config) {
-  //do nothing
+  config.apply(answers);
 }
 
 module.exports = exports = Extension;

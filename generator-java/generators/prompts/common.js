@@ -29,10 +29,6 @@ Extension.prototype.getChoice = function() {
   return undefined;
 }
 
-Extension.prototype.show = function(answers) {
-  return true;
-}
-
 Extension.prototype.getQuestions = function() {
   return [{
     type    : 'list',
@@ -59,15 +55,7 @@ Extension.prototype.getQuestions = function() {
 }
 
 Extension.prototype.afterPrompt = function(answers, config) {
-  //configure the sample to use based on the type we are creating
-  if(answers.createType) {
-    config.createType = answers.createType;
-    config.templateName = answers.createType;   //override with user selection
-  }
-  config.buildType = answers.buildType || config.buildType;
-  config.artifactId = answers.artifactId || config.artifactId;
-  config.groupId = answers.groupId || config.groupId;
-  config.appName = answers.appName || config.appName;
+  config.apply(answers);
 }
 
 module.exports = exports = Extension;
