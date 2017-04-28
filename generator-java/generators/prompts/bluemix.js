@@ -40,7 +40,6 @@ Extension.prototype.show = function(answers) {
   }  else {
     result = (this.config.promptType === 'prompt:patterns');
   }
-  this.participant |= result;
   return result;
 }
 
@@ -62,17 +61,11 @@ Extension.prototype.getQuestions = function() {
 }
 
 Extension.prototype.afterPrompt = function(answers, config) {
-  if(!(config.bluemix || answers.bluemix)) {
-    return;   //hasn't participated in the questions.
-  }
   //answers.bluemix is a JSON string and needs to be converted
   if (typeof (answers.bluemix) === 'string') {
     answers.bluemix = JSON.parse(answers.bluemix);
   }
-  config.bluemix = answers.bluemix || config.bluemix;
-  if(config.bluemix) {
-    config.appName = config.bluemix.name || answers.appName || config.appName;
-  }
+  config.apply(answers);
   //below this point, the only way to get these answers is to run the generator locally
   if(answers.services) {
     if(!config.bluemix) {

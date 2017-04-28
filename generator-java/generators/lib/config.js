@@ -48,7 +48,7 @@ Config.prototype.reset = function() {
   this.configFiles = [];
 }
 
-Config.prototype.applyOptions = function(options) {
+Config.prototype.apply = function(options) {
   //clone any property, only if it is already present in the target object
   for (var prop in this) {
     if (this.hasOwnProperty(prop)) {

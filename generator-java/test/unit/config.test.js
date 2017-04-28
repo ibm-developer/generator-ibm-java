@@ -34,13 +34,13 @@ describe('Config behaviour', function() {
   it('should be possible to replace default config with options', function(){
     var config = new Config();
     var options = {appName : 'testName'};
-    config.applyOptions(options);
+    config.apply(options);
     assert.equal(config.appName, 'testName');
   });
   it('should be possible to replace default config arrays with options', function(){
     var config = new Config();
     var options = {technologies : ['rest', 'websocket']};
-    config.applyOptions(options);
+    config.apply(options);
     assert.equal(config.technologies.length, 2);
     assert.equal(config.technologies[0], 'rest');
     assert.equal(config.technologies[1], 'websocket');
@@ -48,13 +48,13 @@ describe('Config behaviour', function() {
   it('should be possible to replace default config arrays with empty array options', function(){
     var config = new Config();
     var options = {technologies : []};
-    config.applyOptions(options);
+    config.apply(options);
     assert.equal(config.technologies.length, 0);
   });
   it('should not be possible to create config with options', function(){
     var config = new Config();
     var options = {someConfig : 'someValue'};
-    config.applyOptions(options);
+    config.apply(options);
     assert.equal(config.someConfig, undefined);
   });
 });

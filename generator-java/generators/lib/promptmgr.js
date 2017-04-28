@@ -82,7 +82,9 @@ PromptManager.prototype.afterPrompt = function(answers, config) {
         promptAnswers[name] = answers[name];
       }
     }
-    this.prompts[i].afterPrompt(answers, config);
+    if(Object.keys(promptAnswers)) {
+      this.prompts[i].afterPrompt(promptAnswers, config);
+    }
   }
 }
 
