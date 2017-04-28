@@ -10,7 +10,6 @@
   ],
   "composition" : [
     "basic",
-    "platform/kube",
     "frameworks/liberty",
     {{#each technologies}}
     "technologies/{{this}}",

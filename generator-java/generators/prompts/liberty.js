@@ -48,7 +48,7 @@ Extension.prototype.getQuestions = function() {
       short : 'Basic technology selection'
     }, {
       name : 'Microservice Builder : develop and deliver microservices, hybrid and containerized apps',
-      value : 'technologies/ms-builder',
+      value : 'technologies/msbuilder',
       short : 'Microservice Builder'
     }]
     }, {
