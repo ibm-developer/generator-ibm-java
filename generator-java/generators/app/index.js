@@ -26,18 +26,7 @@ var Control = require('../lib/control');
 var PromptMgr = require('../lib/promptmgr');
 var defaults = require('../lib/defaults');
 
-//clone any property, only if it is already present in the target object
-var clone = function(from, to) {
-  for (var prop in to) {
-    if (to.hasOwnProperty(prop)) {
-        if(from[prop]) {
-          to[prop] = from[prop];
-        }
-    }
-  }
-}
-
-var config = new Config();
+var config = undefined;
 var promptmgr = undefined;
 
 module.exports = class extends Generator {
@@ -64,7 +53,8 @@ module.exports = class extends Generator {
     promptmgr.add('bluemix');
     logger.writeToLog("Config (default)", config);
     //overwrite any default values with those specified as options
-    clone(this.options, config);
+    config.applyOptions(this.options);
+    logger.writeToLog("Config (after clone)", config);
     //set values based on either defaults or passed in values
     config.templateName = config.createType;
     config.templateRoot = this.templatePath();

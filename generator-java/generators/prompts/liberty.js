@@ -56,8 +56,13 @@ Extension.prototype.getQuestions = function() {
     type : 'checkbox',
     name : 'technologies',
     message : 'Select the technologies for your project.',
-    choices : ['rest'],
-    default : 0 // Default to rest
+    choices : [{name: 'rest'}],
+    validate : function (answer) {
+      if (answer.length < 1) {
+        return 'You must choose at least one technology.';
+      }
+      return true;
+    }
   }, {
     when : this.show,
     type : 'confirm',
@@ -68,6 +73,7 @@ Extension.prototype.getQuestions = function() {
 }
 
 Extension.prototype.afterPrompt = function(answers, config) {
+  //config.applyOptions(answers);
   //do nothing
 }
 

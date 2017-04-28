@@ -61,7 +61,6 @@ PromptManager.prototype.getQuestions = function() {
 
 //this was run headless, so need to work out which extension provides the selected createType
 PromptManager.prototype.setExtension = function(createType) {
-  console.log("Setting extension type to " + createType);
   for (var type in this.types) {
     if (this.types.hasOwnProperty(type)) {
       if(type === createType) {
@@ -74,6 +73,15 @@ PromptManager.prototype.setExtension = function(createType) {
 
 PromptManager.prototype.afterPrompt = function(answers, config) {
   for(var i = 0; i < this.prompts.length; i++) {
+    var prompt = this.prompts[i];
+    var questions = prompt.getQuestions();
+    var promptAnswers = {};
+    for(var j = 0; j < questions.length; j++) {
+      var name = questions[j].name;
+      if(answers[name]) {
+        promptAnswers[name] = answers[name];
+      }
+    }
     this.prompts[i].afterPrompt(answers, config);
   }
 }
