@@ -107,7 +107,7 @@ var startWalk = function(config, cb) {
     throw 'Paths is not an array.';
   }
   if (!this.paths.length) {
-    throw 'No paths have been specified for the template ' + config.data.templateName;
+    throw 'No paths have been specified for the template ' + config.templateName;
   }
   if(!config) {
     throw 'Missing config parameter, unable to start file walk.';
