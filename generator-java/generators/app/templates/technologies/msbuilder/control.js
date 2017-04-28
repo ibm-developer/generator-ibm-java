@@ -10,6 +10,7 @@
   ],
   "composition" : [
     "basic",
+    "picnmix",
     "platform/kube",
     "frameworks/liberty",
     {{#each technologies}}

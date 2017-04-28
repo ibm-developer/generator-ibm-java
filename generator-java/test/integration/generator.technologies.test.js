@@ -27,7 +27,7 @@ const GROUPID = 'test.group';
 const VERSION = '1.0.0';
 const APPNAME = 'testApp';
 const FRAMEWORK = 'liberty';
-const LIBERTY_CONFIG_FILE = 'src/main/liberty/config/server.xml';
+const INDEX_HTML = 'src/main/webapp/index.html';
 
 var framework = require('../lib/test-framework');
 var build = require('../lib/test-build');
@@ -57,6 +57,13 @@ function Options(createType, buildType, testBluemix, technologies) {
     framework.test(FRAMEWORK).assertBuildFiles(this.options.buildType);
     build.test(this.options.buildType).assertApplication(APPNAME, GROUPID, ARTIFACTID, VERSION);
     bluemix.test(testBluemix);
+    it('generates an index.html', function() {
+      assert.file(INDEX_HTML);
+    });
+    it('generates sample test files', function() {
+      assert.file('src/test/java/it/EndpointTest.java');
+      assert.file('src/test/java/it/TestApplication.java');
+    });
   }
   this.assertpicnmix = function() {
     this.assert();    //there are no additional files to check for
@@ -65,6 +72,9 @@ function Options(createType, buildType, testBluemix, technologies) {
   this.assertmsbuilder = function() {
     this.assert();    //there are no additional files to check for
     kube.test(this.options.appName, true);
+    it('adds MS Builder section to index.html', function() {
+      assert.fileContent(INDEX_HTML, '<h2>Microservice Builder');
+    });
   }
   this.before = function() {
     return helpers.run(path.join( __dirname, '../../generators/app'))
@@ -110,3 +120,15 @@ function execute(createType, assertFunc, servicesToTest) {
 
   });
 }
+
+describe('java generator : technologies integration test', function () {
+
+  for(var i = 0; i < buildTypes.length; i++) {
+    describe('Generates a project for (no services or technologies)', function () {
+      var options = new Options('picnmix', buildTypes[i], false, []);
+      before(options.before.bind(options));
+      options.assert();
+    });
+  }
+
+});
