@@ -75,6 +75,7 @@ function Options(createType, buildType, testBluemix, technologies) {
     it('adds MS Builder section to index.html', function() {
       assert.fileContent(INDEX_HTML, '<h2>Microservice Builder');
     });
+    this.assertmicroprofiledep();
   }
   this.before = function() {
     return helpers.run(path.join( __dirname, '../../generators/app'))
@@ -94,10 +95,35 @@ function Options(createType, buildType, testBluemix, technologies) {
     it('generates sample file LibertyRestEndpoinTestIT.java', function() {
       assert.file('src/test/java/it/rest/LibertyRestEndpointTestIT.java');
     });
+    it('generates an index.html file with a rest section', function() {
+      assert.fileContent(INDEX_HTML, '<h2>REST</h2>');
+    });
+  }
+  this.assertmicroprofile = function() {
+    this.assertmicroprofiledep();
+    it('generates an index.html file with a microprofile section', function() {
+      assert.fileContent(INDEX_HTML, '<h2>MicroProfile</h2>');
+    });
+  }
+  this.assertmicroprofiledep = function() {
+    build.test(this.options.buildType).assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
+    build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+    build.test(this.options.buildType).assertDependency('provided', 'javax.json', 'javax.json-api', '1.0');
+    build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
+    build.test(this.options.buildType).assertDependency('provided', 'javax.enterprise', 'cdi-api', '1.2');
+    framework.test(FRAMEWORK).assertFeatures('microprofile-1.0');
+  }
+  this.assertpersistence = function() {
+    build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.persistence', '1.0.10');
+    build.test(this.options.buildType).assertDependency('provided', 'org.eclipse.persistence', 'javax.persistence', '2.1.0');
+    framework.test(FRAMEWORK).assertFeatures('jpa-2.1');
+    it('generates an index.html file with a persistence section', function() {
+      assert.fileContent(INDEX_HTML, '<h2>Persistence</h2>');
+    });
   }
 }
 
-var services = ['rest'];
+var services = ['rest', 'microprofile', 'persistence'];
 var buildTypes = ['gradle', 'maven'];
 
 execute('picnmix', 'picnmix', services);
