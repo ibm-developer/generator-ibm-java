@@ -113,6 +113,7 @@ The current list of features:
 * infrastructure
 * test
 * config
+* containers
 
 ## Build automation
 
