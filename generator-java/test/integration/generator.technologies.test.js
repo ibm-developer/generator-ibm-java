@@ -136,9 +136,15 @@ function Options(createType, buildType, testBluemix, technologies) {
       assert.fileContent(INDEX_HTML, '<h2>Servlet</h2>');
     });
   }
+  this.assertwatsonsdk = function() {
+    build.test(this.options.buildType).assertDependency('compile', 'com.ibm.watson.developer_cloud', 'java-sdk', '3.5.1');
+    it('generates an index.html file with a Watson SDK section', function() {
+      assert.fileContent(INDEX_HTML, '<h2>Watson SDK</h2>');
+    });
+  }
 }
 
-var technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet'];
+var technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk'];
 var buildTypes = ['gradle', 'maven'];
 
 execute('picnmix', 'picnmix', technologies);
