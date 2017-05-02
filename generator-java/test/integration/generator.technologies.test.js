@@ -142,9 +142,17 @@ function Options(createType, buildType, testBluemix, technologies) {
       assert.fileContent(INDEX_HTML, '<h2>Watson SDK</h2>');
     });
   }
+  this.assertswagger = function() {
+    build.test(this.options.buildType).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
+    build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
+    build.test(this.options.buildType).assertDependency('provided', 'io.swagger', 'swagger-annotations', '1.5.3');
+    it('generates an index.html file with a Swagger section', function() {
+      assert.fileContent(INDEX_HTML, '<h2>Swagger</h2>');
+    });
+  }
 }
 
-var technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk'];
+var technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk', 'swagger'];
 var buildTypes = ['gradle', 'maven'];
 
 execute('picnmix', 'picnmix', technologies);
