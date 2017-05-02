@@ -121,9 +121,16 @@ function Options(createType, buildType, testBluemix, technologies) {
       assert.fileContent(INDEX_HTML, '<h2>Persistence</h2>');
     });
   }
+  this.assertwebsockets = function() {
+    build.test(this.options.buildType).assertDependency('provided', 'javax.websocket', 'javax.websocket-api', '1.1');
+    framework.test(FRAMEWORK).assertFeatures('websocket-1.1');
+    it('generates an index.html file with a websockets section', function() {
+      assert.fileContent(INDEX_HTML, '<h2>WebSockets</h2>');
+    });
+  }
 }
 
-var services = ['rest', 'microprofile', 'persistence'];
+var services = ['rest', 'microprofile', 'persistence', 'websockets'];
 var buildTypes = ['gradle', 'maven'];
 
 execute('picnmix', 'picnmix', services);
@@ -158,3 +165,36 @@ describe('java generator : technologies integration test', function () {
   }
 
 });
+
+for(var i = 0; i < 5; i++) {
+  var totalServices = Math.floor(Math.random() * services.length);  //how many services to pick - min of 1 up to number of available services
+  var svcsToPickFrom = Array.from(services);                        //copy of services to pick from
+  var svcs = new Array();                                           //chosen services
+  var description = new String();
+
+  for(var j = 0; j < totalServices; ) {
+    var index = Math.floor(Math.random() * services.length);
+    var svc = svcsToPickFrom[index];
+    if(svc) {
+      svcs.push(services[index]);
+      svcsToPickFrom[index] = undefined;
+      description += svc + ' ';
+      j++
+    }
+  }
+
+  describe('java generator : ' + totalServices + ' random technologies integration test', function () {
+
+    for(var k = 0; k < buildTypes.length; k++) {
+      describe('Generates a project for [' + description.trim() + '] (' + buildTypes[k] + ', no bluemix)', function () {
+        var options = new Options('picnmix', buildTypes[k], false, svcs);
+        before(options.before.bind(options));
+        options['assertpicnmix']();
+        for(var l = 0; l < svcs.length; l++) {
+          options['assert' + svcs[l]]();
+        }
+      });
+    }
+
+  });
+}
