@@ -74,6 +74,8 @@ var convertScope = function(scope) {
       return 'providedCompile';
     case 'test':
       return 'testCompile';
+    case 'compile':
+      return 'compile';
     default:
       throw "convertScope error : expected one of provided or test";
   }
