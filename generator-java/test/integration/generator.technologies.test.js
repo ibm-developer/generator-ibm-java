@@ -150,9 +150,18 @@ function Options(createType, buildType, testBluemix, technologies) {
       assert.fileContent(INDEX_HTML, '<h2>Swagger</h2>');
     });
   }
+  this.assertspringboot_web = function() {
+    build.test(this.options.buildType).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
+    build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
+    var exclusions = [{"groupId" : "org.springframework.boot", "artifactId" : "spring-boot-starter-tomcat"}];
+    build.test(this.options.buildType).assertDependency('compile', 'org.springframework.boot', 'spring-boot-starter-web', '1.3.0.RELEASE', exclusions);
+    it('generates an index.html file with a Spring Boot section', function() {
+      assert.fileContent(INDEX_HTML, '<h2>Spring Boot with Spring MVC</h2>');
+    });
+  }
 }
 
-var technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk', 'swagger'];
+var technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk', 'swagger', 'springboot_web'];
 var buildTypes = ['gradle', 'maven'];
 
 execute('picnmix', 'picnmix', technologies);

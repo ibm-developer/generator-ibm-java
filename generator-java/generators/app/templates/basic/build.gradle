@@ -20,12 +20,10 @@ targetCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
 
 ext {
-    // Liberty server properties
+    appName = '{{appName}}'
     {{#each properties}}
     {{this.name}} = {{{this.value}}}
     {{/each}}
-    appName = '{{appName}}'
-    // This is set in the ibm-web-ext.xml file
 
 }
 
@@ -35,7 +33,11 @@ repositories {
 
 dependencies {
     {{#each dependencies}}
-    {{#if scope}}{{this.scope}}Compile{{else}}compile{{/if}} '{{this.groupId}}:{{this.artifactId}}:{{this.version}}'
+    {{#if scope}}{{this.scope}}Compile{{else}}compile{{/if}} ('{{this.groupId}}:{{this.artifactId}}:{{this.version}}') {{#if exclusions}}{
+        {{#each exclusions}}
+        exclude group: '{{this.groupId}}', module: '{{this.artifactId}}'
+        {{/each}}
+    } {{/if}}
     {{/each}}
 }
 
