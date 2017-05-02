@@ -12,12 +12,10 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <!-- Liberty server properties -->
+        <app.name>{{appName}}</app.name>
         {{#each properties}}
         <{{this.name}}>{{this.value}}</{{this.name}}>
         {{/each}}
-        <app.name>{{appName}}</app.name>
-        <!--This is set in the ibm-web-ext.xml file -->
     </properties>
 
     <dependencies>
@@ -28,6 +26,16 @@
             <version>{{this.version}}</version>
             {{#if scope}}
             <scope>{{this.scope}}</scope>
+            {{/if}}
+            {{#if exclusions}}
+            <exclusions>
+              {{#each exclusions}}
+              <exclusion>
+                <groupId>{{this.groupId}}</groupId>
+                <artifactId>{{this.artifactId}}</artifactId>
+              </exclusion>
+              {{/each}}
+            </exclusions>
             {{/if}}
         </dependency>
         {{/each}}
@@ -111,7 +119,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>intall-liberty</id>
+                        <id>install-liberty</id>
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>install-server</goal>

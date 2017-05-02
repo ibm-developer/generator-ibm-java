@@ -72,7 +72,7 @@ describe('java generator : bff integration test', function () {
           options.assert(APPNAME, APPNAME, false, false);
           common.assertGradleFiles(APPNAME);
           frameworkTest.assertBuildFiles('gradle');
-          assert.fileContent('build.gradle', "providedCompile 'io.swagger:swagger-annotations:1.5.3'");
+          assert.fileContent('build.gradle', "providedCompile ('io.swagger:swagger-annotations:1.5.3')");
           done();
         } catch (err) {
           done(err);
