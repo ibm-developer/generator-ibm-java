@@ -167,7 +167,7 @@ describe('java generator : technologies integration test', function () {
 });
 
 for(var i = 0; i < 5; i++) {
-  var totalServices = Math.floor(Math.random() * services.length);  //how many services to pick - min of 1 up to number of available services
+  var totalServices = Math.floor(Math.random() * services.length) + 1;  //how many services to pick - min of 1 up to number of available services
   var svcsToPickFrom = Array.from(services);                        //copy of services to pick from
   var svcs = new Array();                                           //chosen services
   var description = new String();
@@ -179,7 +179,7 @@ for(var i = 0; i < 5; i++) {
       svcs.push(services[index]);
       svcsToPickFrom[index] = undefined;
       description += svc + ' ';
-      j++
+      j++;
     }
   }
 
