@@ -128,9 +128,17 @@ function Options(createType, buildType, testBluemix, technologies) {
       assert.fileContent(INDEX_HTML, '<h2>WebSockets</h2>');
     });
   }
+  this.assertservlet = function() {
+    build.test(this.options.buildType).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
+    build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
+    framework.test(FRAMEWORK).assertFeatures('servlet-3.1');
+    it('generates an index.html file with a servlet section', function() {
+      assert.fileContent(INDEX_HTML, '<h2>Servlet</h2>');
+    });
+  }
 }
 
-var technologies = ['rest', 'microprofile', 'persistence', 'websockets'];
+var technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet'];
 var buildTypes = ['gradle', 'maven'];
 
 execute('picnmix', 'picnmix', technologies);

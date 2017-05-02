@@ -114,6 +114,7 @@ The current list of features:
 * test
 * config
 * containers
+* templates
 
 ## Build automation
 
