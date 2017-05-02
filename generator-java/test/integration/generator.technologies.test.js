@@ -130,23 +130,23 @@ function Options(createType, buildType, testBluemix, technologies) {
   }
 }
 
-var services = ['rest', 'microprofile', 'persistence', 'websockets'];
+var technologies = ['rest', 'microprofile', 'persistence', 'websockets'];
 var buildTypes = ['gradle', 'maven'];
 
-execute('picnmix', 'picnmix', services);
-execute('technologies/msbuilder', 'msbuilder', services);
+execute('picnmix', 'picnmix', technologies);
+execute('technologies/msbuilder', 'msbuilder', technologies);
 
-function execute(createType, assertFunc, servicesToTest) {
+function execute(createType, assertFunc, technologiesToTest) {
 
   describe('java generator : technologies integration test', function () {
 
-    for(var i = 0; i < servicesToTest.length; i++) {
+    for(var i = 0; i < technologiesToTest.length; i++) {
       for(var j = 0; j < buildTypes.length; j++) {
-        describe('Generates a ' + createType + ' project for ' + servicesToTest[i] + ' (' + buildTypes[j] + ', no bluemix)', function () {
-          var options = new Options(createType, buildTypes[j], false, [servicesToTest[i]]);
+        describe('Generates a ' + createType + ' project for ' + technologiesToTest[i] + ' (' + buildTypes[j] + ', no bluemix)', function () {
+          var options = new Options(createType, buildTypes[j], false, [technologiesToTest[i]]);
           before(options.before.bind(options));
           options['assert' + assertFunc]();
-          options['assert' + servicesToTest[i]]();
+          options['assert' + technologiesToTest[i]]();
         });
       }
     }
@@ -167,31 +167,31 @@ describe('java generator : technologies integration test', function () {
 });
 
 for(var i = 0; i < 5; i++) {
-  var totalServices = Math.floor(Math.random() * services.length) + 1;  //how many services to pick - min of 1 up to number of available services
-  var svcsToPickFrom = Array.from(services);                        //copy of services to pick from
-  var svcs = new Array();                                           //chosen services
+  var totalTechnologies = Math.floor(Math.random() * technologies.length) + 1;  //how many technologies to pick - min of 1 up to number of available technologies
+  var techsToPickFrom = Array.from(technologies);                        //copy of technologies to pick from
+  var techs = new Array();                                           //chosen technologies
   var description = new String();
 
-  for(var j = 0; j < totalServices; ) {
-    var index = Math.floor(Math.random() * services.length);
-    var svc = svcsToPickFrom[index];
-    if(svc) {
-      svcs.push(services[index]);
-      svcsToPickFrom[index] = undefined;
-      description += svc + ' ';
+  for(var j = 0; j < totalTechnologies; ) {
+    var index = Math.floor(Math.random() * technologies.length);
+    var tech = techsToPickFrom[index];
+    if(tech) {
+      techs.push(technologies[index]);
+      techsToPickFrom[index] = undefined;
+      description += tech + ' ';
       j++;
     }
   }
 
-  describe('java generator : ' + totalServices + ' random technologies integration test', function () {
+  describe('java generator : ' + totalTechnologies + ' random technologies integration test', function () {
 
     for(var k = 0; k < buildTypes.length; k++) {
       describe('Generates a project for [' + description.trim() + '] (' + buildTypes[k] + ', no bluemix)', function () {
-        var options = new Options('picnmix', buildTypes[k], false, svcs);
+        var options = new Options('picnmix', buildTypes[k], false, techs);
         before(options.before.bind(options));
-        options['assertpicnmix']();
-        for(var l = 0; l < svcs.length; l++) {
-          options['assert' + svcs[l]]();
+        options.assertpicnmix();
+        for(var l = 0; l < techs.length; l++) {
+          options['assert' + techs[l]]();
         }
       });
     }
