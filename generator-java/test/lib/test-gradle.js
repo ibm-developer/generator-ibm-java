@@ -61,10 +61,21 @@ test_gradle.prototype.assertContent = function(value) {
 
 }
 
-test_gradle.prototype.assertDependency = function(scopeName, groupId, artifactId, version) {
+test_gradle.prototype.assertDependency = function(scopeName, groupId, artifactId, version, exclusions) {
   var scope = convertScope(scopeName);
-  it('build.gradle contains a dependency with scope ' + scope + ', groupId = ' + groupId + ', artifactId = ' + artifactId + ' and version = ' + version, function() {
-    assert.fileContent(BUILD_FILE, scope + " '" + groupId + ':' + artifactId + ':' + version + "'");
+  it(BUILD_FILE + ' contains a dependency with scope ' + scope + ', groupId = ' + groupId + ', artifactId = ' + artifactId + ' and version = ' + version, function() {
+    groupId = groupId.replace(/\./g, '\\.');
+    artifactId = artifactId.replace(/\./g, '\\.');
+    version = version.replace(/\./g, '\\.');
+    var content = scope + "\\s*\\('" + groupId + ':' + artifactId + ':' + version + "'\\)";
+    if(exclusions) {
+      content += '\\s*\\{';
+      for(var i=0; i < exclusions.length; i++) {
+        content += "\\s*exclude group:\\s*'" + exclusions[i].groupId.replace(/\./g, '\\.') + "',\\s*module:\\s*'" + exclusions[i].artifactId.replace(/\./g, '\\.') + "'";
+      }
+      content += '\\s*\\}';
+    }
+    assert.fileContent(BUILD_FILE, new RegExp(content));
   });
 }
 
