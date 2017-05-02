@@ -64,7 +64,11 @@ test_maven.prototype.assertDependency = function(scope, groupId, artifactId, ver
     groupId = groupId.replace(/\./g, '\\.');
     artifactId = artifactId.replace(/\./g, '\\.');
     version = version.replace(/\./g, '\\.');
-    assert.fileContent(BUILD_FILE, new RegExp('<dependency>\\s*<groupId>' + groupId + '</groupId>\\s*<artifactId>' + artifactId + '</artifactId>\\s*<version>' + version + '</version>\\s*<scope>' + scope + '</scope>\\s*</dependency>'));
+    if(scope === 'compile') {
+      assert.fileContent(BUILD_FILE, new RegExp('<dependency>\\s*<groupId>' + groupId + '</groupId>\\s*<artifactId>' + artifactId + '</artifactId>\\s*<version>' + version + '</version>\\s*</dependency>'));
+    } else {
+      assert.fileContent(BUILD_FILE, new RegExp('<dependency>\\s*<groupId>' + groupId + '</groupId>\\s*<artifactId>' + artifactId + '</artifactId>\\s*<version>' + version + '</version>\\s*<scope>' + scope + '</scope>\\s*</dependency>'));
+    }
   });
 }
 
