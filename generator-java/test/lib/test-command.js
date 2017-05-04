@@ -26,7 +26,7 @@ function run(command) {
   it('produces a project that can be built with command ' + command, function(done) {
     this.timeout(300000);
     console.log("Running exec with command " + command);
-    exec(command, (error, stdout, stderr) => {
+    exec(command, {maxBuffer: 20*1024*1024}, (error, stdout, stderr) => {
       if (error) {
         console.error(`exec error: ${error}`);
         console.log(`stdout: ${stdout}`);
