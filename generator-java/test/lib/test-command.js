@@ -16,30 +16,30 @@
 
  /* Tests a command successfully executes */
 
- 'use strict'
+'use strict'
 
- var assert = require('yeoman-assert');
+var assert = require('yeoman-assert');
 
- const exec = require('child_process').exec;
+const exec = require('child_process').exec;
 
- function run(command) {
-   it('produces a project that can be built with command ' + command, function(done) {
-     this.timeout(300000);
-     console.log("Running exec with command " + command);
-     exec(command, (error, stdout, stderr) => {
-       console.log(`stdout: ${stdout}`);
-       console.log(`stderr: ${stderr}`);
-       if (error) {
-         console.error(`exec error: ${error}`);
-         done(error);
-         return;
-       }
-       assert.equal(error, null);
-       done();
-     })
-   });
- }
+function run(command) {
+  it('produces a project that can be built with command ' + command, function(done) {
+    this.timeout(300000);
+    console.log("Running exec with command " + command);
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        console.log(`stdout: ${stdout}`);
+        console.log(`stderr: ${stderr}`);
+        done(error);
+        return;
+      }
+      assert.equal(error, null);
+      done();
+    })
+  });
+}
 
- module.exports = {
-   run : run
- };
+module.exports = {
+  run : run
+};
