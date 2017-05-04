@@ -65,7 +65,7 @@ function Options(createType, buildType, testBluemix, technologies) {
 describe('java generator : technologies end to end test', function() {
   var buildTypes = ['gradle', 'maven'];
   for(var i=0; i < buildTypes.length; i++) {
-    describe('Generates a project with all technologies except persistence and build type ' + buildTypes[i], function () {
+    describe('Generates a project with springboot_web technology type and build type ' + buildTypes[i], function () {
       var technologies = ['springboot_web'];
       var options = new Options('picnmix', buildTypes[i], false, technologies);
       before(options.before.bind(options));

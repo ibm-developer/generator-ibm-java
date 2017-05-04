@@ -191,6 +191,7 @@ function execute(createType, assertFunc, technologiesToTest) {
           before(options.before.bind(options));
           options['assert' + assertFunc]();
           options['assert' + technologiesToTest[i]]();
+          options.assertCompiles();
         });
       }
     }
@@ -234,7 +235,6 @@ for(var i = 0; i < 5; i++) {
         var options = new Options('picnmix', buildTypes[k], false, techs);
         before(options.before.bind(options));
         options.assertpicnmix();
-        options.assertCompiles();
         for(var l = 0; l < techs.length; l++) {
           options['assert' + techs[l]]();
         }
