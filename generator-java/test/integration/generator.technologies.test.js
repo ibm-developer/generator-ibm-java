@@ -33,6 +33,7 @@ var framework = require('../lib/test-framework');
 var build = require('../lib/test-build');
 
 var common = require('../lib/test-common');
+var command = require('../lib/test-command');
 var gradle = require('../lib/test-gradle');
 var maven = require('../lib/test-maven');
 var bluemix = require('../lib/test-bluemix.js');
@@ -51,6 +52,15 @@ function Options(createType, buildType, testBluemix, technologies) {
     artifactId : ARTIFACTID,
     version : VERSION
   }
+  this.getCompileCommand = function() {
+    if(this.options.buildType === 'maven') {
+      return 'mvn test-compile'; //compiles the main and test classes
+    }
+    if(this.options.buildType === 'gradle') {
+      return 'gradle compileTestJava'; //compiles the main and test classes
+    }
+    throw "getCompileCommand : expected buildType to be one of maven or gradle";
+  }
   this.assert = function() {
     common.assertCommonFiles();
     framework.test(FRAMEWORK).assertCommonFiles();
@@ -64,6 +74,9 @@ function Options(createType, buildType, testBluemix, technologies) {
       assert.file('src/test/java/it/EndpointTest.java');
       assert.file('src/test/java/it/TestApplication.java');
     });
+  }
+  this.assertCompiles = function() {
+    command.run(this.getCompileCommand());
   }
   this.assertpicnmix = function() {
     this.assert();    //there are no additional files to check for
@@ -178,6 +191,7 @@ function execute(createType, assertFunc, technologiesToTest) {
           before(options.before.bind(options));
           options['assert' + assertFunc]();
           options['assert' + technologiesToTest[i]]();
+          options.assertCompiles();
         });
       }
     }
