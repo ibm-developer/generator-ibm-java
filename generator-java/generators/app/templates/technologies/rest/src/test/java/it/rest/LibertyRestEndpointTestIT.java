@@ -4,7 +4,7 @@ import it.EndpointTest;
 
 import org.junit.Test;
 
-public class LibertyRestEndpointTest extends EndpointTest {
+public class LibertyRestEndpointTestIT extends EndpointTest {
 
     @Test
     public void testDeployment() {
