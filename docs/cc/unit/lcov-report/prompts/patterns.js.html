@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">92.86% </span>
+        <span class="strong">90.48% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>26/28</span>
+        <span class='fraction'>19/21</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">60% </span>
+        <span class="strong">50% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>9/15</span>
+        <span class='fraction'>2/4</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>5/5</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">92.86% </span>
+        <span class="strong">90.48% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>26/28</span>
+        <span class='fraction'>19/21</span>
       </div>
     </div>
   </div>
@@ -125,18 +125,7 @@
 80
 81
 82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+83</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -160,12 +149,12 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">26×</span>
-<span class="cline-any cline-yes">26×</span>
+<span class="cline-any cline-yes">68×</span>
+<span class="cline-any cline-yes">68×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">26×</span>
+<span class="cline-any cline-yes">68×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -184,11 +173,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">15×</span>
-<span class="cline-any cline-yes">15×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">151×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -215,17 +203,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">26×</span>
-<span class="cline-any cline-yes">11×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">15×</span>
-<span class="cline-any cline-yes">15×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">15×</span>
-<span class="cline-any cline-yes">15×</span>
-<span class="cline-any cline-yes">15×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">68×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -276,7 +254,6 @@ Extension.prototype.show = function(answers) {
   }  else {
 <span class="cstat-no" title="statement not covered" >    result = (this.config.promptType === PROMPT_ID);</span>
   }
-  this.participant |= result;
   return result;
 }
 &nbsp;
@@ -308,17 +285,7 @@ Extension.prototype.getQuestions = function() {
 }
 &nbsp;
 Extension.prototype.afterPrompt = function(answers, config) {
-  //answers.bluemix is a JSON string and needs to be converted
-  if(!this.participant) {
-    return;   //hasn't participated in the questions.
-  }
-  <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof (answers.bluemix) === 'string') {
-    answers.bluemix = JSON.parse(answers.bluemix);
-  }
-  config.bluemix = answers.bluemix || <span class="branch-1 cbranch-no" title="branch not covered" >config.bluemix;</span>
-  <span class="missing-if-branch" title="else path not taken" >E</span>if(config.bluemix) {
-    config.appName = config.bluemix.name || answers.appName || <span class="branch-2 cbranch-no" title="branch not covered" >config.appName;</span>
-  }
+  config.apply(answers);
 }
 &nbsp;
 module.exports = exports = Extension;
@@ -328,7 +295,7 @@ module.exports = exports = Extension;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 27 2017 10:20:25 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jun 01 2017 17:57:25 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>
