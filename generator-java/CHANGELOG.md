@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.0"></a>
+# [0.5.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.4.0...v0.5.0) (2017-06-01)
+
+
+### Bug Fixes
+
+* **config:** Fix technologies default ([31da7a7](https://github.ibm.com/arf/java-codegen-yeoman/commit/31da7a7))
+* **config:** Refactor prompts to set config in the same way ([343a2f0](https://github.ibm.com/arf/java-codegen-yeoman/commit/343a2f0))
+* **infrastructure:** Remove extra coverage files ([09fc0fb](https://github.ibm.com/arf/java-codegen-yeoman/commit/09fc0fb))
+* **test:** Fix tests to refer to technologies ([b90dd75](https://github.ibm.com/arf/java-codegen-yeoman/commit/b90dd75))
+
+
+### Features
+
+* **config:** add readiness probe to kube config ([3936973](https://github.ibm.com/arf/java-codegen-yeoman/commit/3936973))
+* **containers:** add readiness probe to kube config ([d67e037](https://github.ibm.com/arf/java-codegen-yeoman/commit/d67e037))
+* **templates:** Add index.html templates ([bf65e37](https://github.ibm.com/arf/java-codegen-yeoman/commit/bf65e37))
+* **templates:** Add servlet technology templates ([0bbb2e2](https://github.ibm.com/arf/java-codegen-yeoman/commit/0bbb2e2))
+* **templates:** Add springboot web templates ([3d7f6e2](https://github.ibm.com/arf/java-codegen-yeoman/commit/3d7f6e2))
+* **templates:** Add swagger template ([c1ac3d2](https://github.ibm.com/arf/java-codegen-yeoman/commit/c1ac3d2))
+* **templates:** add technologies to prompts ([d152007](https://github.ibm.com/arf/java-codegen-yeoman/commit/d152007))
+* **templates:** Add watson sdk template ([424ba0e](https://github.ibm.com/arf/java-codegen-yeoman/commit/424ba0e))
+* **templates:** add web sockets templates ([b59cc3e](https://github.ibm.com/arf/java-codegen-yeoman/commit/b59cc3e))
+* **templates:** fix random service test ([c30e401](https://github.ibm.com/arf/java-codegen-yeoman/commit/c30e401))
+* **test:** Add tests for compile and build ([0315a38](https://github.ibm.com/arf/java-codegen-yeoman/commit/0315a38))
+* **test:** add tests for web page ([2ad5d34](https://github.ibm.com/arf/java-codegen-yeoman/commit/2ad5d34))
+* **test:** fix folder name and move compile test ([69683ff](https://github.ibm.com/arf/java-codegen-yeoman/commit/69683ff))
+* **test:** tests for microservices builder ([97ac731](https://github.ibm.com/arf/java-codegen-yeoman/commit/97ac731))
+* **test:** Update test file name ([889bf3c](https://github.ibm.com/arf/java-codegen-yeoman/commit/889bf3c))
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.3.0...v0.4.0) (2017-04-27)
 
