@@ -79,13 +79,13 @@ describe('java generator : microservice integration test', function () {
           assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
           assert.fileContent('README.md', 'gradle');
           assert.noFileContent('README.md', 'maven');
-          assert.fileContent('build.gradle', "providedCompile 'javax.servlet:javax.servlet-api:3.1.0'");
-          assert.fileContent('build.gradle', "providedCompile 'com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.servlet:1.0.10'");
-          assert.fileContent('build.gradle', "providedCompile 'javax.ws.rs:javax.ws.rs-api:2.0.1'");
-          assert.fileContent('build.gradle', "providedCompile 'com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.jaxrs20:1.0.10'");
-          assert.fileContent('build.gradle', "providedCompile 'javax.json:javax.json-api:1.0'");
-          assert.fileContent('build.gradle', "providedCompile 'com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.json:1.0.10'");
-          assert.fileContent('build.gradle', "providedCompile 'javax.enterprise:cdi-api:1.2'");
+          assert.fileContent('build.gradle', "providedCompile ('javax.servlet:javax.servlet-api:3.1.0')");
+          assert.fileContent('build.gradle', "providedCompile ('com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.servlet:1.0.10')");
+          assert.fileContent('build.gradle', "providedCompile ('javax.ws.rs:javax.ws.rs-api:2.0.1')");
+          assert.fileContent('build.gradle', "providedCompile ('com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.jaxrs20:1.0.10')");
+          assert.fileContent('build.gradle', "providedCompile ('javax.json:javax.json-api:1.0')");
+          assert.fileContent('build.gradle', "providedCompile ('com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.json:1.0.10')");
+          assert.fileContent('build.gradle', "providedCompile ('javax.enterprise:cdi-api:1.2')");
           done();
         } catch (err) {
           done(err);
@@ -200,7 +200,7 @@ describe('java generator : microservice integration test', function () {
           assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-cloudantNoSQLDB-000")');
 
           assert.fileContent('README.md', 'cloudant');
-          assert.fileContent('build.gradle', "compile 'com.cloudant:cloudant-client:2.7.0'");
+          assert.fileContent('build.gradle', "compile ('com.cloudant:cloudant-client:2.7.0')");
           done();
         } catch (err) {
           done(err);
@@ -255,8 +255,8 @@ describe('java generator : microservice integration test', function () {
           assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-Object-Storage-000")');
 
           assert.fileContent('README.md', 'Object Storage service');
-          assert.fileContent('build.gradle', "compile 'org.pacesys:openstack4j-core:3.0.3'");
-          assert.fileContent('build.gradle', "compile 'org.pacesys.openstack4j.connectors:openstack4j-httpclient:3.0.3'");
+          assert.fileContent('build.gradle', "compile ('org.pacesys:openstack4j-core:3.0.3')");
+          assert.fileContent('build.gradle', "compile ('org.pacesys.openstack4j.connectors:openstack4j-httpclient:3.0.3')");
           done();
         } catch (err) {
           done(err);

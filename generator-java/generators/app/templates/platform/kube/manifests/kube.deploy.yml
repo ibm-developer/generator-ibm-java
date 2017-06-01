@@ -33,6 +33,11 @@ spec:
       containers:
       - name: {{appName}}
         image: {{appName}}:latest
+        readinessProbe:
+          httpGet:
+            path: /{{appName}}/health
+            port: 9080
+          initialDelaySeconds: 20
         # resources:
         #   requests:
         #     cpu: 100m

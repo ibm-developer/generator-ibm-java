@@ -1,0 +1,133 @@
+<html>
+  <body>
+    <h1>Welcome to your Liberty Application</h1>
+    <p>Thanks for generating this project using the app accelerator.  Please see below for some extra information on each of the technologies you chose</p>
+    {{#has createType 'technologies/msbuilder'}}
+    <div>
+        <h2>Microservice Builder (Beta)</h2>
+        <p>
+            Microservice Builder (Beta) delivers a turnkey solution incorporating a runtime, tooling,
+            DevOps, fabric, and customer-managed container orchestration.
+        </p>
+        <p>
+            See the <a href="https://microservicebuilder.mybluemix.net/docs/index.html">Microservice Builder (Beta) docs</a> for more details.
+        </p>
+    </div>
+    {{/has}}
+    {{#if technologies}}
+    <div id="technologies">
+    {{/if}}
+    {{#technologies}}
+      {{#has this 'rest'}}
+      <h2>REST</h2>
+      <p>
+        Inside the project there is a application.rest package
+        containing the
+        <code>LibertyRestEndpoint</code>
+        class. This adds a REST endpoint which you can access at <a
+          href="rest">/rest</a>
+      <p>
+        There is also a test class named
+        <code>it.rest.LibertyRestEndpointTest</code>
+        that will test the REST endpoint to ensure it is working.
+      </p>
+      <p>
+        For the complete feature documentation, see the <a
+          href="http://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/rwlp_feature_jaxrs-2.0.html">jaxrs-2.0</a>
+        feature description in IBM Knowledge Center.
+      </p>
+      {{/has}}
+      {{#has this 'microprofile'}}
+      <h2>MicroProfile</h2>
+      <p>
+          The <a href="http://microprofile.io/">MicroProfile project</a> is an open
+          community with the aim of optimizing Enterprise Java for a microservices
+          architecture.  MicroProfile will be evolving with guidance from the community.
+      </p>
+      <p>
+          For the complete feature documentation, see the
+          <a href="http://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/rwlp_feature_microProfile-1.0.html">microProfile-1.0</a>
+          feature description in IBM Knowledge Center.
+      </p>
+      <p>
+          If you want to share your thoughts you can post straight to the
+          <a href="https://groups.google.com/forum/#!forum/microprofile">MicroProfile Google group</a>.
+      </p>
+      {{/has}}
+      {{#has this 'persistence'}}
+      <h2>Persistence</h2>
+      <p>
+        For the complete feature documentation, see the <a
+          href="http://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/rwlp_feature_jpa-2.1.html">jpa-2.1</a>
+        feature description in IBM Knowledge Center.
+      </p>
+      {{/has}}
+      {{#has this 'websockets'}}
+      <h2>WebSockets</h2>
+      <p>
+        For the complete feature documentation, see the <a
+          href="http://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/rwlp_feature_websocket-1.1.html">websocket-1.1</a>
+        feature description in IBM Knowledge Center.
+      </p>
+      {{/has}}
+      {{#has this 'servlet'}}
+      <h2>Servlet</h2>
+      <p>
+        Inside the project there is a application.servlet package
+        containing the
+        <code>LibertyServlet</code>
+        class. This adds a servlet with an endpoint which you can access at <a
+          href="servlet">/servlet</a>
+      <p>
+        There is also a test named
+        <code>it.servlet.LibertyServletTest</code>
+        that will test the servlet's endpoint to ensure it is working.
+      </p>
+      <p>
+        For the complete feature documentation, see the <a
+          href="http://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/rwlp_feature_servlet-3.1.html">servlet-3.1</a>
+        feature description in IBM Knowledge Center.
+      </p>
+      {{/has}}
+      {{#has this 'watsonsdk'}}
+      <h2>Watson SDK</h2>
+      <p>
+        The Watson SDK provides an API for accessing Watson Services. For the complete documentation, take a look at <a href="https://developer.ibm.com/watson/">the Watson developer pages</a> and
+        <a href="https://github.com/watson-developer-cloud/java-sdk">the Watson SDK github project</a>
+      </p>
+      {{/has}}
+      {{#has this 'swagger'}}
+      <h2>Swagger</h2>
+      <p>
+        Swagger is a simple yet powerful representation of RESTful APIs.
+      <p>
+      <p>
+        Discover REST APIs that are available on the Liberty server and then invoke the found REST endpoints using the <a
+          href="../ibm/api/explorer">Swagger user interface</a>. (Username and password are specified in the server.xml)
+      </p>
+      <p>
+        You can also easily expose the REST endpoints available from your web modules running on Liberty server by documenting the endpoints using the Swagger 2.0 Specification.
+        It is also possible to follow a design-first approach by creating the Swagger documentation first and then generating the server code from it.
+      </p>
+      <p>
+        For the complete feature documentation, see the <a
+          href="http://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/rwlp_feature_apiDiscovery-1.0.html">apiDiscovery-1.0</a>
+        feature description in IBM Knowledge Center.
+      </p>
+      {{/has}}
+      {{#has this 'springboot_web'}}
+      <h2>Spring Boot with Spring MVC</h2>
+      <p>Inside the project there is a application.springboot.web package
+        containing two classes:</p>
+      <ul>
+        <li><code>SpringBootLibertyApplication</code>: The entry point for the SpringBoot application.</li>
+        <li><code>LibertyHelloController</code>: A Spring MVC endpoint which you can access at <a href="springbootweb">/springbootweb</a></li>
+      </ul>
+      <p>There is also a test class named <code>it.springboot.web.HelloControllerTest</code> that will test the Spring MVC endpoint to ensure it is working.</p>
+      {{/has}}
+    {{/technologies}}
+    {{#if technologies}}
+  </div>
+    {{/if}}
+  </body>
+</html>

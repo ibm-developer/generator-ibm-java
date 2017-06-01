@@ -26,18 +26,7 @@ var Control = require('../lib/control');
 var PromptMgr = require('../lib/promptmgr');
 var defaults = require('../lib/defaults');
 
-//clone any property, only if it is already present in the target object
-var clone = function(from, to) {
-  for (var prop in to) {
-    if (to.hasOwnProperty(prop)) {
-        if(from[prop]) {
-          to[prop] = from[prop];
-        }
-    }
-  }
-}
-
-var config = new Config();
+var config = undefined;
 var promptmgr = undefined;
 
 module.exports = class extends Generator {
@@ -64,11 +53,8 @@ module.exports = class extends Generator {
     promptmgr.add('bluemix');
     logger.writeToLog("Config (default)", config);
     //overwrite any default values with those specified as options
-    clone(this.options, config);
-    //set values based on either defaults or passed in values
-    config.templateName = config.createType;
-    config.templateRoot = this.templatePath();
-    this._setProjectPath();
+    config.apply(this.options);
+    logger.writeToLog("Config (after clone)", config);
     logger.writeToLog("Config", config);
   }
 
@@ -86,9 +72,18 @@ module.exports = class extends Generator {
     return this.prompt(promptWith).then((answers) => {
       logger.writeToLog("Answers", answers);
       promptmgr.afterPrompt(answers, config);
-      this._setProjectPath();
       logger.writeToLog("Config (after answers)", config);
     });
+  }
+
+  configuring() {
+    //set values based on either defaults or passed in values
+    if (config.bluemix) {
+      config.appName = config.bluemix.name || config.appName;
+    }
+    config.templateName = config.createType;
+    config.templateRoot = this.templatePath();
+    this._setProjectPath();
   }
 
   writing() {

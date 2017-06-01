@@ -60,7 +60,7 @@ var assertGradleFiles = function() {
   build.test('gradle').assertProperty('serverDirectory', '"${buildDir}/wlp/usr/servers/defaultServer"');
   build.test('gradle').assertProperty('warContext', '"${appName}"');
   build.test('gradle').assertProperty('packageFile', '"${project.buildDir}/${appName}.zip"');
-  build.test('gradle').assertProperty('packagingType', 'usr');
+  build.test('gradle').assertProperty('packagingType', "'usr'");
 }
 
 test_liberty.prototype.assertFeatures = function() {

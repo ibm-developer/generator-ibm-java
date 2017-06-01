@@ -1,14 +1,7 @@
 {
   "excludes" : [
     ".classpath",
-    ".project",
-    {{#has buildType 'maven'}}
-    "build.gradle",
-    {{/has}}
-
-    {{#has buildType 'gradle'}}
-    "pom.xml",
-    {{/has}}
+    ".project"
   ],
   "excludesDir" : [
     "target",
@@ -17,10 +10,12 @@
   ],
   "composition" : [
     "basic",
+    "picnmix",
     "platform/kube",
     "frameworks/liberty",
+    "technologies/microprofile",
     {{#each technologies}}
-    "technologies/{{this.name}}",
+    "technologies/{{this}}",
     {{/each}}
     {{#bluemix}}
     "platform/cli",
