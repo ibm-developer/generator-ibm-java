@@ -31,6 +31,9 @@ test_liberty.prototype.assertCommonFiles = function() {
     assert.file(LIBERTY_CONFIG_FILE);
     assert.file(LIBERTY_ENV_FILE);
     assert.file('src/main/webapp/WEB-INF/ibm-web-ext.xml');
+    assert.file('src/main/java/application/rest/HealthEndpoint.java');
+    assert.file('src/main/java/application/rest/JaxrsApplication.java');
+    assert.file('src/test/java/it/HealthEndpointIT.java');
   });
 }
 
