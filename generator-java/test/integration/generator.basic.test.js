@@ -41,7 +41,7 @@ function Options() {
     common.assertObjectStorage(objectStorage);
     common.assertK8s(appName);
     common.assertFiles('src', false, 'main/java/application/api/v1/HealthEndpoint.java',
-                                     'test/java/it/HealthEndpointTest.java')
+                                     'test/java/it/HealthEndpointIT.java')
   }
 }
 
