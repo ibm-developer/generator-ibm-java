@@ -64,19 +64,30 @@ test_gradle.prototype.assertContent = function(value) {
 test_gradle.prototype.assertDependency = function(scopeName, groupId, artifactId, version, exclusions) {
   var scope = convertScope(scopeName);
   it(BUILD_FILE + ' contains a dependency with scope ' + scope + ', groupId = ' + groupId + ', artifactId = ' + artifactId + ' and version = ' + version, function() {
-    groupId = groupId.replace(/\./g, '\\.');
-    artifactId = artifactId.replace(/\./g, '\\.');
-    version = version.replace(/\./g, '\\.');
-    var content = scope + "\\s*\\('" + groupId + ':' + artifactId + ':' + version + "'\\)";
-    if(exclusions) {
-      content += '\\s*\\{';
-      for(var i=0; i < exclusions.length; i++) {
-        content += "\\s*exclude group:\\s*'" + exclusions[i].groupId.replace(/\./g, '\\.') + "',\\s*module:\\s*'" + exclusions[i].artifactId.replace(/\./g, '\\.') + "'";
-      }
-      content += '\\s*\\}';
-    }
-    assert.fileContent(BUILD_FILE, new RegExp(content));
+    assert.fileContent(BUILD_FILE, constructRegex(scope, groupId, artifactId, version, exclusions));
   });
+}
+
+test_gradle.prototype.assertNoDependency = function(scopeName, groupId, artifactId, version, exclusions) {
+  var scope = convertScope(scopeName);
+  it(BUILD_FILE + ' does not contain a dependency with scope ' + scope + ', groupId = ' + groupId + ', artifactId = ' + artifactId + ' and version = ' + version, function() {
+    assert.noFileContent(BUILD_FILE, constructRegex(scope, groupId, artifactId, version, exclusions));
+  });
+}
+
+var constructRegex = function(scope, groupId, artifactId, version, exclusions) {
+  groupId = groupId.replace(/\./g, '\\.');
+  artifactId = artifactId.replace(/\./g, '\\.');
+  version = version.replace(/\./g, '\\.');
+  var content = scope + "\\s*\\('" + groupId + ':' + artifactId + ':' + version + "'\\)";
+  if(exclusions) {
+    content += '\\s*\\{';
+    for(var i=0; i < exclusions.length; i++) {
+      content += "\\s*exclude group:\\s*'" + exclusions[i].groupId.replace(/\./g, '\\.') + "',\\s*module:\\s*'" + exclusions[i].artifactId.replace(/\./g, '\\.') + "'";
+    }
+    content += '\\s*\\}';
+  }
+  return new RegExp(content);
 }
 
 var convertScope = function(scope) {

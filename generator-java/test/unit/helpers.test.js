@@ -24,6 +24,7 @@ var fs = require('../../generators/lib/fsprocessor');
 var helpersTestData = {
   value : "camelCaseName",
   item : "green",
+  array : ["yellow", "pink"],
   noValue : undefined
 }
 
@@ -49,6 +50,24 @@ describe('Test custom Handlebars functions work as expected', function() {
   });
   it('should be process when the item is "green"', function(){
     assert(helpersTestResult.includes("has : [green]"));
+  });
+  it('should be not process when array has no "blue"', function(){
+    assert(helpersTestResult.includes("has : [colour:]"));
+  });
+  it('should be process when array has "yellow"', function(){
+    assert(helpersTestResult.includes("has : [yellow]"));
+  });
+  it('should be not process when the item is "green"', function(){
+    assert(helpersTestResult.includes("missing : []"));
+  });
+  it('should be process when the item is "red"', function(){
+    assert(helpersTestResult.includes("missing : [red]"));
+  });
+  it('should be not process when array has "yellow"', function(){
+    assert(helpersTestResult.includes("missing : [colour:]"));
+  });
+  it('should be process when array has no "blue"', function(){
+    assert(helpersTestResult.includes("missing : [blue]"));
   });
   it('should generate a mustache tag for downstream processing', function(){
     assert(helpersTestResult.includes("tag : [{{camelCaseName}}]"));
