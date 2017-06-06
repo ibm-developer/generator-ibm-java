@@ -61,22 +61,32 @@ test_maven.prototype.assertContent = function(value) {
 
 test_maven.prototype.assertDependency = function(scope, groupId, artifactId, version, exclusions) {
   it(BUILD_FILE + ' contains a dependency with scope ' + scope + ', groupId = ' + groupId + ', artifactId = ' + artifactId + ' and version = ' + version, function() {
-    groupId = groupId.replace(/\./g, '\\.');
-    artifactId = artifactId.replace(/\./g, '\\.');
-    version = version.replace(/\./g, '\\.');
-    var content = '<dependency>\\s*<groupId>' + groupId + '</groupId>\\s*<artifactId>' + artifactId + '</artifactId>\\s*<version>' + version + '</version>';
-    if(scope != 'compile') {
-      content += '\\s*<scope>' + scope + '</scope>';
-    }
-    if(exclusions) {
-      content += '\\s*<exclusions>';
-      for(var i=0; i < exclusions.length; i++) {
-        content += '\\s*<exclusion>\\s*<groupId>' + exclusions[i].groupId.replace(/\./g, '\\.') + '</groupId>\\s*<artifactId>' + exclusions[i].artifactId.replace(/\./g, '\\.') + '</artifactId>\\s*</exclusion>'
-      }
-      content += '\\s*</exclusions>';
-    }
-    assert.fileContent(BUILD_FILE, new RegExp(content));
+    assert.fileContent(BUILD_FILE, constructRegex(scope, groupId, artifactId, version, exclusions));
   });
+}
+
+test_maven.prototype.assertNoDependency = function(scope, groupId, artifactId, version, exclusions) {
+  it(BUILD_FILE + ' does not contain a dependency with scope ' + scope + ', groupId = ' + groupId + ', artifactId = ' + artifactId + ' and version = ' + version, function() {
+    assert.noFileContent(BUILD_FILE, constructRegex(scope, groupId, artifactId, version, exclusions));
+  });
+}
+
+var constructRegex = function(scope, groupId, artifactId, version, exclusions) {
+  groupId = groupId.replace(/\./g, '\\.');
+  artifactId = artifactId.replace(/\./g, '\\.');
+  version = version.replace(/\./g, '\\.');
+  var content = '<dependency>\\s*<groupId>' + groupId + '</groupId>\\s*<artifactId>' + artifactId + '</artifactId>\\s*<version>' + version + '</version>';
+  if(scope != 'compile') {
+    content += '\\s*<scope>' + scope + '</scope>';
+  }
+  if(exclusions) {
+    content += '\\s*<exclusions>';
+    for(var i=0; i < exclusions.length; i++) {
+      content += '\\s*<exclusion>\\s*<groupId>' + exclusions[i].groupId.replace(/\./g, '\\.') + '</groupId>\\s*<artifactId>' + exclusions[i].artifactId.replace(/\./g, '\\.') + '</artifactId>\\s*</exclusion>'
+    }
+    content += '\\s*</exclusions>';
+  }
+  return new RegExp(content);
 }
 
 module.exports = test_maven;

@@ -45,12 +45,10 @@ function Options() {
     common.assertObjectStorage(objectStorage);
     common.assertK8s(appName);
     common.assertFiles('', true, 'README.md');
-    common.assertFiles('src', true, 'main/java/application/rest/HealthEndpoint.java',
-                                    'main/java/application/rest/SwaggerEndpoint.java',
+    common.assertFiles('src', true, 'main/java/application/rest/SwaggerEndpoint.java',
                                     'main/java/application/model/Product.java',
                                     'main/java/application/openapi/ProductsApi.java',
-                                    'main/java/application/openapi/ProductApi.java',
-                                    'test/java/it/HealthEndpointTest.java')
+                                    'main/java/application/openapi/ProductApi.java')
     frameworkTest = framework.test(FRAMEWORK);
     frameworkTest.assertCloudant(cloudant);
     frameworkTest.assertObjectStorage(objectStorage);

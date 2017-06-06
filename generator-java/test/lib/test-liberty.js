@@ -26,11 +26,15 @@ const LIBERTY_ENV_FILE = 'src/main/liberty/config/server.env';
 function test_liberty() {
 }
 
-test_liberty.prototype.assertCommonFiles = function() {
+test_liberty.prototype.assertCommonFiles = function(springSelected) {
   it('should contain Liberty files common across all project types', function() {
     assert.file(LIBERTY_CONFIG_FILE);
     assert.file(LIBERTY_ENV_FILE);
     assert.file('src/main/webapp/WEB-INF/ibm-web-ext.xml');
+    var check = springSelected ? assert.noFile : assert.file;
+    check('src/main/java/application/rest/HealthEndpoint.java');
+    check('src/main/java/application/rest/JaxrsApplication.java');
+    check('src/test/java/it/HealthEndpointIT.java');
   });
 }
 

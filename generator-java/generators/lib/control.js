@@ -101,7 +101,7 @@ Control.prototype.shouldGenerate = function(relativePath) {
   }
   if (this.controlBlock.excludes) {
     for(var i = 0; i < this.controlBlock.excludes.length; i++) {
-      if(this.controlBlock.excludes[i] === relativePath) {
+      if(fspath.resolve(this.controlBlock.excludes[i]) === fspath.resolve(relativePath)) {
         // console.log("File excluded : " + relativePath);
         return false;
       }
@@ -110,7 +110,7 @@ Control.prototype.shouldGenerate = function(relativePath) {
   if (this.controlBlock.excludesDir) {
     for(var i = 0; i < this.controlBlock.excludesDir.length; i++) {
       var path = fspath.parse(relativePath);
-      if(path.dir === this.controlBlock.excludesDir[i]) {
+      if(fspath.resolve(path.dir) === fspath.resolve(this.controlBlock.excludesDir[i])) {
         //console.log("Directory excluded : " + relativePath);
         return false;
       }
