@@ -16,6 +16,13 @@
       <user name="guest" password="password" />
   </basicRegistry>
   {{/has}}
+  {{#has technologies 'swagger'}}
+  <keyStore id="defaultKeyStore"/>
+
+  <basicRegistry id="basic" realm="ibm/api">
+      <user name="guest" password="password" />
+  </basicRegistry>
+  {{/has}}
 
   {{#bluemix}}
   {{#cloudant}}

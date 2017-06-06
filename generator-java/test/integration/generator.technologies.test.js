@@ -159,9 +159,20 @@ function Options(createType, buildType, testBluemix, technologies, springSelecte
     build.test(this.options.buildType).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
     build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
     build.test(this.options.buildType).assertDependency('provided', 'io.swagger', 'swagger-annotations', '1.5.3');
+    framework.test(FRAMEWORK).assertFeatures('apiDiscovery-1.0');
     it('generates an index.html file with a Swagger section', function() {
       assert.fileContent(INDEX_HTML, '<h2>Swagger</h2>');
     });
+    if(this.options.buildType === 'maven') {
+      it('generates a pom.xml file that installs the apiDiscovery feature', function() {
+        assert.fileContent('pom.xml', /<feature>apiDiscovery-1\.0<\/feature>/);
+      });
+    }
+    if(this.options.buildType === 'gradle') {
+      it('generates a build.gradle file that installs the apiDiscovery feature', function() {
+        assert.fileContent('build.gradle', "name = ['apiDiscovery-1.0']");
+      });
+    }
   }
   this.assertspringboot_web = function() {
     build.test(this.options.buildType).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
@@ -175,10 +186,12 @@ function Options(createType, buildType, testBluemix, technologies, springSelecte
   this.assertspringboot_webonly = function() {
     build.test(this.options.buildType).assertNoDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
     build.test(this.options.buildType).assertNoDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+    framework.test(FRAMEWORK).assertFeatures(false, 'apiDiscovery-1.0');
   }
   this.asserthealthdeps = function() {
     build.test(this.options.buildType).assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
     build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+    framework.test(FRAMEWORK).assertFeatures('apiDiscovery-1.0');
   }
 }
 
