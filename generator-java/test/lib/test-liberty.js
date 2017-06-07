@@ -71,11 +71,20 @@ test_liberty.prototype.assertFeatures = function() {
   if(arguments.length < 1) {
     throw "assertFeatures error : requires at least 1 argument, a feature to check";
   }
-  for(var i = 0; i < arguments.length; i++) {
+  var i;
+  var check;
+  if(typeof(arguments[0]) === "boolean") {
+    check = arguments[0] ? assert.fileContent : assert.noFileContent;
+    i = 1;
+  } else {
+    check = assert.fileContent;
+    i = 0;
+  }
+  for(i; i < arguments.length; i++) {
     if (arguments[i] && typeof arguments[i] === 'string') {
       var feature = arguments[i];
       it('server.xml contains <feature>' + feature + '</feature>', function() {
-        assert.fileContent(LIBERTY_CONFIG_FILE, "<feature>" + feature + "</feature>");
+        check(LIBERTY_CONFIG_FILE, "<feature>" + feature + "</feature>");
       });
     }
   }

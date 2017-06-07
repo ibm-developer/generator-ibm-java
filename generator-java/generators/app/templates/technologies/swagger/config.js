@@ -6,6 +6,6 @@
   ],
   "frameworkDependencies" : [
     {"feature" : "servlet-3.1"},
-    {"feature" : "apiDiscovery-3.1"}
+    {"feature" : "apiDiscovery-1.0"}
   ]
 }
