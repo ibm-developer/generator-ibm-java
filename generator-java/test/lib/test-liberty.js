@@ -84,7 +84,7 @@ test_liberty.prototype.assertFeatures = function() {
     if (arguments[i] && typeof arguments[i] === 'string') {
       var feature = arguments[i];
       it('server.xml contains <feature>' + feature + '</feature>', function() {
-        assert.fileContent(LIBERTY_CONFIG_FILE, "<feature>" + feature + "</feature>");
+        check(LIBERTY_CONFIG_FILE, "<feature>" + feature + "</feature>");
       });
     }
   }
