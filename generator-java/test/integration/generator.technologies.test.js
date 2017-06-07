@@ -186,12 +186,12 @@ function Options(createType, buildType, testBluemix, technologies, springSelecte
   this.assertspringboot_webonly = function() {
     build.test(this.options.buildType).assertNoDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
     build.test(this.options.buildType).assertNoDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
-    framework.test(FRAMEWORK).assertFeatures(false, 'apiDiscovery-1.0');
+    framework.test(FRAMEWORK).assertFeatures(false, 'jaxrs-2.0');
   }
   this.asserthealthdeps = function() {
     build.test(this.options.buildType).assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
     build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
-    framework.test(FRAMEWORK).assertFeatures('apiDiscovery-1.0');
+    framework.test(FRAMEWORK).assertFeatures('jaxrs-2.0');
   }
 }
 
