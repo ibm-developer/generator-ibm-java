@@ -28,6 +28,9 @@ var assertCommonFiles = function() {
   //Docker files
   assert.file('Dockerfile');
   assert.file('Dockerfile-tools');
+  assert.fileContent('Dockerfile-tools', 'ARG bx_dev_userid=root');
+  assert.fileContent('Dockerfile-tools', 'RUN BX_DEV_USERID=$bx_dev_userid');
+  assert.fileContent('Dockerfile-tools', 'RUN if [ $bx_dev_userid != "root" ]; then useradd -ms /bin/bash $bx_dev_userid; fi');
   assert.noFile('Dockerfile-run');//deprecated name
   // Bluemix files
   assert.file('manifest.yml');
@@ -82,6 +85,7 @@ var assertServices = function(exists) {
 //asserts that files required for the CLI are present and correct
 var assertCLI = function(appname) {
   assert.fileContent('cli-config.yml','image-name-run : "bx-dev-' + appname.toLowerCase() + '"');  //make sure lowercase app name
+  assert.fileContent('cli-config.yml', 'version : 0.0.2');
 }
 
 //asserts all files exist relative to a given base location
