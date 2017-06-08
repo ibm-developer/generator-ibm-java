@@ -45,7 +45,6 @@ describe('control library', function() {
   describe('can find a control file', function() {
     it('it should find the control.js file in the root', function(){
       config.templateFullPath = path.resolve("./test/resources/control/with-control");
-      console.log("Config : " + JSON.stringify(config));
       var control = new Control(config.templateFullPath, config);
       assert.equal(true, control.hasControl());
     });

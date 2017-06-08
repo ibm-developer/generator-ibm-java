@@ -1,3 +1,4 @@
+version : 0.0.2
 container-name-run : "{{appName}}"
 container-name-tools : "bx-dev-{{appName}}-tools"
 image-name-run : "bx-dev-{{#toLowerCase appName}}{{/toLowerCase}}"
@@ -5,14 +6,14 @@ image-name-run : "bx-dev-{{#toLowerCase appName}}{{/toLowerCase}}"
 {{#has buildType 'maven'}}
 image-name-tools : "bx-dev-java-maven-tools"
 host-path-run : "target"
-build-cmd-run : "mvn install -Dmaven.repo.local=/project/.m2/repository && chmod -R 755 /project/target"
+build-cmd-run : "mvn install -Dmaven.repo.local=/project/.m2/repository"
 test-cmd : "mvn install -Dmaven.repo.local=/project/.m2/repository"
 build-cmd-debug : "mvn install -Dmaven.repo.local=/project/.m2/repository"
 {{/has}}
 {{#has buildType 'gradle'}}
 image-name-tools : "bx-dev-java-gradle-tools"
 host-path-run : "build"
-build-cmd-run : "gradle -g . build && chmod -R 755 /project/build"
+build-cmd-run : "gradle -g . build"
 test-cmd : "gradle -g . build"
 build-cmd-debug : "gradle -g . build"
 {{/has}}
