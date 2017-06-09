@@ -19,7 +19,7 @@ test_kube.test = function(appName, exists) {
     it(prefix + 'k8s file Jenkinsfile', function() {
       check('Jenkinsfile');
       if(exists) {
-        assert.fileContent('Jenkinsfile', 'dockerBuild(\''+ appName + '\')');
+        assert.fileContent('Jenkinsfile', 'image = \''+ appName.toLowerCase() + '\'');
       }
     });
 

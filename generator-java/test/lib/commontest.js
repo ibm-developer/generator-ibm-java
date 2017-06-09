@@ -81,7 +81,7 @@ var assertServices = function(exists) {
 
 //asserts that files required for the CLI are present and correct
 var assertCLI = function(appname) {
-  assert.fileContent('cli-config.yml','image-name-run : "bx-dev-' + appname.toLowerCase() + '"');  //make sure lowercase app name
+  assert.fileContent('cli-config.yml','image-name-run : "' + appname.toLowerCase() + '"');  //make sure lowercase app name
   assert.fileContent('cli-config.yml', 'version : 0.0.2');
 }
 
@@ -115,7 +115,7 @@ var assertObjectStorageJava = function(exists) {
 //assert that K8s specific files are present
 var assertK8s = function(appname) {
   assert.fileContent('manifests/kube.deploy.yml', 'name: "' + appname + '-service"')
-  assert.fileContent('Jenkinsfile',"utils.dockerBuild('" + appname + "')");
+  assert.fileContent('Jenkinsfile', 'image = \''+ appname.toLowerCase() + '\'');
 }
 
 var assertManifestYml = function(ymlName, exists) {
