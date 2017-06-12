@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.0"></a>
+# [0.6.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.5.0...v0.6.0) (2017-06-12)
+
+
+### Bug Fixes
+
+* **templates:** Add end to end tests and fix templates ([139f70c](https://github.ibm.com/arf/java-codegen-yeoman/commit/139f70c))
+* **templates:** Picnmix and patterns have separate rest route ([a1eea9b](https://github.ibm.com/arf/java-codegen-yeoman/commit/a1eea9b))
+* **templates:** Remove additional health endpoint files ([2b91770](https://github.ibm.com/arf/java-codegen-yeoman/commit/2b91770))
+* **templates:** Remove extra config settings in liberty framework ([81a5e65](https://github.ibm.com/arf/java-codegen-yeoman/commit/81a5e65))
+* **templates:** Remove extra health files from picnmix ([6774157](https://github.ibm.com/arf/java-codegen-yeoman/commit/6774157))
+* **templates:** Update generator to only add health to JavaEE apps ([9acf0f0](https://github.ibm.com/arf/java-codegen-yeoman/commit/9acf0f0))
+* **templates:** Update Health endpoint ([1fa2fa4](https://github.ibm.com/arf/java-codegen-yeoman/commit/1fa2fa4))
+* **templates:** Update Liberty test to conditionally check server.xml ([dfbb03f](https://github.ibm.com/arf/java-codegen-yeoman/commit/dfbb03f))
+* **templates:** Update tests to check for correct Liberty feature ([1684b09](https://github.ibm.com/arf/java-codegen-yeoman/commit/1684b09))
+* **test:** Update common test version dependency to 0.1.0 ([23ac6ff](https://github.ibm.com/arf/java-codegen-yeoman/commit/23ac6ff))
+
+
+### Features
+
+* **containers:** Update Jenkins file for Microservice Builder update ([028a567](https://github.ibm.com/arf/java-codegen-yeoman/commit/028a567))
+* **templates:** Create individual health endpoint files ([71c5188](https://github.ibm.com/arf/java-codegen-yeoman/commit/71c5188))
+* **templates:** Remove workaround for Docker non root user ([c41fdcc](https://github.ibm.com/arf/java-codegen-yeoman/commit/c41fdcc))
+* **templates:** Template changes for Docker non root issue ([ceed830](https://github.ibm.com/arf/java-codegen-yeoman/commit/ceed830))
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.4.0...v0.5.0) (2017-06-01)
 
