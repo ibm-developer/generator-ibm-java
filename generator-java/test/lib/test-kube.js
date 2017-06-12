@@ -29,6 +29,7 @@ test_kube.test = function(appName, exists) {
         assert.fileContent('manifests/kube.deploy.yml', 'name: "' + appName + '-deployment"');
         assert.fileContent('manifests/kube.deploy.yml', 'name: "' + appName + '-service"');
         assert.fileContent('manifests/kube.deploy.yml', 'app: "' + appName + '-selector"');
+        assert.fileContent('manifests/kube.deploy.yml', 'image: ' + appName.toLowerCase());
       }
     });
 
