@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: {{appName}}
-        image: {{appName}}:latest
+        image: {{#toLowerCase appName}}{{/toLowerCase}}:latest
         readinessProbe:
           httpGet:
             path: /{{appName}}/health
