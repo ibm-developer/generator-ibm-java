@@ -15,9 +15,6 @@
   "composition" : [
     "basic",
     "frameworks/liberty",
-    {{#each technologies}}
-    "technologies/{{this}}",
-    {{/each}}
     {{#bluemix}}
     "platform/cli",
     "platform/bluemix",

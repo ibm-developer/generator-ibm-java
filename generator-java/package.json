@@ -8,7 +8,9 @@
   ],
   "dependencies": {
     "handlebars": "^4.0.0",
-    "yeoman-generator": "^1.0.0"
+    "yeoman-generator": "^1.0.0",
+    "@arf/generator-liberty": "^0.0.1",
+    "extend": "^3.0.1"
   },
   "devDependencies": {
     "mocha": "^3.2.0",

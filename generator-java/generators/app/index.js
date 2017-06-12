@@ -25,9 +25,13 @@ var fs = require('fs');
 var Control = require('../lib/control');
 var PromptMgr = require('../lib/promptmgr');
 var defaults = require('../lib/defaults');
+var Context = require('../lib/context');
+const extend = require('extend');
 
 var config = undefined;
 var promptmgr = undefined;
+var contexts = [];
+var patterns = ['basic', 'microservice', 'basicweb', 'bff', 'picnmix'];
 
 module.exports = class extends Generator {
 
@@ -47,8 +51,8 @@ module.exports = class extends Generator {
     config = new Config();
     promptmgr = new PromptMgr(config);
 
-    promptmgr.add('common');
-    promptmgr.add('liberty');
+    //promptmgr.add('common');
+    //promptmgr.add('liberty');
     promptmgr.add('patterns');
     promptmgr.add('bluemix');
     logger.writeToLog("Config (default)", config);
@@ -56,6 +60,24 @@ module.exports = class extends Generator {
     config.apply(this.options);
     logger.writeToLog("Config (after clone)", config);
     logger.writeToLog("Config", config);
+
+    //set values based on either defaults or passed in values
+    if (config.bluemix) {
+      config.appName = config.bluemix.name || config.appName;
+    }
+    config.templateRoot = this.templatePath();
+    this._setProjectPath();
+    this._addContext('@arf/generator-liberty');
+  }
+
+  _addContext(name) {
+    var context = new Context(name, config, promptmgr);   //use the name for the context ID
+    this.options.context = context;
+    var location = fspath.parse(require.resolve(name));   //compose with the default generator
+    this.composeWith(fspath.join(location.dir, 'generators', 'app'), this.options);
+    contexts.push(context);
+    this.options.context = undefined;
+    return context;
   }
 
   _setProjectPath() {
@@ -77,29 +99,63 @@ module.exports = class extends Generator {
   }
 
   configuring() {
-    //set values based on either defaults or passed in values
-    if (config.bluemix) {
-      config.appName = config.bluemix.name || config.appName;
+    //configure this generator and then pass that down through the contexts
+    this.destinationRoot(config.projectPath);
+    var control = new Control(fspath.resolve(config.templateRoot, config.createType), config);
+    logger.writeToLog("Processor", processor);
+    this.paths = control.getComposition();
+    config.processProject(this.paths);
+    contexts.forEach(context => {
+      context.addDependencies(config.dependencies);
+      context.addFrameworkDependencies(config.frameworkDependencies);
+      context.addCompositions(control.getSubComposition(context.id));
+    });
+    logger.writeToLog("Destination path", this.destinationRoot());
+  }
+
+  _isValidPattern() {
+    var patternFound = patterns.includes(config.createType);
+    if(!patternFound) {
+      for(var i = 0; i < contexts.length && !patternFound;) {
+        for(var j = 0; j < contexts[i].patterns.length && !patternFound;) {
+          patternFound = (contexts[i].patterns[j] === config.createType);
+        }
+      }
     }
-    config.templateName = config.createType;
-    config.templateRoot = this.templatePath();
-    this._setProjectPath();
+    return patternFound;
   }
 
   writing() {
-    logger.writeToLog('template path', config.templateName);
+    logger.writeToLog('template path', config.createType);
     logger.writeToLog('project path', config.projectPath);
+
+    if(!this._isValidPattern()) {
+      //the config object is not valid, so need to exit at this point
+      this.log("Error : not a recognised pattern");
+      throw "Invalid pattern " + config.createType;
+    }
     if(!config.isValid()) {
       //the config object is not valid, so need to exit at this point
       this.log("Error : configuration is invalid, code generation is aborted");
       throw "Invalid configuration";
     }
-    this.destinationRoot(config.projectPath);
-    logger.writeToLog("Destination path", this.destinationRoot());
-    var control = new Control(fspath.resolve(config.templateRoot, config.templateName), config);
-    processor.paths = control.getComposition();
+    if(!patterns.includes(config.createType)) {
+      return;   //not being written by us
+    }
+
     logger.writeToLog("Processor", processor);
-    config.processProject(processor.paths);
+
+    // var control = new Control(fspath.resolve(config.templateRoot, config.createType), config);
+    // var paths = control.getComposition();
+    // config.processProject(paths);
+    // if(!config.dependencies) config.dependencies = [];
+    // if(!config.frameworkDependencies) config.frameworkDependencies = [];
+    //
+    // contexts.forEach(context => {
+    //   config.dependencies = config.dependencies.concat(context.conf.dependencies);
+    //   config.frameworkDependencies = config.frameworkDependencies.concat(context.conf.frameworkDependencies);
+    // });
+
     return processor.scan(config, (relativePath, template) => {
       var outFile = this.destinationPath(relativePath);
       logger.writeToLog("CB : writing to", outFile);
@@ -110,7 +166,7 @@ module.exports = class extends Generator {
       } catch (err) {
         logger.writeToLog("Template error : " + relativePath, err.message);
       }
-    });
+    }, this.paths);
   }
 
   end() {

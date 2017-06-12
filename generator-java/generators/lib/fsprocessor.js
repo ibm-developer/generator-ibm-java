@@ -23,7 +23,6 @@ var fspath = require('path');
 var Control = require('./control');
 var logger = require('./log');
 
-var paths = [];
 var id = 0;
 
 //recursively walk the file tree starting from the specified root
@@ -102,20 +101,20 @@ function Resolver() {
 
 //return a promise that will complete when all files have been processed
 //used to ensure the generator does not move beyond the current lifecycle step
-var startWalk = function(config, cb) {
-  if (!Array.isArray(this.paths)) {
-    throw 'Paths is not an array.';
+var startWalk = function(config, cb, paths) {
+  if (!Array.isArray(paths)) {
+    throw 'Paths is not an array, it is ' + JSON.stringify(paths);
   }
-  if (!this.paths.length) {
-    throw 'No paths have been specified for the template ' + config.templateName;
+  if (!paths.length) {
+    throw 'No paths have been specified for the template ' + config.createType;
   }
   if(!config) {
     throw 'Missing config parameter, unable to start file walk.';
   }
   var resolver = new Resolver();
   resolver.trackers = [];
-  for (var i=0 ; i < this.paths.length ; i++) {
-    var absolutePath = fspath.resolve(this.paths[i]);
+  for (var i=0 ; i < paths.length ; i++) {
+    var absolutePath = fspath.resolve(paths[i]);
     resolver.trackers.push({
       id : id++,
       count : {},
@@ -164,7 +163,6 @@ var getContentsSync = function(value) {
 }
 
 module.exports = {
-  paths : paths,
   scan : startWalk,
   getContentsSync : getContentsSync
 };

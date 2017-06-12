@@ -75,12 +75,25 @@ Control.prototype.processProject = function() {
   try {
     this.controlBlock = eval("(" + output + ")");
     if(this.controlBlock) {
-      var composition = this.controlBlock.composition;
-      if(composition) {
+      this.controlBlock.subCompositions = {};
+      if(this.controlBlock.composition) {
+        var composition = this.controlBlock.composition.slice();
+        this.controlBlock.composition = [];
         for(var i = 0; i < composition.length; i++) {
-          composition[i] = fspath.resolve(this.config.templateRoot, composition[i]);
+          if(composition[i].includes(':')) {
+            //this is a sub-generator composition directive
+            var components = composition[i].split(':');
+            if(!this.controlBlock.subCompositions[components[0]]) {
+              this.controlBlock.subCompositions[components[0]] = [components[1]];
+            } else {
+              this.controlBlock.subCompositions[components[0]].push(components[1]);
+            }
+          } else {
+            //a direct inclusion for the current generator
+            this.controlBlock.composition.push(fspath.resolve(this.config.templateRoot, composition[i]));
+          }
         }
-        composition.push(fspath.resolve(this.config.templateRoot, this.config.createType));
+        this.controlBlock.composition.push(fspath.resolve(this.config.templateRoot, this.config.createType));
       }
     }
   } catch (err) {
@@ -132,6 +145,15 @@ Control.prototype.fileFound = function(relativePath, contents) {
 Control.prototype.getComposition = function() {
   if(this.controlBlock && this.controlBlock.composition) {
     return this.controlBlock.composition;
+  } else {
+    return [];
+  }
+}
+
+//return sub compositions for a named generator
+Control.prototype.getSubComposition = function(name) {
+  if(this.controlBlock && this.controlBlock.subCompositions[name]) {
+    return this.controlBlock.subCompositions[name];
   } else {
     return [];
   }

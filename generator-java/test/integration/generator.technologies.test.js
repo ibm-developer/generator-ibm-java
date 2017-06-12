@@ -39,7 +39,10 @@ var maven = require('../lib/test-maven');
 var bluemix = require('../lib/test-bluemix.js');
 var kube = require('../lib/test-kube.js');
 
+const liberty = require('@arf/generator-liberty');
+
 function Options(createType, buildType, testBluemix, technologies, springSelected) {
+  this.assertTech = new liberty.integrationAsserts.technologies();
   this.options = {
     headless :  "true",
     debug : "true",
@@ -67,13 +70,7 @@ function Options(createType, buildType, testBluemix, technologies, springSelecte
     framework.test(FRAMEWORK).assertBuildFiles(this.options.buildType);
     build.test(this.options.buildType).assertApplication(APPNAME, GROUPID, ARTIFACTID, VERSION);
     bluemix.test(testBluemix);
-    it('generates an index.html', function() {
-      assert.file(INDEX_HTML);
-    });
-    it('generates sample test files', function() {
-      assert.file('src/test/java/it/EndpointTest.java');
-      assert.file('src/test/java/it/TestApplication.java');
-    });
+    this.assertTech.assert();
   }
   this.assertCompiles = function() {
     command.run(this.getCompileCommand());
@@ -101,22 +98,11 @@ function Options(createType, buildType, testBluemix, technologies, springSelecte
     build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
     build.test(this.options.buildType).assertDependency('provided', 'javax.json', 'javax.json-api', '1.0');
     build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
-    framework.test(FRAMEWORK).assertFeatures('jaxrs-2.0', 'jsonp-1.0');
-    it('generates sample file LibertyRestEndpoint.java', function() {
-      assert.file('src/main/java/application/rest/LibertyRestEndpoint.java');
-    });
-    it('generates sample file LibertyRestEndpoinTestIT.java', function() {
-      assert.file('src/test/java/it/rest/LibertyRestEndpointTestIT.java');
-    });
-    it('generates an index.html file with a rest section', function() {
-      assert.fileContent(INDEX_HTML, '<h2>REST</h2>');
-    });
+    this.assertTech.assertrest();
   }
   this.assertmicroprofile = function() {
     this.assertmicroprofiledep();
-    it('generates an index.html file with a microprofile section', function() {
-      assert.fileContent(INDEX_HTML, '<h2>MicroProfile</h2>');
-    });
+    this.assertTech.assertmicroprofile();
   }
   this.assertmicroprofiledep = function() {
     build.test(this.options.buildType).assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
@@ -130,58 +116,36 @@ function Options(createType, buildType, testBluemix, technologies, springSelecte
     build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.persistence', '1.0.10');
     build.test(this.options.buildType).assertDependency('provided', 'org.eclipse.persistence', 'javax.persistence', '2.1.0');
     framework.test(FRAMEWORK).assertFeatures('jpa-2.1');
-    it('generates an index.html file with a persistence section', function() {
-      assert.fileContent(INDEX_HTML, '<h2>Persistence</h2>');
-    });
+    this.assertTech.assertpersistence();
   }
   this.assertwebsockets = function() {
     build.test(this.options.buildType).assertDependency('provided', 'javax.websocket', 'javax.websocket-api', '1.1');
     framework.test(FRAMEWORK).assertFeatures('websocket-1.1');
-    it('generates an index.html file with a websockets section', function() {
-      assert.fileContent(INDEX_HTML, '<h2>WebSockets</h2>');
-    });
+    this.assertTech.assertwebsockets();
   }
   this.assertservlet = function() {
     build.test(this.options.buildType).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
     build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
     framework.test(FRAMEWORK).assertFeatures('servlet-3.1');
-    it('generates an index.html file with a servlet section', function() {
-      assert.fileContent(INDEX_HTML, '<h2>Servlet</h2>');
-    });
+    this.assertTech.assertservlet();
   }
   this.assertwatsonsdk = function() {
     build.test(this.options.buildType).assertDependency('compile', 'com.ibm.watson.developer_cloud', 'java-sdk', '3.5.1');
-    it('generates an index.html file with a Watson SDK section', function() {
-      assert.fileContent(INDEX_HTML, '<h2>Watson SDK</h2>');
-    });
+    this.assertTech.assertwatsonsdk();
   }
   this.assertswagger = function() {
     build.test(this.options.buildType).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
     build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
     build.test(this.options.buildType).assertDependency('provided', 'io.swagger', 'swagger-annotations', '1.5.3');
     framework.test(FRAMEWORK).assertFeatures('apiDiscovery-1.0');
-    it('generates an index.html file with a Swagger section', function() {
-      assert.fileContent(INDEX_HTML, '<h2>Swagger</h2>');
-    });
-    if(this.options.buildType === 'maven') {
-      it('generates a pom.xml file that installs the apiDiscovery feature', function() {
-        assert.fileContent('pom.xml', /<feature>apiDiscovery-1\.0<\/feature>/);
-      });
-    }
-    if(this.options.buildType === 'gradle') {
-      it('generates a build.gradle file that installs the apiDiscovery feature', function() {
-        assert.fileContent('build.gradle', "name = ['apiDiscovery-1.0']");
-      });
-    }
+    this.assertTech.assertswagger();
   }
   this.assertspringboot_web = function() {
     build.test(this.options.buildType).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
     build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
     var exclusions = [{"groupId" : "org.springframework.boot", "artifactId" : "spring-boot-starter-tomcat"}];
     build.test(this.options.buildType).assertDependency('compile', 'org.springframework.boot', 'spring-boot-starter-web', '1.3.0.RELEASE', exclusions);
-    it('generates an index.html file with a Spring Boot section', function() {
-      assert.fileContent(INDEX_HTML, '<h2>Spring Boot with Spring MVC</h2>');
-    });
+    this.assertTech.assertspringboot_web();
   }
   this.assertspringboot_webonly = function() {
     build.test(this.options.buildType).assertNoDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
@@ -195,11 +159,12 @@ function Options(createType, buildType, testBluemix, technologies, springSelecte
   }
 }
 
-var technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk', 'swagger', 'springboot_web'];
+//var technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk', 'swagger', 'springboot_web'];
+var technologies = ['rest'];
 var buildTypes = ['gradle', 'maven'];
 
 execute('picnmix', 'picnmix', technologies);
-execute('technologies/msbuilder', 'msbuilder', technologies);
+//execute('technologies/msbuilder', 'msbuilder', technologies);
 
 function execute(createType, assertFunc, technologiesToTest) {
 
@@ -209,20 +174,21 @@ function execute(createType, assertFunc, technologiesToTest) {
       for(var j = 0; j < buildTypes.length; j++) {
         describe('Generates a ' + createType + ' project for ' + technologiesToTest[i] + ' (' + buildTypes[j] + ', no bluemix)', function () {
           var options = new Options(createType, buildTypes[j], false, [technologiesToTest[i]], technologiesToTest[i] === 'springboot_web');
+          //console.log('Options : ' + JSON.stringify(Object.getOwnPropertyNames(options), null, 2));
           before(options.before.bind(options));
           options['assert' + assertFunc]();
           options['assert' + technologiesToTest[i]]();
           if(technologiesToTest[i] === 'springboot_web' && createType === 'picnmix') {
             options.assertspringboot_webonly();
           }
-          options.assertCompiles();
+          //options.assertCompiles();
         });
       }
     }
 
   });
 }
-
+/*
 describe('java generator : technologies integration test', function () {
 
   for(var i = 0; i < buildTypes.length; i++) {
@@ -235,36 +201,4 @@ describe('java generator : technologies integration test', function () {
   }
 
 });
-
-for(var i = 0; i < 5; i++) {
-  var totalTechnologies = Math.floor(Math.random() * technologies.length) + 1;  //how many technologies to pick - min of 1 up to number of available technologies
-  var techsToPickFrom = Array.from(technologies);                        //copy of technologies to pick from
-  var techs = new Array();                                           //chosen technologies
-  var description = new String();
-
-  for(var j = 0; j < totalTechnologies; ) {
-    var index = Math.floor(Math.random() * technologies.length);
-    var tech = techsToPickFrom[index];
-    if(tech) {
-      techs.push(technologies[index]);
-      techsToPickFrom[index] = undefined;
-      description += tech + ' ';
-      j++;
-    }
-  }
-
-  describe('java generator : ' + totalTechnologies + ' random technologies integration test', function () {
-
-    for(var k = 0; k < buildTypes.length; k++) {
-      describe('Generates a project for [' + description.trim() + '] (' + buildTypes[k] + ', no bluemix)', function () {
-        var options = new Options('picnmix', buildTypes[k], false, techs, techs.includes('springboot_web'));
-        before(options.before.bind(options));
-        options.assertpicnmix();
-        for(var l = 0; l < techs.length; l++) {
-          options['assert' + techs[l]]();
-        }
-      });
-    }
-
-  });
-}
+*/

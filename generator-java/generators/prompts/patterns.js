@@ -72,7 +72,32 @@ Extension.prototype.getQuestions = function() {
       short : 'Backend For Frontend'
     }],
     default : defaults.get('createType')
-  }];
+    }, {
+      when    : this.show.bind(this),
+      type    : 'list',
+      name    : 'buildType',
+      message : 'Select the build type for your project.\n',
+      choices : ['maven', 'gradle'],
+      default : defaults.get('buildType')
+    }, {
+      when    : this.show.bind(this),
+      type    : 'input',
+      name    : 'appName',
+      message : 'Enter a name for your project',
+      default : defaults.get('appName')
+    }, {
+      when    : this.show.bind(this),
+      type    : 'input',
+      name    : 'groupId',
+      message : 'Enter a group id for your project',
+      default : defaults.get('groupId')
+    }, {
+      when    : this.show.bind(this),
+      type    : 'input',
+      name    : 'artifactId',
+      message : 'Enter an artifact id for your project',
+      default : (answers) => {return answers.appName}
+    }];
 }
 
 Extension.prototype.afterPrompt = function(answers, config) {

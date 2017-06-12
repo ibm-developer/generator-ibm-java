@@ -26,16 +26,14 @@ describe('fsprocessor library', function() {
 
   describe('processor does not allow invalid parameters', function() {
     it('it should throw an exception if the paths is not an array', function() {
-      processor.paths = "string";
-      assert.throws(()=>{processor.scan()})
+      assert.throws(()=>{processor.scan(undefined, undefined, "string")})
     });
     it('it should throw an exception if the paths is an empty array', function() {
       processor.paths = [];
-      assert.throws(()=>{processor.scan()})
+      assert.throws(()=>{processor.scan(undefined, undefined, [])})
     });
     it('it should throw an exception if the config is missing', function() {
-      processor.paths = ["./test/resources/fsprocessor/test-templates-1file"];
-      assert.throws(()=>{processor.scan()})
+      assert.throws(()=>{processor.scan(undefined, undefined, ["./test/resources/fsprocessor/test-templates-1file"])})
     });
   });
 
@@ -60,17 +58,15 @@ describe('fsprocessor library', function() {
 
   describe('walk tree specified with relative path', function() {
     it('it should walk a file system tree calling back when a file is found', function(done){
-      processor.paths = ["./test/resources/fsprocessor/test-templates-1file"];
       processor.scan(new Config(), (relativePath, contents) => {
         assert.equal('file-1.txt', relativePath);
-      }).then(() => { done(); })
+      }, ["./test/resources/fsprocessor/test-templates-1file"]).then(() => { done(); })
         .catch((err) => { done(err);});
     });
     it('it should throw an exception for a non-existant path', function(done){
-      processor.paths = ["./test/resources/fsprocessor/test-folder-does-not-exist"];
       processor.scan(new Config(), (relativePath, contents) => {
         assert.fail(false, true, "Should not have found any projects");
-      }).then(() => { assert.fail(false, true, "Walk should not have completed without error"); })
+      }, ["./test/resources/fsprocessor/test-folder-does-not-exist"]).then(() => { assert.fail(false, true, "Walk should not have completed without error"); })
         .catch((err) => {
           //this error is expected
           done();
@@ -85,11 +81,10 @@ describe('fsprocessor library', function() {
       var root = "./test/resources/fsprocessor/test-templates-badfile";
       var fpath = "/filewithnoreadperms.txt";
       fs.chmodSync(root + fpath, 222);
-      processor.paths = [root];
       processor.scan(new Config(), (relativePath, contents) => {
         fs.chmodSync(root + fpath, 755);
         assert.fail(false, true, "Should not have found any projects");
-      }).then(() => {
+      }, [root]).then(() => {
         fs.chmodSync(root + fpath, 755);
         assert.fail(false, true, "Walk should not have completed without error");
       }).catch((err) => {
@@ -103,10 +98,9 @@ describe('fsprocessor library', function() {
   describe('walk tree specified with an absolute path', function() {
     it('it should walk a file system tree calling back when a file is found', function(done){
       //path.resolve will convert to an absolute path
-      processor.paths = [path.resolve("./test/resources/fsprocessor/test-templates-1file")];
       processor.scan(new Config(), (relativePath, contents) => {
         assert.equal('file-1.txt', relativePath);
-      }).then(() => { done(); })
+      }, [path.resolve("./test/resources/fsprocessor/test-templates-1file")]).then(() => { done(); })
         .catch((err) => { done(err);});
     });
   });
@@ -117,7 +111,7 @@ describe('fsprocessor library', function() {
       var files = ['file-1.txt', 'file-2.txt', 'file-3.txt', 'file-4.txt', 'file-5.txt'];
       var separator = (path.delimiter === ';' ? "\\" : "/");
       var unknown = [];
-      processor.paths = [path.resolve("./test/resources/fsprocessor/test-templates-emptyDirs"),
+      var paths = [path.resolve("./test/resources/fsprocessor/test-templates-emptyDirs"),
                         path.resolve("./test/resources/fsprocessor/test-templates-second")];
       processor.scan(new Config(), (relativePath, contents) => {
         for(var i = 0; i < files.length; i++) {
@@ -131,7 +125,7 @@ describe('fsprocessor library', function() {
         //if get there then the file was not expected, so add it to the array for failure
         //console.error("Adding new file : " + relativePath);
         unknown.push(relativePath);
-      }).then(() => {
+      }, paths).then(() => {
         if((unknown.length == 0) && (files.length == 0)) {
           done();   //all done OK
         } else {
