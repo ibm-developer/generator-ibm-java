@@ -1,6 +1,6 @@
 {
   "name": "@arf/generator-java",
-  "version": "0.1.27",
+  "version": "0.6.0",
   "description": "Java code generation and modification",
   "license": "Apache-2.0",
   "files": [
@@ -18,7 +18,7 @@
     "yeoman-test": "^1.6.0",
     "istanbul": "^0.4.5",
     "standard-version": "^4.0.0",
-    "@arf/common-codegen-tests": "0.0.3"
+    "@arf/common-codegen-tests": "0.1.0"
   },
   "scripts": {
     "test": "mocha test/unit/*",
