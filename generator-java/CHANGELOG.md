@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.1"></a>
+## [0.6.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.6.0...v0.6.1) (2017-06-12)
+
+
+### Bug Fixes
+
+* **templates:** Fix kube.deploy.yml template file ([4b705c8](https://github.ibm.com/arf/java-codegen-yeoman/commit/4b705c8))
+* **templates:** Update kube test ([c43b279](https://github.ibm.com/arf/java-codegen-yeoman/commit/c43b279))
+
+
+
 <a name="0.6.0"></a>
 # [0.6.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.5.0...v0.6.0) (2017-06-12)
 
