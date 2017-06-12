@@ -39,7 +39,7 @@ var maven = require('../lib/test-maven');
 var bluemix = require('../lib/test-bluemix.js');
 var kube = require('../lib/test-kube.js');
 
-function Options(createType, buildType, testBluemix, technologies) {
+function Options(createType, buildType, testBluemix, technologies, springSelected) {
   this.options = {
     headless :  "true",
     debug : "true",
@@ -63,7 +63,7 @@ function Options(createType, buildType, testBluemix, technologies) {
   }
   this.assert = function() {
     common.assertCommonFiles();
-    framework.test(FRAMEWORK).assertCommonFiles();
+    framework.test(FRAMEWORK).assertCommonFiles(springSelected);
     framework.test(FRAMEWORK).assertBuildFiles(this.options.buildType);
     build.test(this.options.buildType).assertApplication(APPNAME, GROUPID, ARTIFACTID, VERSION);
     bluemix.test(testBluemix);
@@ -159,9 +159,20 @@ function Options(createType, buildType, testBluemix, technologies) {
     build.test(this.options.buildType).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
     build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
     build.test(this.options.buildType).assertDependency('provided', 'io.swagger', 'swagger-annotations', '1.5.3');
+    framework.test(FRAMEWORK).assertFeatures('apiDiscovery-1.0');
     it('generates an index.html file with a Swagger section', function() {
       assert.fileContent(INDEX_HTML, '<h2>Swagger</h2>');
     });
+    if(this.options.buildType === 'maven') {
+      it('generates a pom.xml file that installs the apiDiscovery feature', function() {
+        assert.fileContent('pom.xml', /<feature>apiDiscovery-1\.0<\/feature>/);
+      });
+    }
+    if(this.options.buildType === 'gradle') {
+      it('generates a build.gradle file that installs the apiDiscovery feature', function() {
+        assert.fileContent('build.gradle', "name = ['apiDiscovery-1.0']");
+      });
+    }
   }
   this.assertspringboot_web = function() {
     build.test(this.options.buildType).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
@@ -171,6 +182,16 @@ function Options(createType, buildType, testBluemix, technologies) {
     it('generates an index.html file with a Spring Boot section', function() {
       assert.fileContent(INDEX_HTML, '<h2>Spring Boot with Spring MVC</h2>');
     });
+  }
+  this.assertspringboot_webonly = function() {
+    build.test(this.options.buildType).assertNoDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
+    build.test(this.options.buildType).assertNoDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+    framework.test(FRAMEWORK).assertFeatures(false, 'jaxrs-2.0');
+  }
+  this.asserthealthdeps = function() {
+    build.test(this.options.buildType).assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
+    build.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+    framework.test(FRAMEWORK).assertFeatures('jaxrs-2.0');
   }
 }
 
@@ -187,10 +208,13 @@ function execute(createType, assertFunc, technologiesToTest) {
     for(var i = 0; i < technologiesToTest.length; i++) {
       for(var j = 0; j < buildTypes.length; j++) {
         describe('Generates a ' + createType + ' project for ' + technologiesToTest[i] + ' (' + buildTypes[j] + ', no bluemix)', function () {
-          var options = new Options(createType, buildTypes[j], false, [technologiesToTest[i]]);
+          var options = new Options(createType, buildTypes[j], false, [technologiesToTest[i]], technologiesToTest[i] === 'springboot_web');
           before(options.before.bind(options));
           options['assert' + assertFunc]();
           options['assert' + technologiesToTest[i]]();
+          if(technologiesToTest[i] === 'springboot_web' && createType === 'picnmix') {
+            options.assertspringboot_webonly();
+          }
           options.assertCompiles();
         });
       }
@@ -203,9 +227,10 @@ describe('java generator : technologies integration test', function () {
 
   for(var i = 0; i < buildTypes.length; i++) {
     describe('Generates a project for (no services or technologies)', function () {
-      var options = new Options('picnmix', buildTypes[i], false, []);
+      var options = new Options('picnmix', buildTypes[i], false, [], false);
       before(options.before.bind(options));
       options.assert();
+      options.asserthealthdeps();
     });
   }
 
@@ -232,7 +257,7 @@ for(var i = 0; i < 5; i++) {
 
     for(var k = 0; k < buildTypes.length; k++) {
       describe('Generates a project for [' + description.trim() + '] (' + buildTypes[k] + ', no bluemix)', function () {
-        var options = new Options('picnmix', buildTypes[k], false, techs);
+        var options = new Options('picnmix', buildTypes[k], false, techs, techs.includes('springboot_web'));
         before(options.before.bind(options));
         options.assertpicnmix();
         for(var l = 0; l < techs.length; l++) {

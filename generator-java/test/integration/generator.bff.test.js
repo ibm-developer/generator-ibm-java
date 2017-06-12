@@ -45,12 +45,12 @@ function Options() {
     common.assertObjectStorage(objectStorage);
     common.assertK8s(appName);
     common.assertFiles('', true, 'README.md');
-    common.assertFiles('src', true, 'main/java/application/rest/HealthEndpoint.java',
-                                    'main/java/application/rest/SwaggerEndpoint.java',
+    common.assertFiles('src', true, 'main/java/application/rest/SwaggerEndpoint.java',
                                     'main/java/application/model/Product.java',
                                     'main/java/application/openapi/ProductsApi.java',
                                     'main/java/application/openapi/ProductApi.java',
-                                    'test/java/it/HealthEndpointTest.java')
+                                    'test/java/it/ProductsEndpointTest.java',
+                                    'test/java/it/SwaggerEndpointTest.java')
     frameworkTest = framework.test(FRAMEWORK);
     frameworkTest.assertCloudant(cloudant);
     frameworkTest.assertObjectStorage(objectStorage);
@@ -73,6 +73,7 @@ describe('java generator : bff integration test', function () {
           common.assertGradleFiles(APPNAME);
           frameworkTest.assertBuildFiles('gradle');
           assert.fileContent('build.gradle', "providedCompile ('io.swagger:swagger-annotations:1.5.3')");
+          assert.fileContent('build.gradle', "name = ['apiDiscovery-1.0']");
           done();
         } catch (err) {
           done(err);
@@ -93,6 +94,7 @@ describe('java generator : bff integration test', function () {
           common.assertMavenFiles(APPNAME);
           frameworkTest.assertBuildFiles('maven');
           assert.fileContent('pom.xml', /<groupId>io\.swagger<\/groupId>\s*<artifactId>swagger-annotations<\/artifactId>\s*<version>1\.5\.3<\/version>/);
+          assert.fileContent('pom.xml', /<feature>apiDiscovery-1\.0<\/feature>/);
           done();
         } catch (err) {
           done(err);

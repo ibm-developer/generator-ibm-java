@@ -9,11 +9,11 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Test;
 
-public class HealthEndpointTest {
+public class HealthEndpointIT {
 
     private String port = System.getProperty("liberty.test.port");
     private String warContext = System.getProperty("war.context");
-    private String endpoint = "/health";
+    private String endpoint = "/rest/health";
     private String url = "http://localhost:" + port + "/" + warContext + endpoint;
 
     @Test

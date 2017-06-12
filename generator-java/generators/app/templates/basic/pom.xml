@@ -125,6 +125,36 @@
                             <goal>install-server</goal>
                         </goals>
                     </execution>
+                    {{#has createType 'bff'}}
+                    <execution>
+                      <id>install-feature</id>
+                      <phase>prepare-package</phase>
+                      <goals>
+                          <goal>install-feature</goal>
+                      </goals>
+                      <configuration>
+                          <features>
+                              <acceptLicense>true</acceptLicense>
+                              <feature>apiDiscovery-1.0</feature>
+                          </features>
+                      </configuration>
+                    </execution>
+                    {{/has}}
+                    {{#has technologies 'swagger'}}
+                    <execution>
+                      <id>install-feature</id>
+                      <phase>prepare-package</phase>
+                      <goals>
+                          <goal>install-feature</goal>
+                      </goals>
+                      <configuration>
+                          <features>
+                              <acceptLicense>true</acceptLicense>
+                              <feature>apiDiscovery-1.0</feature>
+                          </features>
+                      </configuration>
+                    </execution>
+                    {{/has}}
                     <execution>
                         <id>package-app</id>
                         <phase>package</phase>

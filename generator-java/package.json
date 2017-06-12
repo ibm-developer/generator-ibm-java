@@ -16,7 +16,7 @@
     "yeoman-test": "^1.6.0",
     "istanbul": "^0.4.5",
     "standard-version": "^4.0.0",
-    "@arf/common-codegen-tests": "0.0.3"
+    "@arf/common-codegen-tests": "0.1.0"
   },
   "scripts": {
     "test": "mocha test/unit/*",
@@ -25,7 +25,12 @@
     "testbasic": "mocha test/integration/generator.basic.test.js",
     "testbasicweb": "mocha test/integration/generator.basicweb.test.js",
     "testms": "mocha test/integration/generator.microservice.test.js",
+    "testbff": "mocha test/integration/generator.bff.test.js",
     "testtech": "mocha test/integration/generator.technologies.test.js",
+    "testbasicwebe2e": "mocha test/endToEnd/generator.basicweb.e2e.test.js",
+    "testbffe2e": "mocha test/endToEnd/generator.bff.e2e.test.js",
+    "testmse2e": "mocha test/endToEnd/generator.microservice.e2e.test.js",
+    "testteche2e": "mocha test/endToEnd/generator.technologies.e2e.test.js",
     "testcommon": "mocha test/common/*",
     "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/unit/*",
     "coverageint": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/integration/*",

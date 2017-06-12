@@ -49,8 +49,6 @@ function Options(buildType) {
     common.assertObjectStorage(objectStorage);
     common.assertK8s(appName);
     common.assertFiles('', true, 'README.md');
-    common.assertFiles('src', true, 'main/java/application/rest/HealthEndpoint.java',
-                                    'test/java/it/HealthEndpointTest.java')
     frameworkTest = framework.test(FRAMEWORK);
     frameworkTest.assertCloudant(cloudant);
     frameworkTest.assertObjectStorage(objectStorage);

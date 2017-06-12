@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Test;
 
-public class HealthEndpointTest {
+public class HealthEndpointIT {
 
     private String port = System.getProperty("liberty.test.port");
     private String warContext = System.getProperty("war.context");
