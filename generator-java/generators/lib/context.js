@@ -63,14 +63,58 @@ function Context(id, config, promptmgr) {
         var f1 = existing.feature.split('-');
         var f2 = dep.feature.split('-');
         if(f1[0] === f2[0]) {
-          //groupId and artifactId match, so need to check other details
+          //feature name matches so need to check other details
           if(f1[1] === f2[1]) {
-            return;   //exact duplicates are fine, so stop checking
+            return;   //exact version duplicates are fine, so stop checking
           }
           throw 'Framework dependency conflict, existing : ' + JSON.stringify(existing) + ', new : ' + JSON.stringify(dep);
         }
       });
       this.conf.frameworkDependencies.push(dep);
+    })
+  }
+
+  this.addJNDIEntries = (entries) => {
+    if(!entries) return;   //nothing to add
+    if (!Array.isArray(paths)) {
+      throw 'Entries is not an array, it is ' + JSON.stringify(entries);
+    }
+    //merge an array of JNDI entries into the internal config object
+    if(!this.conf.jndiEntries) this.conf.jndiEntries = [];
+    entries.forEach(entry => {
+      //see if there is a conflict with existing entry
+      this.conf.jndiEntries.forEach(existing => {
+        if(existing.name === entry.name) {
+          //names match so have to check the values
+          if(existing.value === entry.value) {
+            return;   //exact duplicates are fine, so stop checking
+          }
+          throw 'JNDI entry conflict, existing : ' + JSON.stringify(existing) + ', new : ' + JSON.stringify(entry);
+        }
+      });
+      this.conf.jndiEntries.push(entry);
+    })
+  }
+
+  this.addEnvEntries = (entries) => {
+    if(!entries) return;   //nothing to add
+    if (!Array.isArray(paths)) {
+      throw 'Entries is not an array, it is ' + JSON.stringify(entries);
+    }
+    //merge an array of JNDI entries into the internal config object
+    if(!this.conf.envEntries) this.conf.envEntries = [];
+    entries.forEach(entry => {
+      //see if there is a conflict with existing entry
+      this.conf.envEntries.forEach(existing => {
+        if(existing.name === entry.name) {
+          //names match so have to check the values
+          if(existing.value === entry.value) {
+            return;   //exact duplicates are fine, so stop checking
+          }
+          throw 'Environment entry conflict, existing : ' + JSON.stringify(existing) + ', new : ' + JSON.stringify(entry);
+        }
+      });
+      this.conf.envEntries.push(entry);
     })
   }
 

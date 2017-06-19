@@ -74,7 +74,6 @@ PromptManager.prototype.setExtension = function(createType) {
 }
 
 PromptManager.prototype.afterPrompt = function(answers, config) {
-  //console.log('Updateing prompts');
   for(var i = 0; i < this.prompts.length; i++) {
     var prompt = this.prompts[i];
     var questions = prompt.getQuestions();

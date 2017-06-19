@@ -51,8 +51,6 @@ module.exports = class extends Generator {
     config = new Config();
     promptmgr = new PromptMgr(config);
 
-    //promptmgr.add('common');
-    //promptmgr.add('liberty');
     promptmgr.add('patterns');
     promptmgr.add('bluemix');
     logger.writeToLog("Config (default)", config);
@@ -144,18 +142,6 @@ module.exports = class extends Generator {
     }
 
     logger.writeToLog("Processor", processor);
-
-    // var control = new Control(fspath.resolve(config.templateRoot, config.createType), config);
-    // var paths = control.getComposition();
-    // config.processProject(paths);
-    // if(!config.dependencies) config.dependencies = [];
-    // if(!config.frameworkDependencies) config.frameworkDependencies = [];
-    //
-    // contexts.forEach(context => {
-    //   config.dependencies = config.dependencies.concat(context.conf.dependencies);
-    //   config.frameworkDependencies = config.frameworkDependencies.concat(context.conf.frameworkDependencies);
-    // });
-
     return processor.scan(config, (relativePath, template) => {
       var outFile = this.destinationPath(relativePath);
       logger.writeToLog("CB : writing to", outFile);
