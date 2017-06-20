@@ -25,10 +25,10 @@ const VERSION = '1.0.0';
 const APPNAME = 'testApp';
 const FRAMEWORK = 'liberty';  //TODO alter to allow spring as well
 
-var path = require('path');
-var assert = require('yeoman-assert');
-var helpers = require('yeoman-test');
-var common = require('../lib/commontest');
+const path = require('path');
+const assert = require('yeoman-assert');
+const helpers = require('yeoman-test');
+const common = require('../lib/test-common');
 
 const framework = require('../lib/test-framework');
 const tests = require('@arf/java-common');
@@ -72,11 +72,12 @@ function Options(buildType) {
   }
   //general framework tests which apply to all of them
   this.assertFramework = function(appName) {
-    framework.test(FRAMEWORK).assertCommonFiles(false, appName);
+    framework.test(FRAMEWORK).assertFiles(appName);
     framework.test(FRAMEWORK).assertBuildFiles(this.values.buildType);
   }
   //Liberty specific framework tests
   this.assertliberty = function() {
+    framework.test(FRAMEWORK).assertSourceFiles(false);
     framework.test(FRAMEWORK).assertFeatures('jaxrs-2.0');
     framework.test(FRAMEWORK).assertFeatures('jsonp-1.0');
     framework.test(FRAMEWORK).assertFeatures('jndi-1.0');

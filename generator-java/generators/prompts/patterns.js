@@ -17,7 +17,6 @@
 'use strict'
 
 var logger = require("../lib/log");
-var defaults = require('../lib/defaults');
 
 const PROMPT_ID = 'prompt:patterns';
 
@@ -71,26 +70,26 @@ Extension.prototype.getQuestions = function() {
       value : 'bff',
       short : 'Backend For Frontend'
     }],
-    default : defaults.get('createType')
+    default : this.config.createType
     }, {
       when    : this.show.bind(this),
       type    : 'list',
       name    : 'buildType',
       message : 'Select the build type for your project.\n',
       choices : ['maven', 'gradle'],
-      default : defaults.get('buildType')
+      default : this.config.buildType
     }, {
       when    : this.show.bind(this),
       type    : 'input',
       name    : 'appName',
       message : 'Enter a name for your project',
-      default : defaults.get('appName')
+      default : this.config.appName
     }, {
       when    : this.show.bind(this),
       type    : 'input',
       name    : 'groupId',
       message : 'Enter a group id for your project',
-      default : defaults.get('groupId')
+      default : this.config.groupId
     }, {
       when    : this.show.bind(this),
       type    : 'input',

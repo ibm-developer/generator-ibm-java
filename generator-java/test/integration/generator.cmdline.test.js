@@ -18,10 +18,13 @@
  * Tests the generator and the files written out
  */
 'use strict';
-var path = require('path');
-var assert = require('yeoman-assert');
-var helpers = require('yeoman-test');
-var common = require('../lib/commontest');
+const path = require('path');
+const assert = require('yeoman-assert');
+const helpers = require('yeoman-test');
+const common = require('../lib/test-common');
+
+const tests = require('@arf/java-common');
+const test = tests.test('gradle');
 
 const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
@@ -43,21 +46,13 @@ describe('java generator integration test', function () {
           createType: 'basic',
           version : VERSION,
           appName : APPNAME,
-          groupId : GROUPID
+          groupId : GROUPID,
+          artifactId : ARTIFACTID
         })
         .toPromise();                        // Get a Promise back when the generator finishes
     });
 
-    it('should create a gradle based project', function () {
-      common.assertGradleFiles(APPNAME)
-    });
-
-    it('should have carried out replacements', function () {
-      assert.fileContent('build.gradle', "appName = '" + APPNAME + "'");
-      assert.fileContent('build.gradle', "group = '" + GROUPID + "'");
-      assert.fileContent('build.gradle', "version = '" + VERSION + "'");
-      assert.noFileContent('build.gradle', ARTIFACTID);
-    });
+    test.assertApplication(APPNAME, GROUPID, ARTIFACTID, VERSION);
 
   });
 });

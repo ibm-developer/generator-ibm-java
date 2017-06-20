@@ -16,23 +16,27 @@
 
 'use strict'
 const path = require('path');
-var assert = require('yeoman-assert');
+const assert = require('yeoman-assert');
 const liberty = require('@arf/generator-liberty');
-const assertLiberty = new liberty.integrationAsserts.liberty();
 const tests = require('@arf/java-common');
+
+const assertLiberty = new liberty.integrationAsserts.liberty();
 
 function test_liberty() {
 }
 
-test_liberty.prototype.assertCommonFiles = function(springSelected, name) {
-  assertLiberty.assertAllFiles(true);
-  assertLiberty.assertContextRoot(name);
-  it('should contain Liberty files common across all project types', function() {
+test_liberty.prototype.assertSourceFiles = function(springSelected) {
+  it('should contain Java code files common across all project types', function() {
     var check = springSelected ? assert.noFile : assert.file;
     check('src/main/java/application/rest/HealthEndpoint.java');
     check('src/main/java/application/rest/JaxrsApplication.java');
     check('src/test/java/it/HealthEndpointIT.java');
   });
+}
+
+test_liberty.prototype.assertFiles = function(name) {
+  assertLiberty.assertAllFiles(true);
+  assertLiberty.assertContextRoot(name);
 }
 
 test_liberty.prototype.assertBuildFiles = function(buildType) {
@@ -70,7 +74,9 @@ test_liberty.prototype.assertFeatures = function() {
   }
   var i;
   var check;
+  var exists = true;
   if(typeof(arguments[0]) === "boolean") {
+    exists = arguments[0];
     check = arguments[0] ? assert.fileContent : assert.noFileContent;
     i = 1;
   } else {
@@ -79,7 +85,7 @@ test_liberty.prototype.assertFeatures = function() {
   }
   for(i; i < arguments.length; i++) {
     if (arguments[i] && typeof arguments[i] === 'string') {
-      assertLiberty.assertFeature(true, arguments[i]);
+      assertLiberty.assertFeature(exists, arguments[i]);
     }
   }
 }

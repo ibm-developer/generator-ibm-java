@@ -29,15 +29,16 @@ const APPNAME = 'testApp';
 const FRAMEWORK = 'liberty';
 const INDEX_HTML = 'src/main/webapp/index.html';
 
-var framework = require('../lib/test-framework');
+//external modules
+const liberty = require('@arf/generator-liberty');
 const tests = require('@arf/java-common');
 
+//internal libraries
+var framework = require('../lib/test-framework');
 var common = require('../lib/test-common');
 var command = require('../lib/test-command');
 var bluemix = require('../lib/test-bluemix.js');
 var kube = require('../lib/test-kube.js');
-
-const liberty = require('@arf/generator-liberty');
 
 function Options(createType, buildType, testBluemix, technologies, springSelected) {
   this.assertTech = new liberty.integrationAsserts.technologies();
@@ -63,8 +64,9 @@ function Options(createType, buildType, testBluemix, technologies, springSelecte
     throw "getCompileCommand : expected buildType to be one of maven or gradle";
   }
   this.assert = function() {
-    common.assertCommonFiles();
-    framework.test(FRAMEWORK).assertCommonFiles(springSelected);
+    common.assertFiles('.', true, 'README.md', 'Dockerfile');
+    framework.test(FRAMEWORK).assertFiles(APPNAME);
+    framework.test(FRAMEWORK).assertSourceFiles(springSelected);
     framework.test(FRAMEWORK).assertBuildFiles(this.options.buildType);
     tests.test(this.options.buildType).assertApplication(APPNAME, GROUPID, ARTIFACTID, VERSION);
     bluemix.test(testBluemix);

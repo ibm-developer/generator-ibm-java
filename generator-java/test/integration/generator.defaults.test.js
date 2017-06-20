@@ -18,10 +18,12 @@
  * Tests the generator and the files written out
  */
 'use strict';
-var path = require('path');
-var assert = require('yeoman-assert');
-var helpers = require('yeoman-test');
-var common = require('../lib/commontest');
+const path = require('path');
+const assert = require('yeoman-assert');
+const helpers = require('yeoman-test');
+
+const tests = require('@arf/java-common');
+const test = tests.test('maven');
 
 describe('java generator integration test', function () {
 
@@ -37,17 +39,7 @@ describe('java generator integration test', function () {
         .toPromise();                        // Get a Promise back when the generator finishes
     });
 
-
-
-    it('should create a maven based project', function () {
-      common.assertMavenFiles('LibertyProject');
-    });
-
-    it('should have carried out replacements', function () {
-      assert.fileContent('pom.xml', '<groupId>liberty.projects</groupId>');
-      assert.fileContent('pom.xml', '<artifactId>example</artifactId>');
-      assert.fileContent('pom.xml', '<version>1.0-SNAPSHOT</version>');
-    });
+    test.assertApplication('LibertyProject', 'liberty.projects', 'example', '1.0-SNAPSHOT');
 
   });
 });

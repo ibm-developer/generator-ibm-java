@@ -73,7 +73,7 @@ Extension.prototype.afterPrompt = function(answers, config) {
     }
     logger.writeToLog("Processing interactive answers", answers.services);
     config.bluemix.server = {
-      name : "testBxName",
+      name : answers.appName || config.appName || "testBxName",
       host : "host",
       domain : "domain"
     }
