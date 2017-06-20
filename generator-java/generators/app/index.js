@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-var Generator = require('yeoman-generator');
-var Handlebars = require('handlebars');
-var Config = require("../lib/config");
-var processor = require("../lib/fsprocessor");
-var helpers = require("../lib/helpers");
-var fspath = require('path');
-var logger = require("../lib/log");
-var fs = require('fs');
-var Control = require('../lib/control');
-var PromptMgr = require('../lib/promptmgr');
-var defaults = require('../lib/defaults');
-var Context = require('../lib/context');
+const Generator = require('yeoman-generator');
+const fspath = require('path');
+const fs = require('fs');
 const extend = require('extend');
+
+const PromptMgr = require('../lib/promptmgr');
+const defaults = require('../lib/defaults');
+
+const common = require('@arf/java-common');
+const Config = common.config;
+const processor = common.fsprocessor;
+const Context = common.context;
+const Control = common.control;
+const logger = common.log;
+const Handlebars = require('../lib/helpers').handlebars;
 
 var config = undefined;
 var promptmgr = undefined;
@@ -48,7 +50,7 @@ module.exports = class extends Generator {
   }
 
   initializing() {
-    config = new Config();
+    config = new Config(defaults);
     promptmgr = new PromptMgr(config);
 
     promptmgr.add('patterns');

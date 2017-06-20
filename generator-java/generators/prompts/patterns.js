@@ -16,7 +16,7 @@
 
 'use strict'
 
-var logger = require("../lib/log");
+var logger = require('@arf/java-common').log;
 
 const PROMPT_ID = 'prompt:patterns';
 
