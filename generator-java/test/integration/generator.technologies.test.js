@@ -36,7 +36,7 @@ const tests = require('@arf/java-common');
 //internal libraries
 var framework = require('../lib/test-framework');
 var common = require('../lib/test-common');
-var command = require('../lib/test-command');
+const command = tests.test('command');
 var bluemix = require('../lib/test-bluemix.js');
 var kube = require('../lib/test-kube.js');
 
@@ -54,38 +54,22 @@ function Options(createType, buildType, testBluemix, technologies, springSelecte
     artifactId : ARTIFACTID,
     version : VERSION
   }
-  this.getCompileCommand = function() {
-    if(this.options.buildType === 'maven') {
-      return 'mvn test-compile'; //compiles the main and test classes
-    }
-    if(this.options.buildType === 'gradle') {
-      return 'gradle compileTestJava'; //compiles the main and test classes
-    }
-    throw "getCompileCommand : expected buildType to be one of maven or gradle";
-  }
   this.assert = function() {
     common.assertFiles('.', true, 'README.md', 'Dockerfile');
-    framework.test(FRAMEWORK).assertFiles(APPNAME);
-    framework.test(FRAMEWORK).assertSourceFiles(springSelected);
-    framework.test(FRAMEWORK).assertBuildFiles(this.options.buildType);
-    tests.test(this.options.buildType).assertApplication(APPNAME, GROUPID, ARTIFACTID, VERSION);
+    tests.test(buildType).assertApplication(APPNAME, GROUPID, ARTIFACTID, VERSION);
     bluemix.test(testBluemix);
-    this.assertTech.assert();
+    this.assertTech.assert(APPNAME, springSelected);
   }
   this.assertCompiles = function() {
-    command.run(this.getCompileCommand());
+    command.run(tests.test(buildType).getCompileCommand());
   }
   this.assertpicnmix = function() {
-    this.assert();    //there are no additional files to check for
+    this.assert(this.options.appName, false);    //there are no additional files to check for
     kube.test(this.options.appName, false);
   }
   this.assertmsbuilder = function() {
-    this.assert();    //there are no additional files to check for
+    this.assert(this.options.appName, false);    //there are no additional files to check for
     kube.test(this.options.appName, true);
-    it('adds MS Builder section to index.html', function() {
-      assert.fileContent(INDEX_HTML, '<h2>Microservice Builder');
-    });
-    this.assertmicroprofiledep();
   }
   this.before = function() {
     return helpers.run(path.join( __dirname, '../../generators/app'))
@@ -94,69 +78,34 @@ function Options(createType, buildType, testBluemix, technologies, springSelecte
       .toPromise();
   }
   this.assertrest = function() {
-    tests.test(this.options.buildType).assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
-    tests.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
-    tests.test(this.options.buildType).assertDependency('provided', 'javax.json', 'javax.json-api', '1.0');
-    tests.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
-    framework.test(FRAMEWORK).assertFeatures('jaxrs-2.0', 'jsonp-1.0');
-    this.assertTech.assertrest();
+    this.assertTech.assertrest(this.options.buildType);
   }
   this.assertmicroprofile = function() {
-    this.assertmicroprofiledep();
-    this.assertTech.assertmicroprofile();
-  }
-  this.assertmicroprofiledep = function() {
-    tests.test(this.options.buildType).assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
-    tests.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
-    tests.test(this.options.buildType).assertDependency('provided', 'javax.json', 'javax.json-api', '1.0');
-    tests.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
-    tests.test(this.options.buildType).assertDependency('provided', 'javax.enterprise', 'cdi-api', '1.2');
-    framework.test(FRAMEWORK).assertFeatures('microprofile-1.0');
+    this.assertTech.assertmicroprofile(this.options.buildType);
   }
   this.assertpersistence = function() {
-    tests.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.persistence', '1.0.10');
-    tests.test(this.options.buildType).assertDependency('provided', 'org.eclipse.persistence', 'javax.persistence', '2.1.0');
-    framework.test(FRAMEWORK).assertFeatures('jpa-2.1');
-    this.assertTech.assertpersistence();
+    this.assertTech.assertpersistence(this.options.buildType);
   }
   this.assertwebsockets = function() {
-    tests.test(this.options.buildType).assertDependency('provided', 'javax.websocket', 'javax.websocket-api', '1.1');
-    framework.test(FRAMEWORK).assertFeatures('websocket-1.1');
-    this.assertTech.assertwebsockets();
+    this.assertTech.assertwebsockets(this.options.buildType);
   }
   this.assertservlet = function() {
-    tests.test(this.options.buildType).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
-    tests.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
-    framework.test(FRAMEWORK).assertFeatures('servlet-3.1');
-    this.assertTech.assertservlet();
+    this.assertTech.assertservlet(this.options.buildType);
   }
   this.assertwatsonsdk = function() {
-    tests.test(this.options.buildType).assertDependency('compile', 'com.ibm.watson.developer_cloud', 'java-sdk', '3.5.1');
-    this.assertTech.assertwatsonsdk();
+    this.assertTech.assertwatsonsdk(this.options.buildType);
   }
   this.assertswagger = function() {
-    tests.test(this.options.buildType).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
-    tests.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
-    tests.test(this.options.buildType).assertDependency('provided', 'io.swagger', 'swagger-annotations', '1.5.3');
-    framework.test(FRAMEWORK).assertFeatures('apiDiscovery-1.0');
-    this.assertTech.assertswagger();
+    this.assertTech.assertswagger(this.options.buildType);
   }
   this.assertspringboot_web = function() {
-    tests.test(this.options.buildType).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
-    tests.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
-    var exclusions = [{"groupId" : "org.springframework.boot", "artifactId" : "spring-boot-starter-tomcat"}];
-    tests.test(this.options.buildType).assertDependency('compile', 'org.springframework.boot', 'spring-boot-starter-web', '1.3.0.RELEASE', exclusions);
-    this.assertTech.assertspringboot_web();
+    this.assertTech.assertspringboot_web(this.options.buildType);
   }
   this.assertspringboot_webonly = function() {
-    tests.test(this.options.buildType).assertNoDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
-    tests.test(this.options.buildType).assertNoDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
-    framework.test(FRAMEWORK).assertFeatures(false, 'jaxrs-2.0');
+    this.assertTech.assertspringboot_webonly(this.options.buildType);
   }
   this.asserthealthdeps = function() {
-    tests.test(this.options.buildType).assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
-    tests.test(this.options.buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
-    framework.test(FRAMEWORK).assertFeatures('jaxrs-2.0');
+    this.assertTech.asserthealthdeps(this.options.buildType);
   }
 }
 

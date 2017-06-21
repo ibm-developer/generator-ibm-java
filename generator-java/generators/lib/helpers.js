@@ -16,7 +16,7 @@
 
 //helpers only used by the main generator and so are not shared
 const common = require('@arf/java-common');
-const Handlebars = common.helpers.handlebars;   //this will add the helpers to the main handlebars
+const Handlebars = common.handlebars;   //this will add the helpers to the main handlebars
 
 //lookup and resolve references to data types, will return the Java class name
 Handlebars.registerHelper('refLookup', function(ref) {

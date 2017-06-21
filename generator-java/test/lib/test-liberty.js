@@ -54,6 +54,7 @@ test_liberty.prototype.assertBuildFiles = function(buildType) {
 }
 
 var assertMavenFiles = function() {
+  assertLiberty.assertVersion('maven');
   tests.test('maven').assertProperty('warContext', '${app.name}');
   tests.test('maven').assertProperty('package.file', '${project.build.directory}/${app.name}.zip');
   tests.test('maven').assertProperty('packaging.type', 'usr');
