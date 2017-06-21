@@ -114,7 +114,7 @@ var assertObjectStorageJava = function(exists) {
 
 //assert that K8s specific files are present
 var assertK8s = function(appname) {
-  assert.fileContent('manifests/kube.deploy.yml', 'name: "' + appname + '-service"')
+  assert.fileContent('manifests/kube.deploy.yml', 'name: "' + appname.toLowerCase() + '-service"')
   assert.fileContent('Jenkinsfile', 'image = \''+ appname.toLowerCase() + '\'');
 }
 
