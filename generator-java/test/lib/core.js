@@ -86,12 +86,6 @@ class Options {
        check.content('README.md', 'cloudant');
      }
    });
-   it(check.desc + 'cloudant source files', function () {
-     if(exists) {
-       check.content('src/main/java/application/rest/v1/Example.java','Cloudant'); //check Cloudant service present
-       check.content('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-cloudantNoSQLDB-000")');
-     }
-   });
    if(exists) {
      tests.test(this.prompts.buildType || this.values.buildType).assertDependency('compile', 'com.cloudant', 'cloudant-client', '2.7.0');
    }
@@ -101,12 +95,6 @@ class Options {
    it(check.desc + 'Object Storage README entry', function () {
      if(exists) {
        check.content('README.md', 'Object Storage service');
-     }
-   });
-   it(check.desc + 'Object Storage source files', function () {
-     if(exists) {
-       check.content('src/main/java/application/rest/v1/Example.java','OSClient'); //check object Storage service present
-       check.content('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-Object-Storage-000")');
      }
    });
    if(exists) {
