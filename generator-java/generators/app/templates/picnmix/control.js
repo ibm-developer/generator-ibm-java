@@ -10,7 +10,7 @@
   ],
   "composition" : [
     "basic",
-    "frameworks/liberty",
+    "@arf/generator-liberty:liberty",
     {{#bluemix}}
     "platform/cli",
     "platform/bluemix",

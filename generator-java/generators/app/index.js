@@ -108,6 +108,12 @@ module.exports = class extends Generator {
     contexts.forEach(context => {
       context.addDependencies(config.dependencies);
       context.addFrameworkDependencies(config.frameworkDependencies);
+      if(config.envEntries) {
+        context.addEnvEntries(config.envEntries);
+      }
+      if(config.jndiEntries) {
+        context.addJNDIEntries(config.jndiEntries);
+      }
       context.addCompositions(control.getSubComposition(context.id));
     });
     logger.writeToLog("Destination path", this.destinationRoot());

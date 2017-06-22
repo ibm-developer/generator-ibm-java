@@ -14,7 +14,7 @@
     "platform/cli",
     "platform/bluemix",
     "platform/kube",
-    "frameworks/liberty",
+    "@arf/generator-liberty:liberty",
     {{#bluemix}}
     {{#server.services}}
     "services/common",
