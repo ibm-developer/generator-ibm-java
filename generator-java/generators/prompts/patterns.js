@@ -16,8 +16,7 @@
 
 'use strict'
 
-var logger = require("../lib/log");
-var defaults = require('../lib/defaults');
+var logger = require('@arf/java-common').log;
 
 const PROMPT_ID = 'prompt:patterns';
 
@@ -71,8 +70,33 @@ Extension.prototype.getQuestions = function() {
       value : 'bff',
       short : 'Backend For Frontend'
     }],
-    default : defaults.get('createType')
-  }];
+    default : this.config.createType
+    }, {
+      when    : this.show.bind(this),
+      type    : 'list',
+      name    : 'buildType',
+      message : 'Select the build type for your project.\n',
+      choices : ['maven', 'gradle'],
+      default : this.config.buildType
+    }, {
+      when    : this.show.bind(this),
+      type    : 'input',
+      name    : 'appName',
+      message : 'Enter a name for your project',
+      default : this.config.appName
+    }, {
+      when    : this.show.bind(this),
+      type    : 'input',
+      name    : 'groupId',
+      message : 'Enter a group id for your project',
+      default : this.config.groupId
+    }, {
+      when    : this.show.bind(this),
+      type    : 'input',
+      name    : 'artifactId',
+      message : 'Enter an artifact id for your project',
+      default : (answers) => {return answers.appName}
+    }];
 }
 
 Extension.prototype.afterPrompt = function(answers, config) {

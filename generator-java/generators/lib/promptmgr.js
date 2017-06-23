@@ -28,8 +28,9 @@ function PromptManager(config) {
   this.config = config;
 }
 
-PromptManager.prototype.add = function(name) {
-  var Ext = require('../prompts/' + name + '.js');
+PromptManager.prototype.add = function(prompt) {
+  //allow already resolved names to be passed in
+  var Ext = (typeof prompt === 'string') ? require('../prompts/' + prompt + '.js') : prompt;
   var ext = new Ext(this.config);
   this.prompts.push(ext);
 
@@ -41,13 +42,14 @@ PromptManager.prototype.add = function(name) {
   //create an index of createType by extension
   var extqs = ext.getQuestions();
   for(var i = 0; i < extqs.length; i++) {
-    if(extqs[i].name === 'createType') {
+    if(extqs[i].prompt === 'createType') {
       for(var j = 0; j < extqs[i].choices.length; j++) {
         this.types[extqs[i].choices[j].value] = ext;
       }
       break;
     }
   }
+  return ext;     //return the configured extension so that it can configured further if required
 }
 
 PromptManager.prototype.getQuestions = function() {

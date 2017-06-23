@@ -16,7 +16,7 @@
 
 //module for storing default configuration values
 
-var processor = require("../lib/fsprocessor");
+const processor = require('@arf/java-common').fsprocessor;
 
 const DEFAULTS = {
   appName : {desc : 'Name of the application', type : String, default : 'LibertyProject'},

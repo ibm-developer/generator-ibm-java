@@ -26,7 +26,8 @@ const GROUPID = 'test.group';
 const VERSION = '1.0.0';
 const APPNAME = 'testApp';
 
-var command = require('../lib/test-command');
+const tests = require('@arf/java-common');
+const command = tests.test('command');
 
 function Options(buildType) {
   this.options = {
@@ -39,17 +40,8 @@ function Options(buildType) {
     artifactId : ARTIFACTID,
     version : VERSION
   }
-  this.getBuildCommand = function() {
-    if(this.options.buildType === 'maven') {
-      return 'mvn install'; //compiles the main and test classes
-    }
-    if(this.options.buildType === 'gradle') {
-      return 'gradle build'; //compiles the main and test classes
-    }
-    throw "getBuildCommand : expected buildType to be one of maven or gradle";
-  }
   this.assertBuilds = function() {
-    command.run(this.getBuildCommand());
+    command.run(tests.test(buildType).getBuildCommand());
   }
   this.before = function() {
     return helpers.run(path.join( __dirname, '../../generators/app'))
