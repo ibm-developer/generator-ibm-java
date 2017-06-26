@@ -16,7 +16,7 @@ if [ $? != 0 ]; then
 fi
 ../scan.sh
 if [ $? != 0 ]; then
-  exit $?
+  echo "WARNING : scan failed, see logs for more details"
 fi
 git status
 git add ../docs

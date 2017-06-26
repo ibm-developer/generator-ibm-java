@@ -22,12 +22,6 @@ const path = require('path');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 
-const ARTIFACTID = 'artifact.0.1';
-const GROUPID = 'test.group';
-const VERSION = '1.0.0';
-const APPNAME = 'testApp';
-const FRAMEWORK = 'liberty';
-
 const common = require('../lib/test-common');
 const framework = require('../lib/test-framework');
 const tests = require('@arf/java-common');
@@ -53,21 +47,21 @@ describe('java generator : bff integration test', function () {
 
   describe('Generates a basic bff project (no bluemix), gradle build', function () {
     var options = new Options();
-    options.prompts = {extName : 'prompt:patterns', buildType : 'gradle', createType: 'bff', services: ['none'], appName: APPNAME, artifactId: ARTIFACTID};
+    options.prompts = {extName : 'prompt:patterns', buildType : 'gradle', createType: 'bff', services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
     before(options.before.bind(options));
-    options.assert(APPNAME, APPNAME, false, false);
+    options.assert(core.APPNAME, core.APPNAME, false, false);
   });
 
   describe('Generates a basic bff project (no bluemix), maven build', function () {
     var options = new Options();
-    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'bff', services: ['none'], appName: APPNAME, artifactId: ARTIFACTID};
+    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'bff', services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
     before(options.before.bind(options));
-    options.assert(APPNAME, APPNAME, false, false);
+    options.assert(core.APPNAME, core.APPNAME, false, false);
   });
 
   describe('Generates a basic bff project (bluemix) with cloudant', function () {
     var options = new Options();
-    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'bff', services : ['cloudant'], appName : 'bxName', artifactId: ARTIFACTID};
+    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'bff', services : ['cloudant'], appName : 'bxName', artifactId: core.ARTIFACTID};
     before(options.before.bind(options));
     options.assert('bxName', 'bxName', true, false);
     options.assertCloudant();
@@ -75,7 +69,7 @@ describe('java generator : bff integration test', function () {
 
   describe('Generates a basic bff project (bluemix) with Object Storage', function () {
     var options = new Options();
-    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'bff', services : ['objectStorage'], appName : 'bxName', artifactId: ARTIFACTID};
+    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'bff', services : ['objectStorage'], appName : 'bxName', artifactId: core.ARTIFACTID};
     before(options.before.bind(options));
     options.assert('bxName', 'bxName', false, true);
     options.assertObjectStorage();
@@ -83,7 +77,7 @@ describe('java generator : bff integration test', function () {
 
   describe('Generates a basic bff project (bluemix) with Cloudant and Object Storage', function () {
     var options = new Options();
-    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'bff', services : ['objectStorage','cloudant'], appName : 'bxName', artifactId: ARTIFACTID};
+    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'bff', services : ['objectStorage','cloudant'], appName : 'bxName', artifactId: core.ARTIFACTID};
     before(options.before.bind(options));
     options.assert('bxName', 'bxName', true, true);
     options.assertCloudant();
