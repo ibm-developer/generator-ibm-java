@@ -25,6 +25,7 @@ const helpers = require('yeoman-test');
 
 const common = require('./test-common');
 const framework = require('./test-framework');
+const kube = require('./test-kube');
 const tests = require('@arf/java-common');
 
 const ARTIFACTID = 'artifact.0.1';
@@ -112,7 +113,7 @@ class BxOptions extends Options {
     common.assertCLI(appName);
     common.assertBluemixSrc(cloudant || objectStorage);
     common.assertManifestYml(ymlName, cloudant || objectStorage);
-    common.assertK8s(appName);
+    kube.test(appName, true);
 
     this.assertCloudant(cloudant);
     this.assertObjectStorage(objectStorage);
