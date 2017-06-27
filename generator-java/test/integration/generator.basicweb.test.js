@@ -32,7 +32,7 @@ const VERSION = '1.0.0';
 const APPNAME = 'testApp';
 const FRAMEWORK = 'liberty';
 
-class Options extends core.Options {
+class Options extends core.BxOptions {
 
   assert(appName, ymlName, cloudant, objectStorage) {
     super.assert(appName, ymlName, cloudant, objectStorage);

@@ -71,6 +71,17 @@ class Options {
  assertliberty() {
    common.assertCommonLibertyFiles();
  }
+
+ before() {
+   return helpers.run(path.join( __dirname, '../../generators/app'))
+     .withOptions(this.values)
+     .withPrompts(this.prompts)
+     .toPromise();
+ }
+}
+
+//mlore advanced bluemix test options which expects source code etc.
+class BxOptions extends Options {
  assertCloudant(exists) {
    var check = getCheck(exists);
    it(check.desc + 'cloudant README entry', function () {
@@ -95,16 +106,6 @@ class Options {
    }
  }
 
- before() {
-   return helpers.run(path.join( __dirname, '../../generators/app'))
-     .withOptions(this.values)
-     .withPrompts(this.prompts)
-     .toPromise();
- }
-}
-
-//mlore advanced bluemix test options which expects source code etc.
-class BxOptions extends Options {
   assert(appName, ymlName, cloudant, objectStorage) {
     super.assert(appName, ymlName, cloudant, objectStorage);
     common.assertCommonBxFiles();
@@ -113,6 +114,8 @@ class BxOptions extends Options {
     common.assertManifestYml(ymlName, cloudant || objectStorage);
     common.assertK8s(appName);
 
+    this.assertCloudant(cloudant);
+    this.assertObjectStorage(objectStorage);
     framework.test(FRAMEWORK).assertCloudant(cloudant);
     framework.test(FRAMEWORK).assertObjectStorage(objectStorage);
   }
