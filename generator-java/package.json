@@ -8,7 +8,10 @@
   ],
   "dependencies": {
     "handlebars": "^4.0.0",
-    "yeoman-generator": "^1.0.0"
+    "yeoman-generator": "^1.0.0",
+    "@arf/generator-liberty": "^1.1.0",
+    "extend": "^3.0.1",
+    "@arf/java-common": "^0.1.0"
   },
   "devDependencies": {
     "mocha": "^3.2.0",
@@ -24,6 +27,8 @@
     "teste2e": "mocha test/endToEnd/*",
     "testbasic": "mocha test/integration/generator.basic.test.js",
     "testbasicweb": "mocha test/integration/generator.basicweb.test.js",
+    "testcmd": "mocha test/integration/generator.cmdline.test.js",
+    "testdefaults": "mocha test/integration/generator.defaults.test.js",
     "testms": "mocha test/integration/generator.microservice.test.js",
     "testbff": "mocha test/integration/generator.bff.test.js",
     "testtech": "mocha test/integration/generator.technologies.test.js",

@@ -18,12 +18,13 @@
  * Tests the basic generator
  */
 'use strict';
-var path = require('path');
-var assert = require('yeoman-assert');
-var helpers = require('yeoman-test');
-var common = require('../lib/commontest');
-var framework = require('../lib/test-framework');
-var frameworkTest;
+const path = require('path');
+const assert = require('yeoman-assert');
+const helpers = require('yeoman-test');
+const common = require('../lib/test-common');
+const framework = require('../lib/test-framework');
+const tests = require('@arf/java-common');
+const core = require('../lib/core');
 
 const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
@@ -31,127 +32,54 @@ const VERSION = '1.0.0';
 const APPNAME = 'testApp';
 const FRAMEWORK = 'liberty';
 
-function Options() {
-  this.debug = "true";
-  this.version = VERSION;
-  this.groupId = GROUPID;
-  this.assert = function(appName, ymlName, cloudant, objectStorage) {
-    common.assertCommonFiles();
-    common.assertCLI(appName);
-    common.assertBluemixSrc(cloudant || objectStorage);
-    common.assertManifestYml(ymlName, cloudant || objectStorage);
-    common.assertCloudant(cloudant);
-    common.assertObjectStorage(objectStorage);
-    common.assertK8s(appName);
+class Options extends core.BxOptions {
+
+  assert(appName, ymlName, cloudant, objectStorage) {
+    super.assert(appName, ymlName, cloudant, objectStorage);
     common.assertFiles('src/main/webapp', true, 'index.html', '/css/default.css', 'js/bundle.js');
-    frameworkTest = framework.test(FRAMEWORK);
-    frameworkTest.assertCloudant(cloudant);
-    frameworkTest.assertObjectStorage(objectStorage);
   }
 }
 
+
 describe('java generator : basic integration test', function () {
 
-  describe('Generates a basic web project (no bluemix)', function () {
-
-    it('with gradle build system', function (done) {
-      var options = new Options();
-      helpers.run(path.join( __dirname, '../../generators/app'))
-        .withOptions(options)
-        .withPrompts({extName : 'prompt:patterns', buildType : 'gradle', createType: 'basicweb', services: ['none'], appName: APPNAME})
-      .toPromise().then(function() {
-        try {
-          options.assert(APPNAME, APPNAME, false, false);
-          common.assertGradleFiles(APPNAME);
-          frameworkTest.assertBuildFiles('gradle');
-          done();
-        } catch (err) {
-          done(err);
-        }
-      }, function(err) {
-        done(err);
-      });                        // Get a Promise back when the generator finishes
-    });
-
-    it('with maven build system', function (done) {
-      var options = new Options();
-      helpers.run(path.join( __dirname, '../../generators/app'))
-        .withOptions(options)
-        .withPrompts({extName : 'prompt:patterns', buildType : 'maven', createType: 'basicweb', appName: APPNAME })
-      .toPromise().then(function() {
-        try {
-          options.assert(APPNAME, APPNAME, false, false);
-          common.assertMavenFiles(APPNAME);
-          frameworkTest.assertBuildFiles('maven');
-          done();
-        } catch (err) {
-          done(err);
-        }
-      }, function(err) {
-        done(err);
-      });                        // Get a Promise back when the generator finishes
-    });
-
+  describe('Generates a basic web project (no bluemix), gradle build', function () {
+    var options = new Options();
+    options.prompts = {extName : 'prompt:patterns', buildType : 'gradle', createType: 'basicweb', services: ['none'], appName: APPNAME, artifactId: ARTIFACTID};
+    before(options.before.bind(options));
+    options.assert(APPNAME, APPNAME, false, false);
   });
 
-  describe('Generates a basic web project (bluemix)', function () {
+  describe('Generates a basic web project (no bluemix), maven build', function () {
+    var options = new Options();
+    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basicweb', services: ['none'], appName: APPNAME, artifactId: ARTIFACTID};
+    before(options.before.bind(options));
+    options.assert(APPNAME, APPNAME, false, false);
+  });
 
-    it('with cloudant', function (done) {
-      var options = new Options();
-      helpers.run(path.join( __dirname, '../../generators/app'))
-        .withOptions(options)
-        .withPrompts({extName : 'prompt:patterns', buildType : 'maven', createType: 'basicweb', services : ['cloudant'], appName : 'bxName' })
-      .toPromise().then(function() {
-        try {
-          options.assert('bxName', 'testBxName', true, false);
-          common.assertMavenFiles('bxName');
-          frameworkTest.assertBuildFiles('maven');
-          done();
-        } catch (err) {
-          done(err);
-        }
-      }, function(err) {
-        done(err);
-      });                        // Get a Promise back when the generator finishes
-    });
-    it('with objectStorage', function (done) {
-      var options = new Options();
-      helpers.run(path.join( __dirname, '../../generators/app'))
-        .withOptions(options)
-        .withPrompts({extName : 'prompt:patterns', buildType : 'maven', createType: 'basicweb', services : ['objectStorage'], appName : 'bxName' })
-      .toPromise().then(function() {
-        try {
-          options.assert('bxName', 'testBxName', false, true);
-          common.assertMavenFiles('bxName');
-          frameworkTest.assertBuildFiles('maven');
-          done();
-        } catch (err) {
-          done(err);
-        }
-      }, function(err) {
-        done(err);
-      });                        // Get a Promise back when the generator finishes
-    });
+  describe('Generates a basic web project (bluemix) with cloudant', function () {
+    var options = new Options();
+    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basicweb', services : ['cloudant'], appName : 'bxName', artifactId: ARTIFACTID};
+    before(options.before.bind(options));
+    options.assert('bxName', 'bxName', true, false);
+    options.assertCloudant();
+  });
 
-    it('with cloudant and objectStorage', function (done) {
-      var options = new Options();
-      helpers.run(path.join( __dirname, '../../generators/app'))
-        .withOptions(options)
-        .withPrompts({extName : 'prompt:patterns', buildType : 'maven', createType: 'basicweb', services : ['objectStorage', 'cloudant'], appName : 'bxName' })
-      .toPromise().then(function() {
-        try {
-          options.assert('bxName', 'testBxName', true, true);
-          common.assertMavenFiles('bxName');
-          frameworkTest.assertBuildFiles('maven');
-          done();
-        } catch (err) {
-          done(err);
-        }
-      }, function(err) {
-        done(err);
-      });                        // Get a Promise back when the generator finishes
-    });
+  describe('Generates a basic web project (bluemix) with Object Storage', function () {
+    var options = new Options();
+    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basicweb', services : ['objectStorage'], appName : 'bxName', artifactId: ARTIFACTID};
+    before(options.before.bind(options));
+    options.assert('bxName', 'bxName', false, true);
+    options.assertObjectStorage();
+  });
 
+  describe('Generates a basic web project (bluemix) with Cloudant and Object Storage', function () {
+    var options = new Options();
+    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basicweb', services : ['objectStorage','cloudant'], appName : 'bxName', artifactId: ARTIFACTID};
+    before(options.before.bind(options));
+    options.assert('bxName', 'bxName', true, true);
+    options.assertCloudant();
+    options.assertObjectStorage();
   });
 
 });

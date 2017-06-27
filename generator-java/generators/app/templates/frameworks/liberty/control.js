@@ -1,6 +1,0 @@
-{
-  "excludes" : [
-    ".classpath",
-    ".project"
-  ]
-}

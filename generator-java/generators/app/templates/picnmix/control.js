@@ -1,12 +1,7 @@
 {
   "excludes" : [
     ".classpath",
-    ".project",
-    {{#has technologies 'springboot_web'}}
-    "src/main/java/application/rest/HealthEndpoint.java",
-    "src/main/java/application/rest/JaxrsApplication.java",
-    "src/test/java/it/HealthEndpointIT.java"
-    {{/has}}
+    ".project"
   ],
   "excludesDir" : [
     "target",
@@ -15,10 +10,7 @@
   ],
   "composition" : [
     "basic",
-    "frameworks/liberty",
-    {{#each technologies}}
-    "technologies/{{this}}",
-    {{/each}}
+    "@arf/generator-liberty:liberty",
     {{#bluemix}}
     "platform/cli",
     "platform/bluemix",

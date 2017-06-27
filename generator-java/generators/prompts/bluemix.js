@@ -16,7 +16,7 @@
 
 'use strict'
 
-var logger = require("../lib/log");
+var logger = require('@arf/java-common').log;
 
 const PROMPT_ID = 'prompt:bluemix';
 
@@ -73,7 +73,7 @@ Extension.prototype.afterPrompt = function(answers, config) {
     }
     logger.writeToLog("Processing interactive answers", answers.services);
     config.bluemix.server = {
-      name : "testBxName",
+      name : answers.appName || config.appName || "testBxName",
       host : "host",
       domain : "domain"
     }

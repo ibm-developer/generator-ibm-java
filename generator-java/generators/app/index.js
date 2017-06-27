@@ -14,20 +14,26 @@
  * limitations under the License.
  */
 
-var Generator = require('yeoman-generator');
-var Handlebars = require('handlebars');
-var Config = require("../lib/config");
-var processor = require("../lib/fsprocessor");
-var helpers = require("../lib/helpers");
-var fspath = require('path');
-var logger = require("../lib/log");
-var fs = require('fs');
-var Control = require('../lib/control');
-var PromptMgr = require('../lib/promptmgr');
-var defaults = require('../lib/defaults');
+const Generator = require('yeoman-generator');
+const fspath = require('path');
+const fs = require('fs');
+const extend = require('extend');
+
+const PromptMgr = require('../lib/promptmgr');
+const defaults = require('../lib/defaults');
+
+const common = require('@arf/java-common');
+const Config = common.config;
+const processor = common.fsprocessor;
+const Context = common.context;
+const Control = common.control;
+const logger = common.log;
+const Handlebars = require('../lib/helpers').handlebars;
 
 var config = undefined;
 var promptmgr = undefined;
+var contexts = [];
+var patterns = ['basic', 'microservice', 'basicweb', 'bff', 'picnmix'];
 
 module.exports = class extends Generator {
 
@@ -44,11 +50,9 @@ module.exports = class extends Generator {
   }
 
   initializing() {
-    config = new Config();
+    config = new Config(defaults);
     promptmgr = new PromptMgr(config);
 
-    promptmgr.add('common');
-    promptmgr.add('liberty');
     promptmgr.add('patterns');
     promptmgr.add('bluemix');
     logger.writeToLog("Config (default)", config);
@@ -56,6 +60,24 @@ module.exports = class extends Generator {
     config.apply(this.options);
     logger.writeToLog("Config (after clone)", config);
     logger.writeToLog("Config", config);
+
+    //set values based on either defaults or passed in values
+    if (config.bluemix) {
+      config.appName = config.bluemix.name || config.appName;
+    }
+    config.templateRoot = this.templatePath();
+    this._setProjectPath();
+    this._addContext('@arf/generator-liberty');
+  }
+
+  _addContext(name) {
+    var context = new Context(name, config, promptmgr);   //use the name for the context ID
+    this.options.context = context;
+    var location = fspath.parse(require.resolve(name));   //compose with the default generator
+    this.composeWith(fspath.join(location.dir, 'generators', 'app'), this.options);
+    contexts.push(context);
+    this.options.context = undefined;
+    return context;
   }
 
   _setProjectPath() {
@@ -77,29 +99,57 @@ module.exports = class extends Generator {
   }
 
   configuring() {
-    //set values based on either defaults or passed in values
-    if (config.bluemix) {
-      config.appName = config.bluemix.name || config.appName;
+    //configure this generator and then pass that down through the contexts
+    this.destinationRoot(config.projectPath);
+    var control = new Control(fspath.resolve(config.templateRoot, config.createType), config);
+    logger.writeToLog("Processor", processor);
+    this.paths = control.getComposition();
+    config.processProject(this.paths);
+    contexts.forEach(context => {
+      context.addDependencies(config.dependencies);
+      context.addFrameworkDependencies(config.frameworkDependencies);
+      if(config.envEntries) {
+        context.addEnvEntries(config.envEntries);
+      }
+      if(config.jndiEntries) {
+        context.addJNDIEntries(config.jndiEntries);
+      }
+      context.addCompositions(control.getSubComposition(context.id));
+    });
+    logger.writeToLog("Destination path", this.destinationRoot());
+  }
+
+  _isValidPattern() {
+    var patternFound = patterns.includes(config.createType);
+    if(!patternFound) {
+      for(var i = 0; i < contexts.length && !patternFound;) {
+        for(var j = 0; j < contexts[i].patterns.length && !patternFound;) {
+          patternFound = (contexts[i].patterns[j] === config.createType);
+        }
+      }
     }
-    config.templateName = config.createType;
-    config.templateRoot = this.templatePath();
-    this._setProjectPath();
+    return patternFound;
   }
 
   writing() {
-    logger.writeToLog('template path', config.templateName);
+    logger.writeToLog('template path', config.createType);
     logger.writeToLog('project path', config.projectPath);
+
+    if(!this._isValidPattern()) {
+      //the config object is not valid, so need to exit at this point
+      this.log("Error : not a recognised pattern");
+      throw "Invalid pattern " + config.createType;
+    }
     if(!config.isValid()) {
       //the config object is not valid, so need to exit at this point
       this.log("Error : configuration is invalid, code generation is aborted");
       throw "Invalid configuration";
     }
-    this.destinationRoot(config.projectPath);
-    logger.writeToLog("Destination path", this.destinationRoot());
-    var control = new Control(fspath.resolve(config.templateRoot, config.templateName), config);
-    processor.paths = control.getComposition();
+    if(!patterns.includes(config.createType)) {
+      return;   //not being written by us
+    }
+
     logger.writeToLog("Processor", processor);
-    config.processProject(processor.paths);
     return processor.scan(config, (relativePath, template) => {
       var outFile = this.destinationPath(relativePath);
       logger.writeToLog("CB : writing to", outFile);
@@ -110,7 +160,7 @@ module.exports = class extends Generator {
       } catch (err) {
         logger.writeToLog("Template error : " + relativePath, err.message);
       }
-    });
+    }, this.paths);
   }
 
   end() {
