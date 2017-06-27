@@ -2,6 +2,46 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.6.1...v1.0.0) (2017-06-27)
+
+
+### Bug Fixes
+
+* **containers:** Update tests for kube.deploy.yml changes ([81da9b2](https://github.ibm.com/arf/java-codegen-yeoman/commit/81da9b2))
+* **containers:** Update yml files to remove upper case ([6e59db1](https://github.ibm.com/arf/java-codegen-yeoman/commit/6e59db1))
+* **infrastructure:** update liberty generator version ([6113e8d](https://github.ibm.com/arf/java-codegen-yeoman/commit/6113e8d))
+* **templates:** update so that JAX-RS application is in Liberty subgen ([e15cf82](https://github.ibm.com/arf/java-codegen-yeoman/commit/e15cf82))
+* **test:** correct control.js for picnmix ([0f320a0](https://github.ibm.com/arf/java-codegen-yeoman/commit/0f320a0))
+* **test:** update kube tests ([1de7c04](https://github.ibm.com/arf/java-codegen-yeoman/commit/1de7c04))
+
+
+### Features
+
+* **infrastructure:** remove liberty framework ([17b816b](https://github.ibm.com/arf/java-codegen-yeoman/commit/17b816b))
+* **infrastructure:** update version to match registry ([ce4afe7](https://github.ibm.com/arf/java-codegen-yeoman/commit/ce4afe7))
+* **libs:** remove libs and reference from common module ([b0d97b5](https://github.ibm.com/arf/java-codegen-yeoman/commit/b0d97b5))
+* **templates:** extract Liberty templates to sub-generator ([cbbaec8](https://github.ibm.com/arf/java-codegen-yeoman/commit/cbbaec8))
+* **test:** extract command to common module fix up e2e tests. ([766dbb1](https://github.ibm.com/arf/java-codegen-yeoman/commit/766dbb1))
+* **test:** move bx asserts to BxOptions ([2daea15](https://github.ibm.com/arf/java-codegen-yeoman/commit/2daea15))
+* **test:** move tech tests to common framework ([7a56956](https://github.ibm.com/arf/java-codegen-yeoman/commit/7a56956))
+* **tests:** complete extraction of Liberty tests ([e779eb2](https://github.ibm.com/arf/java-codegen-yeoman/commit/e779eb2))
+* **tests:** continue to refactor out Liberty tests ([60cb459](https://github.ibm.com/arf/java-codegen-yeoman/commit/60cb459))
+
+
+### BREAKING CHANGES
+
+* **infrastructure:** updated version to release new generator.
+
+Signed off by : Adam Pilkington apilkington@uk.ibm.com
+* **templates:** Initial version of a Liberty sub-generator for
+generating app accelerator content. Whilst not technically a breaking
+change it is architecturally different from previous versions.
+
+Signed off by : Adam Pilkington apilkington@uk.ibm.com
+
+
+
 <a name="0.6.1"></a>
 ## [0.6.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.6.0...v0.6.1) (2017-06-12)
 
