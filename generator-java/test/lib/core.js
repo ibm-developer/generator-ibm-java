@@ -34,24 +34,25 @@ const VERSION = '1.0.0';
 const APPNAME = 'testApp';
 const FRAMEWORK = 'liberty';
 
-//handy function for checking both existence and non-existence
-function getCheck(exists) {
+class Options {
+ constructor() {
+   this.values = {
+     debug : "true",
+     version : VERSION,
+     groupId : GROUPID,
+     artifactId : ARTIFACTID
+   }
+   this.prompts = {};
+ }
+
+ //handy function for checking both existence and non-existence
+getCheck(exists) {
   return {
     file : exists ? assert.file : assert.noFile,
     desc : exists ? 'should create ' : 'should not create ',
     content : exists ? assert.fileContent : assert.noFileContent
   }
 }
-
-class Options {
- constructor() {
-   this.values = {
-     debug : "true",
-     version : VERSION,
-     groupId : GROUPID
-   }
-   this.prompts = {};
- }
 
  assert(appName, ymlName, cloudant, objectStorage) {
    common.assertCommonFiles();
@@ -84,7 +85,7 @@ class Options {
 //mlore advanced bluemix test options which expects source code etc.
 class BxOptions extends Options {
  assertCloudant(exists) {
-   var check = getCheck(exists);
+   var check = this.getCheck(exists);
    it(check.desc + 'cloudant README entry', function () {
      if(exists) {
        check.content('README.md', 'cloudant');
@@ -95,7 +96,7 @@ class BxOptions extends Options {
    }
  }
  assertObjectStorage(exists) {
-   var check = getCheck(exists);
+   var check = this.getCheck(exists);
    it(check.desc + 'Object Storage README entry', function () {
      if(exists) {
        check.content('README.md', 'Object Storage service');
