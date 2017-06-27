@@ -125,15 +125,6 @@ var assertObjectStorageJava = function(exists) {
   });
 }
 
-//assert that K8s specific files are present
-var assertK8s = function(appname) {
-  var check = getCheck(true);
-  it(check.desc + 'K8s files', function () {
-    check.content('manifests/kube.deploy.yml', 'name: "' + appname + '-service"')
-    check.content('Jenkinsfile', 'image = \''+ appname.toLowerCase() + '\'');
-  });
-}
-
 var assertManifestYml = function(ymlName, exists) {
   it('manifest yml contains application name ' + ymlName, function () {
     assert.fileContent('manifest.yml', 'name: ' + ymlName);
@@ -177,7 +168,6 @@ module.exports = {
   assertCloudantJava : assertCloudantJava,
   assertObjectStorageJava : assertObjectStorageJava,
   assertServices : assertServices,
-  assertK8s : assertK8s,
   assertObjectStorage : assertObjectStorage,
   assertCloudant : assertCloudant
 }

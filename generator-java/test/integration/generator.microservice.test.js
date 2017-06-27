@@ -29,6 +29,7 @@ const path = require('path');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 const common = require('../lib/test-common');
+const kube = require('../lib/test-kube');
 
 const framework = require('../lib/test-framework');
 const tests = require('@arf/java-common');
@@ -51,7 +52,7 @@ function Options(buildType) {
     common.assertManifestYml(ymlName, cloudant || objectStorage);
     common.assertCloudant(cloudant);
     common.assertObjectStorage(objectStorage);
-    common.assertK8s(appName);
+    kube.test(appName, true);
     common.assertFiles('', true, 'README.md');
     framework.test(FRAMEWORK).assertCloudant(cloudant);
     framework.test(FRAMEWORK).assertObjectStorage(objectStorage);
