@@ -22,10 +22,6 @@ var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 
-const ARTIFACTID = 'artifact.0.1';
-const GROUPID = 'test.group';
-const VERSION = '1.0.0';
-const APPNAME = 'testApp';
 const FRAMEWORK = 'liberty';
 const INDEX_HTML = 'src/main/webapp/index.html';
 
@@ -34,78 +30,51 @@ const liberty = require('@arf/generator-liberty');
 const tests = require('@arf/java-common');
 
 //internal libraries
-var framework = require('../lib/test-framework');
-var common = require('../lib/test-common');
+const framework = require('../lib/test-framework');
+const common = require('../lib/test-common');
 const command = tests.test('command');
-var bluemix = require('../lib/test-bluemix.js');
-var kube = require('../lib/test-kube.js');
+const bluemix = require('../lib/test-bluemix.js');
+const kube = require('../lib/test-kube.js');
+const core = require('../lib/core');
+const extend = require('extend');
 
-function Options(createType, buildType, testBluemix, technologies, springSelected) {
-  this.assertTech = new liberty.integrationAsserts.technologies();
-  this.options = {
-    headless :  "true",
-    debug : "true",
-    buildType : buildType,
-    createType : createType,
-    promptType : 'prompt:liberty',
-    technologies : technologies,
-    appName : APPNAME,
-    groupId : GROUPID,
-    artifactId : ARTIFACTID,
-    version : VERSION
+class Options extends core.Options {
+
+  constructor(createType, buildType, testBluemix, technologies) {
+    super();
+    this.testBluemix = testBluemix;
+    this.assertTech = new liberty.integrationAsserts.technologies();
+    extend(this.values, {
+      headless :  "true",
+      buildType : buildType,
+      createType : createType,
+      technologies : technologies,
+      appName : core.APPNAME,
+      artifactId : core.ARTIFACTID
+    });
   }
-  this.assert = function() {
-    common.assertFiles('.', true, 'README.md', 'Dockerfile');
-    tests.test(buildType).assertApplication(APPNAME, GROUPID, ARTIFACTID, VERSION);
-    bluemix.test(testBluemix);
-    this.assertTech.assert(APPNAME, springSelected);
+  
+  assert() {
+    super.assert(this.values.appName, this.values.appName, false, false);
+    tests.test(this.values.buildType).assertApplication(core.APPNAME, core.GROUPID, core.ARTIFACTID, core.VERSION);
+    this.assertTech.assert(core.APPNAME);
   }
-  this.assertCompiles = function() {
-    command.run(tests.test(buildType).getCompileCommand());
+
+  //this is the default assertion for a technology type that just delegates to the Liberty checker, 
+  //override with a local assert<Tech> function to perform additional checks
+  defaultAssertTech(type) {
+    this.assertTech['assert' + type](this.values.buildType);
   }
-  this.assertpicnmix = function() {
-    this.assert(this.options.appName, false);    //there are no additional files to check for
-    kube.test(this.options.appName, false);
+  assertCompiles() {
+    command.run(tests.test(this.values.buildType).getCompileCommand());
   }
-  this.assertmsbuilder = function() {
-    this.assert(this.options.appName, false);    //there are no additional files to check for
-    kube.test(this.options.appName, true);
+  assertpicnmix() {
+    this.assert(this.values.appName, false);    //there are no additional files to check for
+    kube.test(this.values.appName, false);
   }
-  this.before = function() {
-    return helpers.run(path.join( __dirname, '../../generators/app'))
-      .withOptions(this.options)
-      .withPrompts({})
-      .toPromise();
-  }
-  this.assertrest = function() {
-    this.assertTech.assertrest(this.options.buildType);
-  }
-  this.assertmicroprofile = function() {
-    this.assertTech.assertmicroprofile(this.options.buildType);
-  }
-  this.assertpersistence = function() {
-    this.assertTech.assertpersistence(this.options.buildType);
-  }
-  this.assertwebsockets = function() {
-    this.assertTech.assertwebsockets(this.options.buildType);
-  }
-  this.assertservlet = function() {
-    this.assertTech.assertservlet(this.options.buildType);
-  }
-  this.assertwatsonsdk = function() {
-    this.assertTech.assertwatsonsdk(this.options.buildType);
-  }
-  this.assertswagger = function() {
-    this.assertTech.assertswagger(this.options.buildType);
-  }
-  this.assertspringboot_web = function() {
-    this.assertTech.assertspringboot_web(this.options.buildType);
-  }
-  this.assertspringboot_webonly = function() {
-    this.assertTech.assertspringboot_webonly(this.options.buildType);
-  }
-  this.asserthealthdeps = function() {
-    this.assertTech.asserthealthdeps(this.options.buildType);
+  assertmsbuilder() {
+    this.assert(this.values.appName, false);    //there are no additional files to check for
+    kube.test(this.values.appName, true);
   }
 }
 
@@ -125,9 +94,15 @@ function execute(createType, assertFunc, technologiesToTest) {
           var options = new Options(createType, buildTypes[j], false, [technologiesToTest[i]], technologiesToTest[i] === 'springboot_web');
           before(options.before.bind(options));
           options['assert' + assertFunc]();
-          options['assert' + technologiesToTest[i]]();
+          var func = options['assert' + technologiesToTest[i]];
+          //see if there is a local override in place or default through to the underlying technology checker
+          if(func) {
+            func();
+          } else {
+            options.defaultAssertTech(technologiesToTest[i]);
+          }
           if(technologiesToTest[i] === 'springboot_web' && createType === 'picnmix') {
-            options.assertspringboot_webonly();
+            options.assertTech.assertspringboot_webonly(options.values.buildType);
           }
           options.assertCompiles();
         });
@@ -144,7 +119,7 @@ describe('java generator : technologies integration test', function () {
       var options = new Options('picnmix', buildTypes[i], false, [], false);
       before(options.before.bind(options));
       options.assert();
-      options.asserthealthdeps();
+      options.assertTech.asserthealthdeps(options.values.buildType);
     });
   }
 

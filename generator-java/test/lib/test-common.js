@@ -31,6 +31,18 @@ function getCheck(exists) {
 var assertCommonFiles = function() {
   it('should create common files are present for all configurations', function () {
     assert.file('README.md');
+    assert.file('.gitignore');
+  });
+}
+
+var assertCommonLibertyFiles = function() {
+  it('should create common Liberty files are present for all configurations', function () {
+    //add specific Liberty file checks
+  });
+}
+
+var assertCommonBxFiles = function() {
+  it('should create common Bx files are present for all configurations', function () {
     //Docker files
     assert.file('Dockerfile');
     assert.file('Dockerfile-tools');
@@ -41,9 +53,6 @@ var assertCommonFiles = function() {
     assert.file('.bluemix/pipeline.yml');
     assert.file('.bluemix/toolchain.yml');
     assert.file('manifests/kube.deploy.yml');
-    // Liber8 files
-    assert.file('Jenkinsfile');
-    assert.file('.gitignore');
   });
 }
 
@@ -159,6 +168,8 @@ var assertCloudant = function(exists) {
 
 module.exports = {
   assertCommonFiles : assertCommonFiles,
+  assertCommonBxFiles : assertCommonBxFiles,
+  assertCommonLibertyFiles : assertCommonLibertyFiles,
   assertBluemixSrc : assertBluemixSrc,
   assertManifestYml : assertManifestYml,
   assertFiles : assertFiles,
