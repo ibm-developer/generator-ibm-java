@@ -43,6 +43,7 @@ class Options extends core.BxOptions {
     this.assertCloudant(cloudant);
     this.assertObjectStorage(objectStorage);
     this.assertliberty();
+    this.assertBuild(appName);
   }
 
   assertBuild(appName) {
