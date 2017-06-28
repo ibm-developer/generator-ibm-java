@@ -19,50 +19,36 @@
  */
 'use strict';
 
-const ARTIFACTID = 'artifact.0.1';
-const GROUPID = 'test.group';
-const VERSION = '1.0.0';
-const APPNAME = 'testApp';
 const FRAMEWORK = 'liberty';  //TODO alter to allow spring as well
 
-const path = require('path');
 const assert = require('yeoman-assert');
-const helpers = require('yeoman-test');
-const common = require('../lib/test-common');
-const kube = require('../lib/test-kube');
-
 const framework = require('../lib/test-framework');
 const tests = require('@arf/java-common');
+const core = require('../lib/core');
+const extend = require('extend');
 
-function Options(buildType) {
-  this.values = {
-    headless :  "true",
-    debug : "true",
-    buildType : buildType,
-    createType : 'microservice',
-    appName : APPNAME,
-    groupId : GROUPID,
-    artifactId : ARTIFACTID,
-    version : VERSION
+class Options extends core.BxOptions {
+  constructor(buildType) {
+    super();
+    extend(this.values, {
+      headless :  "true",
+      buildType : buildType,
+      createType : 'microservice',
+      appName : core.APPNAME
+    });
   }
-  this.assert = function(appName, ymlName, cloudant, objectStorage) {
-    common.assertCommonFiles();
-    common.assertCLI(appName);
-    common.assertBluemixSrc(cloudant || objectStorage);
-    common.assertManifestYml(ymlName, cloudant || objectStorage);
-    common.assertCloudant(cloudant);
-    common.assertObjectStorage(objectStorage);
-    kube.test(appName, true);
-    common.assertFiles('', true, 'README.md');
-    framework.test(FRAMEWORK).assertCloudant(cloudant);
-    framework.test(FRAMEWORK).assertObjectStorage(objectStorage);
-    this.assertFramework(appName);
-    this['assert' + FRAMEWORK]();
+
+  assert(appName, ymlName, cloudant, objectStorage) {
+    super.assert(appName, ymlName, cloudant, objectStorage);
+    this.assertCloudant(cloudant);
+    this.assertObjectStorage(objectStorage);
+    this.assertliberty();
     this.assertBuild(appName);
   }
-  this.assertBuild = function(appName) {
+
+  assertBuild(appName) {
+    super.assertBuild(appName);
     var test = tests.test(this.values.buildType);
-    test.assertApplication(appName, this.values.groupId, this.values.artifactId, this.values.version);
     test.assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
     test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
     test.assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
@@ -71,41 +57,32 @@ function Options(buildType) {
     test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
     test.assertDependency('provided', 'javax.enterprise', 'cdi-api', '1.2');
   }
-  //general framework tests which apply to all of them
-  this.assertFramework = function(appName) {
-    framework.test(FRAMEWORK).assertFiles(appName);
-    framework.test(FRAMEWORK).assertBuildFiles(this.values.buildType);
-  }
-  //Liberty specific framework tests
-  this.assertliberty = function() {
+
+  assertliberty() {
+    super.assertliberty();
     framework.test(FRAMEWORK).assertSourceFiles(false);
     framework.test(FRAMEWORK).assertFeatures('jaxrs-2.0');
     framework.test(FRAMEWORK).assertFeatures('jsonp-1.0');
     framework.test(FRAMEWORK).assertFeatures('jndi-1.0');
     framework.test(FRAMEWORK).assertFeatures('cdi-1.2');
   }
-  this.assertCloudant = function() {
-    it('has cloudant source files', function () {
-      assert.fileContent('src/main/java/application/rest/v1/Example.java','Cloudant'); //check Cloudant service present
-      assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-cloudantNoSQLDB-000")');
-      assert.fileContent('README.md', 'cloudant');
+
+  assertCloudant(exists) {
+    var check = this.getCheck(exists);
+    it(check.desc + 'cloudant source files', function () {
+      check.content('src/main/java/application/rest/v1/Example.java','Cloudant'); //check Cloudant service present
+      check.content('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-cloudantNoSQLDB-000")');
+      check.content('README.md', 'cloudant');
     });
-    tests.test(this.values.buildType).assertDependency('compile', 'com.cloudant', 'cloudant-client', '2.7.0');
   }
-  this.assertObjectStorage = function() {
-    it('has Object Storage source files', function () {
-      assert.fileContent('src/main/java/application/rest/v1/Example.java','OSClient'); //check object Storage service present
-      assert.fileContent('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-Object-Storage-000")');
-      assert.fileContent('README.md', 'Object Storage service');
+
+  assertObjectStorage(exists) {
+    var check = this.getCheck(exists);
+    it(check.desc + 'Object Storage source files', function () {
+      check.content('src/main/java/application/rest/v1/Example.java','OSClient'); //check object Storage service present
+      check.content('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-Object-Storage-000")');
+      check.content('README.md', 'Object Storage service');
     });
-    tests.test(this.values.buildType).assertDependency('compile', 'org.pacesys', 'openstack4j-core', '3.0.3');
-    tests.test(this.values.buildType).assertDependency('compile', 'org.pacesys.openstack4j.connectors', 'openstack4j-httpclient', '3.0.3');
-  }
-  this.before = function() {
-    return helpers.run(path.join( __dirname, '../../generators/app'))
-      .withOptions(this.values)
-      .withPrompts({})
-      .toPromise();
   }
 }
 
@@ -114,7 +91,7 @@ describe('java generator : microservice integration test', function () {
   describe('Generates a basic microservices project (no bluemix), gradle build system', function () {
     var options = new Options('gradle');
     before(options.before.bind(options));
-    options.assert(APPNAME, APPNAME, false, false);
+    options.assert(core.APPNAME, core.APPNAME, false, false);
 
     it('should create a basic microservice, gradle build system', function () {
       assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
@@ -126,7 +103,7 @@ describe('java generator : microservice integration test', function () {
   describe('Generates a basic microservices project (no bluemix), maven build system', function () {
     var options = new Options('maven');
     before(options.before.bind(options));
-    options.assert(APPNAME, APPNAME, false, false);
+    options.assert(core.APPNAME, core.APPNAME, false, false);
 
     it('should create a basic microservice, maven build system', function () {
       assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
@@ -158,7 +135,6 @@ describe('java generator : microservice integration test', function () {
     before(options.before.bind(options));
 
     options.assert('bxName', 'bxName', true, false);
-    options.assertCloudant();
   });
 
   describe('Generates a basic microservices project (bluemix)', function () {
@@ -168,7 +144,6 @@ describe('java generator : microservice integration test', function () {
     before(options.before.bind(options));
 
     options.assert('bxName', 'bxName', true, false);
-    options.assertCloudant();
   });
 
   describe('Generates a basic microservices project (bluemix)', function () {
@@ -178,7 +153,6 @@ describe('java generator : microservice integration test', function () {
     before(options.before.bind(options));
 
     options.assert('bxName', 'bxName', false, true);
-    options.assertObjectStorage();
   });
 
   describe('Generates a basic microservices project (bluemix)', function () {
@@ -188,7 +162,6 @@ describe('java generator : microservice integration test', function () {
     before(options.before.bind(options));
 
     options.assert('bxName', 'bxName', false, true);
-    options.assertObjectStorage();
   });
 
 });

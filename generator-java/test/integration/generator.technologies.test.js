@@ -23,15 +23,12 @@ var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 
 const FRAMEWORK = 'liberty';
-const INDEX_HTML = 'src/main/webapp/index.html';
 
 //external modules
 const liberty = require('@arf/generator-liberty');
 const tests = require('@arf/java-common');
 
 //internal libraries
-const framework = require('../lib/test-framework');
-const common = require('../lib/test-common');
 const command = tests.test('command');
 const bluemix = require('../lib/test-bluemix.js');
 const kube = require('../lib/test-kube.js');
@@ -40,9 +37,8 @@ const extend = require('extend');
 
 class Options extends core.Options {
 
-  constructor(createType, buildType, testBluemix, technologies) {
+  constructor(createType, buildType, technologies) {
     super();
-    this.testBluemix = testBluemix;
     this.assertTech = new liberty.integrationAsserts.technologies();
     extend(this.values, {
       headless :  "true",
@@ -91,7 +87,7 @@ function execute(createType, assertFunc, technologiesToTest) {
     for(var i = 0; i < technologiesToTest.length; i++) {
       for(var j = 0; j < buildTypes.length; j++) {
         describe('Generates a ' + createType + ' project for ' + technologiesToTest[i] + ' (' + buildTypes[j] + ', no bluemix)', function () {
-          var options = new Options(createType, buildTypes[j], false, [technologiesToTest[i]], technologiesToTest[i] === 'springboot_web');
+          var options = new Options(createType, buildTypes[j], [technologiesToTest[i]], technologiesToTest[i] === 'springboot_web');
           before(options.before.bind(options));
           options['assert' + assertFunc]();
           var func = options['assert' + technologiesToTest[i]];
@@ -116,7 +112,7 @@ describe('java generator : technologies integration test', function () {
 
   for(var i = 0; i < buildTypes.length; i++) {
     describe('Generates a project for (no services or technologies)', function () {
-      var options = new Options('picnmix', buildTypes[i], false, [], false);
+      var options = new Options('picnmix', buildTypes[i], [], false);
       before(options.before.bind(options));
       options.assert();
       options.assertTech.asserthealthdeps(options.values.buildType);
