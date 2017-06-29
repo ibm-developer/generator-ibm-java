@@ -77,4 +77,21 @@ describe('Defaults module', function() {
       assert.equal(json.name, 'bob');
     });
   });
+  describe('Technologies default type is an array', function() {
+    var technologiesType = defaults.getObject('technologies').type;
+    it('returns technologies as an array when passed an array', function() {
+      var array = ["foo", "bar"];
+      var newArray = technologiesType(array);
+      assert(Array.isArray(newArray));
+      assert.equal(newArray[0], "foo");
+      assert.equal(newArray[1], "bar");
+    });
+    it('returns technologies as an array when passed a comma separated string', function() {
+      var string = "foo,bar";
+      var array = technologiesType(string);
+      assert(Array.isArray(array));
+      assert.equal(array[0], "foo");
+      assert.equal(array[1], "bar");
+    });
+  });
 })
