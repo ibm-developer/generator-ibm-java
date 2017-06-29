@@ -10,6 +10,7 @@ Bluemix Basic Starter in Java
 * [Configuration](#configuration)
 * [Project contents](#project-contents)
 * [Run](#run)
+* [Notices](#notices)
 
 ### Summary
 
@@ -65,3 +66,10 @@ To run the application in Docker use the Docker file called `Dockerfile`. If you
 ### Endpoints
 
 The context root is set in the `src/main/webapp/WEB-INF/ibm-web-ext.xml` file. The ports are set in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file and exposed to the CLI in the cli-config.yml file.
+
+### Notices
+
+This project was generated using:
+{{#each genVersions}}
+* {{@key}} v{{this}}
+{{/each}}
