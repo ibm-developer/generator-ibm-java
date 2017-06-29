@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.1"></a>
+## [1.0.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.0.0...v1.0.1) (2017-06-29)
+
+
+### Bug Fixes
+
+* **config:** Update technologies default type to return array ([23bbd86](https://github.ibm.com/arf/java-codegen-yeoman/commit/23bbd86))
+* **test:** restore assertBuild in ms tests ([d2e14be](https://github.ibm.com/arf/java-codegen-yeoman/commit/d2e14be))
+* **test:** update ms test to common framework ([cac5a39](https://github.ibm.com/arf/java-codegen-yeoman/commit/cac5a39))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.6.1...v1.0.0) (2017-06-27)
 
