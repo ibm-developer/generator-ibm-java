@@ -52,7 +52,10 @@ module.exports = class extends Generator {
   initializing() {
     config = new Config(defaults);
     promptmgr = new PromptMgr(config);
-
+    var pkg = require('../../package.json');
+    config.genVersions = {'generator-java': pkg.version,
+      'generator-liberty': pkg.dependencies['@arf/generator-liberty'],
+      'java-common':pkg.dependencies['@arf/java-common']};
     promptmgr.add('patterns');
     promptmgr.add('bluemix');
     logger.writeToLog("Config (default)", config);
