@@ -69,7 +69,7 @@ module.exports = class extends Generator {
       config.appName = config.bluemix.name || config.appName;
     }
     config.templateRoot = this.templatePath();
-    this._setProjectPath();
+    config.projectPath = fspath.resolve(this.destinationRoot());
     this._addContext('@arf/generator-liberty');
   }
 
@@ -83,22 +83,18 @@ module.exports = class extends Generator {
     return context;
   }
 
-  _setProjectPath() {
-    //headless assumes that the output will be handled by the calling process / service
-    if(config.headless === "true") {
-      config.projectPath = fspath.resolve(this.destinationRoot());
-    } else {
-      config.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.appName);
-    }
-  }
-
   prompting() {
-    var promptWith = (config.headless === "true") ? [] : promptmgr.getQuestions();
-    return this.prompt(promptWith).then((answers) => {
-      logger.writeToLog("Answers", answers);
-      promptmgr.afterPrompt(answers, config);
-      logger.writeToLog("Config (after answers)", config);
-    });
+    if(config.headless !== "true") {
+      return this.prompt(promptmgr.getQuestions()).then((answers) => {
+        logger.writeToLog("Answers", answers);
+        promptmgr.afterPrompt(answers, config);
+        logger.writeToLog("Config (after answers)", config);
+        config.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.appName);
+        contexts.forEach(context => {
+          context.conf.projectPath = config.projectPath;
+        });
+      });
+    }
   }
 
   configuring() {
