@@ -49,14 +49,14 @@ class Options extends core.Options {
       artifactId : core.ARTIFACTID
     });
   }
-  
+
   assert() {
     super.assert(this.values.appName, this.values.appName, false, false);
     tests.test(this.values.buildType).assertApplication(core.APPNAME, core.GROUPID, core.ARTIFACTID, core.VERSION);
     this.assertTech.assert(core.APPNAME);
   }
 
-  //this is the default assertion for a technology type that just delegates to the Liberty checker, 
+  //this is the default assertion for a technology type that just delegates to the Liberty checker,
   //override with a local assert<Tech> function to perform additional checks
   defaultAssertTech(type) {
     this.assertTech['assert' + type](this.values.buildType);
@@ -65,20 +65,20 @@ class Options extends core.Options {
     command.run(tests.test(this.values.buildType).getCompileCommand());
   }
   assertpicnmix() {
-    this.assert(this.values.appName, false);    //there are no additional files to check for
+    this.assert();    //there are no additional files to check for
+  }
+  assertNoKube() {
     kube.test(this.values.appName, false);
   }
-  assertmsbuilder() {
-    this.assert(this.values.appName, false);    //there are no additional files to check for
-    kube.test(this.values.appName, true);
+  assertmsbuilderwithname() {
+    this.assertTech.assertmsbuilderwithname(this.values.appName);
   }
 }
 
-var technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk', 'swagger', 'springboot_web'];
+var technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk', 'swagger', 'springboot_web', 'msbuilder'];
 var buildTypes = ['gradle', 'maven'];
 
 execute('picnmix', 'picnmix', technologies);
-//execute('technologies/msbuilder', 'msbuilder', technologies);
 
 function execute(createType, assertFunc, technologiesToTest) {
 
@@ -99,6 +99,11 @@ function execute(createType, assertFunc, technologiesToTest) {
           }
           if(technologiesToTest[i] === 'springboot_web' && createType === 'picnmix') {
             options.assertTech.assertspringboot_webonly(options.values.buildType);
+          }
+          if(technologiesToTest[i] === 'msbuilder' && createType === 'picnmix') {
+            options.assertmsbuilderwithname();
+          } else {
+            options.assertNoKube();
           }
           options.assertCompiles();
         });
