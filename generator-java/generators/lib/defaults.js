@@ -29,8 +29,7 @@ const DEFAULTS = {
   headless : {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : String, default : "false"},
   debug : {desc : 'Generate a log.txt file in the root of the project', type : String, default : "false"},
   bluemix : {desc : 'Bluemix options', type : (value)=>{return toObject(value);}, default : undefined},
-  input : {desc : 'Input data file', type : processor.getContentsSync, default : undefined},
-  technologies : {desc : 'Technologies to configure when using the prompt:liberty promptType', type : (value)=>{return Array.isArray(value) ? value : value.split(",");}, default : []}
+  input : {desc : 'Input data file', type : processor.getContentsSync, default : undefined}
 };
 
 var getDefaultObject = function(name) {
