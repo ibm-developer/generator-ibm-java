@@ -65,7 +65,7 @@ Extension.prototype.afterPrompt = function(answers, config) {
   if (typeof (answers.bluemix) === 'string') {
     answers.bluemix = JSON.parse(answers.bluemix);
   }
-  config.apply(answers);
+  config.overwrite(answers);
   //below this point, the only way to get these answers is to run the generator locally
   if(answers.services) {
     if(!config.bluemix) {
