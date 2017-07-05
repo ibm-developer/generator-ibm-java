@@ -105,13 +105,13 @@ module.exports = class extends Generator {
     this.paths = control.getComposition();
     config.processProject(this.paths);
     contexts.forEach(context => {
-      context.addDependencies(config.dependencies);
-      context.addFrameworkDependencies(config.frameworkDependencies);
+      context.conf.addDependencies(config.dependencies);
+      context.conf.addFrameworkDependencies(config.frameworkDependencies);
       if(config.envEntries) {
-        context.addEnvEntries(config.envEntries);
+        context.conf.addEnvEntries(config.envEntries);
       }
       if(config.jndiEntries) {
-        context.addJNDIEntries(config.jndiEntries);
+        context.conf.addJndiEntries(config.jndiEntries);
       }
       context.addCompositions(control.getSubComposition(context.id));
     });
