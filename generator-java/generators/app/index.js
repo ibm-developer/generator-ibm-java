@@ -62,7 +62,6 @@ module.exports = class extends Generator {
     //overwrite any default values with those specified as options
     config.apply(this.options);
     logger.writeToLog("Config (after clone)", config);
-    logger.writeToLog("Config", config);
 
     //set values based on either defaults or passed in values
     if (config.bluemix) {
@@ -70,6 +69,7 @@ module.exports = class extends Generator {
     }
     config.templateRoot = this.templatePath();
     config.projectPath = fspath.resolve(this.destinationRoot());
+    logger.writeToLog("Config (final)", config);
     this._addContext('@arf/generator-liberty');
   }
 
