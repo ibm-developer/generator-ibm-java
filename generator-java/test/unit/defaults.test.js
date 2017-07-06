@@ -16,49 +16,12 @@
 
 // test the defaults module
 
-var assert = require('assert');
-var defaults = require('../../generators/lib/defaults');
+const assert = require('assert');
+const Defaults = require('../../generators/lib/defaults');
+
+var defaults = new Defaults();
 
 describe('Defaults module', function() {
-  describe('Call getDefault to get the default object', function() {
-    var appName = defaults.getObject('appName');
-    var buildType = defaults.getObject('buildType');
-    it('can get the default value', function() {
-      assert.equal(appName.default, 'LibertyProject');
-      assert.equal(buildType.default, 'maven');
-    });
-    it('can get the description', function() {
-      assert.equal(appName.desc, 'Name of the application');
-      assert.equal(buildType.desc, 'Build system to use');
-    });
-    it('can get the type', function() {
-      assert.equal(appName.type, String);
-      assert.equal(buildType.type, String);
-    });
-  });
-  it('can use getDefaultValue to get the default value', function() {
-    assert.equal(defaults.get('appName'), 'LibertyProject');
-    assert.equal(defaults.get('buildType'), 'maven');
-  });
-  describe('Call getDefaults to get a list of config values with defaults', function() {
-    var defaultValues = defaults.get();
-    var foundAppName = false;
-    var foundBuildType = false;
-    for(var i = 0; i < defaultValues.length; i++) {
-      if(defaultValues[i] === 'appName') {
-        foundAppName = true;
-      }
-      if(defaultValues[i] === 'buildType') {
-        foundBuildType = true;
-      }
-    }
-    it('finds appName in the list of config values with defaults', function() {
-      assert(foundAppName);
-    });
-    it('finds buildType in the list of config values with defaults', function() {
-      assert(foundBuildType);
-    });
-  });
   describe('Bluemix default type is a function', function() {
     var bluemixType = defaults.getObject('bluemix').type;
     it('returns a function', function() {
@@ -75,6 +38,10 @@ describe('Defaults module', function() {
       var json = bluemixType(object);
       assert.equal(typeof json, 'object');
       assert.equal(json.name, 'bob');
+    });
+    it('throws an exception when an object that is not a String or Object is passed', function() {
+      var array = ['foo', 'bar'];
+      assert.throws(() => {bluemixType(array)}, /bluemixToObject expects an Object or a String, got \["foo","bar"\]/, 'Did not throw an exception for passing an incorrect parameter');
     });
   });
 })

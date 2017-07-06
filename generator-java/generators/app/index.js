@@ -20,7 +20,7 @@ const fs = require('fs');
 const extend = require('extend');
 
 const PromptMgr = require('../lib/promptmgr');
-const defaults = require('../lib/defaults');
+const Defaults = require('../lib/defaults');
 
 const common = require('@arf/java-common');
 const Config = common.config;
@@ -34,6 +34,7 @@ var config = undefined;
 var promptmgr = undefined;
 var contexts = [];
 var patterns = ['basic', 'microservice', 'basicweb', 'bff', 'picnmix'];
+var defaults = new Defaults();
 
 module.exports = class extends Generator {
 
@@ -41,11 +42,7 @@ module.exports = class extends Generator {
     super(args, opts);
 
     //create command line options that will be passed by YaaS
-    var defaultValues = defaults.get();
-    for(var i = 0; i < defaultValues.length; i++) {
-      var defaultValue = defaultValues[i];
-      this.option(defaultValue, defaults.getObject(defaultValue));
-    }
+    defaults.setOptions(this);
     logger.writeToLog("Options", this.options);
   }
 

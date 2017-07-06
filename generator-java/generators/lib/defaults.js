@@ -17,6 +17,7 @@
 //module for storing default configuration values
 
 const processor = require('@arf/java-common').fsprocessor;
+const defaultsModule = require('@arf/java-common').defaults;
 
 const DEFAULTS = {
   appName : {desc : 'Name of the application', type : String, default : 'LibertyProject'},
@@ -28,33 +29,23 @@ const DEFAULTS = {
   version : {desc : 'Version of the application', type : String, default : '1.0-SNAPSHOT'},
   headless : {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : String, default : "false"},
   debug : {desc : 'Generate a log.txt file in the root of the project', type : String, default : "false"},
-  bluemix : {desc : 'Bluemix options', type : (value)=>{return toObject(value);}, default : undefined},
+  bluemix : {desc : 'Bluemix options', type : (value)=>{return bluemixToObject(value);}, default : undefined},
   input : {desc : 'Input data file', type : processor.getContentsSync, default : undefined}
 };
 
-var getDefaultObject = function(name) {
-  return DEFAULTS[name];
-}
-
-var get = function(name) {
-  if (name === undefined) {
-    return Object.keys(DEFAULTS);
-  } else {
-    return DEFAULTS[name].default;
-  }
-}
-
-var toObject = function(value) {
-  if(typeof value == 'string') {
+var bluemixToObject = function(value) {
+  var type = Object.prototype.toString.call(value);
+  if(type === '[object String]') {
     return JSON.parse(value);
   }
-  if(typeof value === 'object') {
+  if(type === '[object Object]') {
     return value;
   }
-  return value;
+  throw new Error('bluemixToObject expects an Object or a String, got ' + JSON.stringify(value));
 }
 
-module.exports = {
-  getObject : getDefaultObject,
-  get : get
-};
+module.exports = class extends defaultsModule {
+  constructor() {
+    super(DEFAULTS)
+  }
+}
