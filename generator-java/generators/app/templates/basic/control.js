@@ -17,6 +17,7 @@
     "build"
   ],
   "composition" : [
+    "common",
     "@arf/generator-liberty:build",
     "platform/cli",
     "platform/bluemix",
