@@ -39,3 +39,5 @@ jspm_packages
 node_modules
 projects/*
 **/projects/*
+
+.vscode
