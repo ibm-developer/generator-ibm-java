@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.0.3...v1.1.0) (2017-07-07)
+
+
+### Bug Fixes
+
+* **config:** Remove technologies default from this generator ([f7d0c9e](https://github.ibm.com/arf/java-codegen-yeoman/commit/f7d0c9e))
+* **config:** Update calls to apply to be overwrite ([9d48220](https://github.ibm.com/arf/java-codegen-yeoman/commit/9d48220))
+* **context:** update context to use config ([249129d](https://github.ibm.com/arf/java-codegen-yeoman/commit/249129d))
+* **templates:** update spring tech code ([252ba65](https://github.ibm.com/arf/java-codegen-yeoman/commit/252ba65))
+* **test:** Remove technologies default test ([cc1cd11](https://github.ibm.com/arf/java-codegen-yeoman/commit/cc1cd11))
+* **test:** Update technology test to include msbuilder ([ea22a34](https://github.ibm.com/arf/java-codegen-yeoman/commit/ea22a34))
+* **test:** Update version of generator-liberty to 2.0.0 ([2a7baf4](https://github.ibm.com/arf/java-codegen-yeoman/commit/2a7baf4))
+
+
+### Features
+
+* **config:** Update defaults to use common module ([4bac989](https://github.ibm.com/arf/java-codegen-yeoman/commit/4bac989))
+* **infrastructure:** update common version to 1.0.0 ([3ff0967](https://github.ibm.com/arf/java-codegen-yeoman/commit/3ff0967))
+* **templates:** create a common template ([17b5967](https://github.ibm.com/arf/java-codegen-yeoman/commit/17b5967))
+
+
+
 <a name="1.0.3"></a>
 ## [1.0.3](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.0.2...v1.0.3) (2017-06-30)
 
