@@ -32,6 +32,7 @@ var assertCommonFiles = function() {
   it('should create common files are present for all configurations', function () {
     assert.file('README.md');
     assert.file('.gitignore');
+    assert.file('Dockerfile');
   });
 }
 
@@ -44,7 +45,6 @@ var assertCommonLibertyFiles = function() {
 var assertCommonBxFiles = function() {
   it('should create common Bx files are present for all configurations', function () {
     //Docker files
-    assert.file('Dockerfile');
     assert.file('Dockerfile-tools');
     assert.noFile('Dockerfile-run');//deprecated name
     // Bluemix files
