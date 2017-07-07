@@ -26,9 +26,9 @@ test_kube.test = function(appName, exists) {
     it(prefix + 'k8s file kube.deploy.yml', function() {
       check('manifests/kube.deploy.yml');
       if(exists) {
-        assert.fileContent('manifests/kube.deploy.yml', 'name: "' + appName + '-deployment"');
-        assert.fileContent('manifests/kube.deploy.yml', 'name: "' + appName + '-service"');
-        assert.fileContent('manifests/kube.deploy.yml', 'app: "' + appName + '-selector"');
+        assert.fileContent('manifests/kube.deploy.yml', 'name: "' + appName.toLowerCase() + '-deployment"');
+        assert.fileContent('manifests/kube.deploy.yml', 'name: "' + appName.toLowerCase() + '-service"');
+        assert.fileContent('manifests/kube.deploy.yml', 'app: "' + appName.toLowerCase() + '-selector"');
         assert.fileContent('manifests/kube.deploy.yml', 'image: ' + appName.toLowerCase() + ':latest');
       }
     });
