@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">82.35% </span>
+        <span class="strong">76.92% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>14/17</span>
+        <span class='fraction'>10/13</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">25% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>4/8</span>
+        <span class='fraction'>1/4</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>3/3</span>
+        <span class='fraction'>2/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">82.35% </span>
+        <span class="strong">76.92% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>14/17</span>
+        <span class='fraction'>10/13</span>
       </div>
     </div>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -94,17 +94,7 @@
 49
 50
 51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+52</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -123,6 +113,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -134,26 +125,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">15×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">42×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">504×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">588×</span>
-<span class="cline-any cline-yes">84×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">504×</span>
+<span class="cline-any cline-yes">10×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">15×</span>
-<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -163,6 +142,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*
@@ -184,6 +164,7 @@
 //module for storing default configuration values
 &nbsp;
 const processor = require('@arf/java-common').fsprocessor;
+const defaultsModule = require('@arf/java-common').defaults;
 &nbsp;
 const DEFAULTS = {
   appName : {desc : 'Name of the application', type : String, default : 'LibertyProject'},
@@ -195,44 +176,33 @@ const DEFAULTS = {
   version : {desc : 'Version of the application', type : String, default : '1.0-SNAPSHOT'},
   headless : {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : String, default : "false"},
   debug : {desc : 'Generate a log.txt file in the root of the project', type : String, default : "false"},
-  bluemix : {desc : 'Bluemix options', type : (value)=&gt;{return toObject(value);}, default : undefined},
-  input : {desc : 'Input data file', type : processor.getContentsSync, default : undefined},
-  technologies : {desc : 'Technologies to configure when using the prompt:liberty promptType', type : (value)=&gt;{return Array.isArray(value) ? value : <span class="branch-1 cbranch-no" title="branch not covered" >value.split(",");</span>}, default : []}
+  bluemix : {desc : 'Bluemix options', type : (value)=&gt;{return bluemixToObject(value);}, default : undefined},
+  input : {desc : 'Input data file', type : processor.getContentsSync, default : undefined}
 };
 &nbsp;
-var getDefaultObject = function(name) {
-  return DEFAULTS[name];
-}
-&nbsp;
-var get = function(name) {
-  if (name === undefined) {
-    return Object.keys(DEFAULTS);
-  } else {
-    return DEFAULTS[name].default;
-  }
-}
-&nbsp;
-var toObject = function(value) {
-  <span class="missing-if-branch" title="else path not taken" >E</span>if(typeof value == 'string') {
+var bluemixToObject = function(value) {
+  var type = Object.prototype.toString.call(value);
+  <span class="missing-if-branch" title="else path not taken" >E</span>if(type === '[object String]') {
     return JSON.parse(value);
   }
-<span class="cstat-no" title="statement not covered" >  if(typeof value === 'object') {</span>
+<span class="cstat-no" title="statement not covered" >  if(type === '[object Object]') {</span>
 <span class="cstat-no" title="statement not covered" >    return value;</span>
   }
-<span class="cstat-no" title="statement not covered" >  return value;</span>
+<span class="cstat-no" title="statement not covered" >  throw new Error('bluemixToObject expects an Object or a String, got ' + JSON.stringify(value));</span>
 }
 &nbsp;
-module.exports = {
-  getObject : getDefaultObject,
-  get : get
-};
+module.exports = class extends defaultsModule {
+  constructor() {
+    super(DEFAULTS)
+  }
+}
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jun 30 2017 13:16:11 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jul 07 2017 12:56:33 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>
