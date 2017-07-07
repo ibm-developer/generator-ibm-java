@@ -9,7 +9,7 @@
     "build"
   ],
   "composition" : [
-    "basic",
+    "common",
     "@arf/generator-liberty:liberty",
     {{#bluemix}}
     "platform/cli",

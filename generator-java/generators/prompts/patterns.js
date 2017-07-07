@@ -100,7 +100,7 @@ Extension.prototype.getQuestions = function() {
 }
 
 Extension.prototype.afterPrompt = function(answers, config) {
-  config.apply(answers);
+  config.overwrite(answers);
 }
 
 module.exports = exports = Extension;

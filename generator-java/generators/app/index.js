@@ -20,7 +20,7 @@ const fs = require('fs');
 const extend = require('extend');
 
 const PromptMgr = require('../lib/promptmgr');
-const defaults = require('../lib/defaults');
+const Defaults = require('../lib/defaults');
 
 const common = require('@arf/java-common');
 const Config = common.config;
@@ -34,6 +34,7 @@ var config = undefined;
 var promptmgr = undefined;
 var contexts = [];
 var patterns = ['basic', 'microservice', 'basicweb', 'bff', 'picnmix'];
+var defaults = new Defaults();
 
 module.exports = class extends Generator {
 
@@ -41,11 +42,7 @@ module.exports = class extends Generator {
     super(args, opts);
 
     //create command line options that will be passed by YaaS
-    var defaultValues = defaults.get();
-    for(var i = 0; i < defaultValues.length; i++) {
-      var defaultValue = defaultValues[i];
-      this.option(defaultValue, defaults.getObject(defaultValue));
-    }
+    defaults.setOptions(this);
     logger.writeToLog("Options", this.options);
   }
 
@@ -60,9 +57,8 @@ module.exports = class extends Generator {
     promptmgr.add('bluemix');
     logger.writeToLog("Config (default)", config);
     //overwrite any default values with those specified as options
-    config.apply(this.options);
+    config.overwrite(this.options);
     logger.writeToLog("Config (after clone)", config);
-    logger.writeToLog("Config", config);
 
     //set values based on either defaults or passed in values
     if (config.bluemix) {
@@ -70,6 +66,7 @@ module.exports = class extends Generator {
     }
     config.templateRoot = this.templatePath();
     config.projectPath = fspath.resolve(this.destinationRoot());
+    logger.writeToLog("Config (final)", config);
     this._addContext('@arf/generator-liberty');
   }
 
@@ -105,13 +102,13 @@ module.exports = class extends Generator {
     this.paths = control.getComposition();
     config.processProject(this.paths);
     contexts.forEach(context => {
-      context.addDependencies(config.dependencies);
-      context.addFrameworkDependencies(config.frameworkDependencies);
+      context.conf.addDependencies(config.dependencies);
+      context.conf.addFrameworkDependencies(config.frameworkDependencies);
       if(config.envEntries) {
-        context.addEnvEntries(config.envEntries);
+        context.conf.addEnvEntries(config.envEntries);
       }
       if(config.jndiEntries) {
-        context.addJNDIEntries(config.jndiEntries);
+        context.conf.addJndiEntries(config.jndiEntries);
       }
       context.addCompositions(control.getSubComposition(context.id));
     });

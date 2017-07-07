@@ -49,14 +49,14 @@ class Options extends core.Options {
       artifactId : core.ARTIFACTID
     });
   }
-  
+
   assert() {
     super.assert(this.values.appName, this.values.appName, false, false);
     tests.test(this.values.buildType).assertApplication(core.APPNAME, core.GROUPID, core.ARTIFACTID, core.VERSION);
     this.assertTech.assert(core.APPNAME);
   }
 
-  //this is the default assertion for a technology type that just delegates to the Liberty checker, 
+  //this is the default assertion for a technology type that just delegates to the Liberty checker,
   //override with a local assert<Tech> function to perform additional checks
   defaultAssertTech(type) {
     this.assertTech['assert' + type](this.values.buildType);
@@ -65,20 +65,20 @@ class Options extends core.Options {
     command.run(tests.test(this.values.buildType).getCompileCommand());
   }
   assertpicnmix() {
-    this.assert(this.values.appName, false);    //there are no additional files to check for
+    this.assert();    //there are no additional files to check for
+  }
+  assertNoKube() {
     kube.test(this.values.appName, false);
   }
-  assertmsbuilder() {
-    this.assert(this.values.appName, false);    //there are no additional files to check for
-    kube.test(this.values.appName, true);
+  assertmsbuilderwithname() {
+    this.assertTech.assertmsbuilderwithname(this.values.appName);
   }
 }
 
-var technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk', 'swagger', 'springboot_web'];
+var technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk', 'swagger', 'springbootweb', 'msbuilder'];
 var buildTypes = ['gradle', 'maven'];
 
 execute('picnmix', 'picnmix', technologies);
-//execute('technologies/msbuilder', 'msbuilder', technologies);
 
 function execute(createType, assertFunc, technologiesToTest) {
 
@@ -87,7 +87,7 @@ function execute(createType, assertFunc, technologiesToTest) {
     for(var i = 0; i < technologiesToTest.length; i++) {
       for(var j = 0; j < buildTypes.length; j++) {
         describe('Generates a ' + createType + ' project for ' + technologiesToTest[i] + ' (' + buildTypes[j] + ', no bluemix)', function () {
-          var options = new Options(createType, buildTypes[j], [technologiesToTest[i]], technologiesToTest[i] === 'springboot_web');
+          var options = new Options(createType, buildTypes[j], [technologiesToTest[i]]);
           before(options.before.bind(options));
           options['assert' + assertFunc]();
           var func = options['assert' + technologiesToTest[i]];
@@ -97,8 +97,13 @@ function execute(createType, assertFunc, technologiesToTest) {
           } else {
             options.defaultAssertTech(technologiesToTest[i]);
           }
-          if(technologiesToTest[i] === 'springboot_web' && createType === 'picnmix') {
-            options.assertTech.assertspringboot_webonly(options.values.buildType);
+          if(technologiesToTest[i] === 'springbootweb' && createType === 'picnmix') {
+            options.assertTech.assertspringbootwebonly(options.values.buildType);
+          }
+          if(technologiesToTest[i] === 'msbuilder' && createType === 'picnmix') {
+            options.assertmsbuilderwithname();
+          } else {
+            options.assertNoKube();
           }
           options.assertCompiles();
         });
@@ -112,7 +117,7 @@ describe('java generator : technologies integration test', function () {
 
   for(var i = 0; i < buildTypes.length; i++) {
     describe('Generates a project for (no services or technologies)', function () {
-      var options = new Options('picnmix', buildTypes[i], [], false);
+      var options = new Options('picnmix', buildTypes[i], []);
       before(options.before.bind(options));
       options.assert();
       options.assertTech.asserthealthdeps(options.values.buildType);

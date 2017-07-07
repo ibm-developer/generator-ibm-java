@@ -10,7 +10,7 @@
   ],
   "composition" : [
     "@arf/generator-liberty:build",
-    "basic",
+    "common",
     "platform/cli",
     "platform/bluemix",
     "platform/kube",
