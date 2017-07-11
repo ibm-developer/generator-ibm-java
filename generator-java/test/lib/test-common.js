@@ -33,12 +33,17 @@ var assertCommonFiles = function() {
     assert.file('README.md');
     assert.file('.gitignore');
     assert.file('Dockerfile');
+    assert.file('.dockerignore');
   });
 }
 
 var assertCommonLibertyFiles = function() {
   it('should create common Liberty files are present for all configurations', function () {
     //add specific Liberty file checks
+  });
+  it('.dockerignore excludes liberty server files', function () {
+    assert.fileContent('.dockerignore', 'defaultServer/logs');
+    assert.fileContent('.dockerignore', 'defaultServer/workarea');
   });
 }
 
