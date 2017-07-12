@@ -58,9 +58,13 @@ Extension.prototype.getQuestions = function() {
       value : 'basic',
       short : 'Basic Java microservice'
     }, {
-      name : 'Microservice : a basic Java microservice',
-      value : 'microservice',
-      short : 'Basic Java microservice'
+      name : 'Microservice : a basic microprofile / JavaEE microservice',
+      value : 'microservice/liberty',
+      short : 'Basic JavaEE microservice'
+    }, {
+      name : 'Microservice : a basic Spring microservice',
+      value : 'microservice/spring',
+      short : 'Basic Spring microservice'
     }, {
       name : 'Basic Web : a basic web application',
       value : 'basicweb',

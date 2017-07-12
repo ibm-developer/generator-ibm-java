@@ -33,7 +33,7 @@ class Options extends core.BxOptions {
     extend(this.values, {
       headless :  "true",
       buildType : buildType,
-      createType : 'microservice',
+      createType : 'microservice/liberty',
       appName : core.APPNAME
     });
   }
