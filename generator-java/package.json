@@ -9,10 +9,10 @@
   "dependencies": {
     "handlebars": "^4.0.0",
     "yeoman-generator": "^1.0.0",
-    "@arf/generator-liberty": "3.0.0",
-    "@arf/generator-spring": "0.0.1",
+    "@arf/generator-liberty": "3.1.0",
+    "@arf/generator-spring": "0.0.2",
     "extend": "^3.0.1",
-    "@arf/java-common": "2.0.0"
+    "@arf/java-common": "2.0.1"
   },
   "devDependencies": {
     "mocha": "^3.2.0",
