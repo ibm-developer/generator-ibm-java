@@ -33,7 +33,7 @@ const Handlebars = require('../lib/helpers').handlebars;
 var config = undefined;
 var promptmgr = undefined;
 var contexts = [];
-var patterns = ['basic', 'microservice', 'basicweb', 'bff', 'picnmix'];
+var patterns = ['basic', 'microservice/liberty', 'microservice/spring', 'basicweb', 'bff', 'picnmix'];
 var defaults = new Defaults();
 
 module.exports = class extends Generator {
@@ -49,10 +49,6 @@ module.exports = class extends Generator {
   initializing() {
     config = new Config(defaults);
     promptmgr = new PromptMgr(config);
-    var pkg = require('../../package.json');
-    config.genVersions = {'generator-java': pkg.version,
-      'generator-liberty': pkg.dependencies['@arf/generator-liberty'],
-      'java-common':pkg.dependencies['@arf/java-common']};
     promptmgr.add('patterns');
     promptmgr.add('bluemix');
     logger.writeToLog("Config (default)", config);
@@ -68,6 +64,7 @@ module.exports = class extends Generator {
     config.projectPath = fspath.resolve(this.destinationRoot());
     logger.writeToLog("Config (final)", config);
     this._addContext('@arf/generator-liberty');
+    this._addContext('@arf/generator-spring');
   }
 
   _addContext(name) {
@@ -95,6 +92,12 @@ module.exports = class extends Generator {
   }
 
   configuring() {
+    var pkg = require('../../package.json');
+    var parts = config.createType.split('/'); //framework is defined by the value of createType which is <pattern>/<framework> and overrides any previous value
+    config.frameworkType = (parts.length == 2) ? parts[1] : config.frameworkType;
+    config.genVersions = {'generator-java': pkg.version,
+      'java-common':pkg.dependencies['@arf/java-common']};
+    config.genVersions['generator-' + config.frameworkType] = pkg.dependencies['@arf/generator-' + config.frameworkType];
     //configure this generator and then pass that down through the contexts
     this.destinationRoot(config.projectPath);
     var control = new Control(fspath.resolve(config.templateRoot, config.createType), config);
@@ -102,6 +105,7 @@ module.exports = class extends Generator {
     this.paths = control.getComposition();
     config.processProject(this.paths);
     contexts.forEach(context => {
+      context.conf.addProperties(config.properties);
       context.conf.addDependencies(config.dependencies);
       context.conf.addFrameworkDependencies(config.frameworkDependencies);
       if(config.envEntries) {
@@ -118,8 +122,8 @@ module.exports = class extends Generator {
   _isValidPattern() {
     var patternFound = patterns.includes(config.createType);
     if(!patternFound) {
-      for(var i = 0; i < contexts.length && !patternFound;) {
-        for(var j = 0; j < contexts[i].patterns.length && !patternFound;) {
+      for(var i = 0; i < contexts.length && !patternFound; i++) {
+        for(var j = 0; j < contexts[i].patterns.length && !patternFound; j++) {
           patternFound = (contexts[i].patterns[j] === config.createType);
         }
       }

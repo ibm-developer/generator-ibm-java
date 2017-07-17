@@ -34,7 +34,7 @@ function Options(buildType) {
     headless :  "true",
     debug : "true",
     buildType : buildType,
-    createType : 'microservice',
+    createType : 'microservice/liberty',
     appName : APPNAME,
     groupId : GROUPID,
     artifactId : ARTIFACTID,

@@ -1,5 +1,5 @@
 ## Microservice
-Bluemix Microservice Starter in Java
+Bluemix Microservice Starter for Spring
 
 [![](https://img.shields.io/badge/bluemix-powered-blue.svg)](https://bluemix.net)
 [![Platform](https://img.shields.io/badge/platform-java-lightgrey.svg?style=flat)](https://www.ibm.com/developerworks/learn/java/)
@@ -13,7 +13,7 @@ Bluemix Microservice Starter in Java
 
 ### Summary
 
-The Bluemix Microservice Starter in Java provides a starting point for creating Java microservice applications running on [WebSphere Liberty](https://developer.ibm.com/wasdev/).
+The Bluemix Microservice Starter in Java provides a starting point for creating Java microservice applications running on [Spring](https://developer.ibm.com/wasdev/).
 
 To deploy this application to Bluemix using a toolchain click the **Create Toolchain** button.
 [![Create Toolchain](https://console.ng.bluemix.net/devops/graphics/create_toolchain_button.png)](https://console.ng.bluemix.net/devops/setup/deploy/)
@@ -76,3 +76,12 @@ The application exposes the following endpoints:
 {{/bluemix}}
 
 The context root is set in the `src/main/webapp/WEB-INF/ibm-web-ext.xml` file. The ports are set in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file and exposed to the CLI in the cli-config.yml file.
+
+
+### Notices
+
+This project was generated using:
+{{#each genVersions}}
+* {{@key}} v{{this}}
+{{/each}}
+
