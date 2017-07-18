@@ -1,3 +1,4 @@
+{{#has frameworkType 'liberty'}}
 FROM websphere-liberty:webProfile7
 MAINTAINER IBM Java engineering at IBM Cloud
 {{#has buildType 'maven'}}
@@ -8,3 +9,8 @@ COPY /build/wlp/usr/servers/defaultServer /config/
 {{/has}}
 # Install required features if not present
 RUN installUtility install --acceptLicense defaultServer
+{{/has}}
+{{#has frameworkType 'spring'}}
+FROM ibmjava:8-sdk
+MAINTAINER IBM Java engineering at IBM Cloud
+{{/has}}

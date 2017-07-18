@@ -27,14 +27,12 @@ To deploy this application to Bluemix using a toolchain click the **Create Toolc
 {{/has}}
 * Java 8: Any compliant JVM should work.
   * [Java 8 JDK from Oracle](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-  * [Java 8 JDK from IBM (AIX, Linux, z/OS, IBM i)](http://www.ibm.com/developerworks/java/jdk/),
-    or [Download a Liberty server package](https://developer.ibm.com/assets/wasdev/#filter/assetTypeFilters=PRODUCT)
-    that contains the IBM JDK (Windows, Linux)
+  * [Java 8 JDK from IBM (AIX, Linux, z/OS, IBM i)](http://www.ibm.com/developerworks/java/jdk/)
 
 ### Configuration
 The application is configured to provide JAX-RS REST capabilities, JNDI, JSON parsing and Contexts and Dependency Injection (CDI).
 
-These capabilities are provided through dependencies in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file and Liberty features enabled in the server config file found in `src/main/liberty/config/server.xml`.
+These capabilities are provided through dependencies in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file.
 
 ### Project contents
 The microservice application has a health endpoint which is accessible at `<host>:<port>/{{appName}}/health`. The context root is set in the `src/main/webapp/WEB-INF/ibm-web-ext.xml` file. The ports are set in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file and exposed to the CLI in the cli-config.yml file.
@@ -50,15 +48,14 @@ This microservice application is configured to connect to the following services
 * [Bluemix Object Storage service](https://console.ng.bluemix.net/catalog/services/object-storage).
 {{/objectStorage}}
 
-Credentials are either taken from the VCAP_SERVICES environment variable that Bluemix provides or from environment variables passed in by JNDI (see the server config file `src/main/liberty/config/server.xml`).
+Credentials are either taken from the VCAP_SERVICES environment variable that Bluemix provides or from environment variables passed in by the config file `src/main/resources/application-local.properties`.
 {{/bluemix}}
 
 ### Run
 
 To build and run the application:
 1. {{#has buildType 'maven'}}`mvn install`{{/has}}{{#has buildType 'gradle'}}`gradle build`{{/has}}
-1. {{#has buildType 'maven'}}`mvn liberty:run-server`{{/has}}{{#has buildType 'gradle'}}`gradle libertyStart`{{/has}}
-{{#has buildType 'gradle'}}1. To stop the application run `gradle libertyStop`{{/has}}
+1. {{#has buildType 'maven'}}`java -jar ./target/{{appName}}-{{version}}.jar`{{/has}}{{#has buildType 'gradle'}}`gradle ./build/libs/{{appName}}-{{version}}.jar`{{/has}}
 
 To run the application in Docker use the Docker file called `Dockerfile`. If you do not want to install {{#has buildType 'maven'}}Maven{{/has}}{{#has buildType 'gradle'}}Gradle{{/has}} locally you can use `Dockerfile-tools` to build a container with {{#has buildType 'maven'}}Maven{{/has}}{{#has buildType 'gradle'}}Gradle{{/has}} installed.
 

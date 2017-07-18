@@ -1,10 +1,17 @@
 applications:
 - name: {{#firstAvailable bluemix.server.name appName}}{{/firstAvailable}}
-  path: ./{{#has buildType 'maven'}}target{{/has}}{{#has buildType 'gradle'}}build{{/has}}/{{appName}}.zip
-  memory: 512M
   timeout: 180
   instances: 1
+  {{#has frameworkType 'liberty'}}
+  path: ./{{#has buildType 'maven'}}target{{/has}}{{#has buildType 'gradle'}}build{{/has}}/{{appName}}.zip
+  memory: 512M
   buildpack: liberty-for-java
+  {{/has}}
+  {{#has frameworkType 'spring'}}
+  path: ./{{#has buildType 'maven'}}target{{/has}}{{#has buildType 'gradle'}}build/libs/{{/has}}/{{appName}}-{{version}}.jar
+  memory: 256M
+  buildpack: java_buildpack
+  {{/has}}
 {{#bluemix}}
 {{#server.host}}
   host: {{this}}
