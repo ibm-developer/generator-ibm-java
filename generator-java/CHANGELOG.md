@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.1.1...v1.2.0) (2017-07-18)
+
+
+### Bug Fixes
+
+* **tests:** update with new defauls for domain and app name ([de46d95](https://github.ibm.com/arf/java-codegen-yeoman/commit/de46d95))
+
+
+### Features
+
+* **cli:** enable build, run and deploy ([f90ed23](https://github.ibm.com/arf/java-codegen-yeoman/commit/f90ed23))
+* **templates:** split microservice into liberty and spring templates ([6a7b395](https://github.ibm.com/arf/java-codegen-yeoman/commit/6a7b395))
+
+
+
 <a name="1.1.1"></a>
 ## [1.1.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.1.0...v1.1.1) (2017-07-11)
 
