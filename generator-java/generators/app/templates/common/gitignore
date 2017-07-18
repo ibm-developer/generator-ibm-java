@@ -16,4 +16,9 @@
 /local.properties
 .*.swp
 .DS_Store
+{{#has frameworkType 'liberty'}}
 /src/main/liberty/config/server.env
+{{/has}}
+{{#has frameworkType 'spring'}}
+/src/main/resources/application-local.properties
+{{/has}}

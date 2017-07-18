@@ -33,7 +33,7 @@ class Options extends core.BxOptions {
     extend(this.values, {
       headless :  "true",
       buildType : buildType,
-      createType : 'microservice',
+      createType : 'microservice/liberty',
       appName : core.APPNAME
     });
   }
@@ -131,7 +131,7 @@ describe('java generator : microservice integration test', function () {
   describe('Generates a basic microservices project (bluemix)', function () {
 
     var options = new Options('maven');
-    options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "domain", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
+    options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
     before(options.before.bind(options));
 
     options.assert('bxName', 'bxName', true, false);
@@ -140,7 +140,7 @@ describe('java generator : microservice integration test', function () {
   describe('Generates a basic microservices project (bluemix)', function () {
 
     var options = new Options('gradle');
-    options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "domain", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
+    options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
     before(options.before.bind(options));
 
     options.assert('bxName', 'bxName', true, false);
@@ -149,7 +149,7 @@ describe('java generator : microservice integration test', function () {
   describe('Generates a basic microservices project (bluemix)', function () {
 
     var options = new Options('maven');
-    options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "domain", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
+    options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
     before(options.before.bind(options));
 
     options.assert('bxName', 'bxName', false, true);
@@ -158,7 +158,7 @@ describe('java generator : microservice integration test', function () {
   describe('Generates a basic microservices project (bluemix)', function () {
 
     var options = new Options('gradle');
-    options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "domain", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
+    options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
     before(options.before.bind(options));
 
     options.assert('bxName', 'bxName', false, true);
