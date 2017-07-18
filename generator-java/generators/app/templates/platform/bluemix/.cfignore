@@ -9,4 +9,9 @@
 /.classpath
 /.project
 /.settings
+{{#has frameworkType 'liberty'}}
 /src/main/liberty/config/server.env
+{{/has}}
+{{#has frameworkType 'spring'}}
+/src/main/resources/application-local.properties
+{{/has}}

@@ -4,10 +4,14 @@ MAINTAINER IBM Java engineering at IBM Cloud
 
 RUN apt-get update && apt-get install -y {{#has buildType 'maven'}}maven{{/has}}{{#has buildType 'gradle'}}gradle{{/has}}
 {{#has buildType 'maven'}}
+{{#has frameworkType 'liberty'}}
 ENV PATH /project/target/liberty/wlp/bin/:$PATH
 {{/has}}
+{{/has}}
 {{#has buildType 'gradle'}}
+{{#has frameworkType 'liberty'}}
 ENV PATH /project/build/wlp/bin/:$PATH
+{{/has}}
 {{/has}}
 
 ARG bx_dev_userid=root

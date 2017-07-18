@@ -138,7 +138,7 @@ var assertManifestYml = function(ymlName, exists) {
   it(check.desc + 'manifest yml service entries', function () {
     check.content('manifest.yml', 'services:');
     check.content('manifest.yml', 'host: host');
-    check.content('manifest.yml', 'domain: domain');
+    check.content('manifest.yml', 'domain: mybluemix.net');
   });
 }
 

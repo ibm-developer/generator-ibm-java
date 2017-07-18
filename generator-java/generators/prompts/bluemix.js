@@ -75,7 +75,7 @@ Extension.prototype.afterPrompt = function(answers, config) {
     config.bluemix.server = {
       name : answers.appName || config.appName || "testBxName",
       host : "host",
-      domain : "domain"
+      domain : "mybluemix.net"
     }
     config.bluemix.server.services = answers.services;
     for(var i = 0; i < answers.services.length; i++) {
