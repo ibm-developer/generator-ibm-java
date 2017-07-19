@@ -19,7 +19,8 @@
  */
 'use strict';
 
-const FRAMEWORK = 'liberty';  //TODO alter to allow spring as well
+const FRAMEWORK_LIBERTY = 'liberty';
+const FRAMEWORK_SPRING = 'spring';
 
 const assert = require('yeoman-assert');
 const framework = require('../lib/test-framework');
@@ -28,12 +29,13 @@ const core = require('../lib/core');
 const extend = require('extend');
 
 class Options extends core.BxOptions {
-  constructor(buildType) {
+  constructor(buildType, frameworkType) {
     super();
     extend(this.values, {
       headless :  "true",
       buildType : buildType,
-      createType : 'microservice/liberty',
+      frameworkType : frameworkType || FRAMEWORK_LIBERTY,
+      createType : 'microservice/' + (frameworkType || FRAMEWORK_LIBERTY),
       appName : core.APPNAME
     });
   }
@@ -42,12 +44,17 @@ class Options extends core.BxOptions {
     super.assert(appName, ymlName, cloudant, objectStorage);
     this.assertCloudant(cloudant);
     this.assertObjectStorage(objectStorage);
-    this.assertliberty();
+    this.values.frameworkType === FRAMEWORK_LIBERTY ? this.assertliberty() : this.assertspring();
     this.assertBuild(appName);
   }
 
   assertBuild(appName) {
     super.assertBuild(appName);
+  }
+
+  //Liberty specific things to test for
+  assertliberty() {
+    super.assertliberty();
     var test = tests.test(this.values.buildType);
     test.assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
     test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
@@ -56,15 +63,15 @@ class Options extends core.BxOptions {
     test.assertDependency('provided', 'javax.json', 'javax.json-api', '1.0');
     test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
     test.assertDependency('provided', 'javax.enterprise', 'cdi-api', '1.2');
+    framework.test(FRAMEWORK_LIBERTY).assertSourceFiles(false);
+    framework.test(FRAMEWORK_LIBERTY).assertFeatures('jaxrs-2.0');
+    framework.test(FRAMEWORK_LIBERTY).assertFeatures('jsonp-1.0');
+    framework.test(FRAMEWORK_LIBERTY).assertFeatures('jndi-1.0');
+    framework.test(FRAMEWORK_LIBERTY).assertFeatures('cdi-1.2');
   }
 
-  assertliberty() {
-    super.assertliberty();
-    framework.test(FRAMEWORK).assertSourceFiles(false);
-    framework.test(FRAMEWORK).assertFeatures('jaxrs-2.0');
-    framework.test(FRAMEWORK).assertFeatures('jsonp-1.0');
-    framework.test(FRAMEWORK).assertFeatures('jndi-1.0');
-    framework.test(FRAMEWORK).assertFeatures('cdi-1.2');
+  assertspring() {
+    super.assertspring();
   }
 
   assertCloudant(exists) {
@@ -86,46 +93,52 @@ class Options extends core.BxOptions {
   }
 }
 
+var frameworks = [FRAMEWORK_LIBERTY, FRAMEWORK_SPRING];
+
 describe('java generator : microservice integration test', function () {
 
-  describe('Generates a basic microservices project (no bluemix), gradle build system', function () {
-    var options = new Options('gradle');
-    before(options.before.bind(options));
-    options.assert(core.APPNAME, core.APPNAME, false, false);
+  frameworks.forEach(framework => {
+    //execute each of these tests for both Liberty and Spring frameworks
+    describe(framework.toUpperCase() + ': Generates a basic microservices project (no bluemix), gradle build system', function () {
+      var options = new Options('gradle', framework);
+      before(options.before.bind(options));
+      options.assert(core.APPNAME, core.APPNAME, false, false);
 
-    it('should create a basic microservice, gradle build system', function () {
-      assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
-      assert.fileContent('README.md', 'gradle');
-      assert.noFileContent('README.md', 'maven');
+      it('should create a basic microservice, gradle build system', function () {
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
+        assert.fileContent('README.md', 'gradle');
+        assert.noFileContent('README.md', 'maven');
+      });
     });
-  });
 
-  describe('Generates a basic microservices project (no bluemix), maven build system', function () {
-    var options = new Options('maven');
-    before(options.before.bind(options));
-    options.assert(core.APPNAME, core.APPNAME, false, false);
+    describe(framework.toUpperCase() + ': Generates a basic microservices project (no bluemix), maven build system', function () {
+      var options = new Options('maven', framework);
+      before(options.before.bind(options));
+      options.assert(core.APPNAME, core.APPNAME, false, false);
 
-    it('should create a basic microservice, maven build system', function () {
-      assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
-      assert.fileContent('README.md', 'maven');
-      assert.noFileContent('README.md', 'gradle');
+      it('should create a basic microservice, maven build system', function () {
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
+        assert.fileContent('README.md', 'maven');
+        assert.noFileContent('README.md', 'gradle');
+      });
     });
-  });
 
-  describe('Generates a basic microservices project (bluemix)', function () {
+    describe(framework.toUpperCase() + ': Generates a basic microservices project (bluemix)', function () {
 
-    var options = new Options('gradle');
-    options.values.bluemix = '{"name" : "bxName"}';
-    before(options.before.bind(options));
-    options.assert('bxName', 'bxName', false, false);
+      var options = new Options('gradle', framework);
+      options.values.bluemix = '{"name" : "bxName"}';
+      before(options.before.bind(options));
+      options.assert('bxName', 'bxName', false, false);
 
-    it('with no services', function () {
-      assert.noFileContent('src/main/java/application/rest/v1/Example.java', 'Cloudant');
+      it('with no services', function () {
+        assert.noFileContent('src/main/java/application/rest/v1/Example.java', 'Cloudant');
 
-      assert.fileContent('manifest.yml', 'name: bxName') //Not using prompt so we get app name and random route
-      assert.fileContent('manifest.yml', 'random-route: true') //Not using prompt so we get app name and random route
-      assert.noFileContent('README.md', 'cloudant');
+        assert.fileContent('manifest.yml', 'name: bxName') //Not using prompt so we get app name and random route
+        assert.fileContent('manifest.yml', 'random-route: true') //Not using prompt so we get app name and random route
+        assert.noFileContent('README.md', 'cloudant');
+      });
     });
+
   });
 
   describe('Generates a basic microservices project (bluemix)', function () {
