@@ -32,7 +32,7 @@ const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
 const VERSION = '1.0.0';
 const APPNAME = 'testApp';
-const FRAMEWORK = 'liberty';
+const FRAMEWORK_LIBERTY = 'liberty';
 
 class Options {
  constructor() {
@@ -57,8 +57,9 @@ getCheck(exists) {
  assert(appName, ymlName, cloudant, objectStorage) {
    common.assertCommonFiles();
    
+   var name = this.values.frameworkType || FRAMEWORK_LIBERTY;
    this.assertFramework(appName);
-   this['assert' + FRAMEWORK]();
+   this['assert' + name]();
    this.assertBuild(appName);
  }
  assertBuild(appName) {
@@ -67,11 +68,16 @@ getCheck(exists) {
  }
  //general framework tests which apply to all of them
  assertFramework(appName) {
-   framework.test(FRAMEWORK).assertFiles(appName);
-   framework.test(FRAMEWORK).assertBuildFiles(this.prompts.buildType || this.values.buildType);
+   var name = this.values.frameworkType || FRAMEWORK_LIBERTY;
+   framework.test(name).assertFiles(appName);
+   framework.test(name).assertBuildFiles(this.prompts.buildType || this.values.buildType);
  }
  assertliberty() {
    common.assertCommonLibertyFiles();
+ }
+
+assertspring() {
+   common.assertCommonSpringFiles();
  }
 
  before() {
@@ -115,11 +121,12 @@ class BxOptions extends Options {
     common.assertBluemixSrc(cloudant || objectStorage);
     common.assertManifestYml(ymlName, cloudant || objectStorage);
     kube.test(appName, true);
-
     this.assertCloudant(cloudant);
     this.assertObjectStorage(objectStorage);
-    framework.test(FRAMEWORK).assertCloudant(cloudant);
-    framework.test(FRAMEWORK).assertObjectStorage(objectStorage);
+
+    var name = this.values.frameworkType || FRAMEWORK_LIBERTY;
+    framework.test(name).assertCloudant(cloudant);
+    framework.test(name).assertObjectStorage(objectStorage);
   }
 
 }
@@ -131,5 +138,4 @@ module.exports = {
  GROUPID : GROUPID,
  VERSION : VERSION,
  APPNAME : APPNAME,
- FRAMEWORK : FRAMEWORK
 };
