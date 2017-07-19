@@ -31,8 +31,9 @@ debug-cmd : "server debug"
 {{#has frameworkType 'spring'}}
 #Tomcat/Spring settings
 container-port-map : "8080:8080,8443:8443"
-container-port-map-debug : "7777:7777"
+container-port-map-debug : "8000:8000"
 run-cmd : "java -Dspring.profiles.active=local -jar {{appName}}-{{version}}.jar"
+debug-cmd : "java -Dspring.profiles.active=local -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -jar {{#has buildType 'maven'}}./target/{{/has}}{{#has buildType 'gradle'}}./build/libs/{{/has}}{{appName}}-{{version}}.jar"
 {{/has}}
 
 dockerfile-run : "Dockerfile"

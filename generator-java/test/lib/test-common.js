@@ -47,6 +47,12 @@ var assertCommonLibertyFiles = function() {
   });
 }
 
+var assertCommonSpringFiles = function() {
+  it('should create common Spring files are present for all configurations', function () {
+    //add specific Liberty file checks
+  });
+}
+
 var assertCommonBxFiles = function() {
   it('should create common Bx files are present for all configurations', function () {
     //Docker files
@@ -166,6 +172,7 @@ module.exports = {
   assertCommonFiles : assertCommonFiles,
   assertCommonBxFiles : assertCommonBxFiles,
   assertCommonLibertyFiles : assertCommonLibertyFiles,
+  assertCommonSpringFiles : assertCommonSpringFiles,
   assertBluemixSrc : assertBluemixSrc,
   assertManifestYml : assertManifestYml,
   assertFiles : assertFiles,
