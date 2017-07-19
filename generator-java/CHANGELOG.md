@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.0"></a>
+# [1.3.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.2.0...v1.3.0) (2017-07-19)
+
+
+### Features
+
+* **templates:** enable CLI for spring and add tests ([49330ee](https://github.ibm.com/arf/java-codegen-yeoman/commit/49330ee))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.1.1...v1.2.0) (2017-07-18)
 
