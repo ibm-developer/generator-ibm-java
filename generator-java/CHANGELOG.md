@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.5.0"></a>
+# [1.5.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.4.0...v1.5.0) (2017-07-21)
+
+
+### Features
+
+* **template:** add support for ObjectStorage ([57aa4e3](https://github.ibm.com/arf/java-codegen-yeoman/commit/57aa4e3))
+
+
+
 <a name="1.4.0"></a>
 # [1.4.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.3.0...v1.4.0) (2017-07-21)
 
