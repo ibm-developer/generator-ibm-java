@@ -76,20 +76,54 @@ class Options extends core.BxOptions {
 
   assertCloudant(exists) {
     var check = this.getCheck(exists);
-    it(check.desc + 'cloudant source files', function () {
+    var invcheck = this.getCheck(exists^exists);
+    it(check.desc + 'common cloudant source files', function () {
       check.content('src/main/java/application/rest/v1/Example.java','Cloudant'); //check Cloudant service present
       check.content('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-cloudantNoSQLDB-000")');
       check.content('README.md', 'cloudant');
     });
+    if(this.values.frameworkType === FRAMEWORK_LIBERTY) {
+      it(check.desc + 'Liberty cloudant source files', function () {
+        check.file('src/main/java/application/cloudant/Cloudant.java')
+      });
+      it(invcheck.desc + 'Spring cloudant source files', function () {
+        invcheck.file('src/main/java/application/cloudant/CloudantClientConfig.java')
+      });
+    }
+    if(this.values.frameworkType === FRAMEWORK_SPRING) {
+      it(invcheck.desc + 'Liberty cloudant source files', function () {
+        invcheck.file('src/main/java/application/cloudant/Cloudant.java')
+      });
+      it(check.desc + 'Spring cloudant source files', function () {
+        check.file('src/main/java/application/cloudant/CloudantClientConfig.java')
+      });
+    }
   }
 
   assertObjectStorage(exists) {
     var check = this.getCheck(exists);
+    var invcheck = this.getCheck(exists^exists);
     it(check.desc + 'Object Storage source files', function () {
       check.content('src/main/java/application/rest/v1/Example.java','OSClient'); //check object Storage service present
       check.content('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-Object-Storage-000")');
       check.content('README.md', 'Object Storage service');
     });
+    if(this.values.frameworkType === FRAMEWORK_LIBERTY) {
+      it(check.desc + 'Liberty objectStorage source files', function () {
+        check.file('src/main/java/application/objectstorage/ObjectStorage.java')
+      });
+      it(invcheck.desc + 'Spring objectStorage source files', function () {
+        invcheck.file('src/main/java/application/objectstorage/ObjectStorageConfig.java')
+      });
+    }
+    if(this.values.frameworkType === FRAMEWORK_SPRING) {
+      it(invcheck.desc + 'Liberty objectStorage source files', function () {
+        invcheck.file('src/main/java/application/objectstorage/ObjectStorage.java')
+      });
+      it(check.desc + 'Spring objectStorage source files', function () {
+        check.file('src/main/java/application/objectstorage/ObjectStorageConfig.java')
+      });
+    }
   }
 }
 
@@ -161,28 +195,23 @@ function execute(framework) {
       options.assert('bxName', 'bxName', true, false);
     });
 
+    describe(name + ': Generates a basic microservices project (maven, bluemix, objectStorage)', function () {
+
+      var options = new Options('maven', framework);
+      options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
+      before(options.before.bind(options));
+
+      options.assert('bxName', 'bxName', false, true);
+    });
+
+    describe(name + ': Generates a basic microservices project (gradle, bluemix, objectStorage)', function () {
+
+      var options = new Options('gradle', framework);
+      options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
+      before(options.before.bind(options));
+
+      options.assert('bxName', 'bxName', false, true);
+    });
+
   });
 }
-
-
-describe('java generator : microservice integration test', function () {
-
-  describe('Generates a basic microservices project (maven, bluemix, objectStorage)', function () {
-
-    var options = new Options('maven');
-    options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
-    before(options.before.bind(options));
-
-    options.assert('bxName', 'bxName', false, true);
-  });
-
-  describe('Generates a basic microservices project (gradle, bluemix, objectStorage)', function () {
-
-    var options = new Options('gradle');
-    options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
-    before(options.before.bind(options));
-
-    options.assert('bxName', 'bxName', false, true);
-  });
-
-});

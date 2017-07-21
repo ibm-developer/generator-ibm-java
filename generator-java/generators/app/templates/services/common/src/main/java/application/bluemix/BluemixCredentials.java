@@ -9,7 +9,7 @@ public abstract class BluemixCredentials {
         char first = data.charAt(0);
         char last = data.charAt(data.length() - 1);
         if ((first == '"' || first == '\'') && (first == last)) {
-            return data.substring(1, data.length() - 2);
+            return data.substring(1, data.length() - 1);
         }
         return data;
     }
