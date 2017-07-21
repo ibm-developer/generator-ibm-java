@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.4.0"></a>
+# [1.4.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.3.0...v1.4.0) (2017-07-21)
+
+
+### Features
+
+* **template:** add support for cloudant ([ce22575](https://github.ibm.com/arf/java-codegen-yeoman/commit/ce22575))
+
+
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.2.0...v1.3.0) (2017-07-19)
 
