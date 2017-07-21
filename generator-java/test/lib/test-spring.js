@@ -37,8 +37,8 @@ test_spring.prototype.assertFiles = function(name) {
 }
 
 test_spring.prototype.assertBuildFiles = function(buildType) {
-  tests.test(buildType).assertDependency('compile', 'org.springframework.boot', 'spring-boot-starter-web', '1.5.4.RELEASE');
-  tests.test(buildType).assertDependency('test', 'org.springframework.boot', 'spring-boot-starter-test', '1.5.4.RELEASE');
+  tests.test(buildType).assertDependency('compile', 'org.springframework.boot', 'spring-boot-starter-web');
+  tests.test(buildType).assertDependency('test', 'org.springframework.boot', 'spring-boot-starter-test');
   if(buildType === 'maven') {
     assertMavenFiles();
   }
@@ -66,7 +66,7 @@ test_spring.prototype.assertCloudant = function(exists) {
     CLOUDANT_PASSWORD : 'pass',
     CLOUDANT_USERNAME : 'user'
   }
-  //checkValues(exists, env, assertSpring.assertEnv);
+  checkValues(exists, env, assertSpring.assertEnv);
 }
 
 test_spring.prototype.assertObjectStorage = function(exists) {
@@ -77,7 +77,7 @@ test_spring.prototype.assertObjectStorage = function(exists) {
     OBJECTSTORAGE_DOMAIN_NAME : 'objectStorage-domainName',
     OBJECTSTORAGE_PROJECT : 'objectStorage-project'
   }
-  //checkValues(exists, env, assertSpring.assertEnv);
+  checkValues(exists, env, assertSpring.assertEnv);
 }
 
 //asserts that the specified environment variables will flow through JNDI
