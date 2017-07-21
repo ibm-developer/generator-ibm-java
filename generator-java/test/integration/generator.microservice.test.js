@@ -93,13 +93,17 @@ class Options extends core.BxOptions {
   }
 }
 
-var frameworks = [FRAMEWORK_LIBERTY, FRAMEWORK_SPRING];
 
-describe('java generator : microservice integration test', function () {
+execute(FRAMEWORK_LIBERTY);
+execute(FRAMEWORK_SPRING);
 
-  frameworks.forEach(framework => {
+function execute(framework) {
+  const name = framework.toUpperCase();
+
+  describe('java generator : microservice integration test', function () {
+
     //execute each of these tests for both Liberty and Spring frameworks
-    describe(framework.toUpperCase() + ': Generates a basic microservices project (no bluemix), gradle build system', function () {
+    describe(name + ': Generates a basic microservices project (no bluemix), gradle build system', function () {
       var options = new Options('gradle', framework);
       before(options.before.bind(options));
       options.assert(core.APPNAME, core.APPNAME, false, false);
@@ -111,7 +115,7 @@ describe('java generator : microservice integration test', function () {
       });
     });
 
-    describe(framework.toUpperCase() + ': Generates a basic microservices project (no bluemix), maven build system', function () {
+    describe(name + ': Generates a basic microservices project (no bluemix), maven build system', function () {
       var options = new Options('maven', framework);
       before(options.before.bind(options));
       options.assert(core.APPNAME, core.APPNAME, false, false);
@@ -123,7 +127,7 @@ describe('java generator : microservice integration test', function () {
       });
     });
 
-    describe(framework.toUpperCase() + ': Generates a basic microservices project (bluemix)', function () {
+    describe(name + ': Generates a basic microservices project (gradle, bluemix, no services)', function () {
 
       var options = new Options('gradle', framework);
       options.values.bluemix = '{"name" : "bxName"}';
@@ -139,27 +143,31 @@ describe('java generator : microservice integration test', function () {
       });
     });
 
+    describe(name + ': Generates a basic microservices project (maven, bluemix, cloudant)', function () {
+
+      var options = new Options('maven', framework);
+      options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
+      before(options.before.bind(options));
+
+      options.assert('bxName', 'bxName', true, false);
+    });
+
+    describe(name + ': Generates a basic microservices project (gradle, bluemix, cloudant)', function () {
+
+      var options = new Options('gradle', framework);
+      options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
+      before(options.before.bind(options));
+
+      options.assert('bxName', 'bxName', true, false);
+    });
+
   });
+}
 
-  describe('Generates a basic microservices project (bluemix)', function () {
 
-    var options = new Options('maven');
-    options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
-    before(options.before.bind(options));
+describe('java generator : microservice integration test', function () {
 
-    options.assert('bxName', 'bxName', true, false);
-  });
-
-  describe('Generates a basic microservices project (bluemix)', function () {
-
-    var options = new Options('gradle');
-    options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
-    before(options.before.bind(options));
-
-    options.assert('bxName', 'bxName', true, false);
-  });
-
-  describe('Generates a basic microservices project (bluemix)', function () {
+  describe('Generates a basic microservices project (maven, bluemix, objectStorage)', function () {
 
     var options = new Options('maven');
     options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
@@ -168,7 +176,7 @@ describe('java generator : microservice integration test', function () {
     options.assert('bxName', 'bxName', false, true);
   });
 
-  describe('Generates a basic microservices project (bluemix)', function () {
+  describe('Generates a basic microservices project (gradle, bluemix, objectStorage)', function () {
 
     var options = new Options('gradle');
     options.values.bluemix = '{"name" : "bxName", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
