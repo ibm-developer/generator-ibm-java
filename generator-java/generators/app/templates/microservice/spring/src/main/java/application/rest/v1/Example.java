@@ -5,18 +5,21 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-{{#bluemix}}
-{{#cloudant}}
-import application.bluemix.ServiceName;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.cloudant.client.api.CloudantClient;
-{{/cloudant}}
-{{/bluemix}}
-
-
 import java.util.ArrayList;
 import java.util.List;
+{{#bluemix}}
+import org.springframework.beans.factory.annotation.Autowired;
+import application.bluemix.ServiceName;
+{{#cloudant}}
+import com.cloudant.client.api.CloudantClient;
+{{/cloudant}}
+{{#objectStorage}}
+import org.openstack4j.openstack.OSFactory;
+import org.openstack4j.api.OSClient;
+import org.openstack4j.model.storage.object.SwiftContainer;
+import org.openstack4j.model.storage.object.SwiftAccount;
+{{/objectStorage}}
+{{/bluemix}}
 
 @RestController
 public class Example {
@@ -26,6 +29,10 @@ public class Example {
   @Autowired @ServiceName(name="{{serviceInfo.name}}")
   private CloudantClient client;
   {{/cloudant}}
+  {{#objectStorage}}
+  @Autowired @ServiceName(name="{{serviceInfo.name}}")
+  private OSClient.OSClientV3 os;
+  {{/objectStorage}}
   {{/bluemix}}
 
   @RequestMapping("v1/")
@@ -49,5 +56,21 @@ public class Example {
       return new ResponseEntity<String>("Available databases : " + list.toString(), HttpStatus.OK);
   }
   {{/cloudant}}
+
+  {{#objectStorage}}
+  @RequestMapping("v1/objectstorage")
+  public @ResponseBody ResponseEntity<String> cloudant(){
+      //cannot use the injected client directly as it was created on a different thread, so create a new one
+      OSClient.OSClientV3 client = OSFactory.clientFromToken(os.getToken());
+      List<? extends SwiftContainer> containers = new ArrayList<>();
+      try {
+    	  SwiftAccount account = client.objectStorage().account().get();
+    	  containers = os.objectStorage().containers().list();
+          return new ResponseEntity<String>("Account: " + account + " Containers: " + containers, HttpStatus.OK);
+      } catch (NullPointerException e) {
+          return new ResponseEntity<String>("Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+  }
+  {{/objectStorage}}
   {{/bluemix}}
 }
