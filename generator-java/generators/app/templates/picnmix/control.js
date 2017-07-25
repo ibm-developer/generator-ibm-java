@@ -10,19 +10,9 @@
   ],
   "composition" : [
     "common",
-    "@arf/generator-liberty:liberty",
-    {{#bluemix}}
-    "platform/cli",
-    "platform/bluemix",
-    {{#server.services}}
-    "services/common",
-    {{/server.services}}
-    {{#cloudant}}
-    "services/cloudantNoSQLDB",
-    {{/cloudant}}
-    {{#objectStorage}}
-    "services/objectStorage",
-    {{/objectStorage}}
-    {{/bluemix}}
+    {{#has deployType 'bluemix'}}
+    "platform/bluemix"
+    {{/has}}
+    "@arf/generator-liberty:liberty"
   ]
 }
