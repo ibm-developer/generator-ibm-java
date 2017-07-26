@@ -37,13 +37,13 @@ const extend = require('extend');
 
 class Options extends core.Options {
 
-  constructor(createType, buildType, deployType, technologies) {
+  constructor(createType, buildType, platforms, technologies) {
     super();
     this.assertTech = new liberty.integrationAsserts.technologies();
     extend(this.values, {
       headless :  "true",
       buildType : buildType,
-      deployType : deployType,
+      platforms : platforms,
       createType : createType,
       technologies : technologies,
       appName : core.APPNAME,
@@ -88,7 +88,7 @@ function execute(createType, assertFunc, technologiesToTest) {
     for(var i = 0; i < technologiesToTest.length; i++) {
       for(var j = 0; j < buildTypes.length; j++) {
         describe('Generates a ' + createType + ' project for ' + technologiesToTest[i] + ' (' + buildTypes[j] + ', no bluemix)', function () {
-          var options = new Options(createType, buildTypes[j], 'local', [technologiesToTest[i]]);
+          var options = new Options(createType, buildTypes[j], [], [technologiesToTest[i]]);
           before(options.before.bind(options));
           options['assert' + assertFunc]();
           var func = options['assert' + technologiesToTest[i]];
@@ -119,20 +119,22 @@ describe('java generator : technologies integration test', function () {
 
   for(var i = 0; i < buildTypes.length; i++) {
     describe('Generates a project for (no services or technologies)', function () {
-      var options = new Options('picnmix', buildTypes[i], 'local', []);
+      var options = new Options('picnmix', buildTypes[i], [], []);
       before(options.before.bind(options));
       options.assert();
       options.assertTech.asserthealthdeps(options.values.buildType);
+      options.assertNoKube();
       bluemix.test(false);
     });
   }
 
   for(var i = 0; i < buildTypes.length; i++) {
     describe('Generates a project for (no services or technologies) with bluemix', function () {
-      var options = new Options('picnmix', buildTypes[i], 'bluemix', []);
+      var options = new Options('picnmix', buildTypes[i], ['bluemix'], []);
       before(options.before.bind(options));
       options.assert();
       options.assertTech.asserthealthdeps(options.values.buildType);
+      options.assertNoKube();
       bluemix.test(true);
     });
   }

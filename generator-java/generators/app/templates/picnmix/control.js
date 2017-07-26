@@ -9,10 +9,10 @@
     "build"
   ],
   "composition" : [
+    {{#each platforms}}
+    "platform/{{this}}",
+    {{/each}}
     "common",
-    {{#has deployType 'bluemix'}}
-    "platform/bluemix"
-    {{/has}}
     "@arf/generator-liberty:liberty"
   ]
 }
