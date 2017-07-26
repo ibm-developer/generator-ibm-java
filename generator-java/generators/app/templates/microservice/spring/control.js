@@ -9,12 +9,9 @@
     "build"
   ],
   "composition" : [
-    "@arf/generator-spring:build",
-    "@arf/generator-spring:config",
-    "common",
-    "platform/cli",
-    "platform/bluemix",
-    "platform/kube",
+    {{#each platforms}}
+    "platform/{{this}}",
+    {{/each}}
     {{#bluemix}}
     {{#server.services}}
     "services/common-spring",
@@ -26,5 +23,8 @@
     "services/objectStorage",
     {{/objectStorage}}
     {{/bluemix}}
+    "common",
+    "@arf/generator-spring:build",
+    "@arf/generator-spring:config"
   ]
 }
