@@ -105,6 +105,7 @@ module.exports = class extends Generator {
     this.paths = control.getComposition();
     config.processProject(this.paths);
     contexts.forEach(context => {
+      context.conf.genVersions = config.genVersions;
       context.conf.addProperties(config.properties);
       context.conf.addDependencies(config.dependencies);
       context.conf.addFrameworkDependencies(config.frameworkDependencies);
