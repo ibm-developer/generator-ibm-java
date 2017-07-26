@@ -64,7 +64,7 @@ describe('java generator : technologies end to end test', function() {
       options.assertBuilds();
     });
     describe('Generates a project with all technologies except springbootweb and build type ' + buildTypes[i], function () {
-      var technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk', 'swagger'];
+      var technologies = ['rest', 'microprofile', 'persistence', 'websocket', 'web', 'watsonsdk', 'swagger'];
       var options = new Options('picnmix', buildTypes[i], false, technologies);
       before(options.before.bind(options));
       options.assertBuilds();
