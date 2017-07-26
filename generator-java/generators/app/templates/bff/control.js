@@ -9,12 +9,9 @@
     "build"
   ],
   "composition" : [
-    "@arf/generator-liberty:build",
-    "common",
-    "platform/cli",
-    "platform/bluemix",
-    "platform/kube",
-    "@arf/generator-liberty:liberty",
+    {{#each platforms}}
+    "platform/{{this}}",
+    {{/each}}
     {{#bluemix}}
     {{#server.services}}
     "services/common",
@@ -26,6 +23,9 @@
     "services/objectStorage",
     {{/objectStorage}}
     {{/bluemix}}
+    "@arf/generator-liberty:build",
+    "common",
+    "@arf/generator-liberty:liberty"
   ],
   fileFound : function(path, contents, config) {
     var defaultFragment = {path : path, template : contents, data : config};
