@@ -20,6 +20,8 @@
 const path = require('path');
 var assert = require('yeoman-assert');
 
+const CLI_VERSION = '0.0.3';
+
 function getCheck(exists) {
   return {
     file : exists ? assert.file : assert.noFile,
@@ -98,7 +100,7 @@ var assertCLI = function(appname) {
   it('files required for the CLI are present and correct', function () {
     var check = getCheck(true);
     check.content('cli-config.yml','image-name-run : "' + appname.toLowerCase() + '"');  //make sure lowercase app name
-    check.content('cli-config.yml', 'version : 0.0.2');
+    check.content('cli-config.yml', 'version : ' + CLI_VERSION);
   });
 }
 
