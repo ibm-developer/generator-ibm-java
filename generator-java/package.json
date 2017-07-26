@@ -9,10 +9,10 @@
   "dependencies": {
     "handlebars": "^4.0.0",
     "yeoman-generator": "^1.0.0",
-    "@arf/generator-liberty": "3.1.2",
+    "@arf/generator-liberty": "4.0.0",
     "@arf/generator-spring": "0.2.0",
     "extend": "^3.0.1",
-    "@arf/java-common": "2.0.3"
+    "@arf/java-common": "2.0.4"
   },
   "devDependencies": {
     "mocha": "^3.2.0",
@@ -20,7 +20,7 @@
     "yeoman-test": "^1.6.0",
     "istanbul": "^0.4.5",
     "standard-version": "^4.0.0",
-    "@arf/common-codegen-tests": "0.1.0"
+    "@arf/common-codegen-tests": "1.0.0"
   },
   "scripts": {
     "test": "mocha test/unit/*",

@@ -13,7 +13,7 @@ Bluemix Microservice Starter for Spring
 
 ### Summary
 
-The Bluemix Microservice Starter in Java provides a starting point for creating Java microservice applications running on [Spring](https://developer.ibm.com/wasdev/).
+The Bluemix Microservice Starter in Java provides a starting point for creating Java microservice applications running on [Spring](https://spring.io/).
 
 To deploy this application to Bluemix using a toolchain click the **Create Toolchain** button.
 [![Create Toolchain](https://console.ng.bluemix.net/devops/graphics/create_toolchain_button.png)](https://console.ng.bluemix.net/devops/setup/deploy/)
@@ -30,12 +30,10 @@ To deploy this application to Bluemix using a toolchain click the **Create Toolc
   * [Java 8 JDK from IBM (AIX, Linux, z/OS, IBM i)](http://www.ibm.com/developerworks/java/jdk/)
 
 ### Configuration
-The application is configured to provide JAX-RS REST capabilities, JNDI, JSON parsing and Contexts and Dependency Injection (CDI).
-
-These capabilities are provided through dependencies in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file.
+Capabilities are provided through dependencies in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file.
 
 ### Project contents
-The microservice application has a health endpoint which is accessible at `<host>:<port>/{{appName}}/health`. The context root is set in the `src/main/webapp/WEB-INF/ibm-web-ext.xml` file. The ports are set in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file and exposed to the CLI in the cli-config.yml file.
+The ports are set to the defaults of 8080 for http and 8443 for https and are exposed to the CLI in the cli-config.yml file.
 
 The project contains Bluemix specific files that are used to deploy the application as part of a Bluemix DevOps flow. The `.bluemix` directory contains files used to define the Bluemix toolchain and pipeline for your application. The `manifest.yml` file specifies the name of your application in Bluemix, the timeout value during deployment and which services to bind to.
 
@@ -61,9 +59,8 @@ To run the application in Docker use the Docker file called `Dockerfile`. If you
 
 ### Endpoints
 
-The application exposes the following endpoints:
-* Health endpoint: `<host>:<port>/<contextRoot>/health`
 {{#bluemix}}
+The application exposes the following endpoints:
 {{#cloudant}}
 * Cloudant example endpoint: `<host>:<port>/<contextRoot>/v1/example/cloudant`
 {{/cloudant}}
@@ -72,7 +69,7 @@ The application exposes the following endpoints:
 {{/objectStorage}}
 {{/bluemix}}
 
-The context root is set in the `src/main/webapp/WEB-INF/ibm-web-ext.xml` file. The ports are set in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file and exposed to the CLI in the cli-config.yml file.
+The ports are set in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file and exposed to the CLI in the cli-config.yml file.
 
 
 ### Notices
