@@ -17,12 +17,9 @@
     "build"
   ],
   "composition" : [
-    "common",
-    "@arf/generator-liberty:build",
-    "platform/cli",
-    "platform/bluemix",
-    "platform/kube",
-    "@arf/generator-liberty:liberty",
+    {{#each platforms}}
+    "platform/{{this}}",
+    {{/each}}
     {{#bluemix}}
     {{#server.services}}
     "services/common",
@@ -34,5 +31,8 @@
     "services/objectStorage",
     {{/objectStorage}}
     {{/bluemix}}
+    "common",
+    "@arf/generator-liberty:build",
+    "@arf/generator-liberty:liberty"
   ]
 }

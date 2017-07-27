@@ -39,7 +39,7 @@ describe('java generator integration test', function () {
         .toPromise();                        // Get a Promise back when the generator finishes
     });
 
-    test.assertApplication('MyProject', 'projects', 'example', '1.0-SNAPSHOT');
+    test.assertApplication('MyProject', 'projects', 'MyProject', '1.0-SNAPSHOT');
 
   });
 });

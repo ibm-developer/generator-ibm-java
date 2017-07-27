@@ -9,20 +9,10 @@
     "build"
   ],
   "composition" : [
+    {{#each platforms}}
+    "platform/{{this}}",
+    {{/each}}
     "common",
-    "@arf/generator-liberty:liberty",
-    {{#bluemix}}
-    "platform/cli",
-    "platform/bluemix",
-    {{#server.services}}
-    "services/common",
-    {{/server.services}}
-    {{#cloudant}}
-    "services/cloudantNoSQLDB",
-    {{/cloudant}}
-    {{#objectStorage}}
-    "services/objectStorage",
-    {{/objectStorage}}
-    {{/bluemix}}
+    "@arf/generator-liberty:liberty"
   ]
 }

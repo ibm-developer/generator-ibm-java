@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 @Path("swagger")
 public class SwaggerEndpoint {
 
-	@Path("api")
+    @Path("api")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public Response getSwaggerAPI() {
