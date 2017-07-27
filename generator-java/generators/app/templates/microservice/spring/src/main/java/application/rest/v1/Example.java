@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 import java.util.List;
 {{#bluemix}}
+{{#server.services}}
 import org.springframework.beans.factory.annotation.Autowired;
 import application.bluemix.ServiceName;
+{{/server.services}}
 {{#cloudant}}
 import com.cloudant.client.api.CloudantClient;
 {{/cloudant}}

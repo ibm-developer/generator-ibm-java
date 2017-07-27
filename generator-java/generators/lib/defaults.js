@@ -26,7 +26,7 @@ const DEFAULTS = {
   createType : {desc : 'Type of application to generate', type : String, default : 'basic'},
   frameworkType : {desc : 'Framework to generate Java code for', type : String, default : 'liberty'},
   groupId : {desc : 'Group ID to use for the build', type : String, default : 'projects'},
-  artifactId : {desc : 'Artifact ID to use for the build', type : String, default : 'example'},
+  artifactId : {desc : 'Artifact ID to use for the build', type : String, default : undefined},
   version : {desc : 'Version of the application', type : String, default : '1.0-SNAPSHOT'},
   headless : {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : String, default : "false"},
   debug : {desc : 'Generate a log.txt file in the root of the project', type : String, default : "false"},
