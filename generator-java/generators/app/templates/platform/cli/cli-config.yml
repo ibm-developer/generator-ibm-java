@@ -1,6 +1,6 @@
 version : 0.0.3
-container-name-run : "{{appName}}"
-container-name-tools : "bx-dev-{{appName}}-tools"
+container-name-run : "{{#toLowerCase appName}}{{/toLowerCase}}"
+container-name-tools : "bx-dev-{{#toLowerCase appName}}{{/toLowerCase}}-tools"
 image-name-run : "{{#toLowerCase appName}}{{/toLowerCase}}"
 
 {{#has buildType 'maven'}}
