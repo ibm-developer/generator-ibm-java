@@ -43,5 +43,34 @@ describe('Defaults module', function() {
       var array = ['foo', 'bar'];
       assert.throws(() => {bluemixType(array)}, /bluemixToObject expects an Object or a String, got \["foo","bar"\]/, 'Did not throw an exception for passing an incorrect parameter');
     });
+    var platformsType = defaults.getObject('platforms').type;
+    it('returns platforms as an array when passed an array', function() {
+      var array = ["foo", "bar"];
+      var newArray = platformsType(array);
+      assert(Array.isArray(newArray));
+      assert.equal(newArray.length, 2);
+      assert.equal(newArray[0], "foo");
+      assert.equal(newArray[1], "bar");
+    });
+    it('returns platforms as an array when passed a comma separated string', function() {
+      var string = "foo,bar";
+      var array = platformsType(string);
+      assert(Array.isArray(array));
+      assert.equal(array.length, 2);
+      assert.equal(array[0], "foo");
+      assert.equal(array[1], "bar");
+    });
+    it('returns platforms as an array when passed an empty string', function() {
+      var string = "";
+      var array = platformsType(string);
+      assert(Array.isArray(array));
+      assert.equal(array.length, 0);
+    });
+    it('returns platforms as an array when passed an empty array', function() {
+      var array = [];
+      var newArray = platformsType(array);
+      assert(Array.isArray(newArray));
+      assert.equal(newArray.length, 0);
+    });
   });
 })
