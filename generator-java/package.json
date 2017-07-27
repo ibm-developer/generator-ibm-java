@@ -12,7 +12,7 @@
     "@arf/generator-liberty": "5.0.1",
     "@arf/generator-spring": "0.2.0",
     "extend": "^3.0.1",
-    "@arf/java-common": "2.0.4"
+    "@arf/java-common": "2.0.5"
   },
   "devDependencies": {
     "mocha": "^3.2.0",
