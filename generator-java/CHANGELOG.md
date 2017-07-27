@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.7.0"></a>
+# [1.7.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.5.0...v1.7.0) (2017-07-27)
+
+
+### Bug Fixes
+
+* **config:** Fix platforms config setting ([331bd11](https://github.ibm.com/arf/java-codegen-yeoman/commit/331bd11))
+* **templates:** additional change for non-root user support in bx dev ([899834e](https://github.ibm.com/arf/java-codegen-yeoman/commit/899834e))
+* **templates:** Pass genVersions config to sub generators ([d73d8e5](https://github.ibm.com/arf/java-codegen-yeoman/commit/d73d8e5))
+* **templates:** update Spring microservice readme with correct information ([7c43b16](https://github.ibm.com/arf/java-codegen-yeoman/commit/7c43b16))
+
+
+### Features
+
+* **templates:** Add platforms config ([be1c5e3](https://github.ibm.com/arf/java-codegen-yeoman/commit/be1c5e3))
+* **templates:** default artifact id to undefined and update generator versions ([26a2860](https://github.ibm.com/arf/java-codegen-yeoman/commit/26a2860))
+* **templates:** Update picnmix template to conditionally add bluemix ([c65328e](https://github.ibm.com/arf/java-codegen-yeoman/commit/c65328e))
+
+
+
 <a name="1.6.0"></a>
 # [1.6.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.5.0...v1.6.0) (2017-07-27)
 
