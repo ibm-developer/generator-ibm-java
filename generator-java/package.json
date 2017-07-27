@@ -9,8 +9,8 @@
   "dependencies": {
     "handlebars": "^4.0.0",
     "yeoman-generator": "^1.0.0",
-    "@arf/generator-liberty": "5.0.1",
-    "@arf/generator-spring": "0.2.0",
+    "@arf/generator-liberty": "5.0.2",
+    "@arf/generator-spring": "0.3.0",
     "extend": "^3.0.1",
     "@arf/java-common": "2.0.5"
   },
