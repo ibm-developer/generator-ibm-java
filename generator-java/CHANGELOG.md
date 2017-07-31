@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.8.0"></a>
+# [1.8.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.7.0...v1.8.0) (2017-07-31)
+
+
+### Bug Fixes
+
+* **infrastructure:** update tool for oss scans ([c3017d3](https://github.ibm.com/arf/java-codegen-yeoman/commit/c3017d3))
+* **template:** update liberty version and minor fixes ([5fc5d7c](https://github.ibm.com/arf/java-codegen-yeoman/commit/5fc5d7c))
+* **templates:** update default pattern to microservice/liberty ([cc0095d](https://github.ibm.com/arf/java-codegen-yeoman/commit/cc0095d))
+
+
+### Features
+
+* **templates:** add support for bx enable ([76d9109](https://github.ibm.com/arf/java-codegen-yeoman/commit/76d9109))
+
+
+
 <a name="1.7.0"></a>
 # [1.7.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.5.0...v1.7.0) (2017-07-27)
 
