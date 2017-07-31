@@ -10,12 +10,11 @@ toolchain:
 
 # Github repos
 repo:
-  service_id: hostedgit
+  service_id: githubpublic
   parameters:
-    repo_url: "{{tag 'zip_url'}}"
-    type: clone
+    repo_url: "{{tag 'repository'}}"
+    type: link
     has_issues: true
-    enable_traceability: true
 
 # Pipelines
 build:

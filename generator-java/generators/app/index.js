@@ -33,7 +33,7 @@ const Handlebars = require('../lib/helpers').handlebars;
 var config = undefined;
 var promptmgr = undefined;
 var contexts = [];
-var patterns = ['basic', 'microservice/liberty', 'microservice/spring', 'basicweb', 'bff', 'picnmix', 'basic/liberty', 'basic/spring'];
+var patterns = ['microservice/liberty', 'microservice/spring', 'basicweb', 'bff', 'picnmix', 'basic/liberty', 'basic/spring'];
 var defaults = new Defaults();
 
 module.exports = class extends Generator {
