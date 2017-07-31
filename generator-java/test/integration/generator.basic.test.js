@@ -23,51 +23,39 @@ const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 const core = require('../lib/core');
 const common = require('../lib/test-common');
+const kube = require('../lib/test-kube');
 
-class Options extends core.Options {
+class Options extends core.BxOptions {
 
-  assert(appName, ymlName, cloudant, objectStorage) {
-    super.assert(appName, ymlName, cloudant, objectStorage);
-    common.assertFiles('src', false, 'main/java/application/api/v1/HealthEndpoint.java',
-                                     'test/java/it/HealthEndpointIT.java')
+  assert(appName, ymlName) {
+    common.assertCommonBxFiles();
+    common.assertCLI(appName);
+    common.assertManifestYml(ymlName, false);
+    kube.test(appName, true);
+    super.assertCloudant(false);
+    super.assertObjectStorage(false);
   }
 }
 
-describe('java generator : basic integration test', function () {
+const frameworks = ['liberty', 'spring'];
 
-  describe('Generates a basic project (no bluemix), gradle build', function () {
-    var options = new Options();
-    options.prompts = {extName : 'prompt:patterns', buildType : 'gradle', createType: 'basic', services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
-    before(options.before.bind(options));
-    options.assert(core.APPNAME, core.APPNAME, false, false);
+frameworks.forEach(framework => {
+  describe('java generator : basic integration test : ' + framework, function () {
+
+    describe('Generates a basic project (bluemix enabled), gradle build : ' + framework, function () {
+      var options = new Options();
+      options.prompts = {extName : 'prompt:patterns', buildType : 'gradle', createType: 'basic/' + framework, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
+      before(options.before.bind(options));
+      options.assert(core.APPNAME, core.APPNAME);
+    });
+
+    describe('Generates a basic  project (bluemix enabled), maven build : ' + framework, function () {
+      var options = new Options();
+      options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basic/' + framework, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
+      before(options.before.bind(options));
+      options.assert(core.APPNAME, core.APPNAME);
+    });
+
   });
-
-  describe('Generates a basic  project (no bluemix), maven build', function () {
-    var options = new Options();
-    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basic', services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
-    before(options.before.bind(options));
-    options.assert(core.APPNAME, core.APPNAME, false, false);
-  });
-
-  describe('Generates a basic  project (bluemix) with cloudant', function () {
-    var options = new Options();
-    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basic', services : ['cloudant'], appName : 'bxName', artifactId: core.ARTIFACTID};
-    before(options.before.bind(options));
-    options.assert('bxName', 'bxName', true, false);
-  });
-
-  describe('Generates a basic  project (bluemix) with Object Storage', function () {
-    var options = new Options();
-    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basic', services : ['objectStorage'], appName : 'bxName', artifactId: core.ARTIFACTID};
-    before(options.before.bind(options));
-    options.assert('bxName', 'bxName', false, true);
-  });
-
-  describe('Generates a basic  project (bluemix) with Cloudant and Object Storage', function () {
-    var options = new Options();
-    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basic', services : ['objectStorage','cloudant'], appName : 'bxName', artifactId: core.ARTIFACTID};
-    before(options.before.bind(options));
-    options.assert('bxName', 'bxName', true, true);
-  });
-
 });
+
