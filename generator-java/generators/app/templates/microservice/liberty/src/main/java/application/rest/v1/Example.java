@@ -40,7 +40,6 @@ public class Example {
     {{/objectStorage}}
     {{/bluemix}}
 
-    {{^bluemix}}
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public Response example() {
@@ -49,7 +48,6 @@ public class Example {
         list.add("Some data");
         return Response.ok(list.toString()).build();
     }
-    {{/bluemix}}
 
     {{#bluemix}}
     {{#cloudant}}
