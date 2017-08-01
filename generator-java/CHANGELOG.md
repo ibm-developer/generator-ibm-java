@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.8.1"></a>
+## [1.8.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.8.0...v1.8.1) (2017-08-01)
+
+
+### Bug Fixes
+
+* **templates:** restore default end point for Liberty microservice ([9c1e520](https://github.ibm.com/arf/java-codegen-yeoman/commit/9c1e520))
+
+
+
 <a name="1.8.0"></a>
 # [1.8.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.7.0...v1.8.0) (2017-07-31)
 
