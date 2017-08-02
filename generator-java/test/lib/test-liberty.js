@@ -43,7 +43,7 @@ test_liberty.prototype.assertBuildFiles = function(buildType) {
   tests.test(buildType).assertProperty('testServerHttpPort', '9080');
   tests.test(buildType).assertProperty('testServerHttpsPort', '9443');
   tests.test(buildType).assertDependency('test', 'junit', 'junit', '4.12');
-  tests.test(buildType).assertDependency('test', 'org.apache.cxf', 'cxf-rt-rs-client', '3.1.1');
+  tests.test(buildType).assertDependency('test', 'org.apache.cxf', 'cxf-rt-rs-client', '3.1.11');
   tests.test(buildType).assertDependency('test', 'org.glassfish', 'javax.json', '1.0.4');
   if(buildType === 'maven') {
     assertMavenFiles();
