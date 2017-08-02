@@ -20,7 +20,7 @@
 const path = require('path');
 var assert = require('yeoman-assert');
 
-const CLI_VERSION = '0.0.3';
+const CLI_VERSION = '0.0.2';
 
 function getCheck(exists) {
   return {
