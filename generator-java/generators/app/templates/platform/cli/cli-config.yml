@@ -1,4 +1,4 @@
-version : 0.0.3
+version : 0.0.2
 container-name-run : "{{#toLowerCase appName}}{{/toLowerCase}}"
 container-name-tools : "bx-dev-{{#toLowerCase appName}}{{/toLowerCase}}-tools"
 image-name-run : "{{#toLowerCase appName}}{{/toLowerCase}}"
