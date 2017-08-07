@@ -26,7 +26,12 @@ const APPNAME = 'testApp';
 //common generator tests
 function assertCommonTests(options) {
   tests.test('test-cli-config', generatorLocation, 'JAVA', options);
-  tests.test('test-docker', generatorLocation, 'JAVA', options);
+  //run the docker test slightly differently as need to specify a back level version of the test
+  var dockerTest = tests.test('test-docker');
+  dockerTest.generatorLocation = generatorLocation;
+  dockerTest.platform = 'JAVA';
+  dockerTest.options = options;
+  dockerTest.version = '0.0.2';
   tests.test('test-bluemix', generatorLocation, 'JAVA', options);
   tests.test('test-pattern-bff', generatorLocation, 'JAVA', options);
 }
