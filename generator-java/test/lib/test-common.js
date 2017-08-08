@@ -22,6 +22,7 @@ const assert = require('yeoman-assert');
 const fs = require('fs');
 const yml = require('js-yaml');
 const TOOLCHAIN_YML = '.bluemix/toolchain.yml';
+const CLI_CONFIG_YML = 'cli-config.yml';
 
 const CLI_VERSION = '0.0.2';
 
@@ -142,8 +143,9 @@ var assertServices = function(exists) {
 var assertCLI = function(appname) {
   it('files required for the CLI are present and correct', function () {
     var check = getCheck(true);
-    check.content('cli-config.yml','image-name-run : "' + appname.toLowerCase() + '"');  //make sure lowercase app name
-    check.content('cli-config.yml', 'version : ' + CLI_VERSION);
+    check.content(CLI_CONFIG_YML,'image-name-run : "' + appname.toLowerCase() + '"');  //make sure lowercase app name
+    check.content(CLI_CONFIG_YML, 'version : ' + CLI_VERSION);
+    check.content(CLI_CONFIG_YML, 'chart-path : "chart"');
   });
 }
 
