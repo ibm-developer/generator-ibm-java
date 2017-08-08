@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.11.0"></a>
+# [1.11.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.10.0...v1.11.0) (2017-08-08)
+
+
+### Features
+
+* **templates:** add health end point for spring and tests ([597b3ca](https://github.ibm.com/arf/java-codegen-yeoman/commit/597b3ca))
+
+
+
 <a name="1.10.0"></a>
 # [1.10.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.9.1...v1.10.0) (2017-08-08)
 
