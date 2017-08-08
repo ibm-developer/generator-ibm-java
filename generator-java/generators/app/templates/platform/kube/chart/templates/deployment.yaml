@@ -18,6 +18,12 @@ spec:
         imagePullPolicy: {{tag ' .Values.image.pullPolicy '}}        
         readinessProbe:
           httpGet:
+          {{#has frameworkType 'liberty'}}
           path: /{{appName}}/health
             port: 9080
+          {{/has}}
+          {{#has frameworkType 'spring'}}
+          path: /health
+            port: 8080
+          {{/has}}
           initialDelaySeconds: 20
