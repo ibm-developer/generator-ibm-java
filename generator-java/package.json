@@ -20,7 +20,8 @@
     "yeoman-test": "^1.6.0",
     "istanbul": "^0.4.5",
     "standard-version": "^4.0.0",
-    "@arf/common-codegen-tests": "2.0.0"
+    "@arf/common-codegen-tests": "2.0.0",
+    "js-yaml": "^3.8.2"
   },
   "scripts": {
     "test": "mocha test/unit/*",

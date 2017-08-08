@@ -8,6 +8,18 @@ required:
 toolchain:
   name: {{appName}}
 
+{{#string 'startsWith' createType 'basic/'}}
+# Github repos
+repo:
+  service_id: hostedgit
+  parameters:
+    repo_url: "{{tag 'zip_url'}}"
+    repo_name: "{{tag 'toolchain.name'}}" 
+    type: clone
+    has_issues: true
+    enable_traceability: true
+{{/string}}
+{{#string '!startsWith' createType 'basic/'}}
 # Github repos
 repo:
   service_id: githubpublic
@@ -15,6 +27,7 @@ repo:
     repo_url: "{{tag 'repository'}}"
     type: link
     has_issues: true
+{{/string}}
 
 # Pipelines
 build:

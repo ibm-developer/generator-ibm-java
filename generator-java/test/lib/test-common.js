@@ -18,7 +18,10 @@
 
 'use strict'
 const path = require('path');
-var assert = require('yeoman-assert');
+const assert = require('yeoman-assert');
+const fs = require('fs');
+const yml = require('js-yaml');
+const TOOLCHAIN_YML = '.bluemix/toolchain.yml';
 
 const CLI_VERSION = '0.0.2';
 
@@ -64,8 +67,48 @@ var assertCommonBxFiles = function() {
     assert.file('manifest.yml');
     assert.file('.bluemix/deploy.json');
     assert.file('.bluemix/pipeline.yml');
-    assert.file('.bluemix/toolchain.yml');
+    assert.file(TOOLCHAIN_YML);
     assert.file('manifests/kube.deploy.yml');
+  });
+}
+
+//assert that the toolchain contains the bx enable specific commands
+var assertToolchainBxEnable = function() {
+  var data; 
+
+  it('generates a cli-config.yml file', function () {
+    assert.file(TOOLCHAIN_YML);
+    data = yml.safeLoad(fs.readFileSync(TOOLCHAIN_YML, 'utf8'));
+  });
+
+  it('generates the correct value for repo.service_id', function() {
+    var expectedValue = 'hostedgit';
+    assert.strictEqual(data.repo.service_id, expectedValue, `service_id has wrong value '${data.repo.service_id}' it should be '${expectedValue}'`);
+  });
+
+  it('generates the correct value for repo.parameters.type', function() {
+    var expectedValue = 'clone';
+    assert.strictEqual(data.repo.parameters.type, expectedValue, `type has wrong value '${data.repo.parameters.type}' it should be '${expectedValue}'`);
+  });
+}
+
+//assert that the toolchain contains the bx create specific commands
+var assertToolchainBxCreate = function() {
+  var data; 
+
+  it('generates a cli-config.yml file', function () {
+    assert.file(TOOLCHAIN_YML);
+    data = yml.safeLoad(fs.readFileSync(TOOLCHAIN_YML, 'utf8'));
+  });
+
+  it('generates the correct value for repo.service_id', function() {
+    var expectedValue = 'githubpublic';
+    assert.strictEqual(data.repo.service_id, expectedValue, `service_id has wrong value '${data.repo.service_id}' it should be '${expectedValue}'`);
+  });
+
+  it('generates the correct value for repo.parameters.type', function() {
+    var expectedValue = 'link';
+    assert.strictEqual(data.repo.parameters.type, expectedValue, `type has wrong value '${data.repo.parameters.type}' it should be '${expectedValue}'`);
   });
 }
 
@@ -183,5 +226,7 @@ module.exports = {
   assertObjectStorageJava : assertObjectStorageJava,
   assertServices : assertServices,
   assertObjectStorage : assertObjectStorage,
-  assertCloudant : assertCloudant
+  assertCloudant : assertCloudant,
+  assertToolchainBxEnable : assertToolchainBxEnable,
+  assertToolchainBxCreate : assertToolchainBxCreate
 }
