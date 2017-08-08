@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.10.0"></a>
+# [1.10.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.9.1...v1.10.0) (2017-08-08)
+
+
+### Features
+
+* **templates:** Add helm files to templates ([0c86eea](https://github.ibm.com/arf/java-codegen-yeoman/commit/0c86eea))
+* **templates:** update toolchain.yml for bx enable ([d53aa85](https://github.ibm.com/arf/java-codegen-yeoman/commit/d53aa85))
+* **test:** update to new common code tests v2.0.0 ([2845bdd](https://github.ibm.com/arf/java-codegen-yeoman/commit/2845bdd))
+
+
+
 <a name="1.9.1"></a>
 ## [1.9.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.9.0...v1.9.1) (2017-08-02)
 
