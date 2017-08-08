@@ -27,6 +27,7 @@ const framework = require('../lib/test-framework');
 const tests = require('@arf/java-common');
 const core = require('../lib/core');
 const extend = require('extend');
+const common = require('../lib/test-common');
 
 class Options extends core.BxOptions {
   constructor(buildType, frameworkType) {
@@ -46,6 +47,7 @@ class Options extends core.BxOptions {
     this.assertObjectStorage(objectStorage);
     this.values.frameworkType === FRAMEWORK_LIBERTY ? this.assertliberty() : this.assertspring();
     this.assertBuild(appName);
+    common.assertToolchainBxCreate();
   }
 
   assertBuild(appName) {

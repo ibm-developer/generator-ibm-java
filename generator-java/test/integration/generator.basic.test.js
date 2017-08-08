@@ -34,7 +34,9 @@ class Options extends core.BxOptions {
     kube.test(appName, true);
     super.assertCloudant(false);
     super.assertObjectStorage(false);
+    common.assertToolchainBxEnable();
   }
+
 }
 
 const frameworks = ['liberty', 'spring'];
