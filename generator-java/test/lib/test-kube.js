@@ -7,19 +7,24 @@ These sets of tests test if we have generated all the bluemix files.
 var helpers = require('yeoman-test');
 var assert = require('yeoman-assert');
 
+const LIBERTY = 'liberty';
+const SPRING = 'spring';
+
 function test_kube(appName) {
 }
 
-test_kube.test = function(appName, exists) {
+test_kube.test = function(appName, exists, framework) {
   describe('Validate k8s for application ' + appName, function() {
 
     var prefix = exists ? 'generates ' : 'does not generate ';
     var check = exists ? assert.file : assert.noFile;
 
     it(prefix + 'k8s file Jenkinsfile', function() {
-      check('Jenkinsfile');
-      if(exists) {
+      var expectJenkins = exists && framework === LIBERTY;
+      if(expectJenkins) {
         assert.fileContent('Jenkinsfile', 'image = \''+ appName.toLowerCase() + '\'');
+      } else {
+        assert.noFile('Jenkinsfile');
       }
     });
 
@@ -30,7 +35,12 @@ test_kube.test = function(appName, exists) {
         assert.fileContent('manifests/kube.deploy.yml', 'name: "' + appName.toLowerCase() + '-service"');
         assert.fileContent('manifests/kube.deploy.yml', 'app: "' + appName.toLowerCase() + '-selector"');
         assert.fileContent('manifests/kube.deploy.yml', 'image: ' + appName.toLowerCase() + ':latest');
-        assert.fileContent('manifests/kube.deploy.yml', 'path: /' + appName + '/health');
+        if(framework === LIBERTY) {
+          assert.fileContent('manifests/kube.deploy.yml', 'path: /' + appName + '/health');
+        }
+        if(framework === SPRING) {
+          assert.fileContent('manifests/kube.deploy.yml', 'path: /health');
+        }
       }
     });
 
@@ -42,7 +52,12 @@ test_kube.test = function(appName, exists) {
       if(exists) {
         assert.fileContent('chart/values.yaml', 'repository: ' + appName.toLowerCase());
         assert.fileContent('chart/Chart.yaml', 'name: ' + appName);
-        assert.fileContent('chart/templates/deployment.yaml', 'path: /' + appName + '/health');
+        if(framework === LIBERTY) {
+          assert.fileContent('chart/templates/deployment.yaml', 'path: /' + appName + '/health');
+        }
+        if(framework === SPRING) {
+          assert.fileContent('chart/templates/deployment.yaml', 'path: /health');
+        }
         assert.fileContent('chart/templates/deployment.yaml', 'name: "{{  .Chart.Name }}-deployment"');
         assert.fileContent('chart/templates/deployment.yaml', 'chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"');
         assert.fileContent('chart/templates/deployment.yaml', 'replicas:  {{ .Values.replicaCount }}');
