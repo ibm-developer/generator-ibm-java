@@ -20,10 +20,11 @@ test_kube.test = function(appName, exists, framework) {
     var check = exists ? assert.file : assert.noFile;
 
     it(prefix + 'k8s file Jenkinsfile', function() {
-      var checkJenkins = framework === LIBERTY ? assert.file : assert.noFile;
-      checkJenkins('Jenkinsfile');
-      if(framework === LIBERTY) {
+      var expectJenkins = exists && framework === LIBERTY;
+      if(expectJenkins) {
         assert.fileContent('Jenkinsfile', 'image = \''+ appName.toLowerCase() + '\'');
+      } else {
+        assert.noFile('Jenkinsfile');
       }
     });
 
