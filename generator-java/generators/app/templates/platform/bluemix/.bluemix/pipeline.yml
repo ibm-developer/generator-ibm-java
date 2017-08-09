@@ -39,6 +39,6 @@ stages:
       cf create-service "{{serviceInfo.label}}" "{{serviceInfo.plan}}" "{{serviceInfo.name}}"
       {{/each}}
       {{/bluemix}}
-      cf push "${CF_APP}" -p target/{{appName}}.zip
+      {{#has frameworkType 'liberty'}}cf push "${CF_APP}" -p target/{{appName}}.zip{{/has}}{{#has frameworkType 'spring'}}cf push "${CF_APP}" -p target/{{appName}}-{{version}}.jar{{/has}}
       # View logs
       # cf logs "${CF_APP}" --recent

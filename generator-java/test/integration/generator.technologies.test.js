@@ -69,7 +69,7 @@ class Options extends core.Options {
     this.assert();    //there are no additional files to check for
   }
   assertNoKube() {
-    kube.test(this.values.appName, false);
+    kube.test(this.values.appName, false, FRAMEWORK);
   }
   assertmsbuilderwithname() {
     this.assertTech.assertmsbuilderwithname(this.values.appName);

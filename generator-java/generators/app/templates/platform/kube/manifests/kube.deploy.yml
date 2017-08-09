@@ -9,10 +9,16 @@ spec:
   type: NodePort
   ports:
   # the port that this service should serve on
+  {{#has frameworkType 'liberty'}}
   - name: http
     port: 9080
   - name: https
     port: 9443
+  {{/has}}
+  {{#has frameworkType 'spring'}}
+  - name: http
+    port: 8080
+  {{/has}}
 
   selector:
     app: "{{#toLowerCase appName}}{{/toLowerCase}}-selector"
@@ -35,8 +41,14 @@ spec:
         image: {{#toLowerCase appName}}{{/toLowerCase}}:latest
         readinessProbe:
           httpGet:
+          {{#has frameworkType 'liberty'}}
             path: /{{appName}}/health
             port: 9080
+          {{/has}}
+          {{#has frameworkType 'spring'}}
+            path: /health
+            port: 8080
+          {{/has}}
           initialDelaySeconds: 20
         # resources:
         #   requests:
