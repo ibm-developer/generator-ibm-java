@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.12.0"></a>
+# [1.12.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.11.0...v1.12.0) (2017-08-09)
+
+
+### Features
+
+* **templates:** Update helm templates for Spring ([317604e](https://github.ibm.com/arf/java-codegen-yeoman/commit/317604e))
+
+
+
 <a name="1.11.0"></a>
 # [1.11.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.10.0...v1.11.0) (2017-08-08)
 
