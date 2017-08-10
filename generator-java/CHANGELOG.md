@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.12.1"></a>
+## [1.12.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.12.0...v1.12.1) (2017-08-10)
+
+
+### Bug Fixes
+
+* **templates:** Fix indentation of deployment.yaml ([009bf1b](https://github.ibm.com/arf/java-codegen-yeoman/commit/009bf1b))
+
+
+
 <a name="1.12.0"></a>
 # [1.12.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.11.0...v1.12.0) (2017-08-09)
 
