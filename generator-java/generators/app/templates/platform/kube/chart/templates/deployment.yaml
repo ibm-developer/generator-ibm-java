@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: "{{tag '  .Chart.Name '}}-deployment"
   labels:
-    chart: "{{tag ' .Chart.Name '}}-{{{tag ' .Chart.Version | replace "+" "_" '}}}"
+    chart: "{{tag ' .Chart.Name '}}-{{{tag ' .Chart.Version | replace \"+\" \"_\" '}}}"
 spec:
   replicas:  {{tag ' .Values.replicaCount '}}
   revisionHistoryLimit: {{tag ' .Values.revisionHistoryLimit '}}
@@ -19,11 +19,11 @@ spec:
         readinessProbe:
           httpGet:
           {{#has frameworkType 'liberty'}}
-          path: /{{appName}}/health
+            path: /{{appName}}/health
             port: 9080
           {{/has}}
           {{#has frameworkType 'spring'}}
-          path: /health
+            path: /health
             port: 8080
           {{/has}}
           initialDelaySeconds: 20
