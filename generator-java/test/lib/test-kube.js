@@ -4,8 +4,10 @@ These sets of tests test if we have generated all the bluemix files.
 
 'use strict'
 
-var helpers = require('yeoman-test');
-var assert = require('yeoman-assert');
+const helpers = require('yeoman-test');
+const assert = require('yeoman-assert');
+const yml = require('js-yaml');
+const fs = require('fs');
 
 const LIBERTY = 'liberty';
 const SPRING = 'spring';
@@ -31,16 +33,32 @@ test_kube.test = function(appName, exists, framework) {
     it(prefix + 'k8s file kube.deploy.yml', function() {
       check('manifests/kube.deploy.yml');
       if(exists) {
-        assert.fileContent('manifests/kube.deploy.yml', 'name: "' + appName.toLowerCase() + '-deployment"');
-        assert.fileContent('manifests/kube.deploy.yml', 'name: "' + appName.toLowerCase() + '-service"');
-        assert.fileContent('manifests/kube.deploy.yml', 'app: "' + appName.toLowerCase() + '-selector"');
-        assert.fileContent('manifests/kube.deploy.yml', 'image: ' + appName.toLowerCase() + ':latest');
-        if(framework === LIBERTY) {
-          assert.fileContent('manifests/kube.deploy.yml', 'path: /' + appName + '/health');
-        }
-        if(framework === SPRING) {
-          assert.fileContent('manifests/kube.deploy.yml', 'path: /health');
-        }
+        var i = 0;
+        var kubeymlArray = yml.safeLoadAll(fs.readFileSync('manifests/kube.deploy.yml', 'utf8'), data => {
+          switch(i) {
+            case 0:
+              assertYmlContent(data.metadata.name, appName.toLowerCase() + '-service', 'doc0.data.metadata.name');
+              assertYmlContent(data.spec.selector.app, appName.toLowerCase() + '-selector', 'doc0.spec.selector.app');
+              i++;
+              break;
+            case 1:
+              assertYmlContent(data.metadata.name, appName.toLowerCase() + '-deployment', 'doc1.metadata.name');
+              assertYmlContent(data.spec.template.metadata.labels.app, appName.toLowerCase() + '-selector', 'doc1.spec.template.metadata.labels.app');
+              assertYmlContent(data.spec.template.spec.containers[0].name, appName.toLowerCase(), 'doc1.spec.template.spec.containers[0].name');
+              assertYmlContent(data.spec.template.spec.containers[0].image, appName.toLowerCase() + ':latest', 'doc1.spec.template.spec.containers[0].image');
+              if(framework === LIBERTY) {
+                assertYmlContent(data.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/' + appName + '/health', 'doc1.spec.template.spec.containers[0].readinessProbe.httpGet.path');
+              }
+              if(framework === SPRING) {
+                assertYmlContent(data.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/health', 'doc1.data.spec.template.spec.containers[0].readinessProbe.httpGet.path');
+              }
+              i++;
+              break;
+            default:
+              assert.fail(i, 'i < 2', 'Yaml file contains more documents than expected');
+          }
+
+        });
       }
     });
 
@@ -50,33 +68,40 @@ test_kube.test = function(appName, exists, framework) {
       check('chart/templates/deployment.yaml');
       check('chart/templates/service.yaml');
       if(exists) {
-        assert.fileContent('chart/values.yaml', 'repository: ' + appName.toLowerCase());
-        assert.fileContent('chart/Chart.yaml', 'name: ' + appName);
+        var valuesyml = yml.safeLoad(fs.readFileSync('chart/values.yaml', 'utf8'));
+        var chartyml = yml.safeLoad(fs.readFileSync('chart/Chart.yaml', 'utf8'));
+        var deploymentyml = yml.safeLoad(fs.readFileSync('chart/templates/deployment.yaml', 'utf8'));
+        var serviceyml = yml.safeLoad(fs.readFileSync('chart/templates/service.yaml', 'utf8'));
+        assertYmlContent(valuesyml.image.repository, appName.toLowerCase(), 'valuesyml.image.repository');
+        assertYmlContent(chartyml.name, appName, 'chartyml.name');
         if(framework === LIBERTY) {
-          assert.fileContent('chart/templates/deployment.yaml', 'path: /' + appName + '/health');
+          assertYmlContent(deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/' + appName + '/health', 'deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path');
         }
         if(framework === SPRING) {
-          assert.fileContent('chart/templates/deployment.yaml', 'path: /health');
+          assertYmlContent(deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/health', 'deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path');
         }
-        assert.fileContent('chart/templates/deployment.yaml', 'name: "{{  .Chart.Name }}-deployment"');
-        assert.fileContent('chart/templates/deployment.yaml', 'chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"');
-        assert.fileContent('chart/templates/deployment.yaml', 'replicas:  {{ .Values.replicaCount }}');
-        assert.fileContent('chart/templates/deployment.yaml', 'revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}');
-        assert.fileContent('chart/templates/deployment.yaml', '- name: {{  .Chart.Name  }}');
-        assert.fileContent('chart/templates/deployment.yaml', '{{  .Chart.Name  }}');
-        assert.fileContent('chart/templates/deployment.yaml', 'image: "{{ .Values.image.repository }}{{ .Values.image.name }}:{{ .Values.image.tag }}"');
-        assert.fileContent('chart/templates/deployment.yaml', 'imagePullPolicy: {{ .Values.image.pullPolicy }}');
-        assert.fileContent('chart/templates/service.yaml', 'name: "{{  .Chart.Name }}-service"');
-        assert.fileContent('chart/templates/service.yaml', 'chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"');
-        assert.fileContent('chart/templates/service.yaml', 'type: {{ .Values.service.type }}');
-        assert.fileContent('chart/templates/service.yaml', 'port: {{ .Values.service.servicePort }}');
-        assert.fileContent('chart/templates/service.yaml', 'port: {{ .Values.service.servicePortHttps }}');
-        assert.fileContent('chart/templates/service.yaml', 'app: "{{  .Chart.Name }}-selector"');
+        assertYmlContent(deploymentyml.metadata.name, '{{  .Chart.Name }}-deployment', 'deploymentyml.metadata.name');
+        assertYmlContent(deploymentyml.metadata.labels.chart, '{{ .Chart.Name }}-{{ .Chart.Version | replace \"+\" \"_\" }}', 'deploymentyml.metadata.labels.chart');
+        assert.fileContent('chart/templates/deployment.yaml', '  replicas:  {{ .Values.replicaCount }}');
+        assert.fileContent('chart/templates/deployment.yaml', '  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}');
+        assertYmlContent(deploymentyml.spec.template.metadata.labels.app, '{{  .Chart.Name }}-selector', 'deploymentyml.spec.template.metadata.labels.app');
+        assert.fileContent('chart/templates/deployment.yaml', '      - name: {{  .Chart.Name  }}');
+        assertYmlContent(deploymentyml.spec.template.spec.containers[0].image, '{{ .Values.image.repository }}{{ .Values.image.name }}:{{ .Values.image.tag }}', 'deploymentyml.spec.template.spec.containers[0].image');
+        assert.fileContent('chart/templates/deployment.yaml', '        imagePullPolicy: {{ .Values.image.pullPolicy }}');
+        assertYmlContent(serviceyml.metadata.name, '{{  .Chart.Name }}-service', 'serviceyml.metadata.name');
+        assertYmlContent(serviceyml.metadata.labels.chart, '{{ .Chart.Name }}-{{ .Chart.Version | replace \"+\" \"_\" }}');
+        assert.fileContent('chart/templates/service.yaml', '  type: {{ .Values.service.type }}');
+        assert.fileContent('chart/templates/service.yaml', '    port: {{ .Values.service.servicePort }}');
+        assert.fileContent('chart/templates/service.yaml', '    port: {{ .Values.service.servicePortHttps }}');
+        assertYmlContent(serviceyml.spec.selector.app, '{{  .Chart.Name }}-selector');
       }
     });
 
   });
 }
 
+var assertYmlContent = function(actual, expected, label) {
+  assert.strictEqual(actual, expected, 'Expected ' + label + ' to be ' + expected + ', found ' + actual);
+}
 
 module.exports = test_kube;
