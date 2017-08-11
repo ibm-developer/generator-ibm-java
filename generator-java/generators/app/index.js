@@ -21,6 +21,7 @@ const extend = require('extend');
 
 const PromptMgr = require('../lib/promptmgr');
 const Defaults = require('../lib/defaults');
+const enablementContext = new require('../lib/enablementContext');
 
 const common = require('@arf/java-common');
 const Config = common.config;
@@ -44,6 +45,7 @@ module.exports = class extends Generator {
     //create command line options that will be passed by YaaS
     defaults.setOptions(this);
     logger.writeToLog("Options", this.options);
+
   }
 
   initializing() {
@@ -65,6 +67,7 @@ module.exports = class extends Generator {
     logger.writeToLog("Config (final)", config);
     this._addContext('@arf/generator-liberty');
     this._addContext('@arf/generator-spring');
+    this.composeWith(require.resolve("@arf/generator-service-enablement"), this.options);
   }
 
   _addContext(name) {
