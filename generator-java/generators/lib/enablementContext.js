@@ -18,12 +18,16 @@
  'use strict'
 
 module.exports = class {
-  constructor() {
-
+  constructor(contexts) {
+    this.contexts = contexts;
   }
 
   //called by service enablement generator to add dependencies
-  _addDependencies(json) {
+  _addDependencies (json) {
+    var dependencies = JSON.parse(json).dependencies;
     console.log("Dependencies : " + json);
+      this.contexts.forEach(context => {
+      context.conf.addDependencies(dependencies);
+    });
   }
 }
