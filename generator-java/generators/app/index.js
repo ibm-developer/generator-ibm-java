@@ -98,6 +98,11 @@ module.exports = class extends Generator {
     config.genVersions = {'generator-java': pkg.version,
       'java-common':pkg.dependencies['@arf/java-common']};
     config.genVersions['generator-' + config.frameworkType] = pkg.dependencies['@arf/generator-' + config.frameworkType];
+    if(config.frameworkType === 'liberty' && config.createType === 'basicweb') {
+      config.healthEndpoint = 'rest/health';
+    } else {
+      config.healthEndpoint = 'health';
+    }
     //configure this generator and then pass that down through the contexts
     this.destinationRoot(config.projectPath);
     var control = new Control(fspath.resolve(config.templateRoot, config.createType), config);

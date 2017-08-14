@@ -13,7 +13,7 @@ public class ProductsEndpointTest {
 
     private String port = System.getProperty("liberty.test.port");
     private String warContext = System.getProperty("war.context");
-    private String endpoint = "/rest/products";
+    private String endpoint = "/products";
     private String url = "http://localhost:" + port + "/" + warContext + endpoint;
 
     @Test
