@@ -20,11 +20,11 @@ spec:
           httpGet:
           {{! healthEndpoint is configured in the index.js and is different for basicweb}}
           {{#has frameworkType 'liberty'}}
-            path: /{{appName}}{{healthEndpoint}}
+            path: /{{appName}}/{{healthEndpoint}}
             port: 9080
           {{/has}}
           {{#has frameworkType 'spring'}}
-            path: {{healthEndpoint}}
+            path: /{{healthEndpoint}}
             port: 8080
           {{/has}}
           initialDelaySeconds: 20

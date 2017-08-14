@@ -99,9 +99,9 @@ module.exports = class extends Generator {
       'java-common':pkg.dependencies['@arf/java-common']};
     config.genVersions['generator-' + config.frameworkType] = pkg.dependencies['@arf/generator-' + config.frameworkType];
     if(config.frameworkType === 'liberty' && config.createType === 'basicweb') {
-      config.healthEndpoint = '/rest/health';
+      config.healthEndpoint = 'rest/health';
     } else {
-      config.healthEndpoint = '/health';
+      config.healthEndpoint = 'health';
     }
     //configure this generator and then pass that down through the contexts
     this.destinationRoot(config.projectPath);
