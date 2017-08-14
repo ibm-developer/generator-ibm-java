@@ -39,4 +39,4 @@ debug-cmd : "java -Dspring.profiles.active=local -Xdebug -Xrunjdwp:server=y,tran
 dockerfile-run : "Dockerfile"
 dockerfile-tools : "Dockerfile-tools"
 
-chart-path : "chart"
+chart-path : "chart/{{#toLowerCase appName}}{{/toLowerCase}}"

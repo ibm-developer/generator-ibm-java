@@ -14,7 +14,7 @@ spec:
     spec:
      containers:
       - name: {{tag '  .Chart.Name  '}}
-        image: "{{tag ' .Values.image.repository '}}{{tag ' .Values.image.name '}}:{{tag ' .Values.image.tag '}}"
+        image: "{{tag ' .Values.image.repository '}}:{{tag ' .Values.image.tag '}}"
         imagePullPolicy: {{tag ' .Values.image.pullPolicy '}}        
         readinessProbe:
           httpGet:
