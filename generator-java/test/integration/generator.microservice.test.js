@@ -42,7 +42,7 @@ class Options extends core.BxOptions {
   }
 
   assert(appName, ymlName, cloudant, objectStorage) {
-    super.assert(appName, ymlName, cloudant, objectStorage);
+    super.assert(appName, ymlName, cloudant, objectStorage, this.values.createType);
     this.assertCloudant(cloudant);
     this.assertObjectStorage(objectStorage);
     this.values.frameworkType === FRAMEWORK_LIBERTY ? this.assertliberty() : this.assertspring();
