@@ -24,10 +24,23 @@ module.exports = class {
 
   //called by service enablement generator to add dependencies
   _addDependencies (json) {
-    var dependencies = JSON.parse(json).dependencies;
-    console.log("Dependencies : " + json);
-      this.contexts.forEach(context => {
-      context.conf.addDependencies(dependencies);
+    var data = JSON.parse(json);
+    this.contexts.forEach(context => {
+      if(data.dependencies) {
+        context.conf.addDependencies(data.dependencies);
+      }
+      if(data.properties) {
+        context.conf.addProperties(data.properties);
+      }
+      if(data.jndiEntries) {
+        context.conf.addJndiEntries(data.jndiEntries);
+      }
+      if(data.envEntries) {
+        context.conf.addEnvEntries(data.envEntries);
+      }
+      if(data.frameworkDependencies) {
+        context.conf.addFrameworkDependencies(data.frameworkDependencies);
+      }
     });
   }
 }
