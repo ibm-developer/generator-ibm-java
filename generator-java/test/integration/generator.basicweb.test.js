@@ -34,9 +34,17 @@ const FRAMEWORK = 'liberty';
 
 class Options extends core.BxOptions {
 
-  assert(appName, ymlName, cloudant, objectStorage) {
-    super.assert(appName, ymlName, cloudant, objectStorage);
+  assert(appName, ymlName, cloudant, objectStorage, buildType) {
+    super.assert(appName, ymlName, cloudant, objectStorage, 'basicweb');
     common.assertFiles('src/main/webapp', true, 'index.html', '/css/default.css', 'js/bundle.js');
+    var test = tests.test(buildType);
+    test.assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
+    test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
+    test.assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
+    test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+    framework.test(FRAMEWORK).assertSourceFiles(false);
+    framework.test(FRAMEWORK).assertFeatures('jaxrs-2.0');
+    framework.test(FRAMEWORK).assertFeatures('servlet-3.1');
   }
 }
 
@@ -47,21 +55,21 @@ describe('java generator : basic integration test', function () {
     var options = new Options();
     options.prompts = {extName : 'prompt:patterns', buildType : 'gradle', createType: 'basicweb', services: ['none'], appName: APPNAME, artifactId: ARTIFACTID};
     before(options.before.bind(options));
-    options.assert(APPNAME, APPNAME, false, false);
+    options.assert(APPNAME, APPNAME, false, false, 'gradle');
   });
 
   describe('Generates a basic web project (no bluemix), maven build', function () {
     var options = new Options();
     options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basicweb', services: ['none'], appName: APPNAME, artifactId: ARTIFACTID};
     before(options.before.bind(options));
-    options.assert(APPNAME, APPNAME, false, false);
+    options.assert(APPNAME, APPNAME, false, false, 'maven');
   });
 
   describe('Generates a basic web project (bluemix) with cloudant', function () {
     var options = new Options();
     options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basicweb', services : ['cloudant'], appName : 'bxName', artifactId: ARTIFACTID};
     before(options.before.bind(options));
-    options.assert('bxName', 'bxName', true, false);
+    options.assert('bxName', 'bxName', true, false, 'maven');
     options.assertCloudant();
   });
 
@@ -69,7 +77,7 @@ describe('java generator : basic integration test', function () {
     var options = new Options();
     options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basicweb', services : ['objectStorage'], appName : 'bxName', artifactId: ARTIFACTID};
     before(options.before.bind(options));
-    options.assert('bxName', 'bxName', false, true);
+    options.assert('bxName', 'bxName', false, true, 'maven');
     options.assertObjectStorage();
   });
 
@@ -77,7 +85,7 @@ describe('java generator : basic integration test', function () {
     var options = new Options();
     options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basicweb', services : ['objectStorage','cloudant'], appName : 'bxName', artifactId: ARTIFACTID};
     before(options.before.bind(options));
-    options.assert('bxName', 'bxName', true, true);
+    options.assert('bxName', 'bxName', true, true, 'maven');
     options.assertCloudant();
     options.assertObjectStorage();
   });

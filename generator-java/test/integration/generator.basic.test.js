@@ -27,11 +27,11 @@ const kube = require('../lib/test-kube');
 
 class Options extends core.BxOptions {
 
-  assert(appName, ymlName, framework) {
+  assert(appName, ymlName, framework, createType) {
     common.assertCommonBxFiles();
     common.assertCLI(appName);
     common.assertManifestYml(ymlName, false);
-    kube.test(appName, true, framework);
+    kube.test(appName, true, framework, createType);
     super.assertCloudant(false);
     super.assertObjectStorage(false);
     common.assertToolchainBxEnable();
@@ -48,14 +48,14 @@ frameworks.forEach(framework => {
       var options = new Options();
       options.prompts = {extName : 'prompt:patterns', buildType : 'gradle', createType: 'basic/' + framework, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
       before(options.before.bind(options));
-      options.assert(core.APPNAME, core.APPNAME, framework);
+      options.assert(core.APPNAME, core.APPNAME, framework, 'basic/' + framework);
     });
 
     describe('Generates a basic  project (bluemix enabled), maven build : ' + framework, function () {
       var options = new Options();
       options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basic/' + framework, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
       before(options.before.bind(options));
-      options.assert(core.APPNAME, core.APPNAME, framework);
+      options.assert(core.APPNAME, core.APPNAME, framework, 'basic/' + framework);
     });
 
   });

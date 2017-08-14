@@ -114,14 +114,14 @@ class BxOptions extends Options {
    }
  }
 
-  assert(appName, ymlName, cloudant, objectStorage) {
+  assert(appName, ymlName, cloudant, objectStorage, createType) {
     var name = this.values.frameworkType || FRAMEWORK_LIBERTY;
     super.assert(appName, ymlName, cloudant, objectStorage);
     common.assertCommonBxFiles();
     common.assertCLI(appName);
     common.assertBluemixSrc(cloudant || objectStorage);
     common.assertManifestYml(ymlName, cloudant || objectStorage);
-    kube.test(appName, true, name);
+    kube.test(appName, true, name, createType);
     this.assertCloudant(cloudant);
     this.assertObjectStorage(objectStorage);
 
