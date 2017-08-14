@@ -145,7 +145,7 @@ var assertCLI = function(appname) {
     var check = getCheck(true);
     check.content(CLI_CONFIG_YML,'image-name-run : "' + appname.toLowerCase() + '"');  //make sure lowercase app name
     check.content(CLI_CONFIG_YML, 'version : ' + CLI_VERSION);
-    check.content(CLI_CONFIG_YML, 'chart-path : "chart"');
+    check.content(CLI_CONFIG_YML, 'chart-path : "chart/' + appname.toLowerCase() + '"');
   });
 }
 
