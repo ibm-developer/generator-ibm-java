@@ -70,8 +70,12 @@ test_kube.test = function(appName, exists, framework) {
       if(exists) {
         var valuesyml = yml.safeLoad(fs.readFileSync('chart/values.yaml', 'utf8'));
         var chartyml = yml.safeLoad(fs.readFileSync('chart/Chart.yaml', 'utf8'));
-        var deploymentyml = yml.safeLoad(fs.readFileSync('chart/templates/deployment.yaml', 'utf8'));
-        var serviceyml = yml.safeLoad(fs.readFileSync('chart/templates/service.yaml', 'utf8'));
+        var rawdeploymentyml = fs.readFileSync('chart/templates/deployment.yaml', 'utf8');
+        var newdeploymentyml = rawdeploymentyml.replace('"+" "_"', '\\"+\\" \\"_\\"');
+        var deploymentyml = yml.safeLoad(newdeploymentyml);
+        var rawserviceyml = fs.readFileSync('chart/templates/service.yaml', 'utf8');
+        var newserviceyml = rawserviceyml.replace('"+" "_"', '\\"+\\" \\"_\\"');
+        var serviceyml = yml.safeLoad(newserviceyml);
         assertYmlContent(valuesyml.image.repository, appName.toLowerCase(), 'valuesyml.image.repository');
         assertYmlContent(chartyml.name, appName, 'chartyml.name');
         if(framework === LIBERTY) {
