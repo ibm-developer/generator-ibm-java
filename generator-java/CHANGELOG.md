@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.12.2"></a>
+## [1.12.2](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.12.1...v1.12.2) (2017-08-14)
+
+
+### Bug Fixes
+
+* **templates:** Fix helm templates ([b1a46ad](https://github.ibm.com/arf/java-codegen-yeoman/commit/b1a46ad))
+* **templates:** Move helm charts to chart/appname ([a168bfd](https://github.ibm.com/arf/java-codegen-yeoman/commit/a168bfd))
+* **templates:** Update helm charts for correct health endpoint ([63b8ce6](https://github.ibm.com/arf/java-codegen-yeoman/commit/63b8ce6))
+
+
+
 <a name="1.12.1"></a>
 ## [1.12.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.12.0...v1.12.1) (2017-08-10)
 
