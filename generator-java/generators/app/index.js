@@ -34,6 +34,7 @@ const Handlebars = require('../lib/helpers').handlebars;
 var config = undefined;
 var promptmgr = undefined;
 var contexts = [];
+var enablementContexts = [];
 var patterns = ['microservice/liberty', 'microservice/spring', 'basicweb', 'bff', 'picnmix', 'basic/liberty', 'basic/spring'];
 var defaults = new Defaults();
 
@@ -68,9 +69,14 @@ module.exports = class extends Generator {
     logger.writeToLog("Config (final)", config);
     this._addContext('@arf/generator-liberty');
     this._addContext('@arf/generator-spring');
+    this._addEnablementContext()
+  }
+
+  _addEnablementContext(name) {
     this.options.bluemix = JSON.stringify(this.options.bluemix);
     this.options.parentContext = this.enablementContext;
     this.composeWith(require.resolve("@arf/generator-service-enablement"), this.options);
+    enablementContexts.push(this.enablementContext);
   }
 
   _addContext(name) {
@@ -92,6 +98,13 @@ module.exports = class extends Generator {
         config.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.appName);
         contexts.forEach(context => {
           context.conf.projectPath = config.projectPath;
+        });
+        enablementContexts.forEach(context => {
+          if(context.bluemix) {
+            Object.assign(context.bluemix, config.bluemix);
+          } else {
+            context.bluemix = config.bluemix;
+          }
         });
       });
     }

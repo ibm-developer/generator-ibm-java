@@ -84,7 +84,7 @@ execute('picnmix', 'picnmix', technologies);
 function execute(createType, assertFunc, technologiesToTest) {
 
   describe('java generator : technologies integration test', function () {
-
+    this.timeout(7000);
     for(var i = 0; i < technologiesToTest.length; i++) {
       for(var j = 0; j < buildTypes.length; j++) {
         describe('Generates a ' + createType + ' project for ' + technologiesToTest[i] + ' (' + buildTypes[j] + ', no bluemix)', function () {
@@ -116,7 +116,7 @@ function execute(createType, assertFunc, technologiesToTest) {
 }
 
 describe('java generator : technologies integration test', function () {
-
+  this.timeout(7000);
   for(var i = 0; i < buildTypes.length; i++) {
     describe('Generates a project for (no services or technologies)', function () {
       var options = new Options('picnmix', buildTypes[i], [], []);

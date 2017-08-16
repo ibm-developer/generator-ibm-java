@@ -43,4 +43,29 @@ module.exports = class {
       }
     });
   }
+
+  //called by service enablement generator to add local development config
+  _addLocalDevConfig(devconf) {
+    var entries = [];
+    if(Array.isArray(devconf)) {
+      devconf.forEach(conf => {
+        Object.getOwnPropertyNames(conf).forEach(prop => {
+          entries.push({
+            name : prop,
+            value : conf[prop]
+          });
+        })
+      });
+    } else {
+      Object.getOwnPropertyNames(devconf).forEach(prop => {
+        entries.push({
+          name : prop,
+          value : devconf[prop]
+        });
+      });
+    }
+    this.contexts.forEach(context => {
+      context.conf.addEnvEntries(entries);
+    });
+  }
 }
