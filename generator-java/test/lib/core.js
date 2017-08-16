@@ -40,7 +40,10 @@ class Options {
      debug : "true",
      version : VERSION,
      groupId : GROUPID,
-     artifactId : ARTIFACTID
+     artifactId : ARTIFACTID,
+     bluemix : {
+       backendPlatform : 'JAVA'
+     }
    }
    this.prompts = {};
  }

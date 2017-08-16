@@ -62,9 +62,11 @@ module.exports = class extends Generator {
     }
     config.templateRoot = this.templatePath();
     config.projectPath = fspath.resolve(this.destinationRoot());
+    config.backendPlatform = 'JAVA';
     logger.writeToLog("Config (final)", config);
     this._addContext('@arf/generator-liberty');
     this._addContext('@arf/generator-spring');
+    this._addEnablementContext('@arf/generator-cloud-enablement');
   }
 
   _addContext(name) {
@@ -72,6 +74,16 @@ module.exports = class extends Generator {
     this.options.context = context;
     var location = fspath.parse(require.resolve(name));   //compose with the default generator
     this.composeWith(fspath.join(location.dir, 'generators', 'app'), this.options);
+    contexts.push(context);
+    this.options.context = undefined;
+    return context;
+  }
+
+    _addEnablementContext(name) {
+    var context = new Context(name, config, promptmgr);   //use the name for the context ID
+    this.options.context = context;
+    var location = fspath.parse(require.resolve(name));   //compose with the default generator
+    this.composeWith(location.dir, this.options);
     contexts.push(context);
     this.options.context = undefined;
     return context;
@@ -86,6 +98,7 @@ module.exports = class extends Generator {
         config.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.appName);
         contexts.forEach(context => {
           context.conf.projectPath = config.projectPath;
+          context.conf.appName = config.appName;
         });
       });
     }
