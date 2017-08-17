@@ -37,11 +37,17 @@ function assertCommonTests(options) {
 }
 
 describe('java generator : bff/yaas : gradle build, no bluemix services', function () {
+  this.timeout(7000);
   var ymock = new tests.YMock(APPNAME, "JAVA", {headless : 'true', buildType : 'gradle', createType: 'bff'});
-  assertCommonTests(ymock.getOptions());
+  var options = ymock.getOptions();
+  options.bluemix.backendPlatform = options.backendPlatform;
+  assertCommonTests(options);
 });
 
 describe('java generator : bff/yaas : maven build, no bluemix services', function () {
+  this.timeout(7000);
   var ymock = new tests.YMock(APPNAME, "JAVA", {headless : 'true', buildType : 'maven', createType: 'bff'});
-  assertCommonTests(ymock.getOptions());
+  var options = ymock.getOptions();
+  options.bluemix.backendPlatform = options.backendPlatform;
+  assertCommonTests(options);
 });

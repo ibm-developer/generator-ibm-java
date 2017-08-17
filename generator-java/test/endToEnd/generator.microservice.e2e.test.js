@@ -38,7 +38,10 @@ function Options(buildType) {
     appName : APPNAME,
     groupId : GROUPID,
     artifactId : ARTIFACTID,
-    version : VERSION
+    version : VERSION,
+    bluemix : {
+      backendPlatform : 'JAVA'
+    }
   }
   this.assertBuilds = function() {
     command.run(tests.test(buildType).getBuildCommand());
@@ -52,6 +55,7 @@ function Options(buildType) {
 }
 
 describe('java generator : microservice end to end test', function() {
+  this.timeout(7000);
   var buildTypes = ['gradle', 'maven'];
   for(var i=0; i < buildTypes.length; i++) {
     describe('Generates a microservice project build type ' + buildTypes[i], function () {

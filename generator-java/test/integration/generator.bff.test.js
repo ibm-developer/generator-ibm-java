@@ -44,6 +44,7 @@ class Options extends core.BxOptions {
 
 
 describe('java generator : bff integration test', function () {
+  this.timeout(5000);
 
   describe('Generates a basic bff project (no bluemix), gradle build', function () {
     var options = new Options();
