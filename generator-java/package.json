@@ -21,7 +21,8 @@
     "istanbul": "^0.4.5",
     "standard-version": "^4.0.0",
     "@arf/common-codegen-tests": "2.1.0",
-    "js-yaml": "^3.8.2"
+    "js-yaml": "^3.8.2",
+    "@arf/generator-service-enablement": "^0.0.26"
   },
   "scripts": {
     "test": "mocha test/unit/*",

@@ -27,6 +27,11 @@ const kube = require('../lib/test-kube');
 
 class Options extends core.BxOptions {
 
+  constructor(framework) {
+    let backendPlatform = framework === 'spring' ? 'SPRING' : 'JAVA';
+    super(backendPlatform)
+  }
+
   assert(appName, ymlName, framework, createType) {
     common.assertCommonBxFiles();
     common.assertCLI(appName);
@@ -43,16 +48,17 @@ const frameworks = ['liberty', 'spring'];
 
 frameworks.forEach(framework => {
   describe('java generator : basic integration test : ' + framework, function () {
+    this.timeout(5000);
 
     describe('Generates a basic project (bluemix enabled), gradle build : ' + framework, function () {
-      var options = new Options();
+      var options = new Options(framework);
       options.prompts = {extName : 'prompt:patterns', buildType : 'gradle', createType: 'basic/' + framework, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
       before(options.before.bind(options));
       options.assert(core.APPNAME, core.APPNAME, framework, 'basic/' + framework);
     });
 
     describe('Generates a basic  project (bluemix enabled), maven build : ' + framework, function () {
-      var options = new Options();
+      var options = new Options(framework);
       options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basic/' + framework, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
       before(options.before.bind(options));
       options.assert(core.APPNAME, core.APPNAME, framework, 'basic/' + framework);
