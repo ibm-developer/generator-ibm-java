@@ -30,7 +30,7 @@ const core = require('../lib/core');
 class Options extends core.BxOptions {
 
   assert(appName, ymlName, cloudant, objectStorage) {
-    super.assert(appName, ymlName, cloudant, objectStorage);
+    super.assert(appName, ymlName, cloudant, objectStorage, 'bff');
     common.assertFiles('src', true, 'main/java/application/rest/SwaggerEndpoint.java',
                                     'main/java/application/model/Product.java',
                                     'main/java/application/openapi/ProductsApi.java',

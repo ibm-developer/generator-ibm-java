@@ -32,7 +32,7 @@ To deploy this application to Bluemix using a toolchain click the **Create Toolc
     that contains the IBM JDK (Windows, Linux)
 
 ### Configuration
-The application is configured to provide JAX-RS REST capabilities, JNDI, JSON parsing and Contexts and Dependency Injection (CDI).
+The application is configured to provide Servlet capabilities.
 
 These capabilities are provided through dependencies in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file and Liberty features enabled in the server config file found in `src/main/liberty/config/server.xml`.
 
@@ -42,7 +42,9 @@ The context root is set in the `src/main/webapp/WEB-INF/ibm-web-ext.xml` file. T
 The project contains Bluemix specific files that are used to deploy the application as part of a Bluemix DevOps flow. The `.bluemix` directory contains files used to define the Bluemix toolchain and pipeline for your application. The `manifest.yml` file specifies the name of your application in Bluemix, the timeout value during deployment and which services to bind to.
 
 {{#bluemix}}
+{{#server.services}}
 This web application is configured to connect to the following services :
+{{/server.services}}
 {{#cloudant}}
 * [Bluemix Cloudant service](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db).
 {{/cloudant}}
@@ -63,5 +65,9 @@ To build and run the application:
 To run the application in Docker use the Docker file called `Dockerfile`. If you do not want to install {{#has buildType 'maven'}}Maven{{/has}}{{#has buildType 'gradle'}}Gradle{{/has}} locally you can use `Dockerfile-tools` to build a container with {{#has buildType 'maven'}}Maven{{/has}}{{#has buildType 'gradle'}}Gradle{{/has}} installed.
 
 ### Endpoints
+
+The application exposes the following endpoints:
+* Health endpoint: `<host>:<port>/<contextRoot>/rest/health`
+* Web content: `<host>:<port>/<contextRoot>`
 
 The context root is set in the `src/main/webapp/WEB-INF/ibm-web-ext.xml` file. The ports are set in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file and exposed to the CLI in the cli-config.yml file.

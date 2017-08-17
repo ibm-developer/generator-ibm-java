@@ -13,7 +13,7 @@ public class SwaggerEndpointTest {
 
     private String port = System.getProperty("liberty.test.port");
     private String warContext = System.getProperty("war.context");
-    private String endpoint = "/rest/swagger/api";
+    private String endpoint = "/swagger/api";
     private String url = "http://localhost:" + port + "/" + warContext + endpoint;
 
     @Test
