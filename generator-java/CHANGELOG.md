@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.12.2...v2.0.0) (2017-08-17)
+
+
+### Features
+
+* **infrastructure:** integration with generator-service-enablement ([0b5b026](https://github.ibm.com/arf/java-codegen-yeoman/commit/0b5b026))
+* **templates:** Integration with generator-service-enablement ([236741e](https://github.ibm.com/arf/java-codegen-yeoman/commit/236741e))
+
+
+### BREAKING CHANGES
+
+* **infrastructure:** service files are now provided by generator-service-enablement.
+
+Signed off by : Adam Pilkington apilkington@uk.ibm.com
+
+
+
 <a name="1.12.2"></a>
 ## [1.12.2](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.12.1...v1.12.2) (2017-08-14)
 

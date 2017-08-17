@@ -10,30 +10,109 @@
 
 **File Text:**
 ```
-<!-- LICENSEFILE/ -->
+<Begin ACCEPTABLE>
 
-<h1>License</h1>
+<!--
+
+<End ACCEPTABLE>
+
+<Begin KEYWORD>
+
+LICENSEFILE
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+/ -->
+
+<h1>
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+License
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+</h1>
 
 Unless stated otherwise all works are:
 
 <ul><li>Copyright &copy; 2013+ <a href="http://bevry.me">Bevry Pty Ltd</a></li></ul>
 
-and licensed under:
+and
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+licensed
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+under:
+
+<End unknown text>
+
+<Begin MIT>
 
 <ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
 
-<h2>MIT License</h2>
+<End MIT>
+
+<Begin unknown text>
+
+<h2>
+
+<End unknown text>
+
+<Begin MIT>
+
+MIT License</h2>
+
+<End MIT>
+
+<Begin unknown text>
 
 <pre>
+
+<End unknown text>
+
+<Begin MIT>
+
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+<End MIT>
+
+<Begin unknown text>
+
 </pre>
 
-<!-- /LICENSEFILE -->
+<!-- /
 
+<End unknown text>
+
+<Begin KEYWORD>
+
+LICENSEFILE
+
+<End KEYWORD>
+
+<Begin ACCEPTABLE>
+
+-->
+
+<End ACCEPTABLE>
 ```
 
 # Package: `editions 1.3.3`
@@ -48,30 +127,109 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 **File Text:**
 ```
-<!-- LICENSEFILE/ -->
+<Begin ACCEPTABLE>
 
-<h1>License</h1>
+<!--
+
+<End ACCEPTABLE>
+
+<Begin KEYWORD>
+
+LICENSEFILE
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+/ -->
+
+<h1>
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+License
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+</h1>
 
 Unless stated otherwise all works are:
 
 <ul><li>Copyright &copy; 2016+ <a href="http://bevry.me">Bevry Pty Ltd</a></li></ul>
 
-and licensed under:
+and
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+licensed
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+under:
+
+<End unknown text>
+
+<Begin MIT>
 
 <ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
 
-<h2>MIT License</h2>
+<End MIT>
+
+<Begin unknown text>
+
+<h2>
+
+<End unknown text>
+
+<Begin MIT>
+
+MIT License</h2>
+
+<End MIT>
+
+<Begin unknown text>
 
 <pre>
+
+<End unknown text>
+
+<Begin MIT>
+
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+<End MIT>
+
+<Begin unknown text>
+
 </pre>
 
-<!-- /LICENSEFILE -->
+<!-- /
 
+<End unknown text>
+
+<Begin KEYWORD>
+
+LICENSEFILE
+
+<End KEYWORD>
+
+<Begin ACCEPTABLE>
+
+-->
+
+<End ACCEPTABLE>
 ```
 
 # Package: `istextorbinary 2.1.0`
@@ -86,40 +244,160 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 **File Text:**
 ```
+<Begin COPYRIGHT>
+
 Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/), with Reserved Font Name 'Source'. All Rights Reserved. Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.
 
-This Font Software is licensed under the SIL Open Font License, Version 1.1.
+<End COPYRIGHT>
 
-This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL
+<Begin unknown text>
 
+This Font Software is
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+licensed
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+under
+
+<End unknown text>
+
+<Begin OFL-1.1>
+
+the SIL Open Font License
+
+<End OFL-1.1>
+
+<Begin unknown text>
+
+, Version 1.1.
+
+This
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL
+
+<End unknown text>
+
+<Begin OFL-1.1>
 
 -----------------------------------------------------------
-SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+SIL OPEN FONT LICENSE
+
+<End OFL-1.1>
+
+<Begin unknown text>
+
+Version 1.1 - 26 February 2007
 -----------------------------------------------------------
 
 PREAMBLE
-The goals of the Open Font License (OFL) are to stimulate worldwide
+The goals of the Open Font
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+License
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+(OFL) are to stimulate worldwide
 development of collaborative font projects, to support the font creation
 efforts of academic and linguistic communities, and to provide a free and
 open framework in which fonts may be shared and improved in partnership
 with others.
 
-The OFL allows the licensed fonts to be used, studied, modified and
+The OFL allows the
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+licensed
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+fonts to be used, studied, modified and
 redistributed freely as long as they are not sold by themselves. The
 fonts, including any derivative works, can be bundled, embedded, 
 redistributed and/or sold with any software provided that any reserved
 names are not used by derivative works. The fonts and derivatives,
-however, cannot be released under any other type of license. The
-requirement for fonts to remain under this license does not apply
+however, cannot be released under any other type of
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+. The
+requirement for fonts to remain under this
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+does not apply
 to any document created using the fonts or their derivatives.
 
 DEFINITIONS
 "Font Software" refers to the set of files released by the Copyright
-Holder(s) under this license and clearly marked as such. This may
+Holder(s) under this
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+and clearly marked as such. This may
 include source files, build scripts and documentation.
 
 "Reserved Font Name" refers to any names specified as such after the
+
+<End unknown text>
+
+<Begin COPYRIGHT>
+
 copyright statement(s).
+
+<End COPYRIGHT>
+
+<Begin unknown text>
 
 "Original Version" refers to the collection of Font Software components as
 distributed by the Copyright Holder(s).
@@ -143,30 +421,110 @@ in Original or Modified Versions, may be sold by itself.
 
 2) Original or Modified Versions of the Font Software may be bundled,
 redistributed and/or sold with any software, provided that each copy
-contains the above copyright notice and this license. These can be
+contains the above copyright notice and this
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+. These can be
 included either as stand-alone text files, human-readable headers or
 in the appropriate machine-readable metadata fields within text or
 binary files as long as those fields can be easily viewed by the user.
 
 3) No Modified Version of the Font Software may use the Reserved Font
 Name(s) unless explicit written permission is granted by the corresponding
+
+<End unknown text>
+
+<Begin COPYRIGHT>
+
 Copyright Holder. This restriction only applies to the primary font name as
+
+<End COPYRIGHT>
+
+<Begin unknown text>
+
 presented to the users.
 
 4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
 Software shall not be used to promote, endorse or advertise any
 Modified Version, except to acknowledge the contribution(s) of the
+
+<End unknown text>
+
+<Begin COPYRIGHT>
+
 Copyright Holder(s) and the Author(s) or with their explicit written
+
+<End COPYRIGHT>
+
+<Begin unknown text>
+
 permission.
 
 5) The Font Software, modified or unmodified, in part or in whole,
-must be distributed entirely under this license, and must not be
-distributed under any other license. The requirement for fonts to
-remain under this license does not apply to any document created
+must be distributed entirely under this
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+, and must not be
+distributed under any other
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+. The requirement for fonts to
+remain under this
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+does not apply to any document created
 using the Font Software.
 
 TERMINATION
-This license becomes null and void if any of the above conditions are
+This
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+becomes null and void if any of the above conditions are
 not met.
 
 DISCLAIMER
@@ -174,12 +532,23 @@ THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
 OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+
+<End unknown text>
+
+<Begin COPYRIGHT>
+
 COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+
+<End COPYRIGHT>
+
+<Begin unknown text>
+
 INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
 DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
 
+<End unknown text>
 ```
 
 ## File: `docs/assets/fonts/source-sans-pro/LICENSE.txt`
@@ -191,40 +560,160 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
 **File Text:**
 ```
+<Begin COPYRIGHT>
+
 Copyright 2010, 2012, 2014 Adobe Systems Incorporated (http://www.adobe.com/), with Reserved Font Name 'Source'. All Rights Reserved. Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.
 
-This Font Software is licensed under the SIL Open Font License, Version 1.1.
+<End COPYRIGHT>
 
-This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL
+<Begin unknown text>
 
+This Font Software is
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+licensed
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+under
+
+<End unknown text>
+
+<Begin OFL-1.1>
+
+the SIL Open Font License
+
+<End OFL-1.1>
+
+<Begin unknown text>
+
+, Version 1.1.
+
+This
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL
+
+<End unknown text>
+
+<Begin OFL-1.1>
 
 -----------------------------------------------------------
-SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+SIL OPEN FONT LICENSE
+
+<End OFL-1.1>
+
+<Begin unknown text>
+
+Version 1.1 - 26 February 2007
 -----------------------------------------------------------
 
 PREAMBLE
-The goals of the Open Font License (OFL) are to stimulate worldwide
+The goals of the Open Font
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+License
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+(OFL) are to stimulate worldwide
 development of collaborative font projects, to support the font creation
 efforts of academic and linguistic communities, and to provide a free and
 open framework in which fonts may be shared and improved in partnership
 with others.
 
-The OFL allows the licensed fonts to be used, studied, modified and
+The OFL allows the
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+licensed
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+fonts to be used, studied, modified and
 redistributed freely as long as they are not sold by themselves. The
 fonts, including any derivative works, can be bundled, embedded, 
 redistributed and/or sold with any software provided that any reserved
 names are not used by derivative works. The fonts and derivatives,
-however, cannot be released under any other type of license. The
-requirement for fonts to remain under this license does not apply
+however, cannot be released under any other type of
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+. The
+requirement for fonts to remain under this
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+does not apply
 to any document created using the fonts or their derivatives.
 
 DEFINITIONS
 "Font Software" refers to the set of files released by the Copyright
-Holder(s) under this license and clearly marked as such. This may
+Holder(s) under this
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+and clearly marked as such. This may
 include source files, build scripts and documentation.
 
 "Reserved Font Name" refers to any names specified as such after the
+
+<End unknown text>
+
+<Begin COPYRIGHT>
+
 copyright statement(s).
+
+<End COPYRIGHT>
+
+<Begin unknown text>
 
 "Original Version" refers to the collection of Font Software components as
 distributed by the Copyright Holder(s).
@@ -248,30 +737,110 @@ in Original or Modified Versions, may be sold by itself.
 
 2) Original or Modified Versions of the Font Software may be bundled,
 redistributed and/or sold with any software, provided that each copy
-contains the above copyright notice and this license. These can be
+contains the above copyright notice and this
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+. These can be
 included either as stand-alone text files, human-readable headers or
 in the appropriate machine-readable metadata fields within text or
 binary files as long as those fields can be easily viewed by the user.
 
 3) No Modified Version of the Font Software may use the Reserved Font
 Name(s) unless explicit written permission is granted by the corresponding
+
+<End unknown text>
+
+<Begin COPYRIGHT>
+
 Copyright Holder. This restriction only applies to the primary font name as
+
+<End COPYRIGHT>
+
+<Begin unknown text>
+
 presented to the users.
 
 4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
 Software shall not be used to promote, endorse or advertise any
 Modified Version, except to acknowledge the contribution(s) of the
+
+<End unknown text>
+
+<Begin COPYRIGHT>
+
 Copyright Holder(s) and the Author(s) or with their explicit written
+
+<End COPYRIGHT>
+
+<Begin unknown text>
+
 permission.
 
 5) The Font Software, modified or unmodified, in part or in whole,
-must be distributed entirely under this license, and must not be
-distributed under any other license. The requirement for fonts to
-remain under this license does not apply to any document created
+must be distributed entirely under this
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+, and must not be
+distributed under any other
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+. The requirement for fonts to
+remain under this
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+does not apply to any document created
 using the Font Software.
 
 TERMINATION
-This license becomes null and void if any of the above conditions are
+This
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+license
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+becomes null and void if any of the above conditions are
 not met.
 
 DISCLAIMER
@@ -279,12 +848,23 @@ THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
 OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+
+<End unknown text>
+
+<Begin COPYRIGHT>
+
 COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+
+<End COPYRIGHT>
+
+<Begin unknown text>
+
 INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
 DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
 
+<End unknown text>
 ```
 
 ## File: `LICENSE.md`
@@ -296,31 +876,110 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
 **File Text:**
 ```
-<!-- LICENSEFILE/ -->
+<Begin ACCEPTABLE>
 
-<h1>License</h1>
+<!--
+
+<End ACCEPTABLE>
+
+<Begin KEYWORD>
+
+LICENSEFILE
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+/ -->
+
+<h1>
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+License
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+</h1>
 
 Unless stated otherwise all works are:
 
 <ul><li>Copyright &copy; 2012+ <a href="http://bevry.me">Bevry Pty Ltd</a></li>
 <li>Copyright &copy; 2011 <a href="https://balupton.com">Benjamin Lupton</a></li></ul>
 
-and licensed under:
+and
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+licensed
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+under:
+
+<End unknown text>
+
+<Begin MIT>
 
 <ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
 
-<h2>MIT License</h2>
+<End MIT>
+
+<Begin unknown text>
+
+<h2>
+
+<End unknown text>
+
+<Begin MIT>
+
+MIT License</h2>
+
+<End MIT>
+
+<Begin unknown text>
 
 <pre>
+
+<End unknown text>
+
+<Begin MIT>
+
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+<End MIT>
+
+<Begin unknown text>
+
 </pre>
 
-<!-- /LICENSEFILE -->
+<!-- /
 
+<End unknown text>
+
+<Begin KEYWORD>
+
+LICENSEFILE
+
+<End KEYWORD>
+
+<Begin ACCEPTABLE>
+
+-->
+
+<End ACCEPTABLE>
 ```
 
 # Package: `rx 4.1.0`
@@ -335,9 +994,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 **File Text:**
 ```
+<Begin COPYRIGHT>
+
 Copyright (c) Microsoft.  All rights reserved.
+
+<End COPYRIGHT>
+
+<Begin unknown text>
+
 Microsoft Open Technologies would like to thank its contributors, a list
 of whom are at http://rx.codeplex.com/wikipage?title=Contributors.
+
+<End unknown text>
+
+<Begin Apache-2.0>
 
 Licensed under the Apache License, Version 2.0 (the "License"); you
 may not use this file except in compliance with the License. You may
@@ -351,6 +1021,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
 implied. See the License for the specific language governing permissions
 and limitations under the License.
 
+<End Apache-2.0>
 ```
 
 # Package: `textextensions 2.1.0`
@@ -365,28 +1036,107 @@ and limitations under the License.
 
 **File Text:**
 ```
-<!-- LICENSEFILE/ -->
+<Begin ACCEPTABLE>
 
-<h1>License</h1>
+<!--
+
+<End ACCEPTABLE>
+
+<Begin KEYWORD>
+
+LICENSEFILE
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+/ -->
+
+<h1>
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+License
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+</h1>
 
 Unless stated otherwise all works are:
 
 <ul><li>Copyright &copy; 2013+ <a href="http://bevry.me">Bevry Pty Ltd</a></li></ul>
 
-and licensed under:
+and
+
+<End unknown text>
+
+<Begin KEYWORD>
+
+licensed
+
+<End KEYWORD>
+
+<Begin unknown text>
+
+under:
+
+<End unknown text>
+
+<Begin MIT>
 
 <ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
 
-<h2>MIT License</h2>
+<End MIT>
+
+<Begin unknown text>
+
+<h2>
+
+<End unknown text>
+
+<Begin MIT>
+
+MIT License</h2>
+
+<End MIT>
+
+<Begin unknown text>
 
 <pre>
+
+<End unknown text>
+
+<Begin MIT>
+
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+<End MIT>
+
+<Begin unknown text>
+
 </pre>
 
-<!-- /LICENSEFILE -->
+<!-- /
 
+<End unknown text>
+
+<Begin KEYWORD>
+
+LICENSEFILE
+
+<End KEYWORD>
+
+<Begin ACCEPTABLE>
+
+-->
+
+<End ACCEPTABLE>
 ```
