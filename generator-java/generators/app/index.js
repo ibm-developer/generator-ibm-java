@@ -21,6 +21,7 @@ const extend = require('extend');
 
 const PromptMgr = require('../lib/promptmgr');
 const Defaults = require('../lib/defaults');
+const EnablementContext = require('../lib/enablementContext');
 
 const common = require('@arf/java-common');
 const Config = common.config;
@@ -33,6 +34,7 @@ const Handlebars = require('../lib/helpers').handlebars;
 var config = undefined;
 var promptmgr = undefined;
 var contexts = [];
+var enablementContexts = [];
 var patterns = ['microservice/liberty', 'microservice/spring', 'basicweb', 'bff', 'picnmix', 'basic/liberty', 'basic/spring'];
 var defaults = new Defaults();
 
@@ -44,6 +46,8 @@ module.exports = class extends Generator {
     //create command line options that will be passed by YaaS
     defaults.setOptions(this);
     logger.writeToLog("Options", this.options);
+    this.enablementContext = new EnablementContext(contexts);
+
   }
 
   initializing() {
@@ -66,7 +70,15 @@ module.exports = class extends Generator {
     logger.writeToLog("Config (final)", config);
     this._addContext('@arf/generator-liberty');
     this._addContext('@arf/generator-spring');
-    this._addEnablementContext('@arf/generator-cloud-enablement');
+    this._addEnablementContext()
+  }
+
+  _addEnablementContext() {
+    this.options.bluemix = JSON.stringify(this.options.bluemix);
+    this.options.parentContext = this.enablementContext;
+    this.composeWith(require.resolve("@arf/generator-service-enablement"), this.options);
+    this.composeWith(require.resolve("@arf/generator-cloud-enablement"), this.options);
+    enablementContexts.push(this.enablementContext);
   }
 
   _addContext(name) {
@@ -99,6 +111,13 @@ module.exports = class extends Generator {
         contexts.forEach(context => {
           context.conf.projectPath = config.projectPath;
           context.conf.appName = config.appName;
+        });
+        enablementContexts.forEach(context => {
+          if(context.bluemix) {
+            Object.assign(context.bluemix, config.bluemix);
+          } else {
+            context.bluemix = config.bluemix;
+          }
         });
       });
     }

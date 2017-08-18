@@ -50,7 +50,7 @@ class Options extends core.BxOptions {
 
 
 describe('java generator : basic integration test', function () {
-
+  this.timeout(5000);
   describe('Generates a basic web project (no bluemix), gradle build', function () {
     var options = new Options();
     options.prompts = {extName : 'prompt:patterns', buildType : 'gradle', createType: 'basicweb', services: ['none'], appName: APPNAME, artifactId: ARTIFACTID};

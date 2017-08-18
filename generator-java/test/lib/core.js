@@ -93,6 +93,14 @@ assertspring() {
 
 //mlore advanced bluemix test options which expects source code etc.
 class BxOptions extends Options {
+
+ constructor(backendPlatform) {
+   super();
+   this.values.bluemix = {
+       backendPlatform : backendPlatform || 'JAVA'
+     }
+ }
+
  assertCloudant(exists) {
    var check = this.getCheck(exists);
    it(check.desc + 'cloudant README entry', function () {
