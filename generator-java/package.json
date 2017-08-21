@@ -13,7 +13,8 @@
     "@arf/generator-spring": "0.3.0",
     "extend": "^3.0.1",
     "@arf/java-common": "2.2.0",
-    "@arf/generator-cloud-enablement": "0.0.30"
+    "@arf/generator-cloud-enablement": "0.0.32",
+    "@arf/generator-service-enablement": "^0.0.26"
   },
   "devDependencies": {
     "mocha": "^3.2.0",
@@ -22,8 +23,7 @@
     "istanbul": "^0.4.5",
     "standard-version": "^4.0.0",
     "@arf/common-codegen-tests": "2.1.0",
-    "js-yaml": "^3.8.2",
-    "@arf/generator-service-enablement": "^0.0.26"
+    "js-yaml": "^3.8.2"
   },
   "scripts": {
     "test": "mocha test/unit/*",
