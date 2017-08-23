@@ -75,13 +75,11 @@ module.exports = class extends Generator {
 
   _addEnablementContext() {
     this.cloudParentConfig = extend(new Config(), config);
-    this.cloudParentConfig.id = 'cloud';
     this.options.cloudContext = this.cloudParentConfig;
     this.composeWith(require.resolve("@arf/generator-cloud-enablement"), this.options);
     enablementContexts.push(this.cloudParentConfig);
     this.options.bluemix = JSON.stringify(this.options.bluemix);
     this.options.parentContext = this.enablementContext;
-    this.enablementContext.id = 'service';
     this.composeWith(require.resolve("@arf/generator-service-enablement"), this.options);
     enablementContexts.push(this.enablementContext);
   }
