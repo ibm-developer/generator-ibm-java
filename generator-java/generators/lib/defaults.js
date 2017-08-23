@@ -32,7 +32,7 @@ const DEFAULTS = {
   debug : {desc : 'Generate a log.txt file in the root of the project', type : String, default : "false"},
   bluemix : {desc : 'Bluemix options', type : (value)=>{return bluemixToObject(value);}, default : undefined},
   input : {desc : 'Input data file', type : processor.getContentsSync, default : undefined},
-  platforms : {desc : 'Platforms to support in generated project', type : (value)=>{return platformsToArray(value);}, default : ['cli','bluemix','kube']}
+  platforms : {desc : 'Platforms to support in generated project', type : (value)=>{return platformsToArray(value);}, default : ['cli', 'bluemix', 'kube']}
 };
 
 var bluemixToObject = function(value) {

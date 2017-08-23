@@ -74,10 +74,15 @@ module.exports = class extends Generator {
   }
 
   _addEnablementContext() {
+    this.cloudParentConfig = extend(new Config(), config);
+    this.cloudParentConfig.id = 'cloud';
+    this.options.cloudContext = this.cloudParentConfig;
+    this.composeWith(require.resolve("@arf/generator-cloud-enablement"), this.options);
+    enablementContexts.push(this.cloudParentConfig);
     this.options.bluemix = JSON.stringify(this.options.bluemix);
     this.options.parentContext = this.enablementContext;
+    this.enablementContext.id = 'service';
     this.composeWith(require.resolve("@arf/generator-service-enablement"), this.options);
-    this.composeWith(require.resolve("@arf/generator-cloud-enablement"), this.options);
     enablementContexts.push(this.enablementContext);
   }
 
@@ -86,16 +91,6 @@ module.exports = class extends Generator {
     this.options.context = context;
     var location = fspath.parse(require.resolve(name));   //compose with the default generator
     this.composeWith(fspath.join(location.dir, 'generators', 'app'), this.options);
-    contexts.push(context);
-    this.options.context = undefined;
-    return context;
-  }
-
-    _addEnablementContext(name) {
-    var context = new Context(name, config, promptmgr);   //use the name for the context ID
-    this.options.context = context;
-    var location = fspath.parse(require.resolve(name));   //compose with the default generator
-    this.composeWith(location.dir, this.options);
     contexts.push(context);
     this.options.context = undefined;
     return context;
@@ -127,16 +122,16 @@ module.exports = class extends Generator {
     var pkg = require('../../package.json');
     var parts = config.createType.split('/'); //framework is defined by the value of createType which is <pattern>/<framework> and overrides any previous value
     config.frameworkType = (parts.length == 2) ? parts[1] : config.frameworkType;
-    config.genVersions = {'generator-java': pkg.version,
-      'java-common':pkg.dependencies['@arf/java-common'],
-      'generator-service-enablement' : pkg.dependencies['@arf/generator-service-enablement'],
-      'generator-cloud-enablement' : pkg.dependencies['@arf/generator-cloud-enablement']};
-    config.genVersions['generator-' + config.frameworkType] = pkg.dependencies['@arf/generator-' + config.frameworkType];
     if(config.frameworkType === 'liberty' && config.createType === 'basicweb') {
       config.healthEndpoint = 'rest/health';
     } else {
       config.healthEndpoint = 'health';
     }
+    config.genVersions = {'generator-java': pkg.version,
+      'java-common':pkg.dependencies['@arf/java-common'],
+      'generator-service-enablement' : pkg.dependencies['@arf/generator-service-enablement'],
+      'generator-cloud-enablement' : pkg.dependencies['@arf/generator-cloud-enablement']};
+    config.genVersions['generator-' + config.frameworkType] = pkg.dependencies['@arf/generator-' + config.frameworkType];
     //configure this generator and then pass that down through the contexts
     this.destinationRoot(config.projectPath);
     var control = new Control(fspath.resolve(config.templateRoot, config.createType), config);
@@ -155,6 +150,10 @@ module.exports = class extends Generator {
         context.conf.addJndiEntries(config.jndiEntries);
       }
       context.addCompositions(control.getSubComposition(context.id));
+    });
+    enablementContexts.forEach(context => {
+      context.appName = config.appName;
+      context.healthEndpoint = config.healthEndpoint;
     });
     logger.writeToLog("Destination path", this.destinationRoot());
   }

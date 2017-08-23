@@ -82,13 +82,8 @@ var assertToolchainBxEnable = function() {
     data = yml.safeLoad(fs.readFileSync(TOOLCHAIN_YML, 'utf8'));
   });
 
-  it('generates the correct value for repo.service_id', function() {
-    var expectedValue = 'hostedgit';
-    assert.strictEqual(data.repo.service_id, expectedValue, `service_id has wrong value '${data.repo.service_id}' it should be '${expectedValue}'`);
-  });
-
   it('generates the correct value for repo.parameters.type', function() {
-    var expectedValue = 'clone';
+    var expectedValue = 'link';
     assert.strictEqual(data.repo.parameters.type, expectedValue, `type has wrong value '${data.repo.parameters.type}' it should be '${expectedValue}'`);
   });
 }
@@ -102,13 +97,8 @@ var assertToolchainBxCreate = function() {
     data = yml.safeLoad(fs.readFileSync(TOOLCHAIN_YML, 'utf8'));
   });
 
-  it('generates the correct value for repo.service_id', function() {
-    var expectedValue = 'githubpublic';
-    assert.strictEqual(data.repo.service_id, expectedValue, `service_id has wrong value '${data.repo.service_id}' it should be '${expectedValue}'`);
-  });
-
   it('generates the correct value for repo.parameters.type', function() {
-    var expectedValue = 'link';
+    var expectedValue = 'clone';
     assert.strictEqual(data.repo.parameters.type, expectedValue, `type has wrong value '${data.repo.parameters.type}' it should be '${expectedValue}'`);
   });
 }

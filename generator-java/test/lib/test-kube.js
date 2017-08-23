@@ -88,7 +88,7 @@ test_kube.test = function(appName, exists, framework, createType) {
         var newserviceyml = rawserviceyml.replace('"+" "_"', '\\"+\\" \\"_\\"');
         var serviceyml = yml.safeLoad(newserviceyml);
         assertYmlContent(valuesyml.image.repository, appName.toLowerCase(), 'valuesyml.image.repository');
-        assertYmlContent(chartyml.name, appName, 'chartyml.name');
+        assertYmlContent(chartyml.name, appName.toLowerCase(), 'chartyml.name');
         if(framework === LIBERTY) {
           if(createType === 'basicweb') {
             assertYmlContent(deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/' + appName + '/rest/health', 'deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path');
