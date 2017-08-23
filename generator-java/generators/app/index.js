@@ -103,7 +103,6 @@ module.exports = class extends Generator {
         config.projectPath = fspath.resolve(this.destinationRoot(), "projects/" + config.appName);
         contexts.forEach(context => {
           context.conf.projectPath = config.projectPath;
-          context.conf.appName = config.appName;
         });
         enablementContexts.forEach(context => {
           if(context.bluemix) {
@@ -120,16 +119,16 @@ module.exports = class extends Generator {
     var pkg = require('../../package.json');
     var parts = config.createType.split('/'); //framework is defined by the value of createType which is <pattern>/<framework> and overrides any previous value
     config.frameworkType = (parts.length == 2) ? parts[1] : config.frameworkType;
-    if(config.frameworkType === 'liberty' && config.createType === 'basicweb') {
-      config.healthEndpoint = 'rest/health';
-    } else {
-      config.healthEndpoint = 'health';
-    }
     config.genVersions = {'generator-java': pkg.version,
       'java-common':pkg.dependencies['@arf/java-common'],
       'generator-service-enablement' : pkg.dependencies['@arf/generator-service-enablement'],
       'generator-cloud-enablement' : pkg.dependencies['@arf/generator-cloud-enablement']};
     config.genVersions['generator-' + config.frameworkType] = pkg.dependencies['@arf/generator-' + config.frameworkType];
+    if(config.frameworkType === 'liberty' && config.createType === 'basicweb') {
+      config.healthEndpoint = 'rest/health';
+    } else {
+      config.healthEndpoint = 'health';
+    }
     //configure this generator and then pass that down through the contexts
     this.destinationRoot(config.projectPath);
     var control = new Control(fspath.resolve(config.templateRoot, config.createType), config);
