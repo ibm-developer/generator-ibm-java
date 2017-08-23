@@ -70,6 +70,8 @@ npm test
 
 ## Committing changes
 
+Please commit changes from a branch NOT a fork, as our Travis builds need credentials from this repo to run correctly.
+
 When committing changes to the repository, by using our custom commit template you will allow the Travis build to increase the NPM package version correctly.
 
 1. Create a commitTemplate.txt file with the following contents:
