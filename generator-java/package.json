@@ -13,7 +13,7 @@
     "@arf/generator-spring": "0.3.0",
     "extend": "^3.0.1",
     "@arf/java-common": "2.2.0",
-    "@arf/generator-cloud-enablement": "^0.0.32",
+    "@arf/generator-cloud-enablement": "^0.0.34",
     "@arf/generator-service-enablement": "^0.0.26"
   },
   "devDependencies": {
