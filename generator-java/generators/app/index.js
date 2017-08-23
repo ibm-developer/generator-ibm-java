@@ -110,6 +110,7 @@ module.exports = class extends Generator {
           } else {
             context.bluemix = config.bluemix;
           }
+          context.createType = config.createType;
         });
       });
     }
