@@ -17,9 +17,6 @@
     "build"
   ],
   "composition" : [
-    "platform/bluemix",
-    "platform/cli",
-    "platform/kube",
     "common"
   ]
 }

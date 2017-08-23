@@ -79,3 +79,10 @@ The application exposes the following endpoints:
 {{/bluemix}}
 
 The context root is set in the `src/main/webapp/WEB-INF/ibm-web-ext.xml` file. The ports are set in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file and exposed to the CLI in the cli-config.yml file.
+
+### Notices
+
+This project was generated using:
+{{#each genVersions}}
+* {{@key}} v{{this}}
+{{/each}}

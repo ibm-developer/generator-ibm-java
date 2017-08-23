@@ -26,6 +26,7 @@ const tests = require('@arf/java-common');
 const test = tests.test('maven');
 
 describe('java generator integration test', function () {
+  this.timeout(5000);
 
   describe('Generates a basic project in headless mode, no configuration', function () {
 
@@ -35,6 +36,9 @@ describe('java generator integration test', function () {
         .withOptions({                       // Mock the prompt answers
           headless: "true",
           debug: "true",
+          bluemix: {
+            backendPlatform: 'JAVA'
+          }
         })
         .toPromise();                        // Get a Promise back when the generator finishes
     });

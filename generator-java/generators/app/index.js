@@ -66,13 +66,18 @@ module.exports = class extends Generator {
     }
     config.templateRoot = this.templatePath();
     config.projectPath = fspath.resolve(this.destinationRoot());
+    config.backendPlatform = 'JAVA';
     logger.writeToLog("Config (final)", config);
     this._addContext('@arf/generator-liberty');
     this._addContext('@arf/generator-spring');
     this._addEnablementContext()
   }
 
-  _addEnablementContext(name) {
+  _addEnablementContext() {
+    this.cloudGeneratorConfig = extend(new Config(), config);
+    this.options.cloudContext = this.cloudGeneratorConfig;
+    this.composeWith(require.resolve("@arf/generator-cloud-enablement"), this.options);
+    enablementContexts.push(this.cloudGeneratorConfig);
     this.options.bluemix = JSON.stringify(this.options.bluemix);
     this.options.parentContext = this.enablementContext;
     this.composeWith(require.resolve("@arf/generator-service-enablement"), this.options);
@@ -105,6 +110,7 @@ module.exports = class extends Generator {
           } else {
             context.bluemix = config.bluemix;
           }
+          context.createType = config.createType;
         });
       });
     }
@@ -115,7 +121,9 @@ module.exports = class extends Generator {
     var parts = config.createType.split('/'); //framework is defined by the value of createType which is <pattern>/<framework> and overrides any previous value
     config.frameworkType = (parts.length == 2) ? parts[1] : config.frameworkType;
     config.genVersions = {'generator-java': pkg.version,
-      'java-common':pkg.dependencies['@arf/java-common']};
+      'java-common':pkg.dependencies['@arf/java-common'],
+      'generator-service-enablement' : pkg.dependencies['@arf/generator-service-enablement'],
+      'generator-cloud-enablement' : pkg.dependencies['@arf/generator-cloud-enablement']};
     config.genVersions['generator-' + config.frameworkType] = pkg.dependencies['@arf/generator-' + config.frameworkType];
     if(config.frameworkType === 'liberty' && config.createType === 'basicweb') {
       config.healthEndpoint = 'rest/health';
@@ -140,6 +148,10 @@ module.exports = class extends Generator {
         context.conf.addJndiEntries(config.jndiEntries);
       }
       context.addCompositions(control.getSubComposition(context.id));
+    });
+    enablementContexts.forEach(context => {
+      context.appName = config.appName;
+      context.healthEndpoint = config.healthEndpoint;
     });
     logger.writeToLog("Destination path", this.destinationRoot());
   }
