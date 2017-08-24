@@ -131,7 +131,7 @@ class Options extends core.BxOptions {
 
 
 execute(FRAMEWORK_LIBERTY);
-//execute(FRAMEWORK_SPRING);
+execute(FRAMEWORK_SPRING);
 
 function execute(framework) {
   const name = framework.toUpperCase();
