@@ -76,7 +76,7 @@ module.exports = class extends Generator {
   _addEnablementContext() {
     this.cloudGeneratorConfig = extend(new Config(), config);
     this.options.cloudContext = this.cloudGeneratorConfig;
-    this.composeWith(require.resolve("@arf/generator-cloud-enablement"), this.options);
+    this.composeWith(require.resolve("generator-ibm-cloud-enablement"), this.options);
     enablementContexts.push(this.cloudGeneratorConfig);
     this.options.bluemix = JSON.stringify(this.options.bluemix);
     this.options.parentContext = this.enablementContext;
@@ -123,7 +123,7 @@ module.exports = class extends Generator {
     config.genVersions = {'generator-java': pkg.version,
       'java-common':pkg.dependencies['@arf/java-common'],
       'generator-service-enablement' : pkg.dependencies['@arf/generator-service-enablement'],
-      'generator-cloud-enablement' : pkg.dependencies['@arf/generator-cloud-enablement']};
+      'generator-ibm-cloud-enablement' : pkg.dependencies['generator-ibm-cloud-enablement']};
     config.genVersions['generator-' + config.frameworkType] = pkg.dependencies['@arf/generator-' + config.frameworkType];
     if(config.frameworkType === 'liberty' && config.createType === 'basicweb') {
       config.healthEndpoint = 'rest/health';
