@@ -63,20 +63,20 @@ var assertGradleFiles = function() {
 
 test_spring.prototype.assertCloudant = function(exists) {
   var env = {
-    CLOUDANT_URL : 'https://account.cloudant.com',
-    CLOUDANT_PASSWORD : 'pass',
-    CLOUDANT_USERNAME : 'user'
+    cloudant_url : 'https://account.cloudant.com',
+    cloudant_password : 'pass',
+    cloudant_username : 'user'
   }
   checkValues(exists, env, assertSpring.assertEnv);
 }
 
 test_spring.prototype.assertObjectStorage = function(exists) {
   var env = {
-    OBJECTSTORAGE_AUTH_URL : 'objectStorage-url',
-    OBJECTSTORAGE_USERID : 'objectStorage-userId',
-    OBJECTSTORAGE_PASSWORD : 'objectStorage-password',
-    OBJECTSTORAGE_DOMAIN_NAME : 'objectStorage-domainName',
-    OBJECTSTORAGE_PROJECT : 'objectStorage-project'
+    object_storage_authurl : 'objectStorage-url',
+    object_storage_user_id : 'objectStorage-userId',
+    object_storage_password : 'objectStorage-password',
+    object_storage_domainName : 'objectStorage-domainName',
+    object_storage_project : 'objectStorage-project'
   }
   checkValues(exists, env, assertSpring.assertEnv);
 }
