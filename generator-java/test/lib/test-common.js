@@ -34,22 +34,25 @@ function getCheck(exists) {
   }
 }
 
-var assertCommonFiles = function() {
+var assertCommonFiles = function(framework) {
   it('should create common files are present for all configurations', function () {
-    assert.file('README.md');
     assert.file('.gitignore');
     assert.file('Dockerfile');
     assert.file('.dockerignore');
+    if(framework === 'liberty') {
+      assert.fileContent('.dockerignore', 'defaultServer/logs');
+      assert.fileContent('.dockerignore', 'defaultServer/workarea');
+      assert.fileContent('Dockerfile', 'FROM websphere-liberty:webProfile7');
+    }
+    if(framework === 'spring') {
+      assert.fileContent('Dockerfile', 'FROM ibmjava:8-sdk');
+    }
   });
 }
 
 var assertCommonLibertyFiles = function() {
   it('should create common Liberty files are present for all configurations', function () {
     //add specific Liberty file checks
-  });
-  it('.dockerignore excludes liberty server files', function () {
-    assert.fileContent('.dockerignore', 'defaultServer/logs');
-    assert.fileContent('.dockerignore', 'defaultServer/workarea');
   });
 }
 
