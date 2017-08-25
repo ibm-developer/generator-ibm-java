@@ -39,6 +39,10 @@ test_liberty.prototype.assertFiles = function(name) {
   assertLiberty.assertContextRoot(name);
 }
 
+test_liberty.prototype.assertJavaMetrics = function(exists, buildType) {
+  assertLiberty.assertJavaMetrics(exists, buildType);
+}
+
 test_liberty.prototype.assertBuildFiles = function(buildType) {
   tests.test(buildType).assertProperty('testServerHttpPort', '9080');
   tests.test(buildType).assertProperty('testServerHttpsPort', '9443');
