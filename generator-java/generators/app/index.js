@@ -61,21 +61,23 @@ module.exports = class extends Generator {
     logger.writeToLog("Config (after clone)", config);
 
     //set values based on either defaults or passed in values
-    if (config.bluemix) {
+    if ( config.bluemix ) {
       config.appName = config.bluemix.name || config.appName;
-    }
-    if(config.bluemix.backendPlatform) {
-      switch (config.bluemix.backendPlatform) {
-        case 'SPRING':
-          config.frameworkType = 'spring';
-          break;
-        case 'JAVA': 
-          config.frameworkType = 'liberty';
-          break;
-        default:
-          throw new Error('Backend platform ' + config.bluemix.backendPlatform + ' is not supported by this generator.');
+
+      if(config.bluemix.backendPlatform) {
+        switch (config.bluemix.backendPlatform) {
+          case 'SPRING':
+            config.frameworkType = 'spring';
+            break;
+          case 'JAVA': 
+            config.frameworkType = 'liberty';
+            break;
+          default:
+            throw new Error('Backend platform ' + config.bluemix.backendPlatform + ' is not supported by this generator.');
+        }
       }
     }
+
     config.templateRoot = this.templatePath();
     config.projectPath = fspath.resolve(this.destinationRoot());
     logger.writeToLog("Config (final)", config);
@@ -87,11 +89,12 @@ module.exports = class extends Generator {
   _addEnablementContext() {
     this.cloudGeneratorConfig = extend(new Config(), config);
     this.options.cloudContext = this.cloudGeneratorConfig;
-    this.composeWith(require.resolve("@arf/generator-cloud-enablement"), this.options);
+    this.composeWith(require.resolve("generator-ibm-cloud-enablement"), this.options);
     enablementContexts.push(this.cloudGeneratorConfig);
+    
     this.options.bluemix = JSON.stringify(this.options.bluemix);
     this.options.parentContext = this.enablementContext;
-    this.composeWith(require.resolve("@arf/generator-service-enablement"), this.options);
+    this.composeWith(require.resolve("generator-ibm-service-enablement"), this.options);
     enablementContexts.push(this.enablementContext);
   }
 
@@ -131,10 +134,12 @@ module.exports = class extends Generator {
     var pkg = require('../../package.json');
     var parts = config.createType.split('/'); //framework is defined by the value of createType which is <pattern>/<framework> and overrides any previous value
     config.frameworkType = (parts.length == 2) ? parts[1] : config.frameworkType;
+
     config.genVersions = {'generator-java': pkg.version,
       'java-common':pkg.dependencies['@arf/java-common'],
-      'generator-service-enablement' : pkg.dependencies['@arf/generator-service-enablement'],
-      'generator-cloud-enablement' : pkg.dependencies['@arf/generator-cloud-enablement']};
+      'generator-ibm-service-enablement' : pkg.dependencies['generator-ibm-service-enablement'],
+      'generator-ibm-cloud-enablement' : pkg.dependencies['generator-ibm-cloud-enablement']};
+
     config.genVersions['generator-' + config.frameworkType] = pkg.dependencies['@arf/generator-' + config.frameworkType];
     if(config.frameworkType === 'liberty' && config.createType === 'basicweb') {
       config.healthEndpoint = 'rest/health';
