@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.2"></a>
+## [2.1.2](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.1.1...v2.1.2) (2017-08-29)
+
+
+### Bug Fixes
+
+* **config:** Update frameworkType based on backendPlatform ([dfe7075](https://github.ibm.com/arf/java-codegen-yeoman/commit/dfe7075))
+
+
+
 <a name="2.1.1"></a>
 ## [2.1.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.1.0...v2.1.1) (2017-08-24)
 
