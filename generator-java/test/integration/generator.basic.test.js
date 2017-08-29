@@ -33,6 +33,7 @@ class Options extends core.BxOptions {
   }
 
   assert(appName, ymlName, framework, createType) {
+    common.assertCommonFiles(framework);
     common.assertCommonBxFiles();
     common.assertCLI(appName);
     common.assertManifestYml(ymlName, false);
@@ -48,7 +49,7 @@ const frameworks = ['liberty', 'spring'];
 
 frameworks.forEach(framework => {
   describe('java generator : basic integration test : ' + framework, function () {
-    this.timeout(5000);
+    this.timeout(7000);
 
     describe('Generates a basic project (bluemix enabled), gradle build : ' + framework, function () {
       var options = new Options(framework);

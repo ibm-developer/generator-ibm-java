@@ -64,9 +64,20 @@ module.exports = class extends Generator {
     if (config.bluemix) {
       config.appName = config.bluemix.name || config.appName;
     }
+    if(config.bluemix.backendPlatform) {
+      switch (config.bluemix.backendPlatform) {
+        case 'SPRING':
+          config.frameworkType = 'spring';
+          break;
+        case 'JAVA': 
+          config.frameworkType = 'liberty';
+          break;
+        default:
+          throw new Error('Backend platform ' + config.bluemix.backendPlatform + ' is not supported by this generator.');
+      }
+    }
     config.templateRoot = this.templatePath();
     config.projectPath = fspath.resolve(this.destinationRoot());
-    config.backendPlatform = 'JAVA';
     logger.writeToLog("Config (final)", config);
     this._addContext('@arf/generator-liberty');
     this._addContext('@arf/generator-spring');

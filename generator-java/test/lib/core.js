@@ -58,9 +58,9 @@ getCheck(exists) {
 }
 
  assert(appName, ymlName, cloudant, objectStorage) {
-   common.assertCommonFiles();
-   
    var name = this.values.frameworkType || FRAMEWORK_LIBERTY;
+   common.assertCommonFiles(name);
+   
    this.assertFramework(appName);
    this['assert' + name]();
    this.assertBuild(appName);
