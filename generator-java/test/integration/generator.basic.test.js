@@ -25,6 +25,8 @@ const core = require('../lib/core');
 const common = require('../lib/test-common');
 const kube = require('../lib/test-kube');
 
+const USAGE_TXT = 'usage.txt';
+
 class Options extends core.BxOptions {
 
   constructor(framework) {
@@ -32,7 +34,10 @@ class Options extends core.BxOptions {
     super(backendPlatform)
   }
 
-  assert(appName, ymlName, framework, createType) {
+  assert(appName, ymlName, framework, createType, buildType) {
+    it('generates ' + USAGE_TXT + ' file', function() {
+      assert.file(USAGE_TXT);
+    });
     common.assertCommonFiles(framework);
     common.assertCommonBxFiles();
     common.assertCLI(appName);
@@ -41,6 +46,27 @@ class Options extends core.BxOptions {
     super.assertCloudant(false);
     super.assertObjectStorage(false);
     common.assertToolchainBxEnable();
+    this['assert' + framework](buildType);
+  }
+
+  assertliberty(buildType) {
+    var appPath = buildType === 'maven' ? 'target' : 'build';
+    var libertyInstall = buildType === 'maven' ? 'target/liberty/wlp' : 'build/wlp';
+    var buildTypeCap = buildType.charAt(0).toUpperCase() + buildType.slice(1);
+    it(USAGE_TXT + ' file should contain correct content', function() {
+      assert.fileContent(USAGE_TXT, 'default health endpoint is /' + core.APPNAME + '/health');
+      assert.fileContent(USAGE_TXT, 'artifact location is ' + appPath + '/' + core.APPNAME + '.zip');
+      assert.fileContent(USAGE_TXT, 'Liberty ' + buildTypeCap + ' plugin (https://github.com/WASdev/ci.' + buildType + ')');
+      assert.fileContent(USAGE_TXT, 'install location is ' + libertyInstall);
+    })
+  }
+
+  assertspring(buildType) {
+    var appPath = buildType === 'maven' ? 'target' : 'build/libs';
+    it(USAGE_TXT + ' file should contain correct content', function() {
+      assert.fileContent(USAGE_TXT, 'default health endpoint is /health');
+      assert.fileContent(USAGE_TXT, 'artifact location is ' + appPath + '/' + core.APPNAME + '.jar');
+    })
   }
 
 }
@@ -55,14 +81,14 @@ frameworks.forEach(framework => {
       var options = new Options(framework);
       options.prompts = {extName : 'prompt:patterns', buildType : 'gradle', createType: 'basic/' + framework, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
       before(options.before.bind(options));
-      options.assert(core.APPNAME, core.APPNAME, framework, 'basic/' + framework);
+      options.assert(core.APPNAME, core.APPNAME, framework, 'basic/' + framework, 'gradle');
     });
 
     describe('Generates a basic  project (bluemix enabled), maven build : ' + framework, function () {
       var options = new Options(framework);
       options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basic/' + framework, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
       before(options.before.bind(options));
-      options.assert(core.APPNAME, core.APPNAME, framework, 'basic/' + framework);
+      options.assert(core.APPNAME, core.APPNAME, framework, 'basic/' + framework, 'maven');
     });
 
   });
