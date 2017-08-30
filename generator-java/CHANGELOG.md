@@ -1,0 +1,467 @@
+# Change Log
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="2.1.2"></a>
+## [2.1.2](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.1.1...v2.1.2) (2017-08-29)
+
+
+### Bug Fixes
+
+* **config:** Update frameworkType based on backendPlatform ([dfe7075](https://github.ibm.com/arf/java-codegen-yeoman/commit/dfe7075))
+
+
+
+<a name="2.1.1"></a>
+## [2.1.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.1.0...v2.1.1) (2017-08-24)
+
+
+
+<a name="2.1.0"></a>
+# [2.1.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.0.1...v2.1.0) (2017-08-23)
+
+
+### Features
+
+* **templates:** Use generator-cloud-enablement ([477fe3f](https://github.ibm.com/arf/java-codegen-yeoman/commit/477fe3f))
+
+
+
+<a name="2.0.1"></a>
+## [2.0.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.0.0...v2.0.1) (2017-08-18)
+
+
+### Bug Fixes
+
+* **infrastructure:** move dep on service enablement generator out of devDeps ([810b72b](https://github.ibm.com/arf/java-codegen-yeoman/commit/810b72b))
+
+
+
+<a name="2.0.0"></a>
+# [2.0.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.12.2...v2.0.0) (2017-08-17)
+
+
+### Features
+
+* **infrastructure:** integration with generator-service-enablement ([0b5b026](https://github.ibm.com/arf/java-codegen-yeoman/commit/0b5b026))
+* **templates:** Integration with generator-service-enablement ([236741e](https://github.ibm.com/arf/java-codegen-yeoman/commit/236741e))
+
+
+### BREAKING CHANGES
+
+* **infrastructure:** service files are now provided by generator-service-enablement.
+
+Signed off by : Adam Pilkington apilkington@uk.ibm.com
+
+
+
+<a name="1.12.2"></a>
+## [1.12.2](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.12.1...v1.12.2) (2017-08-14)
+
+
+### Bug Fixes
+
+* **templates:** Fix helm templates ([b1a46ad](https://github.ibm.com/arf/java-codegen-yeoman/commit/b1a46ad))
+* **templates:** Move helm charts to chart/appname ([a168bfd](https://github.ibm.com/arf/java-codegen-yeoman/commit/a168bfd))
+* **templates:** Update helm charts for correct health endpoint ([63b8ce6](https://github.ibm.com/arf/java-codegen-yeoman/commit/63b8ce6))
+
+
+
+<a name="1.12.1"></a>
+## [1.12.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.12.0...v1.12.1) (2017-08-10)
+
+
+### Bug Fixes
+
+* **templates:** Fix indentation of deployment.yaml ([009bf1b](https://github.ibm.com/arf/java-codegen-yeoman/commit/009bf1b))
+
+
+
+<a name="1.12.0"></a>
+# [1.12.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.11.0...v1.12.0) (2017-08-09)
+
+
+### Features
+
+* **templates:** Update helm templates for Spring ([317604e](https://github.ibm.com/arf/java-codegen-yeoman/commit/317604e))
+
+
+
+<a name="1.11.0"></a>
+# [1.11.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.10.0...v1.11.0) (2017-08-08)
+
+
+### Features
+
+* **templates:** add health end point for spring and tests ([597b3ca](https://github.ibm.com/arf/java-codegen-yeoman/commit/597b3ca))
+
+
+
+<a name="1.10.0"></a>
+# [1.10.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.9.1...v1.10.0) (2017-08-08)
+
+
+### Features
+
+* **templates:** Add helm files to templates ([0c86eea](https://github.ibm.com/arf/java-codegen-yeoman/commit/0c86eea))
+* **templates:** update toolchain.yml for bx enable ([d53aa85](https://github.ibm.com/arf/java-codegen-yeoman/commit/d53aa85))
+* **test:** update to new common code tests v2.0.0 ([2845bdd](https://github.ibm.com/arf/java-codegen-yeoman/commit/2845bdd))
+
+
+
+<a name="1.9.1"></a>
+## [1.9.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.9.0...v1.9.1) (2017-08-02)
+
+
+### Bug Fixes
+
+* **infrastructure:** Update generator-liberty to 5.1.2 ([79a173b](https://github.ibm.com/arf/java-codegen-yeoman/commit/79a173b))
+
+
+
+<a name="1.9.0"></a>
+# [1.9.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.8.1...v1.9.0) (2017-08-02)
+
+
+### Features
+
+* **templates:** revert CLI docker changes ([8de7190](https://github.ibm.com/arf/java-codegen-yeoman/commit/8de7190))
+
+
+
+<a name="1.8.1"></a>
+## [1.8.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.8.0...v1.8.1) (2017-08-01)
+
+
+### Bug Fixes
+
+* **templates:** restore default end point for Liberty microservice ([9c1e520](https://github.ibm.com/arf/java-codegen-yeoman/commit/9c1e520))
+
+
+
+<a name="1.8.0"></a>
+# [1.8.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.7.0...v1.8.0) (2017-07-31)
+
+
+### Bug Fixes
+
+* **infrastructure:** update tool for oss scans ([c3017d3](https://github.ibm.com/arf/java-codegen-yeoman/commit/c3017d3))
+* **template:** update liberty version and minor fixes ([5fc5d7c](https://github.ibm.com/arf/java-codegen-yeoman/commit/5fc5d7c))
+* **templates:** update default pattern to microservice/liberty ([cc0095d](https://github.ibm.com/arf/java-codegen-yeoman/commit/cc0095d))
+
+
+### Features
+
+* **templates:** add support for bx enable ([76d9109](https://github.ibm.com/arf/java-codegen-yeoman/commit/76d9109))
+
+
+
+<a name="1.7.0"></a>
+# [1.7.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.5.0...v1.7.0) (2017-07-27)
+
+
+### Bug Fixes
+
+* **config:** Fix platforms config setting ([331bd11](https://github.ibm.com/arf/java-codegen-yeoman/commit/331bd11))
+* **templates:** additional change for non-root user support in bx dev ([899834e](https://github.ibm.com/arf/java-codegen-yeoman/commit/899834e))
+* **templates:** Pass genVersions config to sub generators ([d73d8e5](https://github.ibm.com/arf/java-codegen-yeoman/commit/d73d8e5))
+* **templates:** update Spring microservice readme with correct information ([7c43b16](https://github.ibm.com/arf/java-codegen-yeoman/commit/7c43b16))
+
+
+### Features
+
+* **templates:** Add platforms config ([be1c5e3](https://github.ibm.com/arf/java-codegen-yeoman/commit/be1c5e3))
+* **templates:** default artifact id to undefined and update generator versions ([26a2860](https://github.ibm.com/arf/java-codegen-yeoman/commit/26a2860))
+* **templates:** Update picnmix template to conditionally add bluemix ([c65328e](https://github.ibm.com/arf/java-codegen-yeoman/commit/c65328e))
+
+
+
+<a name="1.6.0"></a>
+# [1.6.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.5.0...v1.6.0) (2017-07-27)
+
+
+### Bug Fixes
+
+* **templates:** additional change for non-root user support in bx dev ([899834e](https://github.ibm.com/arf/java-codegen-yeoman/commit/899834e))
+* **templates:** Pass genVersions config to sub generators ([d73d8e5](https://github.ibm.com/arf/java-codegen-yeoman/commit/d73d8e5))
+* **templates:** update Spring microservice readme with correct information ([7c43b16](https://github.ibm.com/arf/java-codegen-yeoman/commit/7c43b16))
+
+
+### Features
+
+* **templates:** Add platforms config ([be1c5e3](https://github.ibm.com/arf/java-codegen-yeoman/commit/be1c5e3))
+* **templates:** default artifact id to undefined and update generator versions ([26a2860](https://github.ibm.com/arf/java-codegen-yeoman/commit/26a2860))
+* **templates:** Update picnmix template to conditionally add bluemix ([c65328e](https://github.ibm.com/arf/java-codegen-yeoman/commit/c65328e))
+
+
+
+<a name="1.5.0"></a>
+# [1.5.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.4.0...v1.5.0) (2017-07-21)
+
+
+### Features
+
+* **template:** add support for ObjectStorage ([57aa4e3](https://github.ibm.com/arf/java-codegen-yeoman/commit/57aa4e3))
+
+
+
+<a name="1.4.0"></a>
+# [1.4.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.3.0...v1.4.0) (2017-07-21)
+
+
+### Features
+
+* **template:** add support for cloudant ([ce22575](https://github.ibm.com/arf/java-codegen-yeoman/commit/ce22575))
+
+
+
+<a name="1.3.0"></a>
+# [1.3.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.2.0...v1.3.0) (2017-07-19)
+
+
+### Features
+
+* **templates:** enable CLI for spring and add tests ([49330ee](https://github.ibm.com/arf/java-codegen-yeoman/commit/49330ee))
+
+
+
+<a name="1.2.0"></a>
+# [1.2.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.1.1...v1.2.0) (2017-07-18)
+
+
+### Bug Fixes
+
+* **tests:** update with new defauls for domain and app name ([de46d95](https://github.ibm.com/arf/java-codegen-yeoman/commit/de46d95))
+
+
+### Features
+
+* **cli:** enable build, run and deploy ([f90ed23](https://github.ibm.com/arf/java-codegen-yeoman/commit/f90ed23))
+* **templates:** split microservice into liberty and spring templates ([6a7b395](https://github.ibm.com/arf/java-codegen-yeoman/commit/6a7b395))
+
+
+
+<a name="1.1.1"></a>
+## [1.1.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.1.0...v1.1.1) (2017-07-11)
+
+
+### Bug Fixes
+
+* **containers:** add .dockerignore file and tests ([dbb55a1](https://github.ibm.com/arf/java-codegen-yeoman/commit/dbb55a1))
+
+
+
+<a name="1.1.0"></a>
+# [1.1.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.0.3...v1.1.0) (2017-07-07)
+
+
+### Bug Fixes
+
+* **config:** Remove technologies default from this generator ([f7d0c9e](https://github.ibm.com/arf/java-codegen-yeoman/commit/f7d0c9e))
+* **config:** Update calls to apply to be overwrite ([9d48220](https://github.ibm.com/arf/java-codegen-yeoman/commit/9d48220))
+* **context:** update context to use config ([249129d](https://github.ibm.com/arf/java-codegen-yeoman/commit/249129d))
+* **templates:** update spring tech code ([252ba65](https://github.ibm.com/arf/java-codegen-yeoman/commit/252ba65))
+* **test:** Remove technologies default test ([cc1cd11](https://github.ibm.com/arf/java-codegen-yeoman/commit/cc1cd11))
+* **test:** Update technology test to include msbuilder ([ea22a34](https://github.ibm.com/arf/java-codegen-yeoman/commit/ea22a34))
+* **test:** Update version of generator-liberty to 2.0.0 ([2a7baf4](https://github.ibm.com/arf/java-codegen-yeoman/commit/2a7baf4))
+
+
+### Features
+
+* **config:** Update defaults to use common module ([4bac989](https://github.ibm.com/arf/java-codegen-yeoman/commit/4bac989))
+* **infrastructure:** update common version to 1.0.0 ([3ff0967](https://github.ibm.com/arf/java-codegen-yeoman/commit/3ff0967))
+* **templates:** create a common template ([17b5967](https://github.ibm.com/arf/java-codegen-yeoman/commit/17b5967))
+
+
+
+<a name="1.0.3"></a>
+## [1.0.3](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.0.2...v1.0.3) (2017-06-30)
+
+
+### Bug Fixes
+
+* **config:** Fix config in headless mode ([fc2c48f](https://github.ibm.com/arf/java-codegen-yeoman/commit/fc2c48f))
+
+
+
+<a name="1.0.2"></a>
+## [1.0.2](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.0.1...v1.0.2) (2017-06-30)
+
+
+### Bug Fixes
+
+* **templates:** Update README.md template to display generator versions ([2901cc9](https://github.ibm.com/arf/java-codegen-yeoman/commit/2901cc9))
+
+
+
+<a name="1.0.1"></a>
+## [1.0.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v1.0.0...v1.0.1) (2017-06-29)
+
+
+### Bug Fixes
+
+* **config:** Update technologies default type to return array ([23bbd86](https://github.ibm.com/arf/java-codegen-yeoman/commit/23bbd86))
+* **test:** restore assertBuild in ms tests ([d2e14be](https://github.ibm.com/arf/java-codegen-yeoman/commit/d2e14be))
+* **test:** update ms test to common framework ([cac5a39](https://github.ibm.com/arf/java-codegen-yeoman/commit/cac5a39))
+
+
+
+<a name="1.0.0"></a>
+# [1.0.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.6.1...v1.0.0) (2017-06-27)
+
+
+### Bug Fixes
+
+* **containers:** Update tests for kube.deploy.yml changes ([81da9b2](https://github.ibm.com/arf/java-codegen-yeoman/commit/81da9b2))
+* **containers:** Update yml files to remove upper case ([6e59db1](https://github.ibm.com/arf/java-codegen-yeoman/commit/6e59db1))
+* **infrastructure:** update liberty generator version ([6113e8d](https://github.ibm.com/arf/java-codegen-yeoman/commit/6113e8d))
+* **templates:** update so that JAX-RS application is in Liberty subgen ([e15cf82](https://github.ibm.com/arf/java-codegen-yeoman/commit/e15cf82))
+* **test:** correct control.js for picnmix ([0f320a0](https://github.ibm.com/arf/java-codegen-yeoman/commit/0f320a0))
+* **test:** update kube tests ([1de7c04](https://github.ibm.com/arf/java-codegen-yeoman/commit/1de7c04))
+
+
+### Features
+
+* **infrastructure:** remove liberty framework ([17b816b](https://github.ibm.com/arf/java-codegen-yeoman/commit/17b816b))
+* **infrastructure:** update version to match registry ([ce4afe7](https://github.ibm.com/arf/java-codegen-yeoman/commit/ce4afe7))
+* **libs:** remove libs and reference from common module ([b0d97b5](https://github.ibm.com/arf/java-codegen-yeoman/commit/b0d97b5))
+* **templates:** extract Liberty templates to sub-generator ([cbbaec8](https://github.ibm.com/arf/java-codegen-yeoman/commit/cbbaec8))
+* **test:** extract command to common module fix up e2e tests. ([766dbb1](https://github.ibm.com/arf/java-codegen-yeoman/commit/766dbb1))
+* **test:** move bx asserts to BxOptions ([2daea15](https://github.ibm.com/arf/java-codegen-yeoman/commit/2daea15))
+* **test:** move tech tests to common framework ([7a56956](https://github.ibm.com/arf/java-codegen-yeoman/commit/7a56956))
+* **tests:** complete extraction of Liberty tests ([e779eb2](https://github.ibm.com/arf/java-codegen-yeoman/commit/e779eb2))
+* **tests:** continue to refactor out Liberty tests ([60cb459](https://github.ibm.com/arf/java-codegen-yeoman/commit/60cb459))
+
+
+### BREAKING CHANGES
+
+* **infrastructure:** updated version to release new generator.
+
+Signed off by : Adam Pilkington apilkington@uk.ibm.com
+* **templates:** Initial version of a Liberty sub-generator for
+generating app accelerator content. Whilst not technically a breaking
+change it is architecturally different from previous versions.
+
+Signed off by : Adam Pilkington apilkington@uk.ibm.com
+
+
+
+<a name="0.6.1"></a>
+## [0.6.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.6.0...v0.6.1) (2017-06-12)
+
+
+### Bug Fixes
+
+* **templates:** Fix kube.deploy.yml template file ([4b705c8](https://github.ibm.com/arf/java-codegen-yeoman/commit/4b705c8))
+* **templates:** Update kube test ([c43b279](https://github.ibm.com/arf/java-codegen-yeoman/commit/c43b279))
+
+
+
+<a name="0.6.0"></a>
+# [0.6.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.5.0...v0.6.0) (2017-06-12)
+
+
+### Bug Fixes
+
+* **templates:** Add end to end tests and fix templates ([139f70c](https://github.ibm.com/arf/java-codegen-yeoman/commit/139f70c))
+* **templates:** Picnmix and patterns have separate rest route ([a1eea9b](https://github.ibm.com/arf/java-codegen-yeoman/commit/a1eea9b))
+* **templates:** Remove additional health endpoint files ([2b91770](https://github.ibm.com/arf/java-codegen-yeoman/commit/2b91770))
+* **templates:** Remove extra config settings in liberty framework ([81a5e65](https://github.ibm.com/arf/java-codegen-yeoman/commit/81a5e65))
+* **templates:** Remove extra health files from picnmix ([6774157](https://github.ibm.com/arf/java-codegen-yeoman/commit/6774157))
+* **templates:** Update generator to only add health to JavaEE apps ([9acf0f0](https://github.ibm.com/arf/java-codegen-yeoman/commit/9acf0f0))
+* **templates:** Update Health endpoint ([1fa2fa4](https://github.ibm.com/arf/java-codegen-yeoman/commit/1fa2fa4))
+* **templates:** Update Liberty test to conditionally check server.xml ([dfbb03f](https://github.ibm.com/arf/java-codegen-yeoman/commit/dfbb03f))
+* **templates:** Update tests to check for correct Liberty feature ([1684b09](https://github.ibm.com/arf/java-codegen-yeoman/commit/1684b09))
+* **test:** Update common test version dependency to 0.1.0 ([23ac6ff](https://github.ibm.com/arf/java-codegen-yeoman/commit/23ac6ff))
+
+
+### Features
+
+* **containers:** Update Jenkins file for Microservice Builder update ([028a567](https://github.ibm.com/arf/java-codegen-yeoman/commit/028a567))
+* **templates:** Create individual health endpoint files ([71c5188](https://github.ibm.com/arf/java-codegen-yeoman/commit/71c5188))
+* **templates:** Remove workaround for Docker non root user ([c41fdcc](https://github.ibm.com/arf/java-codegen-yeoman/commit/c41fdcc))
+* **templates:** Template changes for Docker non root issue ([ceed830](https://github.ibm.com/arf/java-codegen-yeoman/commit/ceed830))
+
+
+
+<a name="0.5.0"></a>
+# [0.5.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.4.0...v0.5.0) (2017-06-01)
+
+
+### Bug Fixes
+
+* **config:** Fix technologies default ([31da7a7](https://github.ibm.com/arf/java-codegen-yeoman/commit/31da7a7))
+* **config:** Refactor prompts to set config in the same way ([343a2f0](https://github.ibm.com/arf/java-codegen-yeoman/commit/343a2f0))
+* **infrastructure:** Remove extra coverage files ([09fc0fb](https://github.ibm.com/arf/java-codegen-yeoman/commit/09fc0fb))
+* **test:** Fix tests to refer to technologies ([b90dd75](https://github.ibm.com/arf/java-codegen-yeoman/commit/b90dd75))
+
+
+### Features
+
+* **config:** add readiness probe to kube config ([3936973](https://github.ibm.com/arf/java-codegen-yeoman/commit/3936973))
+* **containers:** add readiness probe to kube config ([d67e037](https://github.ibm.com/arf/java-codegen-yeoman/commit/d67e037))
+* **templates:** Add index.html templates ([bf65e37](https://github.ibm.com/arf/java-codegen-yeoman/commit/bf65e37))
+* **templates:** Add servlet technology templates ([0bbb2e2](https://github.ibm.com/arf/java-codegen-yeoman/commit/0bbb2e2))
+* **templates:** Add springboot web templates ([3d7f6e2](https://github.ibm.com/arf/java-codegen-yeoman/commit/3d7f6e2))
+* **templates:** Add swagger template ([c1ac3d2](https://github.ibm.com/arf/java-codegen-yeoman/commit/c1ac3d2))
+* **templates:** add technologies to prompts ([d152007](https://github.ibm.com/arf/java-codegen-yeoman/commit/d152007))
+* **templates:** Add watson sdk template ([424ba0e](https://github.ibm.com/arf/java-codegen-yeoman/commit/424ba0e))
+* **templates:** add web sockets templates ([b59cc3e](https://github.ibm.com/arf/java-codegen-yeoman/commit/b59cc3e))
+* **templates:** fix random service test ([c30e401](https://github.ibm.com/arf/java-codegen-yeoman/commit/c30e401))
+* **test:** Add tests for compile and build ([0315a38](https://github.ibm.com/arf/java-codegen-yeoman/commit/0315a38))
+* **test:** add tests for web page ([2ad5d34](https://github.ibm.com/arf/java-codegen-yeoman/commit/2ad5d34))
+* **test:** fix folder name and move compile test ([69683ff](https://github.ibm.com/arf/java-codegen-yeoman/commit/69683ff))
+* **test:** tests for microservices builder ([97ac731](https://github.ibm.com/arf/java-codegen-yeoman/commit/97ac731))
+* **test:** Update test file name ([889bf3c](https://github.ibm.com/arf/java-codegen-yeoman/commit/889bf3c))
+
+
+
+<a name="0.4.0"></a>
+# [0.4.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.3.0...v0.4.0) (2017-04-27)
+
+
+### Bug Fixes
+
+* **infrastructure:** Make the coverage.sh file executable ([ab80a1a](https://github.ibm.com/arf/java-codegen-yeoman/commit/ab80a1a))
+
+
+### Features
+
+* **test:** Refactor tests to pass in build type ([011c323](https://github.ibm.com/arf/java-codegen-yeoman/commit/011c323))
+
+
+
+<a name="0.3.0"></a>
+# [0.3.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.2.0...v0.3.0) (2017-04-26)
+
+
+### Bug Fixes
+
+* **infrastructure:** Update readme with master branch instructions ([7d2a6fa](https://github.ibm.com/arf/java-codegen-yeoman/commit/7d2a6fa))
+
+
+### Features
+
+* **config:** Add prompts for groupId and artifactId ([d3e8cb3](https://github.ibm.com/arf/java-codegen-yeoman/commit/d3e8cb3))
+* **config:** Move default values to common location ([468f38e](https://github.ibm.com/arf/java-codegen-yeoman/commit/468f38e))
+* **config:** Update description for setting group id ([92cf409](https://github.ibm.com/arf/java-codegen-yeoman/commit/92cf409))
+* **infrastructure:** Update build scripts to add unit coverage ([c22b433](https://github.ibm.com/arf/java-codegen-yeoman/commit/c22b433))
+* **infrastructure>:** Make shell script files cleaner ([ba82cfb](https://github.ibm.com/arf/java-codegen-yeoman/commit/ba82cfb))
+* **test:** add bluemix tests for technology selection ([b128e99](https://github.ibm.com/arf/java-codegen-yeoman/commit/b128e99))
+* **test:** separate out maven and gradle tests into re-usable libs. ([99ad04f](https://github.ibm.com/arf/java-codegen-yeoman/commit/99ad04f))
+
+
+
+<a name="0.2.0"></a>
+# [0.2.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.1.28...v0.2.0) (2017-04-21)
+
+
+### Features
+
+* **infrastructure:** Fix mistakes and add extra link ([c2f0edf](https://github.ibm.com/arf/java-codegen-yeoman/commit/c2f0edf))
+* **infrastructure:** Update README.md ([896b4ec](https://github.ibm.com/arf/java-codegen-yeoman/commit/896b4ec))
+
+
+
+<a name="0.1.28"></a>
+## [0.1.28](https://github.ibm.com/arf/java-codegen-yeoman/compare/v0.1.25...v0.1.28) (2017-04-21)
