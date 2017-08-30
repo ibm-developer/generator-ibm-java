@@ -30,14 +30,15 @@ const extend = require('extend');
 const common = require('../lib/test-common');
 
 class Options extends core.BxOptions {
-  constructor(buildType, frameworkType) {
+  constructor(buildType, frameworkType, javaMetrics) {
     super(frameworkType === 'spring' ? 'SPRING' : 'JAVA');
     extend(this.values, {
       headless :  "true",
       buildType : buildType,
       frameworkType : frameworkType || FRAMEWORK_LIBERTY,
       createType : 'microservice/' + (frameworkType || FRAMEWORK_LIBERTY),
-      appName : core.APPNAME
+      appName : core.APPNAME,
+      javametrics : javaMetrics
     });
   }
 
@@ -127,6 +128,7 @@ class Options extends core.BxOptions {
       });
     }
   }
+
 }
 
 
@@ -219,3 +221,26 @@ function execute(framework) {
 
   });
 }
+describe('Basic microservices project checking javametrics', function () {
+  describe('Generate a basic liberty microservices project checking javametrics exists', function () {
+    var options = new Options('maven', FRAMEWORK_LIBERTY, true);
+    before(options.before.bind(options));
+    framework.test(FRAMEWORK_LIBERTY).assertJavaMetrics(true, 'maven');
+    it('Check dockerfile contains javametrics options', function () {
+      assert.fileContent('Dockerfile','COPY /target/liberty/wlp/usr/shared/resources /config/resources/');
+      assert.fileContent('Dockerfile','COPY /src/main/liberty/config/jvmbx.options /config/jvm.options');
+    });
+
+  });
+
+  describe('Generate a basic liberty microservices project checking javametrics does not exist', function () {
+    var options = new Options('maven', FRAMEWORK_LIBERTY);
+    before(options.before.bind(options));
+    framework.test(FRAMEWORK_LIBERTY).assertJavaMetrics(false, 'maven');
+    it('Check dockerfile does not contain javametrics options', function () {
+      assert.noFileContent('Dockerfile','COPY /target/liberty/wlp/usr/shared/resources /config/resources/');
+      assert.noFileContent('Dockerfile','COPY /src/main/liberty/config/jvmbx.options /config/jvm.options');
+    });
+
+  });
+});

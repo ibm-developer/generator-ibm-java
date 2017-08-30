@@ -111,7 +111,9 @@ test_kube.test = function(appName, exists, framework, createType) {
         assertYmlContent(serviceyml.metadata.labels.chart, '{{ .Chart.Name }}-{{ .Chart.Version | replace \"+\" \"_\" }}');
         assert.fileContent(SERVICE_YML, '  type: {{ .Values.service.type }}');
         assert.fileContent(SERVICE_YML, '    port: {{ .Values.service.servicePort }}');
-        assert.fileContent(SERVICE_YML, '    port: {{ .Values.service.servicePortHttps }}');
+        if(framework === LIBERTY) {
+          assert.fileContent(SERVICE_YML, '    port: {{ .Values.service.servicePortHttps }}');
+        }
         assertYmlContent(serviceyml.spec.selector.app, '{{  .Chart.Name }}-selector');
       }
     });
