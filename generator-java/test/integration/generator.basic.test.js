@@ -52,9 +52,11 @@ class Options extends core.BxOptions {
   assertliberty(buildType) {
     var appPath = buildType === 'maven' ? 'target' : 'build';
     var libertyInstall = buildType === 'maven' ? 'target/liberty/wlp' : 'build/wlp';
+    var buildTypeCap = buildType.charAt(0).toUpperCase() + buildType.slice(1);
     it(USAGE_TXT + ' file should contain correct content', function() {
       assert.fileContent(USAGE_TXT, 'default health endpoint is /' + core.APPNAME + '/health');
       assert.fileContent(USAGE_TXT, 'artifact location is ' + appPath + '/' + core.APPNAME + '.zip');
+      assert.fileContent(USAGE_TXT, 'Liberty ' + buildTypeCap + ' plugin (https://github.com/WASdev/ci.' + buildType + ')');
       assert.fileContent(USAGE_TXT, 'install location is ' + libertyInstall);
     })
   }
