@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.2.0"></a>
+# [2.2.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.1.2...v2.2.0) (2017-08-31)
+
+
+### Features
+
+* **templates:** Add usage.txt to bx enable templates ([16c2796](https://github.ibm.com/arf/java-codegen-yeoman/commit/16c2796))
+* **templates:** Update generator-liberty to 5.2.0 ([27c2ddf](https://github.ibm.com/arf/java-codegen-yeoman/commit/27c2ddf))
+* **templates:** versions for enablement ([5bb862c](https://github.ibm.com/arf/java-codegen-yeoman/commit/5bb862c))
+
+
+
 <a name="2.1.2"></a>
 ## [2.1.2](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.1.1...v2.1.2) (2017-08-29)
 
