@@ -232,7 +232,7 @@ LICENSEFILE
 <End ACCEPTABLE>
 ```
 
-# Package: `generator-ibm-cloud-enablement 0.0.64`
+# Package: `generator-ibm-cloud-enablement 0.0.68`
 **Package Path:** `node_modules/generator-ibm-cloud-enablement`
 
 ## File: `LICENSE`
