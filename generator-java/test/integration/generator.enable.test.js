@@ -15,7 +15,7 @@
  */
 
 /**
- * Tests the basic generator
+ * Tests the enable generator
  */
 'use strict';
 const path = require('path');
