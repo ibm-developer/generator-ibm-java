@@ -74,21 +74,21 @@ class Options extends core.BxOptions {
 const frameworks = ['liberty', 'spring'];
 
 frameworks.forEach(framework => {
-  describe('java generator : basic integration test : ' + framework, function () {
+  describe('java generator : enable integration test : ' + framework, function () {
     this.timeout(7000);
 
-    describe('Generates a basic project (bluemix enabled), gradle build : ' + framework, function () {
+    describe('Enable a project using a gradle build : ' + framework, function () {
       var options = new Options(framework);
-      options.prompts = {extName : 'prompt:patterns', buildType : 'gradle', createType: 'basic/' + framework, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
+      options.prompts = {extName : 'prompt:patterns', buildType : 'gradle', createType: 'enable/' + framework, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
       before(options.before.bind(options));
-      options.assert(core.APPNAME, core.APPNAME, framework, 'basic/' + framework, 'gradle');
+      options.assert(core.APPNAME, core.APPNAME, framework, 'enable/' + framework, 'gradle');
     });
 
-    describe('Generates a basic  project (bluemix enabled), maven build : ' + framework, function () {
+    describe('Enable a project using a maven build : ' + framework, function () {
       var options = new Options(framework);
-      options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basic/' + framework, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
+      options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'enable/' + framework, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
       before(options.before.bind(options));
-      options.assert(core.APPNAME, core.APPNAME, framework, 'basic/' + framework, 'maven');
+      options.assert(core.APPNAME, core.APPNAME, framework, 'enable/' + framework, 'maven');
     });
 
   });
