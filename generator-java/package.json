@@ -35,6 +35,7 @@
     "testms": "mocha test/integration/generator.microservice.test.js",
     "testbff": "mocha test/integration/generator.bff.test.js",
     "testtech": "mocha test/integration/generator.technologies.test.js",
+    "testopenapi": "mocha test/integration/generator.openapi.test.js",
     "testbasicwebe2e": "mocha test/endToEnd/generator.basicweb.e2e.test.js",
     "testbffe2e": "mocha test/endToEnd/generator.bff.e2e.test.js",
     "testmse2e": "mocha test/endToEnd/generator.microservice.e2e.test.js",
