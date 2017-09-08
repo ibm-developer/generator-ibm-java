@@ -24,70 +24,131 @@ const helpers = require('yeoman-test');
 const common = require('../lib/test-common');
 const framework = require('../lib/test-framework');
 const tests = require('@arf/java-common');
+const command = tests.test('command');
 const core = require('../lib/core');
+const extend = require('extend');
 
 const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
 const VERSION = '1.0.0';
 const APPNAME = 'testApp';
-const FRAMEWORK = 'liberty';
+const FRAMEWORK_LIBERTY = 'liberty';
+const FRAMEWORK_SPRING = 'spring';
 
 class Options extends core.BxOptions {
+  constructor(runHeadless, buildType, frameworkType, name) {
+    super(frameworkType === 'spring' ? 'SPRING' : 'JAVA');
+    extend(this.values, {
+      headless : runHeadless.toString(),
+      buildType : buildType,
+      frameworkType : frameworkType,
+      createType : 'basicweb/' + frameworkType,
+      appName : name || core.APPNAME
+    });
+  }
 
-  assert(appName, ymlName, cloudant, objectStorage, buildType) {
-    super.assert(appName, ymlName, cloudant, objectStorage, 'basicweb');
-    common.assertFiles('src/main/webapp', true, 'index.html', '/css/default.css', 'js/bundle.js');
-    var test = tests.test(buildType);
+  assert(appName, ymlName, cloudant, objectStorage, buildType, frameworkType) {
+    super.assert(appName, ymlName, cloudant, objectStorage, 'basicweb/' + frameworkType);
+    var base = this.values.frameworkType === FRAMEWORK_SPRING ? 'src/main/resources/static' : 'src/main/webapp';
+    common.assertFiles(base, true, 'index.html', '/css/default.css', 'js/bundle.js');
+    framework.test(frameworkType).assertSourceFiles(false);
+    frameworkType === FRAMEWORK_LIBERTY ? this.assertliberty() : this.assertspring();
+  }
+
+  assertliberty() {
+    super.assertliberty();
+    var test = tests.test(this.values.buildType);
     test.assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
     test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
     test.assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
     test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
-    framework.test(FRAMEWORK).assertSourceFiles(false);
-    framework.test(FRAMEWORK).assertFeatures('jaxrs-2.0');
-    framework.test(FRAMEWORK).assertFeatures('servlet-3.1');
+    framework.test(FRAMEWORK_LIBERTY).assertFeatures('jaxrs-2.0');
+    framework.test(FRAMEWORK_LIBERTY).assertFeatures('servlet-3.1');
+  }
+
+  assertspring() {
+    super.assertspring();
+    var test = tests.test(this.values.buildType);
+    test.assertDependency('compile', 'org.springframework.boot', 'spring-boot-starter-web');
+    test.assertDependency('compile', 'org.springframework.boot', 'spring-boot-actuator');
+    test.assertDependency('test', 'org.springframework.boot', 'spring-boot-starter-test');
+    it('should contain EndpointTest.java for testing the web endpoint', function() {
+      assert.file('src/test/java/application/EndpointTest.java');
+    });
+  }
+
+  assertCompiles(buildType) {
+    command.run(tests.test(buildType).getCompileCommand());
   }
 }
 
+var frameworkTypes = ['liberty', 'spring'];
 
 describe('java generator : basic integration test', function () {
-  this.timeout(5000);
-  describe('Generates a basic web project (no bluemix), gradle build', function () {
-    var options = new Options();
-    options.prompts = {extName : 'prompt:patterns', buildType : 'gradle', createType: 'basicweb', services: ['none'], appName: APPNAME, artifactId: ARTIFACTID};
-    before(options.before.bind(options));
-    options.assert(APPNAME, APPNAME, false, false, 'gradle');
-  });
+  this.timeout(7000);
+  frameworkTypes.forEach(frameworkType => {
+    describe('Generates a basic ' + frameworkType + ' web project (no bluemix), gradle build with prompts', function () {
+      var options = new Options(false, 'gradle', frameworkType);
+      options.prompts = {extName : 'prompt:patterns', buildType : 'gradle', createType: 'basicweb/' + frameworkType, services: ['none'], appName: APPNAME, artifactId: core.ARTIFACTID};
+      before(options.before.bind(options));
+      options.assert(APPNAME, APPNAME, false, false, 'gradle', frameworkType);
+    });
 
-  describe('Generates a basic web project (no bluemix), maven build', function () {
-    var options = new Options();
-    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basicweb', services: ['none'], appName: APPNAME, artifactId: ARTIFACTID};
-    before(options.before.bind(options));
-    options.assert(APPNAME, APPNAME, false, false, 'maven');
-  });
+    describe('Generates a basic ' + frameworkType + ' web project (no bluemix), maven build with prompts', function () {
+      var options = new Options(false, 'maven', frameworkType);
+      options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basicweb/' + frameworkType, services: ['none'], appName: APPNAME, artifactId: core.ARTIFACTID};
+      before(options.before.bind(options));
+      options.assert(APPNAME, APPNAME, false, false, 'maven', frameworkType);
+    });
 
-  describe('Generates a basic web project (bluemix) with cloudant', function () {
-    var options = new Options();
-    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basicweb', services : ['cloudant'], appName : 'bxName', artifactId: ARTIFACTID};
-    before(options.before.bind(options));
-    options.assert('bxName', 'bxName', true, false, 'maven');
-    options.assertCloudant();
-  });
+    describe('Generates a basic ' + frameworkType + ' web project (no bluemix), gradle build', function () {
+      var options = new Options(true, 'gradle', frameworkType, APPNAME);
+      before(options.before.bind(options));
+      options.assert(APPNAME, APPNAME, false, false, 'gradle', frameworkType);
+      options.assertCompiles('gradle');
+    });
 
-  describe('Generates a basic web project (bluemix) with Object Storage', function () {
-    var options = new Options();
-    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basicweb', services : ['objectStorage'], appName : 'bxName', artifactId: ARTIFACTID};
-    before(options.before.bind(options));
-    options.assert('bxName', 'bxName', false, true, 'maven');
-    options.assertObjectStorage();
-  });
+    describe('Generates a basic ' + frameworkType + ' web project (no bluemix), maven build', function () {
+      var options = new Options(true, 'maven', frameworkType, APPNAME);
+      before(options.before.bind(options));
+      options.assert(APPNAME, APPNAME, false, false, 'maven', frameworkType);
+      options.assertCompiles('maven');
+    });
 
-  describe('Generates a basic web project (bluemix) with Cloudant and Object Storage', function () {
-    var options = new Options();
-    options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'basicweb', services : ['objectStorage','cloudant'], appName : 'bxName', artifactId: ARTIFACTID};
-    before(options.before.bind(options));
-    options.assert('bxName', 'bxName', true, true, 'maven');
-    options.assertCloudant();
-    options.assertObjectStorage();
+    describe('Generates a basic ' + frameworkType + ' web project (bluemix) with cloudant', function () {
+      var options = new Options(true, 'maven', frameworkType, 'bxName');
+      options.values.bluemix.server = core.BX_SERVER;
+      options.values.bluemix.server.services = ['cloudant'];
+      options.values.bluemix.cloudant = core.BX_CLOUDANT;
+      before(options.before.bind(options));
+      options.assert('bxName', 'bxName', true, false, 'maven', frameworkType);
+      options.assertCloudant();
+      options.assertCompiles('maven');
+    });
+
+    describe('Generates a basic ' + frameworkType + ' web project (bluemix) with Object Storage', function () {
+      var options = new Options(true, 'maven', frameworkType, 'bxName');
+      options.values.bluemix.server = core.BX_SERVER;
+      options.values.bluemix.server.services = ['objectStorage'];
+      options.values.bluemix.objectStorage = core.BX_OBJECT_STORAGE;
+      before(options.before.bind(options));
+      options.assert('bxName', 'bxName', false, true, 'maven', frameworkType);
+      options.assertObjectStorage();
+      options.assertCompiles('maven');
+    });
+
+    describe('Generates a basic ' + frameworkType + ' web project (bluemix) with Cloudant and Object Storage', function () {
+      var options = new Options(true, 'maven', frameworkType, 'bxName');
+      options.values.bluemix.server = core.BX_SERVER;
+      options.values.bluemix.server.services = ['cloudant', 'objectStorage'];
+      options.values.bluemix.cloudant = core.BX_CLOUDANT;
+      options.values.bluemix.objectStorage = core.BX_OBJECT_STORAGE;
+      before(options.before.bind(options));
+      options.assert('bxName', 'bxName', true, true, 'maven', frameworkType);
+      options.assertCloudant();
+      options.assertObjectStorage();
+    });
+
   });
 
 });

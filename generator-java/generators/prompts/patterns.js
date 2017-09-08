@@ -70,9 +70,13 @@ Extension.prototype.getQuestions = function() {
       value : 'microservice/spring',
       short : 'Basic Spring microservice'
     }, {
-      name : 'Basic Web : a basic web application',
-      value : 'basicweb',
-      short : 'Basic web application'
+      name : 'Basic Web : a basic MicroProfile / JavaEE web application',
+      value : 'basicweb/liberty',
+      short : 'Basic JavaEE web application'
+    }, {
+      name : 'Basic Web : a basic Spring web application',
+      value : 'basicweb/spring',
+      short : 'Basic Spring web application'
     }, {
       name : 'BFF : Backend For Frontend (generate java from Swagger/OpenAPI)',
       value : 'bff',
