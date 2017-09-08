@@ -26,11 +26,11 @@ const openApi = new spring.integrationAsserts.openapi();
 function test_spring() {
 }
 
-test_spring.prototype.assertSourceFiles = function(springSelected) {
+test_spring.prototype.assertSourceFiles = function() {
   it('should contain Java code files common across all project types', function() {
-    var check = springSelected ? assert.noFile : assert.file;
-    check('src/main/java/application/rest/SBApplication.java');
-    check('src/main/java/application/rest/HealthEndpoint.java');
+    assert.file('src/main/java/application/SBApplication.java');
+    assert.file('src/main/java/application/rest/HealthEndpoint.java');
+    assert.file('src/test/java/application/HealthEndpointTest.java');
   });
 }
 

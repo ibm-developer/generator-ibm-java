@@ -13,7 +13,7 @@
     "@arf/generator-spring": "0.4.0",
     "extend": "^3.0.1",
     "@arf/java-common": "2.2.0",
-    "generator-ibm-cloud-enablement": "^0.0.68",
+    "generator-ibm-cloud-enablement": "^0.0.69",
     "generator-ibm-service-enablement": "^0.0.59"
   },
   "devDependencies": {
@@ -29,7 +29,7 @@
     "test": "mocha test/unit/*",
     "testint": "mocha test/integration/*",
     "teste2e": "mocha test/endToEnd/*",
-    "testbasic": "mocha test/integration/generator.basic.test.js",
+    "testenable": "mocha test/integration/generator.enable.test.js",
     "testbasicweb": "mocha test/integration/generator.basicweb.test.js",
     "testdefaults": "mocha test/integration/generator.defaults.test.js",
     "testms": "mocha test/integration/generator.microservice.test.js",

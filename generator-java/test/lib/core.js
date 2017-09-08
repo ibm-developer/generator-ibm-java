@@ -33,6 +33,12 @@ const GROUPID = 'test.group';
 const VERSION = '1.0.0';
 const APPNAME = 'testApp';
 const FRAMEWORK_LIBERTY = 'liberty';
+const BX_SERVER = {"host": "host", "domain": "mybluemix.net"};
+const BX_CLOUDANT = [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},
+  "password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}];
+const BX_OBJECT_STORAGE = [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},
+  "project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password",
+  "auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}];
 
 class Options {
  constructor() {
@@ -149,4 +155,7 @@ module.exports = {
  GROUPID : GROUPID,
  VERSION : VERSION,
  APPNAME : APPNAME,
+ BX_SERVER : BX_SERVER,
+ BX_CLOUDANT : BX_CLOUDANT,
+ BX_OBJECT_STORAGE : BX_OBJECT_STORAGE
 };
