@@ -79,7 +79,7 @@ Extension.prototype.getQuestions = function() {
       short : 'Basic Spring web application'
     }, {
       name : 'BFF : Backend For Frontend (generate java from Swagger/OpenAPI)',
-      value : 'bff',
+      value : 'bff/liberty',
       short : 'Backend For Frontend'
     }],
     default : this.config.createType
