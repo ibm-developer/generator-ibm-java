@@ -61,16 +61,11 @@ class Options extends core.BxOptions {
     var test = tests.test(this.values.buildType);
     test.assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
     test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
-    test.assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
     test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
-    test.assertDependency('provided', 'javax.json', 'javax.json-api', '1.0');
     test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
-    test.assertDependency('provided', 'javax.enterprise', 'cdi-api', '1.2');
     framework.test(FRAMEWORK_LIBERTY).assertSourceFiles(false);
-    framework.test(FRAMEWORK_LIBERTY).assertFeatures('jaxrs-2.0');
-    framework.test(FRAMEWORK_LIBERTY).assertFeatures('jsonp-1.0');
+    framework.test(FRAMEWORK_LIBERTY).assertFeatures('microprofile-1.0');
     framework.test(FRAMEWORK_LIBERTY).assertFeatures('jndi-1.0');
-    framework.test(FRAMEWORK_LIBERTY).assertFeatures('cdi-1.2');
   }
 
   assertspring() {
