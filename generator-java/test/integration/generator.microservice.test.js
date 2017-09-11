@@ -63,6 +63,7 @@ class Options extends core.BxOptions {
     test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
     test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
     test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
+    test.assertDependency('provided', 'io.microprofile', 'microprofile', '1.0.0');
     framework.test(FRAMEWORK_LIBERTY).assertSourceFiles(false);
     framework.test(FRAMEWORK_LIBERTY).assertFeatures('microprofile-1.0');
     framework.test(FRAMEWORK_LIBERTY).assertFeatures('jndi-1.0');
