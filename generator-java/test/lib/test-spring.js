@@ -21,6 +21,7 @@ const spring = require('@arf/generator-spring');
 const tests = require('@arf/java-common');
 
 const assertSpring = new spring.integrationAsserts.spring();
+const openApi = new spring.integrationAsserts.openapi();
 
 function test_spring() {
 }
@@ -79,6 +80,14 @@ test_spring.prototype.assertObjectStorage = function(exists) {
     object_storage_project : 'objectStorage-project'
   }
   checkValues(exists, env, assertSpring.assertEnv);
+}
+
+test_spring.prototype.assertOpenApi = function(exists, fileNames) {
+  openApi.assert(exists, fileNames);
+}
+
+test_spring.prototype.getExampleOpenApi = function() {
+  return openApi.getExample();
 }
 
 //asserts that the specified environment variables will flow through JNDI
