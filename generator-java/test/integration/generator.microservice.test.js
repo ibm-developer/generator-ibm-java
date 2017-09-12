@@ -25,6 +25,7 @@ const FRAMEWORK_SPRING = 'spring';
 const assert = require('yeoman-assert');
 const framework = require('../lib/test-framework');
 const tests = require('@arf/java-common');
+const command = tests.test('command');
 const core = require('../lib/core');
 const extend = require('extend');
 const common = require('../lib/test-common');
@@ -55,6 +56,10 @@ class Options extends core.BxOptions {
     super.assertBuild(appName);
   }
 
+  assertCompiles(buildType) {
+    command.run(tests.test(buildType).getCompileCommand());
+  }
+
   //Liberty specific things to test for
   assertliberty() {
     super.assertliberty();
@@ -63,7 +68,8 @@ class Options extends core.BxOptions {
     test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
     test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
     test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
-    test.assertDependency('provided', 'io.microprofile', 'microprofile', '1.0.0', undefined, 'pom');
+    var type = this.values.buildType === 'maven' ? 'pom' : undefined;
+    test.assertDependency('provided', 'io.microprofile', 'microprofile', '1.0.0', undefined, type);
     framework.test(FRAMEWORK_LIBERTY).assertSourceFiles(false);
     framework.test(FRAMEWORK_LIBERTY).assertFeatures('microprofile-1.0');
     framework.test(FRAMEWORK_LIBERTY).assertFeatures('jndi-1.0');
@@ -149,6 +155,7 @@ function execute(framework) {
         assert.fileContent('README.md', 'gradle');
         assert.noFileContent('README.md', 'maven');
       });
+      options.assertCompiles('gradle');
     });
 
     describe(name + ': Generates a basic microservices project (no bluemix), maven build system', function () {
@@ -161,6 +168,7 @@ function execute(framework) {
         assert.fileContent('README.md', 'maven');
         assert.noFileContent('README.md', 'gradle');
       });
+      options.assertCompiles('maven');
     });
 
     describe(name + ': Generates a basic microservices project (gradle, bluemix, no services)', function () {
@@ -186,6 +194,7 @@ function execute(framework) {
       before(options.before.bind(options));
 
       options.assert('bxName', 'bxName', true, false);
+      options.assertCompiles('maven');
     });
 
     describe(name + ': Generates a basic microservices project (gradle, bluemix, cloudant)', function () {
@@ -195,6 +204,7 @@ function execute(framework) {
       before(options.before.bind(options));
 
       options.assert('bxName', 'bxName', true, false);
+      options.assertCompiles('gradle');
     });
 
     describe(name + ': Generates a basic microservices project (maven, bluemix, objectStorage)', function () {
@@ -204,6 +214,7 @@ function execute(framework) {
       before(options.before.bind(options));
 
       options.assert('bxName', 'bxName', false, true);
+      options.assertCompiles('maven');
     });
 
     describe(name + ': Generates a basic microservices project (gradle, bluemix, objectStorage)', function () {
@@ -213,6 +224,7 @@ function execute(framework) {
       before(options.before.bind(options));
 
       options.assert('bxName', 'bxName', false, true);
+      options.assertCompiles('gradle');
     });
 
   });
