@@ -157,7 +157,11 @@
 112
 113
 114
-115</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+115
+116
+117
+118
+119</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -180,12 +184,12 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">53×</span>
-<span class="cline-any cline-yes">53×</span>
+<span class="cline-any cline-yes">62×</span>
+<span class="cline-any cline-yes">62×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">53×</span>
+<span class="cline-any cline-yes">62×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -193,21 +197,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">70×</span>
-<span class="cline-any cline-yes">70×</span>
-<span class="cline-any cline-yes">70×</span>
+<span class="cline-any cline-yes">65×</span>
+<span class="cline-any cline-yes">65×</span>
+<span class="cline-any cline-yes">65×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">70×</span>
+<span class="cline-any cline-yes">65×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">70×</span>
+<span class="cline-any cline-yes">65×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">81×</span>
+<span class="cline-any cline-yes">88×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -262,12 +266,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">13×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -327,15 +335,15 @@ Extension.prototype.getQuestions = function() {
     name    : 'createType',
     message : 'What pattern do you want to generate source for?',
     choices : [{
-      name : 'Basic : enablement for a basic microprofile / JavaEE application',
-      value : 'basic/liberty',
-      short : 'Basic microprofile / JavaEE enablement'
+      name : 'Basic : IBM Cloud enablement for a MicroProfile / JavaEE application',
+      value : 'enable/liberty',
+      short : 'Enablement for MicroProfile / JavaEE'
     }, {
-      name : 'Basic : enablement for a basic Spring application',
-      value : 'basic/spring',
-      short : 'Basic Spring enablement'
+      name : 'Basic : IBM Cloud enablement for a Spring application',
+      value : 'enable/spring',
+      short : 'Enablement for Spring'
     }, {
-      name : 'Microservice : a basic microprofile / JavaEE microservice',
+      name : 'Microservice : a basic MicroProfile / JavaEE microservice',
       value : 'microservice/liberty',
       short : 'Basic JavaEE microservice'
     }, {
@@ -343,9 +351,13 @@ Extension.prototype.getQuestions = function() {
       value : 'microservice/spring',
       short : 'Basic Spring microservice'
     }, {
-      name : 'Basic Web : a basic web application',
-      value : 'basicweb',
-      short : 'Basic web application'
+      name : 'Basic Web : a basic MicroProfile / JavaEE web application',
+      value : 'basicweb/liberty',
+      short : 'Basic JavaEE web application'
+    }, {
+      name : 'Basic Web : a basic Spring web application',
+      value : 'basicweb/spring',
+      short : 'Basic Spring web application'
     }, {
       name : 'BFF : Backend For Frontend (generate java from Swagger/OpenAPI)',
       value : 'bff',
@@ -391,7 +403,7 @@ module.exports = exports = Extension;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Aug 31 2017 14:46:14 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 12 2017 13:20:09 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>
