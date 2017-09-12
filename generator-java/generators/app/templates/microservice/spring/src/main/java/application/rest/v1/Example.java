@@ -61,7 +61,7 @@ public class Example {
 
   {{#objectStorage}}
   @RequestMapping("v1/objectstorage")
-  public @ResponseBody ResponseEntity<String> cloudant(){
+  public @ResponseBody ResponseEntity<String> objectstorage(){
       //cannot use the injected client directly as it was created on a different thread, so create a new one
       OSClient.OSClientV3 client = OSFactory.clientFromToken(os.getToken());
       List<? extends SwiftContainer> containers = new ArrayList<>();
