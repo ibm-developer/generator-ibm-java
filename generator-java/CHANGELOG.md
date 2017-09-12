@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.3.0"></a>
+# [2.3.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.2.1...v2.3.0) (2017-09-12)
+
+
+### Bug Fixes
+
+* **templates:** Fix Gradle microprofile dependency ([e7538e1](https://github.ibm.com/arf/java-codegen-yeoman/commit/e7538e1))
+* **templates:** remove duplicate name in spring microervice class and update dependencies ([8b93fd0](https://github.ibm.com/arf/java-codegen-yeoman/commit/8b93fd0))
+* **templates:** Update microprofile dependency to type pom ([b582b2f](https://github.ibm.com/arf/java-codegen-yeoman/commit/b582b2f))
+
+
+### Features
+
+* **templates:** Add Spring web starter kit template ([8d7e3ff](https://github.ibm.com/arf/java-codegen-yeoman/commit/8d7e3ff))
+
+
+
 <a name="2.2.1"></a>
 ## [2.2.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.2.0...v2.2.1) (2017-08-31)
 
