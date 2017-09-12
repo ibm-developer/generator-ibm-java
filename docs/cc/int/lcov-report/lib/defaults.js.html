@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/defaults.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">lib/</a> defaults.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>16/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">50% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>4/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>3/3</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>16/20</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">248×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">124×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">248×</span>
+<span class="cline-any cline-yes">248×</span>
+<span class="cline-any cline-yes">32×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">216×</span>
+<span class="cline-any cline-yes">216×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">124×</span>
+<span class="cline-any cline-yes">124×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*
+ * Copyright IBM Corporation 2017
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+&nbsp;
+//module for storing default configuration values
+&nbsp;
+const processor = require('@arf/java-common').fsprocessor;
+const defaultsModule = require('@arf/java-common').defaults;
+&nbsp;
+const DEFAULTS = {
+  appName : {desc : 'Name of the application', type : String, default : 'MyProject'},
+  buildType : {desc : 'Build system to use', type : String, default : 'maven'},
+  promptType : {desc : 'The prompts to use', type : String, default : 'prompt:patterns'},
+  createType : {desc : 'Type of application to generate', type : String, default : 'microservice/liberty'},
+  frameworkType : {desc : 'Framework to generate Java code for', type : String, default : 'liberty'},
+  groupId : {desc : 'Group ID to use for the build', type : String, default : 'projects'},
+  artifactId : {desc : 'Artifact ID to use for the build', type : String, default : undefined},
+  version : {desc : 'Version of the application', type : String, default : '1.0-SNAPSHOT'},
+  headless : {desc : 'Run this generator headless i.e. driven by options only, no prompting', type : String, default : "false"},
+  debug : {desc : 'Generate a log.txt file in the root of the project', type : String, default : "false"},
+  bluemix : {desc : 'Bluemix options', type : (value)=&gt;{return bluemixToObject(value);}, default : undefined},
+  input : {desc : 'Input data file', type : processor.getContentsSync, default : undefined},
+  platforms : {desc : 'Platforms to support in generated project', type : (value)=&gt;{return platformsToArray(value);}, default : ['cli','bluemix','kube']},
+  javametrics : {desc : 'Enable java metrics for the project', type : String, default : undefined}
+};
+&nbsp;
+var bluemixToObject = function(value) {
+  var type = Object.prototype.toString.call(value);
+  if(type === '[object String]') {
+    return JSON.parse(value);
+  }
+  <span class="missing-if-branch" title="else path not taken" >E</span>if(type === '[object Object]') {
+    return value;
+  }
+<span class="cstat-no" title="statement not covered" >  throw new Error('bluemixToObject expects an Object or a String, got ' + JSON.stringify(value));</span>
+}
+&nbsp;
+var platformsToArray = function(value) {
+  <span class="missing-if-branch" title="else path not taken" >E</span>if(Array.isArray(value)) {
+    return value;
+  }
+<span class="cstat-no" title="statement not covered" >  if(value === "") {</span>
+<span class="cstat-no" title="statement not covered" >    return [];</span>
+  }
+<span class="cstat-no" title="statement not covered" >  return value.split(",");</span>
+}
+&nbsp;
+module.exports = class extends defaultsModule {
+  constructor() {
+    super(DEFAULTS)
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 12 2017 13:35:40 GMT+0000 (UTC)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
