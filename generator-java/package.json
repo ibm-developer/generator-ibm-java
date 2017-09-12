@@ -12,7 +12,7 @@
     "@arf/generator-liberty": "5.2.0",
     "@arf/generator-spring": "0.3.0",
     "extend": "^3.0.1",
-    "@arf/java-common": "2.2.0",
+    "@arf/java-common": "2.3.0",
     "generator-ibm-cloud-enablement": "0.0.75",
     "generator-ibm-service-enablement": "0.0.61"
   },
