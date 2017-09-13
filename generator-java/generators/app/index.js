@@ -145,6 +145,9 @@ module.exports = class extends Generator {
     } else {
       config.healthEndpoint = 'health';
     }
+    if(config.frameworkType === 'liberty' && config.createType === 'bff') {
+      config.enableApiDiscovery = true;
+    }
     //configure this generator and then pass that down through the contexts
     this.destinationRoot(config.projectPath);
     var control = new Control(fspath.resolve(config.templateRoot, config.createType), config);
@@ -163,6 +166,7 @@ module.exports = class extends Generator {
         context.conf.addJndiEntries(config.jndiEntries);
       }
       context.addCompositions(control.getSubComposition(context.id));
+      context.conf.enableApiDiscovery = config.enableApiDiscovery;
     });
     enablementContexts.forEach(context => {
       context.appName = config.appName;

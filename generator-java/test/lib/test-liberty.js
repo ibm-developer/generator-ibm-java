@@ -21,6 +21,7 @@ const liberty = require('@arf/generator-liberty');
 const tests = require('@arf/java-common');
 
 const assertLiberty = new liberty.integrationAsserts.liberty();
+const openApi = new liberty.integrationAsserts.openapi();
 
 function test_liberty() {
 }
@@ -129,6 +130,21 @@ test_liberty.prototype.assertObjectStorage = function(exists) {
     object_storage_project : 'objectStorage-project'
   }
   checkValues(exists, env, assertLiberty.assertEnv);
+}
+
+test_liberty.prototype.assertOpenApi = function(exists, fileNames, buildType) {
+  openApi.assert(exists, fileNames);
+  var check = exists ? tests.test(buildType).assertContent : tests.test(buildType).assertNoContent;
+  if(buildType === 'maven') {
+    check('<feature>apiDiscovery-1.0</feature>')
+  }
+  if(buildType === 'gradle') {
+    check("name = ['apiDiscovery-1.0']");
+  }
+}
+
+test_liberty.prototype.getExampleOpenApi = function() {
+  return openApi.getExample();
 }
 
 //asserts that the specified environment variables will flow through JNDI
