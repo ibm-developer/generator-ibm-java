@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.4.0"></a>
+# [2.4.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.3.0...v2.4.0) (2017-09-13)
+
+
+### Features
+
+* **templates:** Add open api code generation support ([14ba487](https://github.ibm.com/arf/java-codegen-yeoman/commit/14ba487))
+* **templates:** Updates to enable open api generation support ([ed69383](https://github.ibm.com/arf/java-codegen-yeoman/commit/ed69383))
+
+
+
 <a name="2.3.0"></a>
 # [2.3.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.2.1...v2.3.0) (2017-09-12)
 
