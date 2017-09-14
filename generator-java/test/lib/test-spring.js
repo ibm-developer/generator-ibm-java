@@ -68,7 +68,7 @@ test_spring.prototype.assertCloudant = function(exists) {
     cloudant_password : 'pass',
     cloudant_username : 'user'
   }
-  checkValues(exists, env, assertSpring.assertEnv);
+  checkValues(false, env, assertSpring.assertEnv);
 }
 
 test_spring.prototype.assertObjectStorage = function(exists) {
@@ -79,7 +79,7 @@ test_spring.prototype.assertObjectStorage = function(exists) {
     object_storage_domainName : 'objectStorage-domainName',
     object_storage_project : 'objectStorage-project'
   }
-  checkValues(exists, env, assertSpring.assertEnv);
+  checkValues(false, env, assertSpring.assertEnv);
 }
 
 test_spring.prototype.assertOpenApi = function(exists, fileNames) {

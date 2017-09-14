@@ -91,6 +91,7 @@ assertspring() {
 
  before() {
    return helpers.run(path.join( __dirname, '../../generators/app'))
+     .inDir(path.join(__dirname, './tmp'))
      .withOptions(this.values)
      .withPrompts(this.prompts)
      .toPromise();
@@ -136,7 +137,7 @@ class BxOptions extends Options {
     super.assert(appName, ymlName, cloudant, objectStorage);
     common.assertCommonBxFiles();
     common.assertCLI(appName);
-    common.assertBluemixSrc(cloudant || objectStorage);
+    (name === 'spring') ? common.assertBluemixSrcSvcEnabled(cloudant || objectStorage) : common.assertBluemixSrc(cloudant || objectStorage);
     common.assertManifestYml(ymlName, cloudant || objectStorage);
     kube.test(appName, true, name, createType);
     this.assertCloudant(cloudant);

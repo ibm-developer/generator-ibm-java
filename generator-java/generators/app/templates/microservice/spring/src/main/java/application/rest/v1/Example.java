@@ -10,7 +10,6 @@ import java.util.List;
 {{#bluemix}}
 {{#server.services}}
 import org.springframework.beans.factory.annotation.Autowired;
-import application.bluemix.ServiceName;
 {{/server.services}}
 {{#cloudant}}
 import com.cloudant.client.api.CloudantClient;
@@ -28,11 +27,11 @@ public class Example {
 
   {{#bluemix}}
   {{#cloudant}}
-  @Autowired @ServiceName(name="{{serviceInfo.name}}")
+  @Autowired
   private CloudantClient client;
   {{/cloudant}}
   {{#objectStorage}}
-  @Autowired @ServiceName(name="{{serviceInfo.name}}")
+  @Autowired
   private OSClient.OSClientV3 os;
   {{/objectStorage}}
   {{/bluemix}}
