@@ -96,7 +96,7 @@ class Options extends core.BxOptions {
 var frameworkTypes = ['liberty', 'spring'];
 
 describe('java generator : bff integration test', function () {
-  this.timeout(10000);
+  this.timeout(25000);
   frameworkTypes.forEach(frameworkType => {
     describe('Generates a basic bff project (no bluemix), gradle build with prompts', function () {
       var options = new Options(false, 'gradle', frameworkType);
