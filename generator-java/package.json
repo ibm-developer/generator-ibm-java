@@ -9,11 +9,11 @@
   "dependencies": {
     "handlebars": "^4.0.0",
     "yeoman-generator": "^1.0.0",
-    "@arf/generator-liberty": "5.3.1",
-    "@arf/generator-spring": "0.4.1",
+    "@arf/generator-liberty": "5.3.2",
+    "@arf/generator-spring": "0.5.0",
     "extend": "^3.0.1",
     "@arf/java-common": "2.3.0",
-    "generator-ibm-cloud-enablement": "0.0.75",
+    "generator-ibm-cloud-enablement": "0.0.83",
     "generator-ibm-service-enablement": "0.0.61"
   },
   "devDependencies": {
@@ -40,6 +40,7 @@
     "testbasicwebe2e": "mocha test/endToEnd/generator.basicweb.e2e.test.js",
     "testbffe2e": "mocha test/endToEnd/generator.bff.e2e.test.js",
     "testmse2e": "mocha test/endToEnd/generator.microservice.e2e.test.js",
+    "testopenapie2e": "mocha test/endToEnd/generator.openapi.e2e.test.js",
     "testteche2e": "mocha test/endToEnd/generator.technologies.e2e.test.js",
     "testcommon": "mocha test/common/*",
     "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/unit/*",
