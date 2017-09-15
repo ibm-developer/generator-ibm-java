@@ -115,6 +115,15 @@ var assertBluemixSrc = function(exists) {
   });
 }
 
+//asserts that there are / are not source code files for bluemix
+var assertBluemixSrcSvcEnabled = function(exists) {
+  var check = getCheck(exists);
+  it(check.desc + 'source code files for bluemix using service enablement generator', function () {
+    check.file('src/main/java/application/ibmcloud/CloudServicesException.java');
+    check.file('src/main/java/application/ibmcloud/CloudServices.java');
+  });
+}
+
 //asserts that any none of the supplied services are included in the dev-ops pipeline
 var assertServices = function(exists) {
   if(arguments.length < 2) {
@@ -214,6 +223,7 @@ module.exports = {
   assertCommonLibertyFiles : assertCommonLibertyFiles,
   assertCommonSpringFiles : assertCommonSpringFiles,
   assertBluemixSrc : assertBluemixSrc,
+  assertBluemixSrcSvcEnabled : assertBluemixSrcSvcEnabled,
   assertManifestYml : assertManifestYml,
   assertFiles : assertFiles,
   assertCLI : assertCLI,

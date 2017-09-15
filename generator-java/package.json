@@ -14,7 +14,7 @@
     "extend": "^3.0.1",
     "@arf/java-common": "2.3.0",
     "generator-ibm-cloud-enablement": "0.0.83",
-    "generator-ibm-service-enablement": "0.0.61"
+    "generator-ibm-service-enablement": "0.0.67"
   },
   "devDependencies": {
     "mocha": "^3.2.0",
