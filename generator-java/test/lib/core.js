@@ -91,7 +91,6 @@ assertspring() {
 
  before() {
    return helpers.run(path.join( __dirname, '../../generators/app'))
-     .inDir(path.join(__dirname, './tmp'))
      .withOptions(this.values)
      .withPrompts(this.prompts)
      .toPromise();
