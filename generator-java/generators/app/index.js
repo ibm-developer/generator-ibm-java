@@ -46,6 +46,8 @@ module.exports = class extends Generator {
     //create command line options that will be passed by YaaS
     defaults.setOptions(this);
     logger.writeToLog("Options", this.options);
+    contexts = [];
+    enablementContexts = [];
     this.enablementContext = new EnablementContext(contexts);
 
   }
