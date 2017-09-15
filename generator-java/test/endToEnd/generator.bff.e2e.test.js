@@ -58,7 +58,7 @@ function Options(buildType, framework) {
 }
 
 describe('java generator : bff/liberty end to end test', function() {
-  this.timeout(7000);
+  this.timeout(20000);
   var buildTypes = ['gradle', 'maven'];
   for(var i=0; i < buildTypes.length; i++) {
     describe('Generates a bff project build type ' + buildTypes[i], function () {
@@ -70,7 +70,7 @@ describe('java generator : bff/liberty end to end test', function() {
 });
 
 describe('java generator : bff/spring end to end test', function() {
-  this.timeout(7000);
+  this.timeout(20000);
   var buildTypes = ['gradle', 'maven'];
   for(var i=0; i < buildTypes.length; i++) {
     describe('Generates a bff project build type ' + buildTypes[i], function () {
