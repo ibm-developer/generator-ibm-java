@@ -46,7 +46,7 @@ This microservice application is configured to connect to the following services
 * [Bluemix Object Storage service](https://console.ng.bluemix.net/catalog/services/object-storage).
 {{/objectStorage}}
 
-Credentials are either taken from the VCAP_SERVICES environment variable that Bluemix provides or from environment variables passed in by the config file `src/main/resources/application-local.properties`.
+Credentials are either taken from the VCAP_SERVICES environment variable that Bluemix provides or from environment variables passed in by the config file `src/main/resources/localdev-config.json`.
 {{/bluemix}}
 
 ### Run
