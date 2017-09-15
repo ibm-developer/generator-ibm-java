@@ -41,14 +41,15 @@ const BX_OBJECT_STORAGE = [{"serviceInfo": {"name": "test-Object-Storage-000","l
   "auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}];
 
 class Options {
- constructor() {
+ constructor(backendPlatform) {
+   
    this.values = {
      debug : "true",
      version : VERSION,
      groupId : GROUPID,
      artifactId : ARTIFACTID,
      bluemix : {
-       backendPlatform : 'JAVA'
+       backendPlatform : backendPlatform || 'JAVA'
      }
    }
    this.prompts = {};
@@ -101,10 +102,7 @@ assertspring() {
 class BxOptions extends Options {
 
  constructor(backendPlatform) {
-   super();
-   this.values.bluemix = {
-       backendPlatform : backendPlatform || 'JAVA'
-     }
+   super(backendPlatform);
  }
 
  assertCloudant(exists) {

@@ -36,7 +36,7 @@ var config = undefined;
 var promptmgr = undefined;
 var contexts = [];
 var enablementContexts = [];
-var patterns = ['microservice/liberty', 'microservice/spring', 'basicweb/liberty', 'basicweb/spring', 'bff/liberty', 'bff/spring', 'picnmix', 'enable/liberty', 'enable/spring'];
+var patterns = ['blank/liberty', 'blank/spring', 'microservice/liberty', 'microservice/spring', 'basicweb/liberty', 'basicweb/spring', 'bff/liberty', 'bff/spring', 'picnmix', 'enable/liberty', 'enable/spring'];
 var defaults = new Defaults();
 
 module.exports = class extends Generator {

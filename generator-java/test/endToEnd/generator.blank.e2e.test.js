@@ -17,10 +17,9 @@
 /* Test to see if when you choose every technology type it builds */
 
 'use strict';
-const path = require('path');
-const assert = require('yeoman-assert');
-const helpers = require('yeoman-test');
-const frameworkTest = require('../lib/test-framework');
+var path = require('path');
+var assert = require('yeoman-assert');
+var helpers = require('yeoman-test');
 
 const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
@@ -34,7 +33,6 @@ const command = tests.test('command');
 
 function Options(buildType, framework) {
   var platform = framework === FRAMEWORK_SPRING ? 'SPRING' : 'JAVA';
-  var example = frameworkTest.test(framework).getExampleOpenApi()
   this.options = {
     headless :  "true",
     debug : "true",
@@ -45,10 +43,7 @@ function Options(buildType, framework) {
     artifactId : ARTIFACTID,
     version : VERSION,
     bluemix : {
-      backendPlatform : platform,
-      openApiServers : [{
-          "spec" : JSON.stringify(example.value)
-      }]
+      backendPlatform : platform
     }
   }
   this.assertBuilds = function() {
@@ -66,7 +61,7 @@ describe('java generator : blank/liberty end to end test', function() {
   this.timeout(10000);
   var buildTypes = ['gradle', 'maven'];
   for(var i=0; i < buildTypes.length; i++) {
-    describe('Generates a blank project build type ' + buildTypes[i], function () {
+    describe('Generates a blank/liberty project build type ' + buildTypes[i], function () {
       var options = new Options(buildTypes[i], FRAMEWORK_LIBERTY);
       before(options.before.bind(options));
       options.assertBuilds();
@@ -78,7 +73,7 @@ describe('java generator : blank/spring end to end test', function() {
   this.timeout(10000);
   var buildTypes = ['gradle', 'maven'];
   for(var i=0; i < buildTypes.length; i++) {
-    describe('Generates a blank project build type ' + buildTypes[i], function () {
+    describe('Generates a blank/spring project build type ' + buildTypes[i], function () {
       var options = new Options(buildTypes[i], FRAMEWORK_SPRING);
       before(options.before.bind(options));
       options.assertBuilds();

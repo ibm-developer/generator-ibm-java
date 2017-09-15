@@ -46,12 +46,12 @@ class Options extends core.BxOptions {
     }
   }
 
-  assert(appName, ymlName, exampleName) {
+  assert(appName, ymlName, exampleName, noHealth) {
     super.assert(appName, ymlName, false, false, this.values.createType);
-    this.values.frameworkType === FRAMEWORK_LIBERTY ? this.assertliberty() : this.assertspring();
+    this.values.frameworkType === FRAMEWORK_LIBERTY ? this.assertliberty(noHealth) : this.assertspring();
     this.assertBuild(appName);
     common.assertToolchainBxCreate();
-    framework.test(this.values.frameworkType).assertOpenApi(this.values.bluemix.openApiServers !== undefined, [exampleName], this.values.buildType);
+    framework.test(this.values.frameworkType).assertOpenApi(this.values.bluemix.openApiServers !== undefined, [exampleName], this.values.buildType, noHealth);
   }
 
   assertBuild(appName) {
@@ -59,7 +59,7 @@ class Options extends core.BxOptions {
   }
 
   //Liberty specific things to test for
-  assertliberty() {
+  assertliberty(noHealth) {
     super.assertliberty();
     var test = tests.test(this.values.buildType);
     if(this.values.createType === 'microservice/liberty') {
@@ -79,7 +79,11 @@ class Options extends core.BxOptions {
       framework.test(FRAMEWORK_LIBERTY).assertFeatures('apiDiscovery-1.0');
       framework.test(FRAMEWORK_LIBERTY).assertFeatures('jaxrs-2.0');
     }
-    framework.test(FRAMEWORK_LIBERTY).assertSourceFiles(false);
+    if(this.values.createType === 'blank/liberty') {
+      framework.test(FRAMEWORK_LIBERTY).assertSourceFiles(true);
+    } else {
+      framework.test(FRAMEWORK_LIBERTY).assertSourceFiles(false);
+    }
   }
 
   assertspring() {
@@ -206,6 +210,32 @@ function execute(frameworkType) {
       var options = new Options('maven', 'bff', frameworkType, openApiServers);
       before(options.before.bind(options));
       options.assert(core.APPNAME, core.APPNAME, example.name);
+      options.assertCompiles();
+    });
+
+    describe(name + ': Generates a blank project using open api doc (no bluemix), gradle build system', function () {
+      var example = framework.test(frameworkType).getExampleOpenApi()
+      var openApiServers = [
+              {
+                  "spec" : JSON.stringify(example.value)
+              }
+          ];
+      var options = new Options('gradle', 'blank', frameworkType, openApiServers);
+      before(options.before.bind(options));
+      options.assert(core.APPNAME, core.APPNAME, example.name, true);
+      options.assertCompiles();
+    });
+
+    describe(name + ': Generates a blank project using open api doc (no bluemix), maven build system', function () {
+      var example = framework.test(frameworkType).getExampleOpenApi()
+      var openApiServers = [
+              {
+                  "spec" : JSON.stringify(example.value)
+              }
+          ];
+      var options = new Options('maven', 'blank', frameworkType, openApiServers);
+      before(options.before.bind(options));
+      options.assert(core.APPNAME, core.APPNAME, example.name, true);
       options.assertCompiles();
     });
   });
