@@ -39,7 +39,7 @@ function Options(buildType, framework) {
     headless :  "true",
     debug : "true",
     buildType : buildType,
-    createType : 'microservice/' + framework,
+    createType : 'blank/' + framework,
     appName : APPNAME,
     groupId : GROUPID,
     artifactId : ARTIFACTID,
@@ -62,11 +62,11 @@ function Options(buildType, framework) {
   }
 }
 
-describe('java generator : microservice/liberty end to end test', function() {
+describe('java generator : blank/liberty end to end test', function() {
   this.timeout(10000);
   var buildTypes = ['gradle', 'maven'];
   for(var i=0; i < buildTypes.length; i++) {
-    describe('Generates a microservice project build type ' + buildTypes[i], function () {
+    describe('Generates a blank project build type ' + buildTypes[i], function () {
       var options = new Options(buildTypes[i], FRAMEWORK_LIBERTY);
       before(options.before.bind(options));
       options.assertBuilds();
@@ -74,11 +74,11 @@ describe('java generator : microservice/liberty end to end test', function() {
   }
 });
 
-describe('java generator : microservice/spring end to end test', function() {
+describe('java generator : blank/spring end to end test', function() {
   this.timeout(10000);
   var buildTypes = ['gradle', 'maven'];
   for(var i=0; i < buildTypes.length; i++) {
-    describe('Generates a microservice project build type ' + buildTypes[i], function () {
+    describe('Generates a blank project build type ' + buildTypes[i], function () {
       var options = new Options(buildTypes[i], FRAMEWORK_SPRING);
       before(options.before.bind(options));
       options.assertBuilds();

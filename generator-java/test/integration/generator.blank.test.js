@@ -47,8 +47,13 @@ class Options extends core.Options {
     });
   }
 
-  assert(appName, ymlName) {
+  assert(appName, ymlName, frameworkType) {
     super.assert(appName, ymlName, false, false);
+    if(frameworkType === 'spring') {
+      it('creates an SBApplication.java file', function() {
+        assert.file('src/main/java/application/SBApplication.java');
+      });
+    }
   }
 
   assertCompiles(buildType) {
@@ -65,27 +70,27 @@ describe('java generator : basic integration test', function () {
       var options = new Options(false, 'gradle', frameworkType);
       options.prompts = {extName : 'prompt:patterns', buildType : 'gradle', createType: 'blank/' + frameworkType, services: ['none'], appName: APPNAME, artifactId: core.ARTIFACTID};
       before(options.before.bind(options));
-      options.assert(APPNAME, APPNAME);
+      options.assert(APPNAME, APPNAME, frameworkType);
     });
 
     describe('Generates a basic ' + frameworkType + ' blank project (no bluemix), maven build with prompts', function () {
       var options = new Options(false, 'maven', frameworkType);
       options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'blank/' + frameworkType, services: ['none'], appName: APPNAME, artifactId: core.ARTIFACTID};
       before(options.before.bind(options));
-      options.assert(APPNAME, APPNAME);
+      options.assert(APPNAME, APPNAME, frameworkType);
     });
 
     describe('Generates a basic ' + frameworkType + ' blank project (no bluemix), gradle build', function () {
       var options = new Options(true, 'gradle', frameworkType, APPNAME);
       before(options.before.bind(options));
-      options.assert(APPNAME, APPNAME);
+      options.assert(APPNAME, APPNAME, frameworkType);
       options.assertCompiles('gradle');
     });
 
     describe('Generates a basic ' + frameworkType + ' blank project (no bluemix), maven build', function () {
       var options = new Options(true, 'maven', frameworkType, APPNAME);
       before(options.before.bind(options));
-      options.assert(APPNAME, APPNAME);
+      options.assert(APPNAME, APPNAME, frameworkType);
       options.assertCompiles('maven');
     });
 

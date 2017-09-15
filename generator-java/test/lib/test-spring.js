@@ -77,8 +77,12 @@ test_spring.prototype.assertObjectStorage = function(exists) {
   checkValues(exists, env, assertSpring.assertEnv);
 }
 
-test_spring.prototype.assertOpenApi = function(exists, fileNames, buildType) {
-  openApi.assert(exists, fileNames, buildType);
+test_spring.prototype.assertOpenApi = function(exists, fileNames, buildType, healthMissing) {
+  if(healthMissing) {
+    openApi.assertCommon(exists, fileNames, buildType);
+  } else {
+    openApi.assert(exists, fileNames, buildType);
+  }
 }
 
 test_spring.prototype.getExampleOpenApi = function() {
