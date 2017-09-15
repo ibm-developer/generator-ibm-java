@@ -134,7 +134,7 @@ class BxOptions extends Options {
     super.assert(appName, ymlName, cloudant, objectStorage);
     common.assertCommonBxFiles();
     common.assertCLI(appName);
-    common.assertBluemixSrc(cloudant || objectStorage);
+    (name === 'spring') ? common.assertBluemixSrcSvcEnabled(cloudant || objectStorage) : common.assertBluemixSrc(cloudant || objectStorage);
     common.assertManifestYml(ymlName, cloudant || objectStorage);
     kube.test(appName, true, name, createType);
     this.assertCloudant(cloudant);
