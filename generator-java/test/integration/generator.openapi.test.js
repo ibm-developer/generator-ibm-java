@@ -32,13 +32,13 @@ const common = require('../lib/test-common');
 const command = tests.test('command');
 
 class Options extends core.BxOptions {
-  constructor(buildType, frameworkType, openApiServers) {
+  constructor(buildType, type, frameworkType, openApiServers) {
     super(frameworkType === 'spring' ? 'SPRING' : 'JAVA');
     extend(this.values, {
       headless :  "true",
       buildType : buildType,
       frameworkType : frameworkType || FRAMEWORK_LIBERTY,
-      createType : 'microservice/' + (frameworkType || FRAMEWORK_LIBERTY),
+      createType : type + '/' + (frameworkType || FRAMEWORK_LIBERTY),
       appName : core.APPNAME
     });
     if(openApiServers) {
@@ -62,15 +62,24 @@ class Options extends core.BxOptions {
   assertliberty() {
     super.assertliberty();
     var test = tests.test(this.values.buildType);
-    test.assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
-    test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
-    test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
-    test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
-    var type = this.values.buildType === 'maven' ? 'pom' : undefined;
-    test.assertDependency('provided', 'io.microprofile', 'microprofile', '1.0.0', undefined, type);
+    if(this.values.createType === 'microservice/liberty') {
+      test.assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
+      test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
+      test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+      test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
+      var type = this.values.buildType === 'maven' ? 'pom' : undefined;
+      test.assertDependency('provided', 'io.microprofile', 'microprofile', '1.0.0', undefined, type);
+      framework.test(FRAMEWORK_LIBERTY).assertFeatures('microprofile-1.0');
+      framework.test(FRAMEWORK_LIBERTY).assertFeatures('jndi-1.0');
+    }
+    if(this.values.createType === 'bff/liberty') {
+      test.assertDependency('provided', 'io.swagger', 'swagger-annotations', '1.5.3');
+      test.assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
+      test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+      framework.test(FRAMEWORK_LIBERTY).assertFeatures('apiDiscovery-1.0');
+      framework.test(FRAMEWORK_LIBERTY).assertFeatures('jaxrs-2.0');
+    }
     framework.test(FRAMEWORK_LIBERTY).assertSourceFiles(false);
-    framework.test(FRAMEWORK_LIBERTY).assertFeatures('microprofile-1.0');
-    framework.test(FRAMEWORK_LIBERTY).assertFeatures('jndi-1.0');
   }
 
   assertspring() {
@@ -101,7 +110,7 @@ function execute(frameworkType) {
                   "spec" : JSON.stringify(example.value)
               }
           ];
-      var options = new Options('gradle', frameworkType, openApiServers);
+      var options = new Options('gradle', 'microservice', frameworkType, openApiServers);
       before(options.before.bind(options));
       options.assert(core.APPNAME, core.APPNAME, example.name);
       options.assertCompiles();
@@ -120,7 +129,7 @@ function execute(frameworkType) {
                   "spec" : JSON.stringify(example.value)
               }
           ];
-      var options = new Options('maven', frameworkType, openApiServers);
+      var options = new Options('maven', 'microservice', frameworkType, openApiServers);
       before(options.before.bind(options));
       options.assert(core.APPNAME, core.APPNAME, example.name);
       options.assertCompiles();
@@ -130,6 +139,74 @@ function execute(frameworkType) {
         assert.fileContent('README.md', 'maven');
         assert.noFileContent('README.md', 'gradle');
       });
+    });
+
+    describe(name + ': Generates a basic microservices project using two identical open api doc (no bluemix), gradle build system', function () {
+      var example = framework.test(frameworkType).getExampleOpenApi()
+      var openApiServers = [
+              {
+                  "spec" : JSON.stringify(example.value)
+              }, {
+                  "spec" : JSON.stringify(example.value)
+              }
+          ];
+      var options = new Options('gradle', 'microservice', frameworkType, openApiServers);
+      before(options.before.bind(options));
+      options.assert(core.APPNAME, core.APPNAME, example.name);
+      options.assertCompiles();
+
+      it('should create a basic microservice, gradle build system', function () {
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
+        assert.fileContent('README.md', 'gradle');
+        assert.noFileContent('README.md', 'maven');
+      });
+    });
+
+    describe(name + ': Generates a basic microservices project using two identical open api doc (no bluemix), maven build system', function () {
+      var example = framework.test(frameworkType).getExampleOpenApi()
+      var openApiServers = [
+              {
+                  "spec" : JSON.stringify(example.value)
+              }, {
+                  "spec" : JSON.stringify(example.value)
+              }
+          ];
+      var options = new Options('maven', 'microservice', frameworkType, openApiServers);
+      before(options.before.bind(options));
+      options.assert(core.APPNAME, core.APPNAME, example.name);
+      options.assertCompiles();
+
+      it('should create a basic microservice, maven build system', function () {
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
+        assert.fileContent('README.md', 'maven');
+        assert.noFileContent('README.md', 'gradle');
+      });
+    });
+
+    describe(name + ': Generates a basic bff project using open api doc (no bluemix), gradle build system', function () {
+      var example = framework.test(frameworkType).getExampleOpenApi()
+      var openApiServers = [
+              {
+                  "spec" : JSON.stringify(example.value)
+              }
+          ];
+      var options = new Options('gradle', 'bff', frameworkType, openApiServers);
+      before(options.before.bind(options));
+      options.assert(core.APPNAME, core.APPNAME, example.name);
+      options.assertCompiles();
+    });
+
+    describe(name + ': Generates a basic bff project using open api doc (no bluemix), maven build system', function () {
+      var example = framework.test(frameworkType).getExampleOpenApi()
+      var openApiServers = [
+              {
+                  "spec" : JSON.stringify(example.value)
+              }
+          ];
+      var options = new Options('maven', 'bff', frameworkType, openApiServers);
+      before(options.before.bind(options));
+      options.assert(core.APPNAME, core.APPNAME, example.name);
+      options.assertCompiles();
     });
   });
 }
