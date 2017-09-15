@@ -54,6 +54,14 @@ Extension.prototype.getQuestions = function() {
     name    : 'createType',
     message : 'What pattern do you want to generate source for?',
     choices : [{
+      name : 'Blank : a simple MicroProfile / JavaEE application',
+      value : 'blank/liberty',
+      short : 'Blank MicroProfile / JavaEE'
+    }, {
+      name : 'Blank : a simple Spring application',
+      value : 'blank/spring',
+      short : 'Blank Spring'
+    },{
       name : 'Basic : IBM Cloud enablement for a MicroProfile / JavaEE application',
       value : 'enable/liberty',
       short : 'Enablement for MicroProfile / JavaEE'
