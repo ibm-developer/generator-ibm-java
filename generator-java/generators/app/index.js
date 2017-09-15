@@ -18,6 +18,7 @@ const Generator = require('yeoman-generator');
 const fspath = require('path');
 const fs = require('fs');
 const extend = require('extend');
+const yml = require('js-yaml');
 
 const PromptMgr = require('../lib/promptmgr');
 const Defaults = require('../lib/defaults');
@@ -35,7 +36,7 @@ var config = undefined;
 var promptmgr = undefined;
 var contexts = [];
 var enablementContexts = [];
-var patterns = ['microservice/liberty', 'microservice/spring', 'basicweb/liberty', 'basicweb/spring', 'bff', 'picnmix', 'enable/liberty', 'enable/spring'];
+var patterns = ['microservice/liberty', 'microservice/spring', 'basicweb/liberty', 'basicweb/spring', 'bff/liberty', 'bff/spring', 'picnmix', 'enable/liberty', 'enable/spring'];
 var defaults = new Defaults();
 
 module.exports = class extends Generator {
@@ -147,8 +148,26 @@ module.exports = class extends Generator {
     } else {
       config.healthEndpoint = 'health';
     }
-    if(config.frameworkType === 'liberty' && config.createType === 'bff') {
+    if(config.frameworkType === 'liberty' && config.createType === 'bff/liberty') {
       config.enableApiDiscovery = true;
+    }
+    if(config.frameworkType === 'spring' && config.createType === 'bff/spring') {
+      var bffSwagger = JSON.stringify(yml.safeLoad(fs.readFileSync(this.templatePath('../../resources/bff/swagger.yaml'), 'utf8')));
+      if(config.bluemix) {
+        if (config.bluemix.openApiServers) {
+          config.bluemix.openApiServers.push({"spec" : bffSwagger});
+        } else {
+          config.bluemix.openApiServers = [{"spec" : bffSwagger}];
+        }
+      } else {
+        config.bluemix = {
+          openApiServers : [
+            {
+              "spec" : bffSwagger
+            }
+          ]
+        }
+      }
     }
     //configure this generator and then pass that down through the contexts
     this.destinationRoot(config.projectPath);

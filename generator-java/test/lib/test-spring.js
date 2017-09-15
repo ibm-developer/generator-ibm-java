@@ -27,11 +27,7 @@ function test_spring() {
 }
 
 test_spring.prototype.assertSourceFiles = function() {
-  it('should contain Java code files common across all project types', function() {
-    assert.file('src/main/java/application/SBApplication.java');
-    assert.file('src/main/java/application/rest/HealthEndpoint.java');
-    assert.file('src/test/java/application/HealthEndpointTest.java');
-  });
+  //assert files common across all projects
 }
 
 test_spring.prototype.assertFiles = function(name) {
@@ -82,8 +78,8 @@ test_spring.prototype.assertObjectStorage = function(exists) {
   checkValues(false, env, assertSpring.assertEnv);
 }
 
-test_spring.prototype.assertOpenApi = function(exists, fileNames) {
-  openApi.assert(exists, fileNames);
+test_spring.prototype.assertOpenApi = function(exists, fileNames, buildType) {
+  openApi.assert(exists, fileNames, buildType);
 }
 
 test_spring.prototype.getExampleOpenApi = function() {
