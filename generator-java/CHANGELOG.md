@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.5.0"></a>
+# [2.5.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.4.0...v2.5.0) (2017-09-18)
+
+
+### Features
+
+* **templates:** Add blank createTypes ([02934e8](https://github.ibm.com/arf/java-codegen-yeoman/commit/02934e8))
+* **templates:** Add Spring bff pattern ([2185c11](https://github.ibm.com/arf/java-codegen-yeoman/commit/2185c11))
+* **templates:** Add Spring templates for BFF ([acaa04d](https://github.ibm.com/arf/java-codegen-yeoman/commit/acaa04d))
+* **templates:** Update service enablement generator to 0.0.69 ([065527c](https://github.ibm.com/arf/java-codegen-yeoman/commit/065527c))
+* **templates:** update spring microservice templates to use mappings.json ([147c220](https://github.ibm.com/arf/java-codegen-yeoman/commit/147c220))
+
+
+
 <a name="2.4.0"></a>
 # [2.4.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.3.0...v2.4.0) (2017-09-13)
 
