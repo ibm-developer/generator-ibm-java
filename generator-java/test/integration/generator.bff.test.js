@@ -71,6 +71,7 @@ class Options extends core.BxOptions {
     if(this.values.buildType === 'gradle') {
       test.assertContent("name = ['apiDiscovery-1.0']");
     }
+    framework.test(FRAMEWORK_LIBERTY).assertConfig(true, 'basicRegistry');
   }
 
   assertSpring() {
