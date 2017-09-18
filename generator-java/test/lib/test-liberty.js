@@ -147,6 +147,10 @@ test_liberty.prototype.getExampleOpenApi = function() {
   return openApi.getExample();
 }
 
+test_liberty.prototype.assertConfig = function(exists, tag) {
+  return assertLiberty.assertConfig(exists, tag);
+}
+
 //asserts that the specified environment variables will flow through JNDI
 function checkValues(exists, object, func) {
   if(arguments.length < 2) {

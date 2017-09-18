@@ -78,6 +78,7 @@ class Options extends core.BxOptions {
       test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
       framework.test(FRAMEWORK_LIBERTY).assertFeatures('apiDiscovery-1.0');
       framework.test(FRAMEWORK_LIBERTY).assertFeatures('jaxrs-2.0');
+      framework.test(FRAMEWORK_LIBERTY).assertConfig(true, 'basicRegistry');
     }
     if(this.values.createType === 'blank/liberty') {
       framework.test(FRAMEWORK_LIBERTY).assertSourceFiles(true);
