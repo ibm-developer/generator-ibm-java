@@ -10,8 +10,7 @@
   ],
   "composition" : [
     "common",
-    "@arf/generator-spring:build",
-    "@arf/generator-spring:config",
-    "@arf/generator-spring:health"
+    "@arf/generator-liberty:build",
+    "@arf/generator-liberty:liberty"
   ]
 }

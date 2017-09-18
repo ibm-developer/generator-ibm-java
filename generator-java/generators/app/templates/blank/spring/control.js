@@ -1,5 +1,8 @@
 {
   "excludes" : [
+{{#if bluemix.openApiServers}}
+    "src/main/java/application/SBApplication.java",
+{{/if}}
     ".classpath",
     ".project"
   ],
@@ -11,7 +14,6 @@
   "composition" : [
     "common",
     "@arf/generator-spring:build",
-    "@arf/generator-spring:config",
-    "@arf/generator-spring:health"
+    "@arf/generator-spring:config"
   ]
 }

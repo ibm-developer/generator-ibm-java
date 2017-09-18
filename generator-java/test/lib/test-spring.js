@@ -27,11 +27,7 @@ function test_spring() {
 }
 
 test_spring.prototype.assertSourceFiles = function() {
-  it('should contain Java code files common across all project types', function() {
-    assert.file('src/main/java/application/SBApplication.java');
-    assert.file('src/main/java/application/rest/HealthEndpoint.java');
-    assert.file('src/test/java/application/HealthEndpointTest.java');
-  });
+  //assert files common across all projects
 }
 
 test_spring.prototype.assertFiles = function(name) {
@@ -39,7 +35,6 @@ test_spring.prototype.assertFiles = function(name) {
 }
 
 test_spring.prototype.assertBuildFiles = function(buildType) {
-  tests.test(buildType).assertDependency('compile', 'org.springframework.boot', 'spring-boot-starter-web');
   tests.test(buildType).assertDependency('test', 'org.springframework.boot', 'spring-boot-starter-test');
   if(buildType === 'maven') {
     assertMavenFiles();
@@ -68,7 +63,7 @@ test_spring.prototype.assertCloudant = function(exists) {
     cloudant_password : 'pass',
     cloudant_username : 'user'
   }
-  checkValues(exists, env, assertSpring.assertEnv);
+  checkValues(false, env, assertSpring.assertEnv);
 }
 
 test_spring.prototype.assertObjectStorage = function(exists) {
@@ -79,11 +74,15 @@ test_spring.prototype.assertObjectStorage = function(exists) {
     object_storage_domainName : 'objectStorage-domainName',
     object_storage_project : 'objectStorage-project'
   }
-  checkValues(exists, env, assertSpring.assertEnv);
+  checkValues(false, env, assertSpring.assertEnv);
 }
 
-test_spring.prototype.assertOpenApi = function(exists, fileNames) {
-  openApi.assert(exists, fileNames);
+test_spring.prototype.assertOpenApi = function(exists, fileNames, buildType, healthMissing) {
+  if(healthMissing) {
+    openApi.assertCommon(exists, fileNames, buildType);
+  } else {
+    openApi.assert(exists, fileNames, buildType);
+  }
 }
 
 test_spring.prototype.getExampleOpenApi = function() {

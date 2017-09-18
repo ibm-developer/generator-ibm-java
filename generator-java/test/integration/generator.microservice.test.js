@@ -84,7 +84,7 @@ class Options extends core.BxOptions {
     var invcheck = this.getCheck(exists^exists);
     it(check.desc + 'common cloudant source files', function () {
       check.content('src/main/java/application/rest/v1/Example.java','Cloudant'); //check Cloudant service present
-      check.content('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-cloudantNoSQLDB-000")');
+      check.content('src/main/java/application/rest/v1/Example.java','import com.cloudant.client.api.CloudantClient;');
       check.content('README.md', 'cloudant');
     });
     if(this.values.frameworkType === FRAMEWORK_LIBERTY) {
@@ -110,7 +110,7 @@ class Options extends core.BxOptions {
     var invcheck = this.getCheck(exists^exists);
     it(check.desc + 'Object Storage source files', function () {
       check.content('src/main/java/application/rest/v1/Example.java','OSClient'); //check object Storage service present
-      check.content('src/main/java/application/rest/v1/Example.java','@ServiceName(name="test-Object-Storage-000")');
+      check.content('src/main/java/application/rest/v1/Example.java','import org.openstack4j.model.storage.object.SwiftAccount;');
       check.content('README.md', 'Object Storage service');
     });
     if(this.values.frameworkType === FRAMEWORK_LIBERTY) {
@@ -229,6 +229,7 @@ function execute(framework) {
 
   });
 }
+
 describe('Basic microservices project checking javametrics', function () {
   describe('Generate a basic liberty microservices project checking javametrics exists', function () {
     var options = new Options('maven', FRAMEWORK_LIBERTY, true);

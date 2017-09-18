@@ -41,14 +41,15 @@ const BX_OBJECT_STORAGE = [{"serviceInfo": {"name": "test-Object-Storage-000","l
   "auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}];
 
 class Options {
- constructor() {
+ constructor(backendPlatform) {
+   
    this.values = {
      debug : "true",
      version : VERSION,
      groupId : GROUPID,
      artifactId : ARTIFACTID,
      bluemix : {
-       backendPlatform : 'JAVA'
+       backendPlatform : backendPlatform || 'JAVA'
      }
    }
    this.prompts = {};
@@ -101,10 +102,7 @@ assertspring() {
 class BxOptions extends Options {
 
  constructor(backendPlatform) {
-   super();
-   this.values.bluemix = {
-       backendPlatform : backendPlatform || 'JAVA'
-     }
+   super(backendPlatform);
  }
 
  assertCloudant(exists) {
@@ -136,7 +134,7 @@ class BxOptions extends Options {
     super.assert(appName, ymlName, cloudant, objectStorage);
     common.assertCommonBxFiles();
     common.assertCLI(appName);
-    common.assertBluemixSrc(cloudant || objectStorage);
+    (name === 'spring') ? common.assertBluemixSrcSvcEnabled(cloudant || objectStorage) : common.assertBluemixSrc(cloudant || objectStorage);
     common.assertManifestYml(ymlName, cloudant || objectStorage);
     kube.test(appName, true, name, createType);
     this.assertCloudant(cloudant);

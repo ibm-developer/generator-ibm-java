@@ -114,7 +114,7 @@ test_liberty.prototype.assertCloudant = function(exists) {
 
 test_liberty.prototype.assertObjectStorage = function(exists) {
   var jndi = {
-    "objectstorage/auth_url" : "${env.object_storage_authurl}",
+    "objectstorage/auth_url" : "${env.object_storage_auth_url}",
     "objectstorage/userId" : "${env.object_storage_user_id}",
     "objectstorage/password" : "${env.object_storage_password}",
     "objectstorage/domainName" : "${env.object_storage_domainName}",
@@ -123,7 +123,7 @@ test_liberty.prototype.assertObjectStorage = function(exists) {
   checkValues(exists, jndi, assertLiberty.assertJNDI);
 
   var env = {
-    object_storage_authurl : 'objectStorage-url',
+    object_storage_auth_url : 'objectStorage-url',
     object_storage_user_id : 'objectStorage-userId',
     object_storage_password : 'objectStorage-password',
     object_storage_domainName : 'objectStorage-domainName',

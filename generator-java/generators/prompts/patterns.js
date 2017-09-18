@@ -54,6 +54,14 @@ Extension.prototype.getQuestions = function() {
     name    : 'createType',
     message : 'What pattern do you want to generate source for?',
     choices : [{
+      name : 'Blank : a simple MicroProfile / JavaEE application',
+      value : 'blank/liberty',
+      short : 'Blank MicroProfile / JavaEE'
+    }, {
+      name : 'Blank : a simple Spring application',
+      value : 'blank/spring',
+      short : 'Blank Spring'
+    },{
       name : 'Basic : IBM Cloud enablement for a MicroProfile / JavaEE application',
       value : 'enable/liberty',
       short : 'Enablement for MicroProfile / JavaEE'
@@ -78,8 +86,12 @@ Extension.prototype.getQuestions = function() {
       value : 'basicweb/spring',
       short : 'Basic Spring web application'
     }, {
-      name : 'BFF : Backend For Frontend (generate java from Swagger/OpenAPI)',
-      value : 'bff',
+      name : 'BFF : Backend For Frontend (generate Microprofile/JavaEE code from Swagger/OpenAPI)',
+      value : 'bff/liberty',
+      short : 'Backend For Frontend'
+    }, {
+      name : 'BFF : Backend For Frontend (generate Spring code from Swagger/OpenAPI)',
+      value : 'bff/spring',
       short : 'Backend For Frontend'
     }],
     default : this.config.createType

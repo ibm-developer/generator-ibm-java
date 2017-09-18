@@ -37,7 +37,7 @@ function Options(buildType, framework) {
     headless :  "true",
     debug : "true",
     buildType : buildType,
-    createType : 'bff/' + framework,
+    createType : 'blank/' + framework,
     appName : APPNAME,
     groupId : GROUPID,
     artifactId : ARTIFACTID,
@@ -57,11 +57,11 @@ function Options(buildType, framework) {
   }
 }
 
-describe('java generator : bff/liberty end to end test', function() {
-  this.timeout(20000);
+describe('java generator : blank/liberty end to end test', function() {
+  this.timeout(10000);
   var buildTypes = ['gradle', 'maven'];
   for(var i=0; i < buildTypes.length; i++) {
-    describe('Generates a bff project build type ' + buildTypes[i], function () {
+    describe('Generates a blank/liberty project build type ' + buildTypes[i], function () {
       var options = new Options(buildTypes[i], FRAMEWORK_LIBERTY);
       before(options.before.bind(options));
       options.assertBuilds();
@@ -69,11 +69,11 @@ describe('java generator : bff/liberty end to end test', function() {
   }
 });
 
-describe('java generator : bff/spring end to end test', function() {
-  this.timeout(20000);
+describe('java generator : blank/spring end to end test', function() {
+  this.timeout(10000);
   var buildTypes = ['gradle', 'maven'];
   for(var i=0; i < buildTypes.length; i++) {
-    describe('Generates a bff project build type ' + buildTypes[i], function () {
+    describe('Generates a blank/spring project build type ' + buildTypes[i], function () {
       var options = new Options(buildTypes[i], FRAMEWORK_SPRING);
       before(options.before.bind(options));
       options.assertBuilds();

@@ -1,5 +1,5 @@
-## Microservice
-Bluemix Microservice Starter for Spring
+## Backend For Frontend (BFF)
+Bluemix BFF Starter in Java
 
 [![](https://img.shields.io/badge/bluemix-powered-blue.svg)](https://bluemix.net)
 [![Platform](https://img.shields.io/badge/platform-java-lightgrey.svg?style=flat)](https://www.ibm.com/developerworks/learn/java/)
@@ -13,7 +13,7 @@ Bluemix Microservice Starter for Spring
 
 ### Summary
 
-The Bluemix Microservice Starter in Java provides a starting point for creating Java microservice applications running on [Spring](https://spring.io/).
+The Bluemix BFF Starter in Java provides a starting point for creating Java BFF applications running on [Spring](https://spring.io/).
 
 To deploy this application to Bluemix using a toolchain click the **Create Toolchain** button.
 [![Create Toolchain](https://console.ng.bluemix.net/devops/graphics/create_toolchain_button.png)](https://console.ng.bluemix.net/devops/setup/deploy/)
@@ -33,12 +33,14 @@ To deploy this application to Bluemix using a toolchain click the **Create Toolc
 Capabilities are provided through dependencies in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file.
 
 ### Project contents
-The ports are set to the defaults of 8080 for http and 8443 for https and are exposed to the CLI in the cli-config.yml file.
+The BFF application has a health endpoint which is accessible at `<host>:<port>/health`. The ports are set to the defaults of 8080 for http and 8443 for https and are exposed to the CLI in the cli-config.yml file.
 
 The project contains Bluemix specific files that are used to deploy the application as part of a Bluemix DevOps flow. The `.bluemix` directory contains files used to define the Bluemix toolchain and pipeline for your application. The `manifest.yml` file specifies the name of your application in Bluemix, the timeout value during deployment and which services to bind to.
 
 {{#bluemix}}
-This microservice application is configured to connect to the following services :
+{{#server.services}}
+This BFF application is configured to connect to the following services :
+{{/server.services}}
 {{#cloudant}}
 * [Bluemix Cloudant service](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db).
 {{/cloudant}}
@@ -46,7 +48,7 @@ This microservice application is configured to connect to the following services
 * [Bluemix Object Storage service](https://console.ng.bluemix.net/catalog/services/object-storage).
 {{/objectStorage}}
 
-Credentials are either taken from the VCAP_SERVICES environment variable that Bluemix provides or from environment variables passed in by the config file `src/main/resources/localdev-config.json`.
+Credentials are either taken from the VCAP_SERVICES environment variable that Bluemix provides or from environment variables passed in by the config file `src/main/resources/application-local.properties`.
 {{/bluemix}}
 
 ### Run
@@ -59,18 +61,10 @@ To run the application in Docker use the Docker file called `Dockerfile`. If you
 
 ### Endpoints
 
-{{#bluemix}}
 The application exposes the following endpoints:
-{{#cloudant}}
-* Cloudant example endpoint: `<host>:<port>/<contextRoot>/v1/example/cloudant`
-{{/cloudant}}
-{{#objectStorage}}
-* Object Storage example endpoint: `<host>:<port>/<contextRoot>/v1/example/objectstorage`
-{{/objectStorage}}
-{{/bluemix}}
+* Health endpoint: `<host>:<port>/health`
 
 The ports are set in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file and exposed to the CLI in the cli-config.yml file.
-
 
 ### Notices
 
@@ -78,4 +72,3 @@ This project was generated using:
 {{#each genVersions}}
 * {{@key}} v{{this}}
 {{/each}}
-
