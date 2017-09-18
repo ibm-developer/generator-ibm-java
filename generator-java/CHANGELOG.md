@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.5.2"></a>
+## [2.5.2](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.5.1...v2.5.2) (2017-09-18)
+
+
+### Bug Fixes
+
+* **templates:** update liberty generator and add tests ([772dfd7](https://github.ibm.com/arf/java-codegen-yeoman/commit/772dfd7))
+
+
+
 <a name="2.5.1"></a>
 ## [2.5.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.5.0...v2.5.1) (2017-09-18)
 
