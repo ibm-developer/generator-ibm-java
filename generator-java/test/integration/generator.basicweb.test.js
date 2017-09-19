@@ -80,6 +80,24 @@ class Options extends core.BxOptions {
   assertCompiles(buildType) {
     command.run(tests.test(buildType).getCompileCommand());
   }
+
+  assertCloudant(exists) {
+    super.assertCloudant(exists);
+    if(exists && (this.values.frameworkType === 'spring')) {
+      it('should contain @Lazy for cloudant client', function() {
+        assert.fileContent('src/main/java/application/cloudant/CloudantClientConfig.java', '@Lazy');
+      });
+    }
+  }
+
+  assertObjectStorage(exists) {
+    super.assertObjectStorage(exists);
+    if(exists && (this.values.frameworkType === 'spring')) {
+      it('should contain @Lazy for ObjectStorage client', function() {
+        assert.fileContent('src/main/java/application/objectstorage/ObjectStorageConfig.java', '@Lazy');
+      });
+    }
+  }
 }
 
 var frameworkTypes = ['liberty', 'spring'];
@@ -122,7 +140,8 @@ describe('java generator : basic integration test', function () {
       options.values.bluemix.cloudant = core.BX_CLOUDANT;
       before(options.before.bind(options));
       options.assert('bxName', 'bxName', true, false, 'maven', frameworkType);
-      options.assertCloudant();
+      options.assertCloudant(true);
+      options.assertObjectStorage(false);
       options.assertCompiles('maven');
     });
 
@@ -133,7 +152,8 @@ describe('java generator : basic integration test', function () {
       options.values.bluemix.objectStorage = core.BX_OBJECT_STORAGE;
       before(options.before.bind(options));
       options.assert('bxName', 'bxName', false, true, 'maven', frameworkType);
-      options.assertObjectStorage();
+      options.assertCloudant(false);
+      options.assertObjectStorage(true);
       options.assertCompiles('maven');
     });
 
@@ -145,8 +165,8 @@ describe('java generator : basic integration test', function () {
       options.values.bluemix.objectStorage = core.BX_OBJECT_STORAGE;
       before(options.before.bind(options));
       options.assert('bxName', 'bxName', true, true, 'maven', frameworkType);
-      options.assertCloudant();
-      options.assertObjectStorage();
+      options.assertCloudant(true);
+      options.assertObjectStorage(true);
     });
 
   });
