@@ -119,7 +119,7 @@ Extension.prototype.getQuestions = function() {
       type    : 'input',
       name    : 'artifactId',
       message : 'Enter an artifact id for your project',
-      default : (answers) => {return answers.appName}
+      default : (answers) => {return this.config.artifactId || answers.appName}
     }];
 }
 
