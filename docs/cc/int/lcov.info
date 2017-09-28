@@ -449,8 +449,10 @@ BRDA:38,1,0,80
 BRDA:38,1,1,0
 BRDA:39,2,0,0
 BRDA:39,2,1,80
-BRF:4
-BRH:2
+BRDA:122,3,0,16
+BRDA:122,3,1,0
+BRF:6
+BRH:3
 end_of_record
 TN:
 SF:/home/travis/build/arf/java-codegen-yeoman/generator-java/generators/prompts/bluemix.js

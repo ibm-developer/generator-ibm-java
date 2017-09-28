@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.5.4"></a>
+## [2.5.4](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.5.3...v2.5.4) (2017-09-28)
+
+
+### Bug Fixes
+
+* **build:** update cloud enablement to 0.0.94 and service enablement to 0.0.82 ([efcf2a0](https://github.ibm.com/arf/java-codegen-yeoman/commit/efcf2a0))
+* **build:** update to cloud generator v0.0.97 and service generator v0.0.84 ([e95fe9e](https://github.ibm.com/arf/java-codegen-yeoman/commit/e95fe9e))
+* **test:** update tests to match new k8s entries ([debec72](https://github.ibm.com/arf/java-codegen-yeoman/commit/debec72))
+
+
+
 <a name="2.5.3"></a>
 ## [2.5.3](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.5.2...v2.5.3) (2017-09-19)
 
