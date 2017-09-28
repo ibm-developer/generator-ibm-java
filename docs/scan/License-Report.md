@@ -232,7 +232,7 @@ LICENSEFILE
 <End ACCEPTABLE>
 ```
 
-# Package: `generator-ibm-cloud-enablement 0.0.89`
+# Package: `generator-ibm-cloud-enablement 0.0.97`
 **Package Path:** `node_modules/generator-ibm-cloud-enablement`
 
 ## File: `LICENSE`
@@ -491,6 +491,113 @@ Licensed under the Apache License, Version 2.0 (the "License");
    limitations under the License.
 
 <End Apache-2.0>
+```
+
+# Package: `hawk 6.0.2`
+**Package Path:** `node_modules/hawk`
+
+## File: `dist/browser.js`
+**Path:** `node_modules/hawk/dist/browser.js`  
+**Hash:** `6928063d60cdde2a10f938ab7aa40eb6`  
+**Legal File:** NO  
+**License Types Detected**: crypto-js  
+**Contains Keywords:** YES  
+
+*Text not included for non-legal files.*
+
+## File: `lib/browser.js`
+**Path:** `node_modules/hawk/lib/browser.js`  
+**Hash:** `4839df5feed7817fa5089d3d736d36ae`  
+**Legal File:** NO  
+**License Types Detected**: crypto-js  
+**Contains Keywords:** YES  
+
+*Text not included for non-legal files.*
+
+# Package: `hoek 4.2.0`
+**Package Path:** `node_modules/hoek`
+
+## File: `LICENSE`
+**Path:** `node_modules/hoek/LICENSE`  
+**Hash:** `ec3413fdddfc7b1e53f6ffe38fad1712`  
+**Legal File:** YES  
+**License Types Detected**: BSD-3-Clause, UNKNOWN  
+**Contains Keywords:** NO  
+
+**File Text:**
+```
+<Begin COPYRIGHT>
+
+Copyright (c) 2011-2016, Project contributors
+
+<End COPYRIGHT>
+
+<Begin ACCEPTABLE>
+
+
+
+<End ACCEPTABLE>
+
+<Begin COPYRIGHT>
+
+Copyright (c) 2011-2014, Walmart
+
+<End COPYRIGHT>
+
+<Begin ACCEPTABLE>
+
+
+
+<End ACCEPTABLE>
+
+<Begin COPYRIGHT>
+
+Copyright (c) 2011, Yahoo Inc.
+All rights reserved.
+
+<End COPYRIGHT>
+
+<Begin ACCEPTABLE>
+
+
+
+<End ACCEPTABLE>
+
+<Begin BSD-3-Clause>
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * The names of any contributors may not be used to endorse or promote
+      products derived from this software without specific prior written
+      permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS AND CONTRIBUTORS BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+<End BSD-3-Clause>
+
+<Begin unknown text>
+
+*   *   *
+
+The complete list of contributors can be found at: https://github.com/hapijs/hapi/graphs/contributors
+Portions of this project were initially based on the Yahoo! Inc. Postmile project,
+published at https://github.com/yahoo/postmile.
+
+<End unknown text>
 ```
 
 # Package: `istextorbinary 2.1.0`
