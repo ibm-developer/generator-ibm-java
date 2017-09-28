@@ -82,7 +82,8 @@ test_kube.test = function(appName, exists, framework, createType) {
         var valuesyml = yml.safeLoad(fs.readFileSync(VALUES_YML, 'utf8'));
         var chartyml = yml.safeLoad(fs.readFileSync(CHART_YML, 'utf8'));
         var rawdeploymentyml = fs.readFileSync(DEPLOYMENT_YML, 'utf8');
-        var newdeploymentyml = rawdeploymentyml.replace('"+" "_"', '\\"+\\" \\"_\\"');
+        //comment out helm conditionals so it can be parsed by js-yaml
+        var newdeploymentyml = rawdeploymentyml.replace('{{ if', '#').replace('{{ else', '#').replace('{{ end', '#');
         var deploymentyml = yml.safeLoad(newdeploymentyml);
         var rawserviceyml = fs.readFileSync(SERVICE_YML, 'utf8');
         var newserviceyml = rawserviceyml.replace('"+" "_"', '\\"+\\" \\"_\\"');
@@ -101,10 +102,10 @@ test_kube.test = function(appName, exists, framework, createType) {
         }
         assertYmlContent(deploymentyml.metadata.name, '{{  .Chart.Name }}-deployment', 'deploymentyml.metadata.name');
         assertYmlContent(deploymentyml.metadata.labels.chart, '{{ .Chart.Name }}-{{ .Chart.Version | replace \"+\" \"_\" }}', 'deploymentyml.metadata.labels.chart');
-        assert.fileContent(DEPLOYMENT_YML, '  replicas:  {{ .Values.replicaCount }}');
+        assert.fileContent(DEPLOYMENT_YML, '  replicas: {{ .Values.replicaCount }}');
         assert.fileContent(DEPLOYMENT_YML, '  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}');
         assertYmlContent(deploymentyml.spec.template.metadata.labels.app, '{{  .Chart.Name }}-selector', 'deploymentyml.spec.template.metadata.labels.app');
-        assert.fileContent(DEPLOYMENT_YML, '      - name: {{  .Chart.Name  }}');
+        assert.fileContent(DEPLOYMENT_YML, '      - name: "{{  .Chart.Name  }}"');
         assertYmlContent(deploymentyml.spec.template.spec.containers[0].image, '{{ .Values.image.repository }}:{{ .Values.image.tag }}', 'deploymentyml.spec.template.spec.containers[0].image');
         assert.fileContent(DEPLOYMENT_YML, '        imagePullPolicy: {{ .Values.image.pullPolicy }}');
         assertYmlContent(serviceyml.metadata.name, '{{  .Chart.Name }}-service', 'serviceyml.metadata.name');
