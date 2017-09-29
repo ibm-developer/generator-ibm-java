@@ -47,7 +47,7 @@
     "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/unit/*",
     "coverageint": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/integration/*",
     "istanbul": "./node_modules/istanbul/lib/cli.js",
-    "prerelease": "npm test && npm run testint",
+    "prerelease": "mocha test/endToEnd/generator.blank.e2e.test.js",
     "release": "standard-version"
   },
   "publishConfig": {
