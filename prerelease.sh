@@ -7,6 +7,9 @@ CURRENT_PKG_VER_FIX=`node -e "console.log(require('./package.json').version.spli
 git config user.email "travisci@travis.ibm.com"
 git config user.name "Travis CI"
 git config push.default simple
+
+echo "Running smoke test"
+npm run prerelease
 echo "Revving version"
 npm run release
 if [ $? != 0 ]; then
@@ -22,13 +25,14 @@ NEXT_PKG_VER_FIX=`node -e "console.log(require('./package.json').version.split('
 echo "Creating git branch"
 BRANCH="updateTo${PKG_VER_NEXT}"
 git checkout -b $BRANCH
-../coverage.sh
-if [ $? != 0 ]; then
-  exit $?
-fi
 
-echo "Determining need for OSS scan"
+echo "Determining need for covergage and OSS scan"
 if [ $CURRENT_PKG_VER_MAJOR !=  $NEXT_PKG_VER_MAJOR]; then
+  echo "Major version change detected, running coverage"
+  ../coverage.sh
+  if [ $? != 0 ]; then
+    exit $?
+  fi
   echo "Major version change detected, running OSS scan"
   ../scan.sh
   if [ $? != 0 ]; then
@@ -36,6 +40,11 @@ if [ $CURRENT_PKG_VER_MAJOR !=  $NEXT_PKG_VER_MAJOR]; then
 fi
 else
   if [ $CURRENT_PKG_VER_MINOR !=  $NEXT_PKG_VER_MINOR]; then
+    echo "Minor version change detected, running coverage"
+    ../coverage.sh
+    if [ $? != 0 ]; then
+      exit $?
+    fi
     echo "Minor version change detected, running OSS scan"
     ../scan.sh
     if [ $? != 0 ]; then
