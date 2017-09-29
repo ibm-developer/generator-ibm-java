@@ -1,5 +1,4 @@
 echo "Running coverage"
-npm run coverage
 
 echo "Creating ../docs/cc/unit"
 mkdir -p ../docs/cc/unit
