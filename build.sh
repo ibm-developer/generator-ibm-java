@@ -1,12 +1,14 @@
 #!/bin/bash
 echo "Build script : version 0.0.1"
-echo "Determining scope of changes"
-PKG_NAME=`node -e "console.log(require('./package.json').name);"`
-NPM_VER=`npm show $PKG_NAME version`
-echo "NPM version $NPM_VER"
-npm run simver
-if [ $? != 0 ]; then
-  exit $?
+echo "Checking if this a PR to development"
+if [[ $TRAVIS_BRANCH == "development"  ]]; then
+  echo "Build targetting development - checking if this is a PR or not"
+  if [[ $TRAVIS_PULL_REQUEST == "true" ]]; then
+    echo "Development PR detected, running all tests"
+    echo "Unit tests"
+    npm run test
+    if [ $? != 0 ]; then
+      exit $?
+    fi
+  fi
 fi
-PKG_VER_NEXT=`node -e "console.log(require('./package.json').version);"`
-echo "NPM next version $PKG_VER_NEXT"

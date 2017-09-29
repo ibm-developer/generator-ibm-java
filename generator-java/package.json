@@ -48,8 +48,7 @@
     "coverageint": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/integration/*",
     "istanbul": "./node_modules/istanbul/lib/cli.js",
     "prerelease": "npm test && npm run testint",
-    "release": "standard-version",
-    "simver": "standard-version"
+    "release": "standard-version"
   },
   "publishConfig": {
     "registry": "https://npm-registry.whitewater.ibm.com"
