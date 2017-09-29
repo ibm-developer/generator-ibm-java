@@ -4,7 +4,7 @@ echo "Determining scope of changes"
 PKG_NAME=`node -e "console.log(require('./package.json').name);"`
 NPM_VER=`npm show $PKG_NAME version`
 echo "NPM version $NPM_VER"
-npm run release
+npm run simver
 if [ $? != 0 ]; then
   exit $?
 fi
