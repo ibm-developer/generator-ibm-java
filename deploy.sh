@@ -11,15 +11,8 @@ if [[ $TRAVIS_BRANCH == "master"  ]]; then
     echo "This is a build on master, performing additional steps"
     if [[ $PKG_VER == $NPM_VER ]]; then
       echo "Version numbers match, so changing version and committing changes"
-      npm run prerelease
-      if [ $? == 0 ]; then
-        #If you are running a protected master branch then you *could* disable re-running the tests
-        echo "Tests passed, continuing release cycle"
-        ../prerelease.sh
-        if [ $? != 0 ]; then
-          exit $?
-        fi
-      else
+      ../prerelease.sh
+      if [ $? != 0 ]; then
         exit $?
       fi
     else
