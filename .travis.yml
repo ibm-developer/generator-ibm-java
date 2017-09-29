@@ -12,3 +12,8 @@ script:
   - ../deploy.sh
 env:
   - secure : "LDYrkxuc8EVkyYgQ8js7ZEyXnrR6Ck07EZOl6b812JhE2/g8Ch8TDZh85tDRlwp3nqiwEq+8dlI6ENYoMxWvdLliGkZlJVtbb8uOsQL26HqjGeuk/da1fbx21sHV67LjjFYyUuSIL8sL4YeBVZYJu/24NKq8coptCdr+ZFAjq2QMZHU3flXzsIV3EPraRb17fpohS9NLe/rbqayNsoFV7GZEIYs03Vq66/MH35zW91qu6VERUdHhVtUX8QSp8OGTpKYUrH29g2YbL25Eb/xdIOqBlBZrAwUO5oEOFW/Cs0I38EdicR8kbry1nzh2db4lEoAGpIz7XPzuu6zJ721dFew5tGh91B+H8EzKASzxYfs8tCiYxWU0g71JY9yzN+Jp/sdzDJZia7e1DXWbm4tDT+KkyP2g+96KXX7iv9bAvwpc4AL58ymIcXSE6NCGXANkf4gyQkgqgz/BEihRFTXmiamGR6sc5ThoEpiamKR6vlW7aVJVqYuHJPYNOHZYbfXylu6u4W0LB/n4uLnOfRvvYCN8C26fa362sCk28HgLMv9kxXklvOL+cHcMGTxF/jRy8lC8NGk9w+NehmkLIqXAqhrhkcVcH+fzbFHngpljSJ1fYyjA9aAzDrYi0scTOiZs4or91yiDUY3t52tfn5Rw+OAlCaAoQv/goLf1p0oIWhE="
+# Pull request builds and push builds only run when the target branch is one of these:
+branches:
+  only:
+    - master
+    - development
