@@ -10,5 +10,11 @@ if [[ $TRAVIS_BRANCH == "development"  ]]; then
     if [ $? != 0 ]; then
       exit $?
     fi
+  else
+    echo "Not a PR, so not executing any tests"
+    PKG_VER_MAJOR=`node -e "console.log(require('./package.json').version.split('.')[0]);"`
+    PKG_VER_MINOR=`node -e "console.log(require('./package.json').version.split('.')[1]);"`
+    PKG_VER_FIX=`node -e "console.log(require('./package.json').version.split('.')[2]);"`
+    echo "MAJOR = $PKG_VER_MAJOR, MINOR = $PKG_VER_MINOR, FIX = $PKG_VER_FIX"
   fi
 fi
