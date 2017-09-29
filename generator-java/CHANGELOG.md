@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.5.7"></a>
+## [2.5.7](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.5.4...v2.5.7) (2017-09-29)
+
+
+### Bug Fixes
+
+* **build:** update service enablement generator to 0.0.86 ([e71b108](https://github.ibm.com/arf/java-codegen-yeoman/commit/e71b108))
+* **build:** update service generator to v0.0.85 ([b890634](https://github.ibm.com/arf/java-codegen-yeoman/commit/b890634))
+
+
+
 <a name="2.5.6"></a>
 ## [2.5.6](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.5.4...v2.5.6) (2017-09-29)
 
