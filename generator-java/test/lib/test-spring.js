@@ -34,6 +34,10 @@ test_spring.prototype.assertFiles = function(name) {
   assertSpring.assertAllFiles(true);
 }
 
+test_spring.prototype.assertContent = function(path) {
+  assertSpring.assertContent(true, path);
+}
+
 test_spring.prototype.assertBuildFiles = function(buildType) {
   tests.test(buildType).assertDependency('test', 'org.springframework.boot', 'spring-boot-starter-test');
   if(buildType === 'maven') {

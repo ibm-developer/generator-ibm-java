@@ -75,6 +75,8 @@ class Options extends core.BxOptions {
     it('should contain EndpointTest.java for testing the web endpoint', function() {
       assert.file('src/test/java/application/EndpointTest.java');
     });
+    framework.test(FRAMEWORK_SPRING).assertContent('/index.html');
+    framework.test(FRAMEWORK_SPRING).assertContent('/error/404.html');
   }
 
   assertCompiles(buildType) {
