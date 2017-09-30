@@ -77,6 +77,8 @@ class Options extends core.BxOptions {
 
   assertspring() {
     super.assertspring();
+    framework.test(FRAMEWORK_SPRING).assertContent('/index.html');
+    framework.test(FRAMEWORK_SPRING).assertContent('/error/404.html');
   }
 
   assertCloudant(exists) {
