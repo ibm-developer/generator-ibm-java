@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.5.9"></a>
+## [2.5.9](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.5.8...v2.5.9) (2017-09-30)
+
+
+### Bug Fixes
+
+* **templates:** update spring generator and add tests for output ([b33c9b0](https://github.ibm.com/arf/java-codegen-yeoman/commit/b33c9b0))
+
+
+
 <a name="2.5.8"></a>
 ## [2.5.8](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.5.7...v2.5.8) (2017-09-29)
 
