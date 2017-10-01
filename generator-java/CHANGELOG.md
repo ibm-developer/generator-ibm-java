@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.5.10"></a>
+## [2.5.10](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.5.9...v2.5.10) (2017-10-01)
+
+
+### Bug Fixes
+
+* **templates:** update health endpoint for web basic to match others at /health ([47b9273](https://github.ibm.com/arf/java-codegen-yeoman/commit/47b9273))
+
+
+
 <a name="2.5.9"></a>
 ## [2.5.9](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.5.8...v2.5.9) (2017-09-30)
 
