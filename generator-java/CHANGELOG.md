@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.5.11"></a>
+## [2.5.11](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.5.10...v2.5.11) (2017-10-04)
+
+
+### Bug Fixes
+
+* **build:** update spring generator to 0.6.1 ([3f16470](https://github.ibm.com/arf/java-codegen-yeoman/commit/3f16470))
+
+
+
 <a name="2.5.10"></a>
 ## [2.5.10](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.5.9...v2.5.10) (2017-10-01)
 
