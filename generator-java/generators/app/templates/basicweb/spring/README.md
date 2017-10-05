@@ -62,7 +62,7 @@ To run the application in Docker use the Docker file called `Dockerfile`. If you
 ### Endpoints
 
 The application exposes the following endpoints:
-* Health endpoint: `<host>:<port>/health`
+* Health endpoint: `<host>:<port>/health` e.g. http://localhost:8080/health
 * Web content: `<host>:<port>`
 
 The ports are set in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file and exposed to the CLI in the cli-config.yml file.
