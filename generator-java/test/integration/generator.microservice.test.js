@@ -234,7 +234,7 @@ function execute(framework) {
 
   });
 }
-/*
+
 describe('Basic microservices project checking javametrics', function () {
   describe('Generate a basic liberty microservices project checking javametrics exists', function () {
     var options = new Options('maven', FRAMEWORK_LIBERTY, true);
@@ -258,4 +258,3 @@ describe('Basic microservices project checking javametrics', function () {
 
   });
 });
-*/
