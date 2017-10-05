@@ -50,6 +50,9 @@ class Options extends core.BxOptions {
     this.values.frameworkType === FRAMEWORK_LIBERTY ? this.assertliberty() : this.assertspring();
     this.assertBuild(appName);
     common.assertToolchainBxCreate();
+    it('Check that common source files exist', function () {
+      assert.fileContent('src/main/java/application/rest/v1/Example.java','Congratulations');
+    });
   }
 
   assertBuild(appName) {
@@ -79,6 +82,9 @@ class Options extends core.BxOptions {
     super.assertspring();
     framework.test(FRAMEWORK_SPRING).assertContent('/index.html');
     framework.test(FRAMEWORK_SPRING).assertContent('/error/404.html');
+    it('Check that common Spring source files exist', function () {
+      assert.fileContent('src/main/java/application/Info.java','http://localhost:8080/v1/'); //standard info is there
+    });
   }
 
   assertCloudant(exists) {
@@ -99,10 +105,11 @@ class Options extends core.BxOptions {
     }
     if(this.values.frameworkType === FRAMEWORK_SPRING) {
       it(invcheck.desc + 'Liberty cloudant source files', function () {
-        invcheck.file('src/main/java/application/cloudant/Cloudant.java')
+        invcheck.file('src/main/java/application/cloudant/Cloudant.java');
       });
       it(check.desc + 'Spring cloudant source files', function () {
-        check.file('src/main/java/application/cloudant/CloudantClientConfig.java')
+        check.file('src/main/java/application/cloudant/CloudantClientConfig.java');
+        check.content('src/main/java/application/Info.java','http://localhost:8080/v1/cloudant'); //standard info is there
       });
     }
   }
@@ -129,6 +136,7 @@ class Options extends core.BxOptions {
       });
       it(check.desc + 'Spring objectStorage source files', function () {
         check.file('src/main/java/application/objectstorage/ObjectStorageConfig.java')
+        check.content('src/main/java/application/Info.java','http://localhost:8080/v1/objectstorage'); //standard info is there
       });
     }
   }
@@ -153,7 +161,6 @@ function execute(framework) {
       options.assert(core.APPNAME, core.APPNAME, false, false);
 
       it('should create a basic microservice, gradle build system', function () {
-        assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
         assert.fileContent('README.md', 'gradle');
         assert.noFileContent('README.md', 'maven');
       });
@@ -166,7 +173,6 @@ function execute(framework) {
       options.assert(core.APPNAME, core.APPNAME, false, false);
 
       it('should create a basic microservice, maven build system', function () {
-        assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Some data");'); //check no bx services present
         assert.fileContent('README.md', 'maven');
         assert.noFileContent('README.md', 'gradle');
       });
@@ -181,11 +187,8 @@ function execute(framework) {
       options.assert('bxName', 'bxName', false, false);
 
       it('with no services', function () {
-        assert.noFileContent('src/main/java/application/rest/v1/Example.java', 'Cloudant');
-
         assert.fileContent('manifest.yml', 'name: bxName') //Not using prompt so we get app name and random route
         assert.fileContent('manifest.yml', 'random-route: true') //Not using prompt so we get app name and random route
-        assert.noFileContent('README.md', 'cloudant');
       });
     });
 

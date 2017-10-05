@@ -88,6 +88,9 @@ class Options extends core.BxOptions {
     test.assertDependency('test', 'org.springframework.boot', 'spring-boot-starter-test');
     framework.test(FRAMEWORK_SPRING).assertContent('/index.html');
     framework.test(FRAMEWORK_SPRING).assertContent('/error/404.html');
+    it('Check that common info files exist', function () {
+      assert.fileContent('src/main/java/io/swagger/Info.java','http://localhost:8080/swagger/api'); //standard info is there
+    });
   }
 
   assertCompiles(buildType) {

@@ -62,10 +62,10 @@ To run the application in Docker use the Docker file called `Dockerfile`. If you
 {{#bluemix}}
 The application exposes the following endpoints:
 {{#cloudant}}
-* Cloudant example endpoint: `<host>:<port>/<contextRoot>/v1/example/cloudant`
+* Cloudant endpoint: `<host>:<port>/v1/cloudant` e.g. http://localhost:8080/v1/cloudant
 {{/cloudant}}
 {{#objectStorage}}
-* Object Storage example endpoint: `<host>:<port>/<contextRoot>/v1/example/objectstorage`
+* Object Storage endpoint: `<host>:<port>/v1/objectstorage` e.g. http://localhost:8080/v1/objectstorage
 {{/objectStorage}}
 {{/bluemix}}
 
