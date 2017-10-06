@@ -54,6 +54,9 @@ class Options extends core.Options {
         assert.file('src/main/java/application/SBApplication.java');
       });
     }
+    it('creates an README.mdfile', function() {
+      assert.file('README.md');
+    });
   }
 
   assertCompiles(buildType) {
