@@ -23,6 +23,7 @@ if [[ $TRAVIS_BRANCH == "development"  ]]; then
     echo "Running end to end tests"
     npm run teste2e
     if [ $? != 0 ]; then
+      echo "End to end tests failed with status " + $?
       exit $?
     fi
   else
