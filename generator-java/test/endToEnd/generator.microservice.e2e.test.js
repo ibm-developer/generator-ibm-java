@@ -25,22 +25,25 @@ const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
 const VERSION = '1.0.0';
 const APPNAME = 'testApp';
+const FRAMEWORK_LIBERTY = 'liberty';
+const FRAMEWORK_SPRING = 'spring';
 
 const tests = require('@arf/java-common');
 const command = tests.test('command');
 
-function Options(buildType) {
+function Options(buildType, framework) {
+  var platform = framework === FRAMEWORK_SPRING ? 'SPRING' : 'JAVA';
   this.options = {
     headless :  "true",
     debug : "true",
     buildType : buildType,
-    createType : 'microservice/liberty',
+    createType : 'microservice/' + framework,
     appName : APPNAME,
     groupId : GROUPID,
     artifactId : ARTIFACTID,
     version : VERSION,
     bluemix : {
-      backendPlatform : 'JAVA'
+      backendPlatform : platform
     }
   }
   this.assertBuilds = function() {
@@ -54,12 +57,24 @@ function Options(buildType) {
   }
 }
 
-describe('java generator : microservice end to end test', function() {
-  this.timeout(7000);
+describe('java generator : microservice/liberty end to end test', function() {
+  this.timeout(10000);
   var buildTypes = ['gradle', 'maven'];
   for(var i=0; i < buildTypes.length; i++) {
-    describe('Generates a microservice project build type ' + buildTypes[i], function () {
-      var options = new Options(buildTypes[i]);
+    describe('Generates a microservice/liberty project build type ' + buildTypes[i], function () {
+      var options = new Options(buildTypes[i], FRAMEWORK_LIBERTY);
+      before(options.before.bind(options));
+      options.assertBuilds();
+    });
+  }
+});
+
+describe('java generator : microservice/spring end to end test', function() {
+  this.timeout(10000);
+  var buildTypes = ['gradle', 'maven'];
+  for(var i=0; i < buildTypes.length; i++) {
+    describe('Generates a microservice/spring project build type ' + buildTypes[i], function () {
+      var options = new Options(buildTypes[i], FRAMEWORK_SPRING);
       before(options.before.bind(options));
       options.assertBuilds();
     });
