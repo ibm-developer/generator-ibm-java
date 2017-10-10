@@ -12,8 +12,9 @@ echo "Running smoke test"
 npm run prerelease
 echo "Revving version"
 npm run release
-if [ $? != 0 ]; then
-  exit $?
+retval=$?
+if [ $retval != 0 ]; then
+  exit $retval
 fi
 
 echo "Determining next version"
@@ -30,20 +31,22 @@ echo "Determining need for covergage and OSS scan"
 if [ $CURRENT_PKG_VER_MAJOR !=  $NEXT_PKG_VER_MAJOR]; then
   echo "Major version change detected, running coverage"
   ../coverage.sh
-  if [ $? != 0 ]; then
-    exit $?
+  retval=$?
+  if [ $retval != 0 ]; then
+    exit $retval
   fi
   echo "Major version change detected, running OSS scan"
   ../scan.sh
   if [ $? != 0 ]; then
   echo "WARNING : scan failed, see logs for more details"
-fi
+  fi
 else
   if [ $CURRENT_PKG_VER_MINOR !=  $NEXT_PKG_VER_MINOR]; then
     echo "Minor version change detected, running coverage"
     ../coverage.sh
-    if [ $? != 0 ]; then
-      exit $?
+    retval=$?
+    if [ $retval != 0 ]; then
+      exit $retval
     fi
     echo "Minor version change detected, running OSS scan"
     ../scan.sh
