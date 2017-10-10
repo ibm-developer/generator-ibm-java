@@ -38,7 +38,7 @@ if [ $CURRENT_PKG_VER_MAJOR !=  $NEXT_PKG_VER_MAJOR]; then
   echo "Major version change detected, running OSS scan"
   ../scan.sh
   if [ $? != 0 ]; then
-  echo "WARNING : scan failed, see logs for more details"
+    echo "WARNING : scan failed, see logs for more details"
   fi
 else
   if [ $CURRENT_PKG_VER_MINOR !=  $NEXT_PKG_VER_MINOR]; then
