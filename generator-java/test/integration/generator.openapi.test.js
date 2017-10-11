@@ -140,7 +140,7 @@ function execute(frameworkType) {
       options.assertCompiles();
 
       it('should create a basic microservice, maven build system', function () {
-        assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("SCongratulations, your application is up and running");'); //check no bx services present
+        assert.fileContent('src/main/java/application/rest/v1/Example.java','list.add("Congratulations, your application is up and running");'); //check no bx services present
         assert.fileContent('README.md', 'maven');
         assert.noFileContent('README.md', 'gradle');
       });
