@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.6.0"></a>
+# [2.6.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.5.11...v2.6.0) (2017-10-11)
+
+
+### Bug Fixes
+
+* **build:** update cloud-enablement-generator to v0.0.102 ([f3c07f6](https://github.ibm.com/arf/java-codegen-yeoman/commit/f3c07f6))
+* **infrastructure:** Fix scripts to exit correctly ([2100e34](https://github.ibm.com/arf/java-codegen-yeoman/commit/2100e34))
+* **templates:** add README.md to blank starter ([a914efb](https://github.ibm.com/arf/java-codegen-yeoman/commit/a914efb))
+
+
+### Features
+
+* **templates:** add log lines at startup for Spring servers with available end point details ([fccb5eb](https://github.ibm.com/arf/java-codegen-yeoman/commit/fccb5eb))
+* **test:** Add end to end test for spring microservice ([d56f67e](https://github.ibm.com/arf/java-codegen-yeoman/commit/d56f67e))
+
+
+
 <a name="2.5.11"></a>
 ## [2.5.11](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.5.10...v2.5.11) (2017-10-04)
 
