@@ -12,8 +12,9 @@ if [[ $TRAVIS_BRANCH == "master"  ]]; then
     if [[ $PKG_VER == $NPM_VER ]]; then
       echo "Version numbers match, so changing version and committing changes"
       ../prerelease.sh
-      if [ $? != 0 ]; then
-        exit $?
+      retval=$?
+      if [ $retval != 0 ]; then
+        exit $retval
       fi
     else
       echo "Version numbers don't match, so publishing to the registry"

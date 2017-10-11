@@ -55,14 +55,14 @@ Credentials are either taken from the VCAP_SERVICES environment variable that Bl
 
 To build and run the application:
 1. {{#has buildType 'maven'}}`mvn install`{{/has}}{{#has buildType 'gradle'}}`gradle build`{{/has}}
-1. {{#has buildType 'maven'}}`java -jar ./target/{{appName}}-{{version}}.jar`{{/has}}{{#has buildType 'gradle'}}`gradle ./build/libs/{{appName}}-{{version}}.jar`{{/has}}
+1. {{#has buildType 'maven'}}`java -jar ./target/{{artifactId}}-{{version}}.jar`{{/has}}{{#has buildType 'gradle'}}`gradle ./build/libs/{{artifactId}}-{{version}}.jar`{{/has}}
 
 To run the application in Docker use the Docker file called `Dockerfile`. If you do not want to install {{#has buildType 'maven'}}Maven{{/has}}{{#has buildType 'gradle'}}Gradle{{/has}} locally you can use `Dockerfile-tools` to build a container with {{#has buildType 'maven'}}Maven{{/has}}{{#has buildType 'gradle'}}Gradle{{/has}} installed.
 
 ### Endpoints
 
 The application exposes the following endpoints:
-* Health endpoint: `<host>:<port>/health`
+* Health endpoint: `<host>:<port>/health` e.g. http://localhost:8080/health
 
 The ports are set in the {{#has buildType 'maven'}}pom.xml{{/has}}{{#has buildType 'gradle'}}build.gradle{{/has}} file and exposed to the CLI in the cli-config.yml file.
 

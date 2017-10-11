@@ -7,23 +7,27 @@ if [[ $TRAVIS_BRANCH == "development"  ]]; then
     echo "Development PR detected, running all tests"
     echo "Running unit tests"
     npm run test
-    if [ $? != 0 ]; then
-      exit $?
+    retval=$?
+    if [ $retval != 0 ]; then
+      exit $retval
     fi
     echo "Running integration tests"
     npm run testint
-    if [ $? != 0 ]; then
-      exit $?
+    retval=$?
+    if [ $retval != 0 ]; then
+      exit $retval
     fi
     echo "Running common tests"
     npm run testcommon
-    if [ $? != 0 ]; then
-      exit $?
+    retval=$?
+    if [ $retval != 0 ]; then
+      exit $retval
     fi
     echo "Running end to end tests"
     npm run teste2e
-    if [ $? != 0 ]; then
-      exit $?
+    retval=$?
+    if [ $retval != 0 ]; then
+      exit $retval
     fi
   else
     echo "Not a PR, but a build of the branch, so not executing any tests"
