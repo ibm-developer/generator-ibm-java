@@ -6,4 +6,4 @@ To make full use of the files generated please note the following:
     * Expected port is 8080, default health endpoint is /{{healthEndpoint}}
     * Default health endpoint can be enabled by adding the Spring Boot actuator to your build file (https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-actuator)
 * Docker support files and IBM cloud deloyment files assume artifact locations based on Spring Boot defaults
-    * Expected artifact location is {{#has buildType 'maven'}}target{{/has}}{{#has buildType 'gradle'}}build/libs{{/has}}/{{appName}}.jar
+    * Expected artifact location is {{#has buildType 'maven'}}target{{/has}}{{#has buildType 'gradle'}}build/libs{{/has}}/{{artifactId}}-{{version}}.jar

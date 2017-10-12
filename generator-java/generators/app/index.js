@@ -80,6 +80,9 @@ module.exports = class extends Generator {
         }
       }
     }
+    if(!config.artifactId) {
+      config.artifactId = config.appName;
+    }
 
     config.templateRoot = this.templatePath();
     config.projectPath = fspath.resolve(this.destinationRoot());
