@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.7.0"></a>
+# [2.7.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.6.0...v2.7.0) (2017-10-12)
+
+
+### Features
+
+* **config:** Update generator to always supply an artifactId ([85b1fc5](https://github.ibm.com/arf/java-codegen-yeoman/commit/85b1fc5))
+* **templates:** Update generator versions ([907a754](https://github.ibm.com/arf/java-codegen-yeoman/commit/907a754))
+
+
+
 <a name="2.6.0"></a>
 # [2.6.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.5.11...v2.6.0) (2017-10-11)
 
