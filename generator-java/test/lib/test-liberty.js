@@ -61,7 +61,7 @@ test_liberty.prototype.assertBuildFiles = function(buildType) {
 var assertMavenFiles = function() {
   assertLiberty.assertVersion('maven');
   tests.test('maven').assertProperty('warContext', '${app.name}');
-  tests.test('maven').assertProperty('package.file', '${project.build.directory}/${app.name}.zip');
+  tests.test('maven').assertProperty('package.file', '${project.build.directory}/${project.artifactId}-${project.version}.zip');
   tests.test('maven').assertProperty('packaging.type', 'usr');
 
 }
@@ -70,7 +70,7 @@ var assertGradleFiles = function() {
   assertLiberty.assertVersion('gradle');
   tests.test('gradle').assertProperty('serverDirectory', '"${buildDir}/wlp/usr/servers/defaultServer"');
   tests.test('gradle').assertProperty('warContext', '"${appName}"');
-  tests.test('gradle').assertProperty('packageFile', '"${project.buildDir}/${appName}.zip"');
+  tests.test('gradle').assertProperty('packageFile', '"${project.buildDir}/${rootProject.name}-${version}.zip"');
   tests.test('gradle').assertProperty('packagingType', "'usr'");
 }
 

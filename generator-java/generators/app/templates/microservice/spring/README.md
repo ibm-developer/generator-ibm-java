@@ -53,7 +53,7 @@ Credentials are either taken from the VCAP_SERVICES environment variable that Bl
 
 To build and run the application:
 1. {{#has buildType 'maven'}}`mvn install`{{/has}}{{#has buildType 'gradle'}}`gradle build`{{/has}}
-1. {{#has buildType 'maven'}}`java -jar ./target/{{appName}}-{{version}}.jar`{{/has}}{{#has buildType 'gradle'}}`gradle ./build/libs/{{appName}}-{{version}}.jar`{{/has}}
+1. {{#has buildType 'maven'}}`java -jar ./target/{{artifactId}}-{{version}}.jar`{{/has}}{{#has buildType 'gradle'}}`gradle ./build/libs/{{artifactId}}-{{version}}.jar`{{/has}}
 
 To run the application in Docker use the Docker file called `Dockerfile`. If you do not want to install {{#has buildType 'maven'}}Maven{{/has}}{{#has buildType 'gradle'}}Gradle{{/has}} locally you can use `Dockerfile-tools` to build a container with {{#has buildType 'maven'}}Maven{{/has}}{{#has buildType 'gradle'}}Gradle{{/has}} installed.
 

@@ -23,12 +23,13 @@ const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 
 const tests = require('@arf/java-common');
-const test = tests.test('maven');
+const testMaven = tests.test('maven');
+const testGradle = tests.test('gradle');
 
 describe('java generator integration test', function () {
   this.timeout(5000);
 
-  describe('Generates a basic project in headless mode, no configuration', function () {
+  describe('Generates a basic JavaEE/MicroProfile Maven project in headless mode, no configuration', function () {
 
     before(function () {
       // Mock the options, set up an output folder and run the generator
@@ -43,7 +44,68 @@ describe('java generator integration test', function () {
         .toPromise();                        // Get a Promise back when the generator finishes
     });
 
-    test.assertApplication('MyProject', 'projects', 'MyProject', '1.0-SNAPSHOT');
+    testMaven.assertApplication('MyProject', 'projects', 'MyProject', '1.0-SNAPSHOT');
+
+  });
+
+  describe('Generates a basic JavaEE/MicroProfile Gradle project in headless mode, no configuration', function () {
+    
+    before(function () {
+      // Mock the options, set up an output folder and run the generator
+      return helpers.run(path.join( __dirname, '../../generators/app'))
+        .withOptions({                       // Mock the prompt answers
+          headless: "true",
+          debug: "true",
+          bluemix: {
+            backendPlatform: 'JAVA'
+          },
+          buildType: 'gradle'
+        })
+        .toPromise();                        // Get a Promise back when the generator finishes
+    });
+
+    testGradle.assertApplication('MyProject', 'projects', 'MyProject', '1.0-SNAPSHOT');
+
+  });
+
+  describe('Generates a basic Spring Maven project in headless mode, no configuration', function () {
+    
+    before(function () {
+      // Mock the options, set up an output folder and run the generator
+      return helpers.run(path.join( __dirname, '../../generators/app'))
+        .withOptions({                       // Mock the prompt answers
+          headless: "true",
+          debug: "true",
+          createType: "microservice/spring",
+          bluemix: {
+            backendPlatform: 'SPRING'
+          }
+        })
+        .toPromise();                        // Get a Promise back when the generator finishes
+    });
+
+    testMaven.assertApplication('MyProject', 'projects', 'MyProject', '1.0-SNAPSHOT');
+
+  });
+
+  describe('Generates a basic Spring Gradle project in headless mode, no configuration', function () {
+    
+    before(function () {
+      // Mock the options, set up an output folder and run the generator
+      return helpers.run(path.join( __dirname, '../../generators/app'))
+        .withOptions({                       // Mock the prompt answers
+          headless: "true",
+          debug: "true",
+          createType: "microservice/spring",
+          bluemix: {
+            backendPlatform: 'SPRING'
+          },
+          buildType: 'gradle'
+        })
+        .toPromise();                        // Get a Promise back when the generator finishes
+    });
+
+    testGradle.assertApplication('MyProject', 'projects', 'MyProject', '1.0-SNAPSHOT');
 
   });
 });
