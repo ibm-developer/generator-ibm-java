@@ -76,31 +76,39 @@ When committing changes to the repository, by using our custom commit template y
 
 1. Create a commitTemplate.txt file with the following contents:
 ```
-feat/fix/perf(<scope>): <subject>
+# <type>(<scope>): (If applied, this commit will...) <subject> (Max 50 char)
+# |<----  Using a Maximum Of 50 Characters  ---->|
 
-<body>
 
-<footer>
+# Explain why this change is being made
+# |<----   Try To Limit Each Line to a Maximum Of 72 Characters   ---->|
+
+# Provide links or keys to any relevant tickets, articles or other resources
+# Example: Github issue #23
+# BREAKING CHANGE: Use the rest of the commit message to explain 
 
 Signed-off-by: Bob <bob@uk.ibm.com>
-# The header is mandatory and the scope of the header is optional.
-# Revert
-# If the commit reverts a previous commit, it should begin with revert:, followed by the header of the reverted commit. In the body it should say: This reverts commit <hash>., where the hash is the SHA of the commit being reverted.
-# Type
-# If the prefix is feat, fix or perf, it will appear in the changelog. However if there is any BREAKING CHANGE, the commit will always appear in the changelog.
-# Other prefixes are up to your discretion. Suggested prefixes are docs, chore, style, refactor, and test for non-changelog related tasks.
-# Scope
-# The scope could be anything specifying place of the commit change. For example $location, $browser, $compile, $rootScope, ngHref, ngClick, ngView, etc...
-# Subject
-# The subject contains succinct description of the change:
-# use the imperative, present tense: "change" not "changed" nor "changes"
-# don't capitalize first letter
-# no dot (.) at the end
-# Body
-# Just as in the subject, use the imperative, present tense: "change" not "changed" nor "changes". The body should include the motivation for the change and contrast this with previous behavior.
-# Footer
-# The footer should contain any information about Breaking Changes and is also the place to reference GitHub issues that this commit Closes.
-# Breaking Changes should start with the word BREAKING CHANGE: with a space or two newlines. The rest of the commit message is then used for this.
+# --- COMMIT END ---
+# Type can be 
+#    feat     (new feature) -- CHANGELOG
+#    fix      (bug fix) -- CHANGELOG
+#    perf     (performance fix) -- CHANGELOG
+#    refactor (refactoring production code)
+#    style    (formatting, missing semi colons, etc; no code change)
+#    docs     (changes to documentation)
+#    test     (adding or refactoring tests; no production code change)
+#    chore    (updating grunt tasks etc; no production code change)
+# --------------------
+# Remember to
+#    Capitalize the subject line
+#    Use the imperative mood in the subject line
+#    Do not end the subject line with a period
+#    Separate subject from body with a blank line
+#    Use the body to explain what and why vs. how
+#    Can use multiple lines with "-" for bullet points in body
+# --------------------
+# For more information about this template, check out
+# https://gist.github.com/adeekshith/cd4c95a064977cdc6c50
 ```
 2. Update the commitTemplate.txt file with your name and email address.
 3. Use the `git config` command to set the `commit.template` property to the location of your template file.
@@ -109,8 +117,9 @@ Signed-off-by: Bob <bob@uk.ibm.com>
 6. Set the Type for the commit based on the [conventional changelog conventions](https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md).
 7. The Scope of the commit refers to a particular feature
 
-### Features
-The current list of features:
+### Features / Scopes
+
+The current list of feature scopes:
 
 * infrastructure
 * test

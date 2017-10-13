@@ -18,7 +18,7 @@ const KUBE_YML = 'manifests/kube.deploy.yml';
 function test_kube(appName) {
 }
 
-test_kube.test = function(appName, exists, framework, createType) {
+test_kube.test = function(appName, exists, framework, createType, cloudantExists, objectStorageExists) {
   describe('Validate k8s for application ' + appName, function() {
 
     var prefix = exists ? 'generates ' : 'does not generate ';
@@ -78,6 +78,7 @@ test_kube.test = function(appName, exists, framework, createType) {
       check(CHART_YML);
       check(DEPLOYMENT_YML);
       check(SERVICE_YML);
+      
       if(exists) {
         var valuesyml = yml.safeLoad(fs.readFileSync(VALUES_YML, 'utf8'));
         var chartyml = yml.safeLoad(fs.readFileSync(CHART_YML, 'utf8'));
@@ -88,8 +89,14 @@ test_kube.test = function(appName, exists, framework, createType) {
         var rawserviceyml = fs.readFileSync(SERVICE_YML, 'utf8');
         var newserviceyml = rawserviceyml.replace('"+" "_"', '\\"+\\" \\"_\\"');
         var serviceyml = yml.safeLoad(newserviceyml);
+        
+        // values.yaml
         assertYmlContent(valuesyml.image.repository, appName.toLowerCase(), 'valuesyml.image.repository');
+        
+        // Chart.yaml
         assertYmlContent(chartyml.name, appName.toLowerCase(), 'chartyml.name');
+        
+        // deployment.yaml
         if(framework === LIBERTY) {
           if(createType === 'basicweb') {
             assertYmlContent(deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/' + appName + '/rest/health', 'deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path');
@@ -108,6 +115,25 @@ test_kube.test = function(appName, exists, framework, createType) {
         assert.fileContent(DEPLOYMENT_YML, '      - name: "{{  .Chart.Name  }}"');
         assertYmlContent(deploymentyml.spec.template.spec.containers[0].image, '{{ .Values.image.repository }}:{{ .Values.image.tag }}', 'deploymentyml.spec.template.spec.containers[0].image');
         assert.fileContent(DEPLOYMENT_YML, '        imagePullPolicy: {{ .Values.image.pullPolicy }}');
+        
+        // There should be bindings (for secrets) in the deployment.yml
+        var cloudantBinding = deploymentyml.spec.template.spec.containers[0].env.filter(element => element.name === "service_cloudant");
+        assert.equal(cloudantBinding.length > 0, cloudantExists, 
+          DEPLOYMENT_YML + ' should' +(cloudantExists ? '' : ' not') + ' contain cloudant credentials');
+        if ( cloudantExists ) {
+          assert.ok(cloudantBinding[0].valueFrom, 'Cloudant binding should have a valueFrom element: ' + JSON.stringify(cloudantBinding));
+          assert.ok(cloudantBinding[0].valueFrom.secretKeyRef, 'Cloudant valueFrom should have secretKeyRef element: ' + JSON.stringify(cloudantBinding));
+        }
+
+        var osBinding = deploymentyml.spec.template.spec.containers[0].env.filter(element => element.name === "service_object_storage");
+        assert.equal(osBinding.length > 0, objectStorageExists, 
+          DEPLOYMENT_YML + ' should' +(cloudantExists ? '' : ' not') + ' contain object storage credentials');
+        if ( objectStorageExists ) {
+          assert.ok(osBinding[0].valueFrom, 'Object Storage binding should have a valueFrom element: ' + JSON.stringify(osBinding));
+          assert.ok(osBinding[0].valueFrom.secretKeyRef, 'Object Storage valueFrom should have secretKeyRef element: ' + JSON.stringify(osBinding));
+        }
+        
+        // service.yaml
         assertYmlContent(serviceyml.metadata.name, '{{  .Chart.Name }}-service', 'serviceyml.metadata.name');
         assertYmlContent(serviceyml.metadata.labels.chart, '{{ .Chart.Name }}-{{ .Chart.Version | replace \"+\" \"_\" }}');
         assert.fileContent(SERVICE_YML, '  type: {{ .Values.service.type }}');

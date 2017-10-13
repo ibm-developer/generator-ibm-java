@@ -42,7 +42,7 @@ class Options extends core.BxOptions {
     common.assertCommonBxFiles();
     common.assertCLI(appName);
     common.assertManifestYml(ymlName, false);
-    kube.test(appName, true, framework, createType);
+    kube.test(appName, true, framework, createType, false, false);
     super.assertCloudant(false);
     super.assertObjectStorage(false);
     common.assertToolchainBxEnable();
