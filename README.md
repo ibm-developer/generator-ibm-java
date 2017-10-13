@@ -99,8 +99,6 @@ Signed-off-by: Bob <bob@uk.ibm.com>
 #    test     (adding or refactoring tests; no production code change)
 #    chore    (updating grunt tasks etc; no production code change)
 # --------------------
-# 
-# --------------------
 # Remember to
 #    Capitalize the subject line
 #    Use the imperative mood in the subject line
