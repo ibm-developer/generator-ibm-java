@@ -10,10 +10,10 @@
     "handlebars": "^4.0.0",
     "yeoman-generator": "^1.0.0",
     "@arf/generator-liberty": "6.0.1",
-    "@arf/generator-spring": "0.7.0",
+    "@arf/generator-spring": "1.0.0",
     "extend": "^3.0.1",
     "@arf/java-common": "2.3.0",
-    "generator-ibm-cloud-enablement": "0.0.105",
+    "generator-ibm-cloud-enablement": "0.0.110",
     "generator-ibm-service-enablement": "0.0.97"
   },
   "devDependencies": {
