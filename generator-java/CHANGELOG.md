@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.7.3"></a>
+## [2.7.3](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.7.2...v2.7.3) (2017-10-27)
+
+
+### Bug Fixes
+
+* **build:** update Spring test to check for ibmjava:8-sfj-alpine in Dockerfile arf/planning-java/issues/215 ([a0ffb86](https://github.ibm.com/arf/java-codegen-yeoman/commit/a0ffb86))
+
+
+
 <a name="2.7.2"></a>
 ## [2.7.2](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.7.1...v2.7.2) (2017-10-18)
 
