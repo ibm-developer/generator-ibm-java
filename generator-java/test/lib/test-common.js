@@ -45,7 +45,7 @@ var assertCommonFiles = function(framework) {
       assert.fileContent('Dockerfile', 'FROM websphere-liberty:webProfile7');
     }
     if(framework === 'spring') {
-      assert.fileContent('Dockerfile', 'FROM ibmjava:8-sdk');
+      assert.fileContent('Dockerfile', 'FROM ibmjava:8-sfj-alpine');
     }
   });
 }

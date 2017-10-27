@@ -13,7 +13,7 @@
     "@arf/generator-spring": "1.0.0",
     "extend": "^3.0.1",
     "@arf/java-common": "2.3.0",
-    "generator-ibm-cloud-enablement": "0.0.110",
+    "generator-ibm-cloud-enablement": "0.0.114",
     "generator-ibm-service-enablement": "0.0.97"
   },
   "devDependencies": {
