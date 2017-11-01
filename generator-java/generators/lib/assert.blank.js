@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-/**
- * Tests the basic generator
- */
-
 'use strict';
 
 const Assert = require('./assert');

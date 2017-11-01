@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-/**
- * Tests the basic generator
- */
-
 'use strict';
 
 const AssertBasicWeb = require('../../generators/lib/assert.basicweb');
@@ -56,7 +52,7 @@ describe('java generator : basic integration test', function () {
         appName: constant.APPNAME,
         buildType: gradle,
         cloudant: false,
-        createType: options.values.createType,
+        createType: options.prompts.createType,
         frameworkType: frameworkType,
         objectStorage: false,
         ymlName: constant.APPNAME
@@ -73,7 +69,7 @@ describe('java generator : basic integration test', function () {
         appName: constant.APPNAME,
         buildType: maven,
         cloudant: false,
-        createType: options.values.createType,
+        createType: options.prompts.createType,
         frameworkType: frameworkType,
         objectStorage: false,
         ymlName: constant.APPNAME
@@ -89,7 +85,7 @@ describe('java generator : basic integration test', function () {
         appName: constant.APPNAME,
         buildType: gradle,
         cloudant: false,
-        createType: options.values.createType,
+        createType: options.prompts.createType,
         frameworkType: frameworkType,
         objectStorage: false,
         ymlName: constant.APPNAME
@@ -106,7 +102,7 @@ describe('java generator : basic integration test', function () {
         appName: constant.APPNAME,
         buildType: maven,
         cloudant: false,
-        createType: options.values.createType,
+        createType: options.prompts.createType,
         frameworkType: frameworkType,
         objectStorage: false,
         ymlName: constant.APPNAME
@@ -126,7 +122,7 @@ describe('java generator : basic integration test', function () {
         appName: 'bxName',
         buildType: maven,
         cloudant: true,
-        createType: options.values.createType,
+        createType: options.prompts.createType,
         frameworkType: frameworkType,
         objectStorage: false,
         ymlName: 'bxName'
@@ -148,7 +144,7 @@ describe('java generator : basic integration test', function () {
         appName: 'bxName',
         buildType: maven,
         cloudant: false,
-        createType: options.values.createType,
+        createType: options.prompts.createType,
         frameworkType: frameworkType,
         objectStorage: true,
         ymlName: 'bxName'
@@ -171,7 +167,7 @@ describe('java generator : basic integration test', function () {
         appName: 'bxName',
         buildType: maven,
         cloudant: true,
-        createType: options.values.createType,
+        createType: options.prompts.createType,
         frameworkType: frameworkType,
         objectStorage: true,
         ymlName: 'bxName'

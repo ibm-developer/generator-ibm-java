@@ -18,6 +18,8 @@
 
 module.exports = {
     integrationAsserts: {
+        basicweb: require('./generators/lib/assert.basicweb'),
+        bff: require('./generators/lib/assert.bff'),
         blank: require('./generators/lib/assert.blank')
     }
 };

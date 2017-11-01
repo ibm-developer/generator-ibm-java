@@ -23,7 +23,7 @@ const constant = require('../../test/lib/constant');
 const framework = require('../../test/lib/test-framework');
 const tests = require('@arf/java-common');
 
-class AssertBasicWeb extends AssertBx {
+class AssertBFF extends AssertBx {
     assert({ appName, buildType, cloudant, createType, frameworkType, objectStorage, ymlName }) {
         super.assert({
             appName: appName,
@@ -34,8 +34,6 @@ class AssertBasicWeb extends AssertBx {
             objectStorage: objectStorage,
             ymlName: ymlName
         });
-        const base = frameworkType === constant.FRAMEWORK_SPRING ? 'src/main/resources/static' : 'src/main/webapp';
-        common.assertFiles(base, true, 'index.html', '/css/default.css', 'js/bundle.js');
         framework.test(frameworkType).assertSourceFiles(false);
         if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty(buildType);
         if (frameworkType === constant.FRAMEWORK_SPRING) this.assertspring(buildType);
@@ -43,45 +41,41 @@ class AssertBasicWeb extends AssertBx {
 
     assertliberty(buildType) {
         super.assertliberty();
+        common.assertFiles('src', true, 'main/java/application/rest/SwaggerEndpoint.java',
+            'main/java/application/model/Product.java',
+            'main/java/application/openapi/ProductsApi.java',
+            'main/java/application/openapi/ProductApi.java',
+            'test/java/it/ProductsEndpointTest.java',
+            'test/java/it/SwaggerEndpointTest.java');
         const test = tests.test(buildType);
-        test.assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
-        test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
+        test.assertDependency('provided', 'io.swagger', 'swagger-annotations', '1.5.3');
         test.assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
         test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
         framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('jaxrs-2.0');
-        framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('servlet-3.1');
+        framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('apiDiscovery-1.0');
+        framework.test(constant.FRAMEWORK_LIBERTY).assertConfig(true, 'basicRegistry');
+        if (buildType === 'maven') test.assertContent('<feature>apiDiscovery-1.0</feature>');
+        if (buildType === 'gradle') test.assertContent("name = ['apiDiscovery-1.0']");
     }
 
     assertspring(buildType) {
         super.assertspring();
+        // common.assertFiles('src', true, 'main/java/io/swagger/api/ProductApi.java',
+        //     'main/java/io/swagger/api/ProductApiController.java',
+        //     'main/java/io/swagger/api/ProductsApi.java',
+        //     'main/java/io/swagger/api/ProductsApiController.java',
+        //     'main/java/io/swagger/model/Product.java');
+        // framework.test(constant.FRAMEWORK_SPRING).assertOpenApi(true, [], buildType);
+        framework.test(constant.FRAMEWORK_SPRING).assertContent('/index.html');
+        framework.test(constant.FRAMEWORK_SPRING).assertContent('/error/404.html');
         const test = tests.test(buildType);
         test.assertDependency('compile', 'org.springframework.boot', 'spring-boot-starter-web');
         test.assertDependency('compile', 'org.springframework.boot', 'spring-boot-actuator');
         test.assertDependency('test', 'org.springframework.boot', 'spring-boot-starter-test');
-        it('should contain EndpointTest.java for testing the web endpoint', function () {
-            assert.file('src/test/java/application/EndpointTest.java');
+        it('Check that common info files exist', function () {
+            assert.fileContent('src/main/java/io/swagger/Info.java', 'http://localhost:8080/swagger/api'); //standard info is there
         });
-        framework.test(constant.FRAMEWORK_SPRING).assertContent('/index.html');
-        framework.test(constant.FRAMEWORK_SPRING).assertContent('/error/404.html');
-    }
-
-    assertCloudant({ exists, buildType, frameworkType }) {
-        super.assertCloudant({ exists: exists, buildType: buildType });
-        if (exists && (frameworkType === constant.FRAMEWORK_SPRING)) {
-            it('should contain @Lazy for cloudant client', function () {
-                assert.fileContent('src/main/java/application/cloudant/CloudantClientConfig.java', '@Lazy');
-            });
-        }
-    }
-
-    assertObjectStorage({ exists, buildType, frameworkType }) {
-        super.assertObjectStorage({ exists: exists, buildType: buildType });
-        if (exists && (frameworkType === constant.FRAMEWORK_SPRING)) {
-            it('should contain @Lazy for ObjectStorage client', function () {
-                assert.fileContent('src/main/java/application/objectstorage/ObjectStorageConfig.java', '@Lazy');
-            });
-        }
     }
 }
 
-module.exports = exports = AssertBasicWeb;
+module.exports = exports = AssertBFF;
