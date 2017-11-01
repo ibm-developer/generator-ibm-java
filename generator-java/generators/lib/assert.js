@@ -16,20 +16,11 @@
 
 'use strict';
 
-const assert = require('yeoman-assert');
 const common = require('../../test/lib/test-common');
 const constant = require('../../test/lib/constant');
 const framework = require('../../test/lib/test-framework');
 const tests = require('@arf/java-common');
 const command = tests.test('command');
-
-function getCheck(exists) {
-  return {
-    file: exists ? assert.file : assert.noFile,
-    desc: exists ? 'should create ' : 'should not create ',
-    content: exists ? assert.fileContent : assert.noFileContent
-  }
-}
 
 class Assert {
   constructor(frameworkType) {
@@ -40,7 +31,8 @@ class Assert {
     common.assertCommonFiles(frameworkType);
     this.assertBuild(appName, buildType);
     this.assertFramework(appName, buildType, frameworkType);
-    this['assert' + frameworkType]();
+    if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty(buildType);
+    if (frameworkType === constant.FRAMEWORK_SPRING) this.assertspring(buildType);
   }
 
   assertBuild(appName, buildType) {
@@ -52,7 +44,7 @@ class Assert {
     command.run(tests.test(buildType).getCompileCommand());
   }
 
-  //general framework tests which apply to all of them
+  // general framework tests which apply to all of them
   assertFramework(appName, buildType, frameworkType) {
     framework.test(frameworkType).assertFiles(appName);
     framework.test(frameworkType).assertBuildFiles(buildType);

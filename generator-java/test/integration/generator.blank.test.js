@@ -20,7 +20,7 @@
 
 'use strict';
 
-const Assert = require('../../generators/lib/assert.blank');
+const AssertBlank = require('../../generators/lib/assert.blank');
 const constant = require('../lib/constant');
 const core = require('../lib/core');
 const extend = require('extend');
@@ -38,7 +38,7 @@ class Options extends core.Options {
   }
 }
 
-const frameworkTypes = ['liberty', 'spring'];
+const frameworkTypes = [constant.FRAMEWORK_LIBERTY, constant.FRAMEWORK_SPRING];
 const gradle = 'gradle';
 const maven = 'maven';
 
@@ -50,7 +50,7 @@ describe('java generator : basic integration test', function () {
       options.prompts = { extName: 'prompt:patterns', buildType: gradle, createType: options.values.createType, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID };
       before(options.before.bind(options));
       
-      const assert = new Assert(frameworkType);
+      const assert = new AssertBlank(frameworkType);
       assert.assert(constant.APPNAME, gradle, frameworkType);
     });
 
@@ -59,7 +59,7 @@ describe('java generator : basic integration test', function () {
       options.prompts = { extName: 'prompt:patterns', buildType: maven, createType: options.values.createType, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID };
       before(options.before.bind(options));
 
-      const assert = new Assert(frameworkType);
+      const assert = new AssertBlank(frameworkType);
       assert.assert(constant.APPNAME, maven, frameworkType);
     });
 
@@ -67,7 +67,7 @@ describe('java generator : basic integration test', function () {
       const options = new Options(true, gradle, frameworkType, core.APPNAME);
       before(options.before.bind(options));
 
-      const assert = new Assert(frameworkType);
+      const assert = new AssertBlank(frameworkType);
       assert.assert(constant.APPNAME, gradle, frameworkType);
       assert.assertCompiles(gradle);
     });
@@ -76,7 +76,7 @@ describe('java generator : basic integration test', function () {
       const options = new Options(true, maven, frameworkType, core.APPNAME);
       before(options.before.bind(options));
 
-      const assert = new Assert(frameworkType);
+      const assert = new AssertBlank(frameworkType);
       assert.assert(constant.APPNAME, maven, frameworkType);
       assert.assertCompiles(maven);
     });
