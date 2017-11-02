@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+ /**
+ * Tests the basic generator
+ */
+
 'use strict';
 
 const AssertBFF = require('../../generators/lib/assert.bff');

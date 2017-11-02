@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
+ /**
+ * Tests the basic generator
+ */
+
 'use strict';
 
 const AssertBasicWeb = require('../../generators/lib/assert.basicweb');
 const constant = require('../lib/constant');
 const core = require('../lib/core');
 const extend = require('extend');
-const framework = require('../lib/test-framework');
 
 class Options extends core.BxOptions {
   constructor(runHeadless, buildType, frameworkType, name) {
@@ -41,6 +44,7 @@ const maven = 'maven';
 
 describe('java generator : basic integration test', function () {
   this.timeout(7000);
+  
   frameworkTypes.forEach(frameworkType => {
     describe('Generates a basic ' + frameworkType + ' web project (no bluemix), gradle build with prompts', function () {
       const options = new Options(false, 'gradle', frameworkType);

@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+ /**
+ * Tests the basic generator
+ */
+
 'use strict';
 
 const AssertBlank = require('../../generators/lib/assert.blank');
@@ -29,7 +33,7 @@ class Options extends core.Options {
       buildType: buildType,
       frameworkType: frameworkType,
       createType: 'blank/' + frameworkType,
-      appName: name || core.APPNAME
+      appName: name || constant.APPNAME
     });
   }
 }
@@ -43,7 +47,7 @@ describe('java generator : basic integration test', function () {
   frameworkTypes.forEach(frameworkType => {
     describe('Generates a basic ' + frameworkType + ' blank project (no bluemix), gradle build with prompts', function () {      
       const options = new Options(false, gradle, frameworkType);
-      options.prompts = { extName: 'prompt:patterns', buildType: gradle, createType: options.values.createType, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID };
+      options.prompts = { extName: 'prompt:patterns', buildType: gradle, createType: options.values.createType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
       before(options.before.bind(options));
       
       const assert = new AssertBlank(frameworkType);
@@ -52,7 +56,7 @@ describe('java generator : basic integration test', function () {
 
     describe('Generates a basic ' + frameworkType + ' blank project (no bluemix), maven build with prompts', function () {
       const options = new Options(false, maven, frameworkType);
-      options.prompts = { extName: 'prompt:patterns', buildType: maven, createType: options.values.createType, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID };
+      options.prompts = { extName: 'prompt:patterns', buildType: maven, createType: options.values.createType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
       before(options.before.bind(options));
 
       const assert = new AssertBlank(frameworkType);
@@ -60,7 +64,7 @@ describe('java generator : basic integration test', function () {
     });
 
     describe('Generates a basic ' + frameworkType + ' blank project (no bluemix), gradle build', function () {
-      const options = new Options(true, gradle, frameworkType, core.APPNAME);
+      const options = new Options(true, gradle, frameworkType, constant.APPNAME);
       before(options.before.bind(options));
 
       const assert = new AssertBlank(frameworkType);
@@ -69,7 +73,7 @@ describe('java generator : basic integration test', function () {
     });
 
     describe('Generates a basic ' + frameworkType + ' blank project (no bluemix), maven build', function () {
-      const options = new Options(true, maven, frameworkType, core.APPNAME);
+      const options = new Options(true, maven, frameworkType, constant.APPNAME);
       before(options.before.bind(options));
 
       const assert = new AssertBlank(frameworkType);
