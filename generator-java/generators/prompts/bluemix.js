@@ -71,6 +71,9 @@ Extension.prototype.afterPrompt = function(answers, config) {
     if(!config.bluemix) {
       config.bluemix = {};
     }
+    if (answers.services.length === 1 && answers.services[0] === 'none') {
+      return;  //stop processing if none has been selected
+    }
     logger.writeToLog("Processing interactive answers", answers.services);
     config.bluemix.server = {
       name : answers.appName || config.appName || "testBxName",
@@ -80,10 +83,6 @@ Extension.prototype.afterPrompt = function(answers, config) {
     config.bluemix.server.services = answers.services;
     for(var i = 0; i < answers.services.length; i++) {
       var service = answers.services[i];
-      if(service === "none") {
-        config.bluemix = undefined;
-        break;    //stop processing if none has been selected
-      }
       if(service === "cloudant") {
         if(!config.bluemix.cloudant) {
           config.bluemix.cloudant = [

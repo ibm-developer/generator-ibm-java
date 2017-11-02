@@ -60,12 +60,12 @@ class AssertBFF extends AssertBx {
 
     assertspring(buildType) {
         super.assertspring();
-        // common.assertFiles('src', true, 'main/java/io/swagger/api/ProductApi.java',
-        //     'main/java/io/swagger/api/ProductApiController.java',
-        //     'main/java/io/swagger/api/ProductsApi.java',
-        //     'main/java/io/swagger/api/ProductsApiController.java',
-        //     'main/java/io/swagger/model/Product.java');
-        // framework.test(constant.FRAMEWORK_SPRING).assertOpenApi(true, [], buildType);
+        common.assertFiles('src', true, 'main/java/io/swagger/api/ProductApi.java',
+            'main/java/io/swagger/api/ProductApiController.java',
+            'main/java/io/swagger/api/ProductsApi.java',
+            'main/java/io/swagger/api/ProductsApiController.java',
+            'main/java/io/swagger/model/Product.java');
+        framework.test(constant.FRAMEWORK_SPRING).assertOpenApi(true, [], buildType);
         framework.test(constant.FRAMEWORK_SPRING).assertContent('/index.html');
         framework.test(constant.FRAMEWORK_SPRING).assertContent('/error/404.html');
         const test = tests.test(buildType);

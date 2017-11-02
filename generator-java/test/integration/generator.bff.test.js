@@ -43,7 +43,16 @@ describe('java generator : bff integration test', function () {
   frameworkTypes.forEach(frameworkType => {
     describe('Generates a basic bff project (no bluemix), gradle build with prompts', function () {
       const options = new Options(false, 'gradle', frameworkType);
-      options.prompts = { extName: 'prompt:patterns', buildType: 'gradle', createType: 'bff/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
+      options.prompts = { 
+        extName: 'prompt:patterns', 
+        buildType: 'gradle', 
+        createType: 'bff/' + frameworkType, 
+        services: ['none'], 
+        appName: constant.APPNAME, 
+        artifactId: constant.ARTIFACTID,
+        addbluemix: true,
+        bluemix: options.values.bluemix
+      };
       before(options.before.bind(options));
 
       const assert = new AssertBFF(frameworkType);
@@ -60,7 +69,16 @@ describe('java generator : bff integration test', function () {
 
     describe('Generates a basic bff project (no bluemix), maven build with prompts', function () {
       const options = new Options(false, 'maven', frameworkType);
-      options.prompts = { extName: 'prompt:patterns', buildType: 'maven', createType: 'bff/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
+      options.prompts = { 
+        extName: 'prompt:patterns', 
+        buildType: 'maven', 
+        createType: 'bff/' + frameworkType, 
+        services: ['none'], 
+        appName: constant.APPNAME, 
+        artifactId: constant.ARTIFACTID,
+        addbluemix: true,
+        bluemix: options.values.bluemix
+      };
       before(options.before.bind(options));
 
       const assert = new AssertBFF(frameworkType);
