@@ -37,11 +37,11 @@ class AssertBasicWeb extends AssertBx {
         const base = frameworkType === constant.FRAMEWORK_SPRING ? 'src/main/resources/static' : 'src/main/webapp';
         common.assertFiles(base, true, 'index.html', '/css/default.css', 'js/bundle.js');
         framework.test(frameworkType).assertSourceFiles(false);
-        if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty(buildType);
+        if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty({ buildType: buildType });
         if (frameworkType === constant.FRAMEWORK_SPRING) this.assertspring(buildType);
     }
 
-    assertliberty(buildType) {
+    assertliberty({ buildType }) {
         super.assertliberty();
         const test = tests.test(buildType);
         test.assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');

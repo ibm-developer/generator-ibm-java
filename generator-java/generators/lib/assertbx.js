@@ -34,7 +34,12 @@ class AssertBx extends Assert {
     }
 
     assert({ appName, buildType, cloudant, createType, frameworkType, objectStorage, ymlName }) {
-        super.assert(appName, buildType, frameworkType);
+        super.assert({
+            appName: appName,
+            buildType: buildType,
+            createType: createType,
+            frameworkType: frameworkType
+        });
         this.assertCloudant({ exists: cloudant, buildType: buildType });
         this.assertObjectStorage({ exists: objectStorage, buildType: buildType });
         if (frameworkType === constant.FRAMEWORK_SPRING) common.assertBluemixSrcSvcEnabled(cloudant || objectStorage);

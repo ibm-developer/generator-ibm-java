@@ -35,7 +35,7 @@ class AssertMicroservice extends AssertBx {
             ymlName: ymlName
         });
         super.assertBuild(appName, buildType);
-        if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty(buildType);
+        if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty({ buildType: buildType });
         if (frameworkType === constant.FRAMEWORK_SPRING) this.assertspring();
         this.assertCloudant({ exists: cloudant, frameworkType: frameworkType });
         this.assertObjectStorage({ exists: objectStorage, frameworkType: frameworkType });
@@ -45,7 +45,7 @@ class AssertMicroservice extends AssertBx {
         });
     }
 
-    assertliberty(buildType) {
+    assertliberty({ buildType }) {
         super.assertliberty();
         const test = tests.test(buildType);
         test.assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');

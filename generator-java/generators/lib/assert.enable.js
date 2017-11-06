@@ -37,11 +37,11 @@ class AssertEnable extends AssertBx {
         common.assertManifestYml(ymlName, false);
         common.assertToolchainBxEnable();
         kube.test(appName, true, frameworkType, createType, false, false);
-        if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty(buildType);
+        if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty({ buildType: buildType });
         if (frameworkType === constant.FRAMEWORK_SPRING) this.assertspring(buildType);
     }
 
-    assertliberty(buildType) {
+    assertliberty({ buildType }) {
         const appPath = buildType === 'maven' ? 'target' : 'build';
         const libertyInstall = buildType === 'maven' ? 'target/liberty/wlp' : 'build/wlp';
         const buildTypeCap = buildType.charAt(0).toUpperCase() + buildType.slice(1);

@@ -27,11 +27,11 @@ class Assert {
     this.frameworkType = frameworkType;
   }
 
-  assert(appName, buildType, frameworkType) {
+  assert({ appName, buildType, createType, frameworkType }) {
     common.assertCommonFiles(frameworkType);
     this.assertBuild(appName, buildType);
     this.assertFramework(appName, buildType, frameworkType);
-    if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty(buildType);
+    if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty({ buildType, createType });
     if (frameworkType === constant.FRAMEWORK_SPRING) this.assertspring(buildType);
   }
 

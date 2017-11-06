@@ -35,11 +35,11 @@ class AssertBFF extends AssertBx {
             ymlName: ymlName
         });
         framework.test(frameworkType).assertSourceFiles(false);
-        if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty(buildType);
+        if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty({ buildType: buildType });
         if (frameworkType === constant.FRAMEWORK_SPRING) this.assertspring(buildType);
     }
 
-    assertliberty(buildType) {
+    assertliberty({ buildType }) {
         super.assertliberty();
         common.assertFiles('src', true, 'main/java/application/rest/SwaggerEndpoint.java',
             'main/java/application/model/Product.java',

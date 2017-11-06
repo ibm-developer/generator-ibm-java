@@ -35,7 +35,7 @@ class Options extends core.BxOptions {
       buildType: buildType,
       frameworkType: frameworkType || constant.FRAMEWORK_LIBERTY,
       createType: 'microservice/' + (frameworkType || constant.FRAMEWORK_LIBERTY),
-      appName: core.APPNAME,
+      appName: constant.APPNAME,
       javametrics: javaMetrics
     });
   }
