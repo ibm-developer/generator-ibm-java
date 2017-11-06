@@ -51,7 +51,7 @@ frameworkTypes.forEach(frameworkType => {
         createType: options.prompts.createType,
         frameworkType: frameworkType,
         ymlName: constant.APPNAME
-      })
+      });
     });
 
     describe('Enable a project using a maven build : ' + frameworkType, function () {
@@ -66,7 +66,7 @@ frameworkTypes.forEach(frameworkType => {
         createType: options.prompts.createType,
         frameworkType: frameworkType,
         ymlName: constant.APPNAME
-      })
+      });
     });
   });
 });

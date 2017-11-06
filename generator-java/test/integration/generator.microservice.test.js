@@ -17,135 +17,35 @@
 /**
  * Tests the microservice generator
  */
+
 'use strict';
 
-const FRAMEWORK_LIBERTY = 'liberty';
-const FRAMEWORK_SPRING = 'spring';
-
+const AssertMicroservice = require('../../generators/lib/assert.microservice');
 const assert = require('yeoman-assert');
-const framework = require('../lib/test-framework');
-const tests = require('@arf/java-common');
-const command = tests.test('command');
+const constant = require('../lib/constant');
 const core = require('../lib/core');
 const extend = require('extend');
-const common = require('../lib/test-common');
+const framework = require('../lib/test-framework');
 
 class Options extends core.BxOptions {
   constructor(buildType, frameworkType, javaMetrics) {
     super(frameworkType === 'spring' ? 'SPRING' : 'JAVA');
     extend(this.values, {
-      headless :  "true",
-      buildType : buildType,
-      frameworkType : frameworkType || FRAMEWORK_LIBERTY,
-      createType : 'microservice/' + (frameworkType || FRAMEWORK_LIBERTY),
-      appName : core.APPNAME,
-      javametrics : javaMetrics
+      headless: "true",
+      buildType: buildType,
+      frameworkType: frameworkType || constant.FRAMEWORK_LIBERTY,
+      createType: 'microservice/' + (frameworkType || constant.FRAMEWORK_LIBERTY),
+      appName: core.APPNAME,
+      javametrics: javaMetrics
     });
   }
-
-  assert(appName, ymlName, cloudant, objectStorage) {
-    super.assert(appName, ymlName, cloudant, objectStorage, this.values.createType);
-    this.assertCloudant(cloudant);
-    this.assertObjectStorage(objectStorage);
-    this.values.frameworkType === FRAMEWORK_LIBERTY ? this.assertliberty() : this.assertspring();
-    this.assertBuild(appName);
-    common.assertToolchainBxCreate();
-    it('Check that common source files exist', function () {
-      assert.fileContent('src/main/java/application/rest/v1/Example.java','Congratulations');
-    });
-  }
-
-  assertBuild(appName) {
-    super.assertBuild(appName);
-  }
-
-  assertCompiles(buildType) {
-    command.run(tests.test(buildType).getCompileCommand());
-  }
-
-  //Liberty specific things to test for
-  assertliberty() {
-    super.assertliberty();
-    var test = tests.test(this.values.buildType);
-    test.assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
-    test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
-    test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
-    test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
-    var type = this.values.buildType === 'maven' ? 'pom' : undefined;
-    test.assertDependency('provided', 'io.microprofile', 'microprofile', '1.0.0', undefined, type);
-    framework.test(FRAMEWORK_LIBERTY).assertSourceFiles(false);
-    framework.test(FRAMEWORK_LIBERTY).assertFeatures('microprofile-1.0');
-    framework.test(FRAMEWORK_LIBERTY).assertFeatures('jndi-1.0');
-  }
-
-  assertspring() {
-    super.assertspring();
-    framework.test(FRAMEWORK_SPRING).assertContent('/index.html');
-    framework.test(FRAMEWORK_SPRING).assertContent('/error/404.html');
-    it('Check that common Spring source files exist', function () {
-      assert.fileContent('src/main/java/application/Info.java','http://localhost:8080/v1/'); //standard info is there
-    });
-  }
-
-  assertCloudant(exists) {
-    var check = this.getCheck(exists);
-    var invcheck = this.getCheck(exists^exists);
-    it(check.desc + 'common cloudant source files', function () {
-      check.content('src/main/java/application/rest/v1/Example.java','Cloudant'); //check Cloudant service present
-      check.content('src/main/java/application/rest/v1/Example.java','import com.cloudant.client.api.CloudantClient;');
-      check.content('README.md', 'cloudant');
-    });
-    if(this.values.frameworkType === FRAMEWORK_LIBERTY) {
-      it(check.desc + 'Liberty cloudant source files', function () {
-        check.file('src/main/java/application/cloudant/Cloudant.java')
-      });
-      it(invcheck.desc + 'Spring cloudant source files', function () {
-        invcheck.file('src/main/java/application/cloudant/CloudantClientConfig.java')
-      });
-    }
-    if(this.values.frameworkType === FRAMEWORK_SPRING) {
-      it(invcheck.desc + 'Liberty cloudant source files', function () {
-        invcheck.file('src/main/java/application/cloudant/Cloudant.java');
-      });
-      it(check.desc + 'Spring cloudant source files', function () {
-        check.file('src/main/java/application/cloudant/CloudantClientConfig.java');
-        check.content('src/main/java/application/Info.java','http://localhost:8080/v1/cloudant'); //standard info is there
-      });
-    }
-  }
-
-  assertObjectStorage(exists) {
-    var check = this.getCheck(exists);
-    var invcheck = this.getCheck(exists^exists);
-    it(check.desc + 'Object Storage source files', function () {
-      check.content('src/main/java/application/rest/v1/Example.java','OSClient'); //check object Storage service present
-      check.content('src/main/java/application/rest/v1/Example.java','import org.openstack4j.model.storage.object.SwiftAccount;');
-      check.content('README.md', 'Object Storage service');
-    });
-    if(this.values.frameworkType === FRAMEWORK_LIBERTY) {
-      it(check.desc + 'Liberty objectStorage source files', function () {
-        check.file('src/main/java/application/objectstorage/ObjectStorage.java')
-      });
-      it(invcheck.desc + 'Spring objectStorage source files', function () {
-        invcheck.file('src/main/java/application/objectstorage/ObjectStorageConfig.java')
-      });
-    }
-    if(this.values.frameworkType === FRAMEWORK_SPRING) {
-      it(invcheck.desc + 'Liberty objectStorage source files', function () {
-        invcheck.file('src/main/java/application/objectstorage/ObjectStorage.java')
-      });
-      it(check.desc + 'Spring objectStorage source files', function () {
-        check.file('src/main/java/application/objectstorage/ObjectStorageConfig.java')
-        check.content('src/main/java/application/Info.java','http://localhost:8080/v1/objectstorage'); //standard info is there
-      });
-    }
-  }
-
 }
 
+const gradle = 'gradle';
+const maven = 'maven';
 
-execute(FRAMEWORK_LIBERTY);
-execute(FRAMEWORK_SPRING);
+execute(constant.FRAMEWORK_LIBERTY);
+execute(constant.FRAMEWORK_SPRING);
 
 function execute(framework) {
   const name = framework.toUpperCase();
@@ -154,107 +54,165 @@ function execute(framework) {
   describe('java generator : microservice integration test', function () {
     this.timeout(7000);
 
-    //execute each of these tests for both Liberty and Spring frameworks
+    // execute each of these tests for both Liberty and Spring frameworks
     describe(name + ': Generates a basic microservices project (no bluemix), gradle build system', function () {
-      var options = new Options('gradle', framework);
+      const options = new Options('gradle', framework);
       before(options.before.bind(options));
-      options.assert(core.APPNAME, core.APPNAME, false, false);
+
+      const assertMicroservice = new AssertMicroservice(framework);
+      assertMicroservice.assert({
+        appName: constant.APPNAME,
+        buildType: gradle,
+        cloudant: false,
+        createType: options.values.createType,
+        frameworkType: framework,
+        objectStorage: false,
+        ymlName: constant.APPNAME
+      });
+      assertMicroservice.assertCompiles(gradle);
 
       it('should create a basic microservice, gradle build system', function () {
         assert.fileContent('README.md', 'gradle');
         assert.noFileContent('README.md', 'maven');
       });
-      options.assertCompiles('gradle');
     });
 
     describe(name + ': Generates a basic microservices project (no bluemix), maven build system', function () {
-      var options = new Options('maven', framework);
+      const options = new Options('maven', framework);
       before(options.before.bind(options));
-      options.assert(core.APPNAME, core.APPNAME, false, false);
+
+      const assertMicroservice = new AssertMicroservice(framework);
+      assertMicroservice.assert({
+        appName: constant.APPNAME,
+        buildType: maven,
+        cloudant: false,
+        createType: options.values.createType,
+        frameworkType: framework,
+        objectStorage: false,
+        ymlName: constant.APPNAME
+      });
+      assertMicroservice.assertCompiles(maven);
 
       it('should create a basic microservice, maven build system', function () {
         assert.fileContent('README.md', 'maven');
         assert.noFileContent('README.md', 'gradle');
       });
-      options.assertCompiles('maven');
     });
 
     describe(name + ': Generates a basic microservices project (gradle, bluemix, no services)', function () {
-
-      var options = new Options('gradle', framework);
+      const options = new Options('gradle', framework);
       options.values.bluemix.name = 'bxName';
       before(options.before.bind(options));
-      options.assert('bxName', 'bxName', false, false);
+
+      const assertMicroservice = new AssertMicroservice(framework);
+      assertMicroservice.assert({
+        appName: 'bxName',
+        buildType: gradle,
+        cloudant: false,
+        createType: options.values.createType,
+        frameworkType: framework,
+        objectStorage: false,
+        ymlName: 'bxName'
+      });
 
       it('with no services', function () {
-        assert.fileContent('manifest.yml', 'name: bxName') //Not using prompt so we get app name and random route
-        assert.fileContent('manifest.yml', 'random-route: true') //Not using prompt so we get app name and random route
+        assert.fileContent('manifest.yml', 'name: bxName') // Not using prompt so we get app name and random route
+        assert.fileContent('manifest.yml', 'random-route: true') // Not using prompt so we get app name and random route
       });
     });
 
     describe(name + ': Generates a basic microservices project (maven, bluemix, cloudant)', function () {
-
-      var options = new Options('maven', framework);
+      const options = new Options('maven', framework);
       options.values.bluemix = '{"name" : "bxName", "backendPlatform" : "' + backendPlatform + '", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
       before(options.before.bind(options));
 
-      options.assert('bxName', 'bxName', true, false);
-      options.assertCompiles('maven');
+      const assert = new AssertMicroservice(framework);
+      assert.assert({
+        appName: 'bxName',
+        buildType: maven,
+        cloudant: true,
+        createType: options.values.createType,
+        frameworkType: framework,
+        objectStorage: false,
+        ymlName: 'bxName'
+      });
+      assert.assertCompiles(maven);
     });
 
     describe(name + ': Generates a basic microservices project (gradle, bluemix, cloudant)', function () {
-
-      var options = new Options('gradle', framework);
+      const options = new Options('gradle', framework);
       options.values.bluemix = '{"name" : "bxName", "backendPlatform" : "' + backendPlatform + '", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
       before(options.before.bind(options));
 
-      options.assert('bxName', 'bxName', true, false);
-      options.assertCompiles('gradle');
+      const assert = new AssertMicroservice(framework);
+      assert.assert({
+        appName: 'bxName',
+        buildType: gradle,
+        cloudant: true,
+        createType: options.values.createType,
+        frameworkType: framework,
+        objectStorage: false,
+        ymlName: 'bxName'
+      });
+      assert.assertCompiles(gradle);
     });
 
     describe(name + ': Generates a basic microservices project (maven, bluemix, objectStorage)', function () {
-
-      var options = new Options('maven', framework);
+      const options = new Options('maven', framework);
       options.values.bluemix = '{"name" : "bxName", "backendPlatform" : "' + backendPlatform + '", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
       before(options.before.bind(options));
 
-      options.assert('bxName', 'bxName', false, true);
-      options.assertCompiles('maven');
+      const assert = new AssertMicroservice(framework);
+      assert.assert({
+        appName: 'bxName',
+        buildType: maven,
+        cloudant: false,
+        createType: options.values.createType,
+        frameworkType: framework,
+        objectStorage: true,
+        ymlName: 'bxName'
+      });
+      assert.assertCompiles(maven);
     });
 
     describe(name + ': Generates a basic microservices project (gradle, bluemix, objectStorage)', function () {
-
-      var options = new Options('gradle', framework);
+      const options = new Options('gradle', framework);
       options.values.bluemix = '{"name" : "bxName", "backendPlatform" : "' + backendPlatform + '", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
       before(options.before.bind(options));
 
-      options.assert('bxName', 'bxName', false, true);
-      options.assertCompiles('gradle');
+      const assert = new AssertMicroservice(framework);
+      assert.assert({
+        appName: 'bxName',
+        buildType: gradle,
+        cloudant: false,
+        createType: options.values.createType,
+        frameworkType: framework,
+        objectStorage: true,
+        ymlName: 'bxName'
+      });
+      assert.assertCompiles(gradle);
     });
-
   });
 }
 
 describe('Basic microservices project checking javametrics', function () {
   describe('Generate a basic liberty microservices project checking javametrics exists', function () {
-    var options = new Options('maven', FRAMEWORK_LIBERTY, true);
+    const options = new Options('maven', constant.FRAMEWORK_LIBERTY, true);
     before(options.before.bind(options));
-    framework.test(FRAMEWORK_LIBERTY).assertJavaMetrics(true, 'maven');
+    framework.test(constant.FRAMEWORK_LIBERTY).assertJavaMetrics(true, 'maven');
     it('Check dockerfile contains javametrics options', function () {
-      assert.fileContent('Dockerfile','COPY /target/liberty/wlp/usr/shared/resources /config/resources/');
-      assert.fileContent('Dockerfile','COPY /src/main/liberty/config/jvmbx.options /config/jvm.options');
+      assert.fileContent('Dockerfile', 'COPY /target/liberty/wlp/usr/shared/resources /config/resources/');
+      assert.fileContent('Dockerfile', 'COPY /src/main/liberty/config/jvmbx.options /config/jvm.options');
     });
-
   });
 
   describe('Generate a basic liberty microservices project checking javametrics does not exist', function () {
-    var options = new Options('maven', FRAMEWORK_LIBERTY);
+    const options = new Options('maven', constant.FRAMEWORK_LIBERTY);
     before(options.before.bind(options));
-    framework.test(FRAMEWORK_LIBERTY).assertJavaMetrics(false, 'maven');
+    framework.test(constant.FRAMEWORK_LIBERTY).assertJavaMetrics(false, 'maven');
     it('Check dockerfile does not contain javametrics options', function () {
-      assert.noFileContent('Dockerfile','COPY /target/liberty/wlp/usr/shared/resources /config/resources/');
-      assert.noFileContent('Dockerfile','COPY /src/main/liberty/config/jvmbx.options /config/jvm.options');
+      assert.noFileContent('Dockerfile', 'COPY /target/liberty/wlp/usr/shared/resources /config/resources/');
+      assert.noFileContent('Dockerfile', 'COPY /src/main/liberty/config/jvmbx.options /config/jvm.options');
     });
-
   });
 });

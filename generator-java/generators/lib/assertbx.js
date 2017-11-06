@@ -24,34 +24,31 @@ const framework = require('../../test/lib/test-framework');
 const kube = require('../../test/lib/test-kube');
 const tests = require('@arf/java-common');
 
-function getCheck(exists) {
-    return {
-        file: exists ? assert.file : assert.noFile,
-        desc: exists ? 'should create ' : 'should not create ',
-        content: exists ? assert.fileContent : assert.noFileContent
-    }
-}
-
 class AssertBx extends Assert {
+    getCheck(exists) {
+        return {
+            file: exists ? assert.file : assert.noFile,
+            desc: exists ? 'should create ' : 'should not create ',
+            content: exists ? assert.fileContent : assert.noFileContent
+        }
+    }
+
     assert({ appName, buildType, cloudant, createType, frameworkType, objectStorage, ymlName }) {
         super.assert(appName, buildType, frameworkType);
-        
+        this.assertCloudant({ exists: cloudant, buildType: buildType });
+        this.assertObjectStorage({ exists: objectStorage, buildType: buildType });
+        if (frameworkType === constant.FRAMEWORK_SPRING) common.assertBluemixSrcSvcEnabled(cloudant || objectStorage);
+        if (frameworkType === constant.FRAMEWORK_LIBERTY) common.assertBluemixSrc(cloudant || objectStorage);
         common.assertCommonBxFiles();
         common.assertCLI(appName);
         common.assertManifestYml(ymlName, cloudant || objectStorage);
-        if (frameworkType === constant.FRAMEWORK_SPRING) common.assertBluemixSrcSvcEnabled(cloudant || objectStorage);
-        if (frameworkType === constant.FRAMEWORK_LIBERTY) common.assertBluemixSrc(cloudant || objectStorage);
-
         kube.test(appName, true, frameworkType, createType, cloudant, objectStorage);
-        this.assertCloudant({ exists: cloudant, buildType: buildType });
-        this.assertObjectStorage({ exists: objectStorage, buildType: buildType });
-
         framework.test(frameworkType).assertCloudant(cloudant);
         framework.test(frameworkType).assertObjectStorage(objectStorage);
     }
 
     assertCloudant({ exists, buildType }) {
-        const check = getCheck(exists);
+        const check = this.getCheck(exists);
         it(check.desc + 'cloudant README entry', function () {
             if (exists) {
                 check.content('README.md', 'cloudant');
@@ -63,7 +60,7 @@ class AssertBx extends Assert {
     }
 
     assertObjectStorage({ exists, buildType }) {
-        const check = getCheck(exists);
+        const check = this.getCheck(exists);
         it(check.desc + 'Object Storage README entry', function () {
             if (exists) {
                 check.content('README.md', 'Object Storage service');

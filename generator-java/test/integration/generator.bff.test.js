@@ -68,7 +68,7 @@ describe('java generator : bff integration test', function () {
         frameworkType: frameworkType,
         objectStorage: false,
         ymlName: constant.APPNAME
-      })
+      });
     });
 
     describe('Generates a basic bff project (no bluemix), maven build with prompts', function () {
@@ -94,7 +94,7 @@ describe('java generator : bff integration test', function () {
         frameworkType: frameworkType,
         objectStorage: false,
         ymlName: constant.APPNAME
-      })
+      });
     });
 
     describe('Generates a basic bff project (no bluemix), gradle build', function () {
@@ -110,7 +110,7 @@ describe('java generator : bff integration test', function () {
         frameworkType: frameworkType,
         objectStorage: false,
         ymlName: constant.APPNAME
-      })
+      });
       assert.assertCompiles(gradle);
     });
 
@@ -127,7 +127,7 @@ describe('java generator : bff integration test', function () {
         frameworkType: frameworkType,
         objectStorage: false,
         ymlName: constant.APPNAME
-      })
+      });
       assert.assertCompiles(maven);
     });
 
@@ -147,7 +147,7 @@ describe('java generator : bff integration test', function () {
         frameworkType: frameworkType,
         objectStorage: false,
         ymlName: 'bxName'
-      })
+      });
       assert.assertCloudant({ exists: true, buildType: maven });
       assert.assertCompiles(maven);
     });
@@ -168,7 +168,7 @@ describe('java generator : bff integration test', function () {
         frameworkType: frameworkType,
         objectStorage: true,
         ymlName: 'bxName'
-      })
+      });
       assert.assertObjectStorage({ exists: true, buildType: maven });
       assert.assertCompiles(maven);
     });
@@ -190,7 +190,7 @@ describe('java generator : bff integration test', function () {
         frameworkType: frameworkType,
         objectStorage: true,
         ymlName: 'bxName'
-      })
+      });
       assert.assertCloudant({ exists: true, buildType: maven });
       assert.assertObjectStorage({ exists: true, buildType: maven });
     });
