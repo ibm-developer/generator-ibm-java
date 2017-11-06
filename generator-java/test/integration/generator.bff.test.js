@@ -85,6 +85,7 @@ class Options extends core.BxOptions {
     var test = tests.test(this.values.buildType);
     test.assertDependency('compile', 'org.springframework.boot', 'spring-boot-starter-web');
     test.assertDependency('compile', 'org.springframework.boot', 'spring-boot-actuator');
+    test.assertDependency('compile', 'org.springframework.cloud', 'spring-cloud-starter-hystrix');
     test.assertDependency('test', 'org.springframework.boot', 'spring-boot-starter-test');
     framework.test(FRAMEWORK_SPRING).assertContent('/index.html');
     framework.test(FRAMEWORK_SPRING).assertContent('/error/404.html');
