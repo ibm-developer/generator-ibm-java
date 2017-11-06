@@ -16,16 +16,16 @@ To run the Yeoman generator simply type the following:
 yo @arf/java
 ```
 
-The generator provides the ability to generate Java applications from Bluemix starters or WebSphere Liberty technologies, for example:
+The generator provides the ability to generate Java applications from IBM Cloud starters or WebSphere Liberty technologies, for example:
 
 ```
 ? Select from the list of available generation options.
  (Use arrow keys)
 ❯ Liberty : generate source for WebSphere Liberty.
-  Bluemix : generate source for Bluemix starters
+  IBM Cloud : generate source for IBM Cloud starters
 ```
 
-[Bluemix](https://console.ng.bluemix.net/) starters provide infrastructure files for building locally with Maven or Gradle and deploying to IBM Bluemix using containers. They also include code snippets to connect to any Bluemix services that are selected as part of the generation.
+[IBM Cloud](https://console.ng.bluemix.net/) starters provide infrastructure files for building locally with Maven or Gradle and deploying to IBM Cloud using containers. They also include code snippets to connect to any IBM Cloud services that are selected as part of the generation.
 
 The [WebSphere Liberty](https://developer.ibm.com/wasdev/) technologies option allows a developer to pick and choose which WebSphere Liberty feature they would like in their application and the ability to add Microservice Builder integration to the application.
 

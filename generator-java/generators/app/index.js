@@ -146,11 +146,6 @@ module.exports = class extends Generator {
       'generator-ibm-service-enablement' : pkg.dependencies['generator-ibm-service-enablement'],
       'generator-ibm-cloud-enablement' : pkg.dependencies['generator-ibm-cloud-enablement']};
     config.genVersions['generator-' + config.frameworkType] = pkg.dependencies['@arf/generator-' + config.frameworkType];
-    if(config.frameworkType === 'liberty' && config.createType === 'basicweb') {
-      config.healthEndpoint = 'rest/health';
-    } else {
-      config.healthEndpoint = 'health';
-    }
     if(config.frameworkType === 'liberty' && config.createType === 'bff/liberty') {
       config.enableApiDiscovery = true;
     }
@@ -194,7 +189,6 @@ module.exports = class extends Generator {
     });
     enablementContexts.forEach(context => {
       context.appName = config.appName;
-      context.healthEndpoint = config.healthEndpoint;
     });
     logger.writeToLog("Destination path", this.destinationRoot());
   }

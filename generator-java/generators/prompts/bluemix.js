@@ -118,7 +118,7 @@ Extension.prototype.afterPrompt = function(answers, config) {
           ];
         }
       }
-    }
+    }bluemix
   }
 }
 
