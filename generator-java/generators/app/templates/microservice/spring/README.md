@@ -1,5 +1,5 @@
 ## Microservice
-Bluemix Microservice Starter for Spring
+IBM Cloud Microservice Starter for Spring
 
 [![](https://img.shields.io/badge/bluemix-powered-blue.svg)](https://bluemix.net)
 [![Platform](https://img.shields.io/badge/platform-java-lightgrey.svg?style=flat)](https://www.ibm.com/developerworks/learn/java/)
@@ -13,9 +13,9 @@ Bluemix Microservice Starter for Spring
 
 ### Summary
 
-The Bluemix Microservice Starter in Java provides a starting point for creating Java microservice applications running on [Spring](https://spring.io/).
+The IBM Cloud Microservice Starter in Java provides a starting point for creating Java microservice applications running on [Spring](https://spring.io/).
 
-To deploy this application to Bluemix using a toolchain click the **Create Toolchain** button.
+To deploy this application to IBM Cloud using a toolchain click the **Create Toolchain** button.
 [![Create Toolchain](https://console.ng.bluemix.net/devops/graphics/create_toolchain_button.png)](https://console.ng.bluemix.net/devops/setup/deploy/)
 
 ### Requirements
@@ -35,18 +35,18 @@ Capabilities are provided through dependencies in the {{#has buildType 'maven'}}
 ### Project contents
 The ports are set to the defaults of 8080 for http and 8443 for https and are exposed to the CLI in the cli-config.yml file.
 
-The project contains Bluemix specific files that are used to deploy the application as part of a Bluemix DevOps flow. The `.bluemix` directory contains files used to define the Bluemix toolchain and pipeline for your application. The `manifest.yml` file specifies the name of your application in Bluemix, the timeout value during deployment and which services to bind to.
+The project contains IBM Cloud specific files that are used to deploy the application as part of a IBM Cloud DevOps flow. The `.bluemix` directory contains files used to define the IBM Cloud toolchain and pipeline for your application. The `manifest.yml` file specifies the name of your application in IBM Cloud, the timeout value during deployment and which services to bind to.
 
 {{#bluemix}}
 This microservice application is configured to connect to the following services :
 {{#cloudant}}
-* [Bluemix Cloudant service](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db).
+* [IBM Cloud Cloudant service](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db).
 {{/cloudant}}
 {{#objectStorage}}
-* [Bluemix Object Storage service](https://console.ng.bluemix.net/catalog/services/object-storage).
+* [IBM Cloud Object Storage service](https://console.ng.bluemix.net/catalog/services/object-storage).
 {{/objectStorage}}
 
-Credentials are either taken from the VCAP_SERVICES environment variable that Bluemix provides or from environment variables passed in by the config file `src/main/resources/localdev-config.json`.
+Credentials are either taken from the VCAP_SERVICES environment variable that IBM Cloud provides or from environment variables passed in by the config file `src/main/resources/localdev-config.json`.
 {{/bluemix}}
 
 ### Run
