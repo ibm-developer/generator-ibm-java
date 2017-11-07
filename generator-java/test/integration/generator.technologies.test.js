@@ -17,126 +17,115 @@
 /**
  * Tests the microservice generator
  */
+
 'use strict';
-var path = require('path');
-var assert = require('yeoman-assert');
-var helpers = require('yeoman-test');
 
-const FRAMEWORK = 'liberty';
-
-//external modules
-const liberty = require('@arf/generator-liberty');
-const tests = require('@arf/java-common');
-
-//internal libraries
-const command = tests.test('command');
+const AssertTechnologies = require('../../generators/lib/assert.technologies');
 const bluemix = require('../lib/test-bluemix.js');
-const kube = require('../lib/test-kube.js');
+const constant = require('../lib/constant');
 const core = require('../lib/core');
 const extend = require('extend');
+const liberty = require('@arf/generator-liberty');
 
 class Options extends core.Options {
-
   constructor(createType, buildType, platforms, technologies) {
     super();
     this.assertTech = new liberty.integrationAsserts.technologies();
     extend(this.values, {
-      headless :  "true",
-      buildType : buildType,
-      platforms : platforms,
-      createType : createType,
-      technologies : technologies,
-      appName : core.APPNAME,
-      artifactId : core.ARTIFACTID
+      headless: "true",
+      buildType: buildType,
+      platforms: platforms,
+      createType: createType,
+      technologies: technologies,
+      appName: core.APPNAME,
+      artifactId: core.ARTIFACTID
     });
-  }
-
-  assert() {
-    super.assert(this.values.appName, this.values.appName, false, false);
-    tests.test(this.values.buildType).assertApplication(core.APPNAME, core.GROUPID, core.ARTIFACTID, core.VERSION);
-    this.assertTech.assert(core.APPNAME);
-  }
-
-  //this is the default assertion for a technology type that just delegates to the Liberty checker,
-  //override with a local assert<Tech> function to perform additional checks
-  defaultAssertTech(type) {
-    this.assertTech['assert' + type](this.values.buildType);
-  }
-  assertCompiles() {
-    command.run(tests.test(this.values.buildType).getCompileCommand());
-  }
-  assertpicnmix() {
-    this.assert();    //there are no additional files to check for
-  }
-  assertNoKube() {
-    kube.test(this.values.appName, false, FRAMEWORK, 'picnmix');
-  }
-  assertmsbuilderwithname() {
-    this.assertTech.assertmsbuilderwithname(this.values.appName);
   }
 }
 
-var technologies = ['rest', 'microprofile', 'persistence', 'websocket', 'web', 'watsonsdk', 'swagger', 'springbootweb', 'msbuilder'];
-var buildTypes = ['gradle', 'maven'];
+const technologies = ['rest', 'microprofile', 'persistence', 'websocket', 'web', 'watsonsdk', 'swagger', 'springbootweb', 'msbuilder'];
+const buildTypes = ['gradle', 'maven'];
 
 execute('picnmix', 'picnmix', technologies);
 
 function execute(createType, assertFunc, technologiesToTest) {
-
   describe('java generator : technologies integration test', function () {
     this.timeout(7000);
-    for(var i = 0; i < technologiesToTest.length; i++) {
-      for(var j = 0; j < buildTypes.length; j++) {
+    for (var i = 0; i < technologiesToTest.length; i++) {
+      for (var j = 0; j < buildTypes.length; j++) {
         describe('Generates a ' + createType + ' project for ' + technologiesToTest[i] + ' (' + buildTypes[j] + ', no bluemix)', function () {
-          var options = new Options(createType, buildTypes[j], [], [technologiesToTest[i]]);
+          const options = new Options(createType, buildTypes[j], [], [technologiesToTest[i]]);
           before(options.before.bind(options));
-          options['assert' + assertFunc]();
-          var func = options['assert' + technologiesToTest[i]];
-          //see if there is a local override in place or default through to the underlying technology checker
-          if(func) {
+
+          const assert = new AssertTechnologies({
+            appName: constant.APPNAME,
+            buildType: buildTypes[j],
+            createType: options.values.createType,
+            frameworkType: constant.FRAMEWORK_LIBERTY
+          });
+          assert['assert' + assertFunc]();
+
+          const func = options['assert' + technologiesToTest[i]];
+          // see if there is a local override in place or default through to the underlying technology checker
+          if (func) {
             func();
           } else {
-            options.defaultAssertTech(technologiesToTest[i]);
+            assert.defaultAssertTech(technologiesToTest[i]);
           }
-          if(technologiesToTest[i] === 'springbootweb' && createType === 'picnmix') {
-            options.assertTech.assertspringbootwebonly(options.values.buildType);
+
+          if (technologiesToTest[i] === 'springbootweb' && createType === 'picnmix') {
+            assert.assertTech.assertspringbootwebonly(assert.buildType);
           }
-          if(technologiesToTest[i] === 'msbuilder' && createType === 'picnmix') {
-            options.assertmsbuilderwithname();
+
+          if (technologiesToTest[i] === 'msbuilder' && createType === 'picnmix') {
+            assert.assertmsbuilderwithname();
           } else {
-            options.assertNoKube();
+            assert.assertNoKube();
           }
+
           bluemix.test(false);
-          options.assertCompiles();
+          assert.assertCompiles(buildTypes[j]);
         });
       }
     }
-
   });
 }
 
 describe('java generator : technologies integration test', function () {
   this.timeout(7000);
-  for(var i = 0; i < buildTypes.length; i++) {
+  for (var i = 0; i < buildTypes.length; i++) {
     describe('Generates a project for (no services or technologies)', function () {
-      var options = new Options('picnmix', buildTypes[i], [], []);
+      const options = new Options('picnmix', buildTypes[i], [], []);
       before(options.before.bind(options));
-      options.assert();
-      options.assertTech.asserthealthdeps(options.values.buildType);
-      options.assertNoKube();
+
+      const assert = new AssertTechnologies({
+        appName: constant.APPNAME,
+        buildType: buildTypes[i],
+        createType: options.values.createType,
+        frameworkType: constant.FRAMEWORK_LIBERTY
+      });
+      assert.assert();
+      assert.assertTech.asserthealthdeps(assert.buildType);
+      assert.assertNoKube();
       bluemix.test(false);
     });
   }
 
-  for(var i = 0; i < buildTypes.length; i++) {
+  for (var i = 0; i < buildTypes.length; i++) {
     describe('Generates a project for (no services or technologies) with bluemix', function () {
-      var options = new Options('picnmix', buildTypes[i], ['bluemix'], []);
+      const options = new Options('picnmix', buildTypes[i], ['bluemix'], []);
       before(options.before.bind(options));
-      options.assert();
-      options.assertTech.asserthealthdeps(options.values.buildType);
-      options.assertNoKube();
+
+      const assert = new AssertTechnologies({
+        appName: constant.APPNAME,
+        buildType: buildTypes[i],
+        createType: options.values.createType,
+        frameworkType: constant.FRAMEWORK_LIBERTY
+      });
+      assert.assert();
+      assert.assertTech.asserthealthdeps(assert.buildType);
+      assert.assertNoKube();
       bluemix.test(true);
     });
   }
-
 });

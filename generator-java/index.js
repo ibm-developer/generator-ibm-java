@@ -23,6 +23,7 @@ module.exports = {
         blank: require('./generators/lib/assert.blank'),
         enable: require('./generators/lib/assert.enable'),
         microservice: require('./generators/lib/assert.microservice'),
-        openapi: require('./generators/lib/assert.openapi')
+        openapi: require('./generators/lib/assert.openapi'),
+        technologies: require('./generators/lib/assert.technologies')
     }
 };
