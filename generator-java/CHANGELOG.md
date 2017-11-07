@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.8.0"></a>
+# [2.8.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.7.3...v2.8.0) (2017-11-07)
+
+
+### Bug Fixes
+
+* **templates:** Fix Liberty web content ([648bc18](https://github.ibm.com/arf/java-codegen-yeoman/commit/648bc18))
+
+
+### Features
+
+* **test:** update Spring test to check for Hystrix dependency - arf/planning-java/issues/287 ([9c243de](https://github.ibm.com/arf/java-codegen-yeoman/commit/9c243de))
+
+
+
 <a name="2.7.3"></a>
 ## [2.7.3](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.7.2...v2.7.3) (2017-10-27)
 
