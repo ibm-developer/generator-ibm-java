@@ -35,7 +35,7 @@ class Options extends core.Options {
       buildType: buildType,
       frameworkType: frameworkType || constant.FRAMEWORK_LIBERTY,
       createType: type + '/' + (frameworkType || constant.FRAMEWORK_LIBERTY),
-      appName: core.APPNAME
+      appName: constant.APPNAME
     });
     if (openApiServers) {
       this.values.bluemix.openApiServers = openApiServers;

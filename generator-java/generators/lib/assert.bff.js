@@ -63,6 +63,7 @@ class AssertBFF extends AssertBx {
         const test = tests.test(this.buildType);
         test.assertDependency('compile', 'org.springframework.boot', 'spring-boot-starter-web');
         test.assertDependency('compile', 'org.springframework.boot', 'spring-boot-actuator');
+        test.assertDependency('compile', 'org.springframework.cloud', 'spring-cloud-starter-hystrix');
         test.assertDependency('test', 'org.springframework.boot', 'spring-boot-starter-test');
         it('Check that common info files exist', function () {
             assert.fileContent('src/main/java/io/swagger/Info.java', 'http://localhost:8080/swagger/api'); // standard info is there

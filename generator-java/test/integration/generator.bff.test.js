@@ -43,7 +43,7 @@ const gradle = 'gradle';
 const maven = 'maven';
 
 describe('java generator : bff integration test', function () {
-  this.timeout(25000);
+  this.timeout(50000);
   frameworkTypes.forEach(frameworkType => {
     describe('Generates a basic bff project (no bluemix), gradle build with prompts', function () {
       const options = new Options(false, 'gradle', frameworkType);
