@@ -24,7 +24,7 @@ const AssertEnable = require('../../generators/lib/assert.enable');
 const constant = require('../lib/constant');
 const core = require('../lib/core');
 
-class Options extends core.BxOptions {
+class Options extends core.Options {
   constructor(framework) {
     let backendPlatform = framework === 'spring' ? 'SPRING' : 'JAVA';
     super(backendPlatform)

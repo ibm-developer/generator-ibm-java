@@ -37,8 +37,8 @@ class Options extends core.Options {
       platforms: platforms,
       createType: createType,
       technologies: technologies,
-      appName: core.APPNAME,
-      artifactId: core.ARTIFACTID
+      appName: constant.APPNAME,
+      artifactId: constant.ARTIFACTID
     });
   }
 }

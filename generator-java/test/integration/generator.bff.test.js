@@ -25,7 +25,7 @@ const constant = require('../lib/constant');
 const core = require('../lib/core');
 const extend = require('extend');
 
-class Options extends core.BxOptions {
+class Options extends core.Options {
   constructor(runHeadless, buildType, frameworkType, name) {
     super(frameworkType === 'spring' ? 'SPRING' : 'JAVA');
     extend(this.values, {

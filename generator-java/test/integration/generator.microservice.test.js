@@ -27,7 +27,7 @@ const core = require('../lib/core');
 const extend = require('extend');
 const framework = require('../lib/test-framework');
 
-class Options extends core.BxOptions {
+class Options extends core.Options {
   constructor(buildType, frameworkType, javaMetrics) {
     super(frameworkType === 'spring' ? 'SPRING' : 'JAVA');
     extend(this.values, {
