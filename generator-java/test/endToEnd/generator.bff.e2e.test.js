@@ -17,66 +17,60 @@
 /* Test to see if when you choose every technology type it builds */
 
 'use strict';
-var path = require('path');
-var assert = require('yeoman-assert');
-var helpers = require('yeoman-test');
 
-const ARTIFACTID = 'artifact.0.1';
-const GROUPID = 'test.group';
-const VERSION = '1.0.0';
-const APPNAME = 'testApp';
-const FRAMEWORK_LIBERTY = 'liberty';
-const FRAMEWORK_SPRING = 'spring';
-
-const tests = require('@arf/java-common');
-const command = tests.test('command');
+const AssertBuilds = require('../../generators/lib/assert.builds');
+const constant = require('../lib/constant');
+const helpers = require('yeoman-test');
+const path = require('path');
 
 function Options(buildType, framework) {
-  var platform = framework === FRAMEWORK_SPRING ? 'SPRING' : 'JAVA';
+  const platform = framework === constant.FRAMEWORK_SPRING ? 'SPRING' : 'JAVA';
   this.options = {
-    headless :  "true",
-    debug : "true",
-    buildType : buildType,
-    createType : 'bff/' + framework,
-    appName : APPNAME,
-    groupId : GROUPID,
-    artifactId : ARTIFACTID,
-    version : VERSION,
-    bluemix : {
-      backendPlatform : platform
+    headless: "true",
+    debug: "true",
+    buildType: buildType,
+    createType: 'bff/' + framework,
+    appName: constant.APPNAME,
+    groupId: constant.GROUPID,
+    artifactId: constant.ARTIFACTID,
+    version: constant.VERSION,
+    bluemix: {
+      backendPlatform: platform
     }
   }
-  this.assertBuilds = function() {
-    command.run(tests.test(buildType).getBuildCommand());
-  }
-  this.before = function() {
-    return helpers.run(path.join( __dirname, '../../generators/app'))
+
+  this.before = function () {
+    return helpers.run(path.join(__dirname, '../../generators/app'))
       .withOptions(this.options)
       .withPrompts({})
       .toPromise();
   }
 }
 
-describe('java generator : bff/liberty end to end test', function() {
+const buildTypes = ['gradle', 'maven'];
+
+describe('java generator : bff/liberty end to end test', function () {
   this.timeout(20000);
-  var buildTypes = ['gradle', 'maven'];
-  for(var i=0; i < buildTypes.length; i++) {
+  for (var i = 0; i < buildTypes.length; i++) {
     describe('Generates a bff project build type ' + buildTypes[i], function () {
-      var options = new Options(buildTypes[i], FRAMEWORK_LIBERTY);
+      const options = new Options(buildTypes[i], constant.FRAMEWORK_LIBERTY);
       before(options.before.bind(options));
-      options.assertBuilds();
+
+      const assert = new AssertBuilds(buildTypes[i]);
+      assert.assertBuilds();
     });
   }
 });
 
-describe('java generator : bff/spring end to end test', function() {
+describe('java generator : bff/spring end to end test', function () {
   this.timeout(20000);
-  var buildTypes = ['gradle', 'maven'];
-  for(var i=0; i < buildTypes.length; i++) {
+  for (var i = 0; i < buildTypes.length; i++) {
     describe('Generates a bff project build type ' + buildTypes[i], function () {
-      var options = new Options(buildTypes[i], FRAMEWORK_SPRING);
+      const options = new Options(buildTypes[i], constant.FRAMEWORK_SPRING);
       before(options.before.bind(options));
-      options.assertBuilds();
+
+      const assert = new AssertBuilds(buildTypes[i]);
+      assert.assertBuilds();
     });
   }
 });
