@@ -69,7 +69,6 @@ describe('java generator : basic integration test', function () {
 
       const assert = new AssertBlank({ appName: constant.APPNAME, buildType: gradle, frameworkType: frameworkType });
       assert.assert();
-      assert.assertCompiles();
     });
 
     describe('Generates a basic ' + frameworkType + ' blank project (no bluemix), maven build', function () {
@@ -78,7 +77,6 @@ describe('java generator : basic integration test', function () {
 
       const assert = new AssertBlank({ appName: constant.APPNAME, buildType: maven, frameworkType: frameworkType });
       assert.assert();
-      assert.assertCompiles();
     });
   });
 });

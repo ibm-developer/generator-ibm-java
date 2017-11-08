@@ -93,7 +93,6 @@ describe('java generator : bff integration test', function () {
         ymlName: constant.APPNAME
       });
       assert.assert();
-      assert.assertCompiles();
     });
 
     describe('Generates a basic bff project (no bluemix), maven build', function () {
@@ -110,7 +109,6 @@ describe('java generator : bff integration test', function () {
         ymlName: constant.APPNAME
       });
       assert.assert();
-      assert.assertCompiles();
     });
 
     describe('Generates a basic bff project (bluemix) with cloudant', function () {
@@ -131,7 +129,6 @@ describe('java generator : bff integration test', function () {
       });
       assert.assert();
       assert.assertCloudant();
-      assert.assertCompiles();
     });
 
     describe('Generates a basic bff project (bluemix) with Object Storage', function () {
@@ -152,7 +149,6 @@ describe('java generator : bff integration test', function () {
       });
       assert.assert();
       assert.assertObjectStorage();
-      assert.assertCompiles();
     });
 
     describe('Generates a basic bff project (bluemix) with Cloudant and Object Storage', function () {

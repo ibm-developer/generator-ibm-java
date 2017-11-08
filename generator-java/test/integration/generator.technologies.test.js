@@ -83,7 +83,6 @@ function execute(createType, assertFunc, technologiesToTest) {
           }
 
           bluemix.test(false);
-          assert.assertCompiles(buildTypes[j]);
         });
       }
     }

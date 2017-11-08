@@ -22,6 +22,8 @@ const framework = require('../../test/lib/test-framework');
 const tests = require('@arf/java-common');
 const command = tests.test('command');
 
+const COMPILE = process.env.COMPILE || 'true';
+
 class Assert {
   constructor({ appName, buildType, frameworkType }) {
     this.appName = appName;
@@ -32,6 +34,7 @@ class Assert {
   assert() {
     this.assertBuild();
     this.assertFramework();
+    if (COMPILE === 'true') command.run(tests.test(this.buildType).getCompileCommand());
     if (this.frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty();
     if (this.frameworkType === constant.FRAMEWORK_SPRING) this.assertspring();
     common.assertCommonFiles(this.frameworkType);
@@ -40,10 +43,6 @@ class Assert {
   assertBuild() {
     const test = tests.test(this.buildType);
     test.assertApplication(this.appName, constant.GROUPID, constant.ARTIFACTID, constant.VERSION);
-  }
-
-  assertCompiles() {
-    command.run(tests.test(this.buildType).getCompileCommand());
   }
   
   assertFramework() {

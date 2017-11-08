@@ -94,7 +94,6 @@ describe('java generator : basic integration test', function () {
         ymlName: constant.APPNAME
       });
       assert.assert();
-      assert.assertCompiles();
     });
 
     describe('Generates a basic ' + frameworkType + ' web project (no bluemix), maven build', function () {
@@ -111,7 +110,6 @@ describe('java generator : basic integration test', function () {
         ymlName: constant.APPNAME
       });
       assert.assert();
-      assert.assertCompiles();
     });
 
     describe('Generates a basic ' + frameworkType + ' web project (bluemix) with cloudant', function () {
@@ -133,7 +131,6 @@ describe('java generator : basic integration test', function () {
       assert.assert();
       assert.assertCloudant();
       assert.assertObjectStorage();
-      assert.assertCompiles();
     });
 
     describe('Generates a basic ' + frameworkType + ' web project (bluemix) with Object Storage', function () {
@@ -155,7 +152,6 @@ describe('java generator : basic integration test', function () {
       assert.assert();
       assert.assertCloudant();
       assert.assertObjectStorage();
-      assert.assertCompiles();
     });
 
     describe('Generates a basic ' + frameworkType + ' web project (bluemix) with Cloudant and Object Storage', function () {
@@ -178,7 +174,6 @@ describe('java generator : basic integration test', function () {
       assert.assert();
       assert.assertCloudant();
       assert.assertObjectStorage();
-      assert.assertCompiles();
     });
   });
 });

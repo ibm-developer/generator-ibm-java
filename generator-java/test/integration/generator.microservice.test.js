@@ -69,7 +69,6 @@ function execute(framework) {
         ymlName: constant.APPNAME
       });
       assertMicroservice.assert();
-      assertMicroservice.assertCompiles();
 
       it('should create a basic microservice, gradle build system', function () {
         assert.fileContent('README.md', 'gradle');
@@ -91,7 +90,6 @@ function execute(framework) {
         ymlName: constant.APPNAME
       });
       assertMicroservice.assert();
-      assertMicroservice.assertCompiles();
 
       it('should create a basic microservice, maven build system', function () {
         assert.fileContent('README.md', 'maven');
@@ -136,7 +134,6 @@ function execute(framework) {
         ymlName: 'bxName'
       });
       assert.assert();
-      assert.assertCompiles();
     });
 
     describe(name + ': Generates a basic microservices project (gradle, bluemix, cloudant)', function () {
@@ -154,7 +151,6 @@ function execute(framework) {
         ymlName: 'bxName'
       });
       assert.assert();
-      assert.assertCompiles();
     });
 
     describe(name + ': Generates a basic microservices project (maven, bluemix, objectStorage)', function () {
@@ -172,7 +168,6 @@ function execute(framework) {
         ymlName: 'bxName'
       });
       assert.assert();
-      assert.assertCompiles();
     });
 
     describe(name + ': Generates a basic microservices project (gradle, bluemix, objectStorage)', function () {
@@ -190,7 +185,6 @@ function execute(framework) {
         ymlName: 'bxName'
       });
       assert.assert();
-      assert.assertCompiles();
     });
   });
 }

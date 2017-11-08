@@ -77,7 +77,6 @@ function execute(frameworkType) {
         ymlName: constant.APPNAME
       });
       assertOpenApi.assert();
-      assertOpenApi.assertCompiles();
 
       it('should create a basic microservice, gradle build system', function () {
         assert.fileContent('src/main/java/application/rest/v1/Example.java', 'list.add("Congratulations, your application is up and running");'); // check no bx services present
@@ -106,7 +105,6 @@ function execute(frameworkType) {
         ymlName: constant.APPNAME
       });
       assertOpenApi.assert();
-      assertOpenApi.assertCompiles();
 
       it('should create a basic microservice, maven build system', function () {
         assert.fileContent('src/main/java/application/rest/v1/Example.java', 'list.add("Congratulations, your application is up and running");'); // check no bx services present
@@ -137,7 +135,6 @@ function execute(frameworkType) {
         ymlName: constant.APPNAME
       });
       assertOpenApi.assert();
-      assertOpenApi.assertCompiles();
 
       it('should create a basic microservice, gradle build system', function () {
         assert.fileContent('src/main/java/application/rest/v1/Example.java', 'list.add("Congratulations, your application is up and running");'); // check no bx services present
@@ -168,7 +165,6 @@ function execute(frameworkType) {
         ymlName: constant.APPNAME
       });
       assertOpenApi.assert();
-      assertOpenApi.assertCompiles();
 
       it('should create a basic microservice, maven build system', function () {
         assert.fileContent('src/main/java/application/rest/v1/Example.java', 'list.add("Congratulations, your application is up and running");'); // check no bx services present
@@ -197,7 +193,6 @@ function execute(frameworkType) {
         ymlName: constant.APPNAME
       });
       assertOpenApi.assert();
-      assertOpenApi.assertCompiles();
     });
 
     describe(name + ': Generates a basic bff project using open api doc (no bluemix), maven build system', function () {
@@ -220,7 +215,6 @@ function execute(frameworkType) {
         ymlName: constant.APPNAME
       });
       assertOpenApi.assert();
-      assertOpenApi.assertCompiles();
     });
 
     describe(name + ': Generates a blank project using open api doc (no bluemix), gradle build system', function () {
@@ -244,7 +238,6 @@ function execute(frameworkType) {
         ymlName: constant.APPNAME
       });
       assertOpenApi.assert();
-      assertOpenApi.assertCompiles();
     });
 
     describe(name + ': Generates a blank project using open api doc (no bluemix), maven build system', function () {
@@ -268,7 +261,6 @@ function execute(frameworkType) {
         ymlName: constant.APPNAME
       });
       assertOpenApi.assert();
-      assertOpenApi.assertCompiles();
     });
   });
 }
