@@ -29,7 +29,7 @@ function test_liberty() {
 test_liberty.prototype.assertSourceFiles = function(springSelected) {
   it('should contain Java code files common across all project types', function() {
     var check = springSelected ? assert.noFile : assert.file;
-    check('src/main/java/application/rest/HealthEndpoint.java');
+    check('src/main/java/application/HealthEndpoint.java');
     check('src/main/java/application/rest/JaxrsApplication.java');
     check('src/test/java/it/HealthEndpointIT.java');
   });
