@@ -25,6 +25,14 @@ const kube = require('../../test/lib/test-kube');
 const tests = require('@arf/java-common');
 
 class AssertBx extends Assert {
+    constructor({ appName, buildType, cloudant, createType, frameworkType, objectStorage, ymlName }) {
+        super({ appName: appName, buildType: buildType, frameworkType: frameworkType });
+        this.cloudant = cloudant;
+        this.createType = createType;
+        this.objectStorage = objectStorage;
+        this.ymlName = ymlName;
+    }
+
     getCheck(exists) {
         return {
             file: exists ? assert.file : assert.noFile,
@@ -33,47 +41,42 @@ class AssertBx extends Assert {
         }
     }
 
-    assert({ appName, buildType, cloudant, createType, frameworkType, objectStorage, ymlName }) {
-        super.assert({
-            appName: appName,
-            buildType: buildType,
-            createType: createType,
-            frameworkType: frameworkType
-        });
-        this.assertCloudant({ exists: cloudant, buildType: buildType });
-        this.assertObjectStorage({ exists: objectStorage, buildType: buildType });
-        if (frameworkType === constant.FRAMEWORK_SPRING) common.assertBluemixSrcSvcEnabled(cloudant || objectStorage);
-        if (frameworkType === constant.FRAMEWORK_LIBERTY) common.assertBluemixSrc(cloudant || objectStorage);
+    assert() {
+        super.assert();
+        this.assertCloudant(this.cloudant);
+        this.assertObjectStorage(this.objectStorage);
+        if (this.frameworkType === constant.FRAMEWORK_SPRING) common.assertBluemixSrcSvcEnabled(this.cloudant || this.objectStorage);
+        if (this.frameworkType === constant.FRAMEWORK_LIBERTY) common.assertBluemixSrc(this.cloudant || this.objectStorage);
         common.assertCommonBxFiles();
-        common.assertCLI(appName);
-        common.assertManifestYml(ymlName, cloudant || objectStorage);
-        kube.test(appName, true, frameworkType, createType, cloudant, objectStorage);
-        framework.test(frameworkType).assertCloudant(cloudant);
-        framework.test(frameworkType).assertObjectStorage(objectStorage);
+        common.assertCLI(this.appName);
+        common.assertManifestYml(this.ymlName, this.cloudant || this.objectStorage);
+        kube.test(this.appName, true, this.frameworkType, this.createType, this.cloudant, this.objectStorage);
+        framework.test(this.frameworkType).assertCloudant(this.cloudant);
+        framework.test(this.frameworkType).assertObjectStorage(this.objectStorage);
     }
 
-    assertCloudant({ exists, buildType }) {
-        const check = this.getCheck(exists);
+    assertCloudant() {
+        const check = this.getCheck(this.cloudant);
         it(check.desc + 'cloudant README entry', function () {
-            if (exists) {
+            if (this.cloudant) {
                 check.content('README.md', 'cloudant');
             }
         });
-        if (exists) {
-            tests.test(buildType).assertDependency('compile', 'com.cloudant', 'cloudant-client', '2.7.0');
+        if (this.cloudant) {
+            tests.test(this.buildType).assertDependency('compile', 'com.cloudant', 'cloudant-client', '2.7.0');
         }
     }
 
-    assertObjectStorage({ exists, buildType }) {
-        const check = this.getCheck(exists);
+    assertObjectStorage() {
+        const check = this.getCheck(this.objectStorage);
         it(check.desc + 'Object Storage README entry', function () {
-            if (exists) {
+            if (this.objectStorage) {
                 check.content('README.md', 'Object Storage service');
             }
         });
-        if (exists) {
-            tests.test(buildType).assertDependency('compile', 'org.pacesys', 'openstack4j-core', '3.0.3');
-            tests.test(buildType).assertDependency('compile', 'org.pacesys.openstack4j.connectors', 'openstack4j-httpclient', '3.0.3');
+        if (this.objectStorage) {
+            tests.test(this.buildType).assertDependency('compile', 'org.pacesys', 'openstack4j-core', '3.0.3');
+            tests.test(this.buildType).assertDependency('compile', 'org.pacesys.openstack4j.connectors', 'openstack4j-httpclient', '3.0.3');
         }
     }
 }

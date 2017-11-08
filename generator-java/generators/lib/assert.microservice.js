@@ -24,35 +24,24 @@ const framework = require('../../test/lib/test-framework');
 const tests = require('@arf/java-common');
 
 class AssertMicroservice extends AssertBx {
-    assert({ appName, buildType, cloudant, createType, frameworkType, objectStorage, ymlName }) {
-        super.assert({
-            appName: appName,
-            buildType: buildType,
-            cloudant: cloudant,
-            createType: createType,
-            frameworkType: frameworkType,
-            objectStorage: objectStorage,
-            ymlName: ymlName
-        });
-        super.assertBuild(appName, buildType);
-        if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty({ buildType: buildType });
-        if (frameworkType === constant.FRAMEWORK_SPRING) this.assertspring();
-        this.assertCloudant({ exists: cloudant, frameworkType: frameworkType });
-        this.assertObjectStorage({ exists: objectStorage, frameworkType: frameworkType });
+    assert() {
+        super.assert();
+        this.assertCloudant();
+        this.assertObjectStorage();
         common.assertToolchainBxCreate();
         it('Check that common source files exist', function () {
             assert.fileContent('src/main/java/application/rest/v1/Example.java', 'Congratulations');
         });
     }
 
-    assertliberty({ buildType }) {
+    assertliberty() {
         super.assertliberty();
-        const test = tests.test(buildType);
+        const test = tests.test(this.buildType);
         test.assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
         test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
         test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
         test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
-        const type = buildType === 'maven' ? 'pom' : undefined;
+        const type = this.buildType === 'maven' ? 'pom' : undefined;
         test.assertDependency('provided', 'io.microprofile', 'microprofile', '1.0.0', undefined, type);
         framework.test(constant.FRAMEWORK_LIBERTY).assertSourceFiles(false);
         framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('microprofile-1.0');
@@ -68,15 +57,15 @@ class AssertMicroservice extends AssertBx {
         });
     }
 
-    assertCloudant({ exists, frameworkType }) {
-        const check = this.getCheck(exists);
-        const invcheck = this.getCheck(exists ^ exists);
+    assertCloudant() {
+        const check = this.getCheck(this.cloudant);
+        const invcheck = this.getCheck(this.cloudant ^ this.cloudant);
         it(check.desc + 'common cloudant source files', function () {
             check.content('src/main/java/application/rest/v1/Example.java', 'Cloudant'); // check Cloudant service present
             check.content('src/main/java/application/rest/v1/Example.java', 'import com.cloudant.client.api.CloudantClient;');
             check.content('README.md', 'cloudant');
         });
-        if (frameworkType === constant.FRAMEWORK_LIBERTY) {
+        if (this.frameworkType === constant.FRAMEWORK_LIBERTY) {
             it(check.desc + 'Liberty cloudant source files', function () {
                 check.file('src/main/java/application/cloudant/Cloudant.java')
             });
@@ -84,7 +73,7 @@ class AssertMicroservice extends AssertBx {
                 invcheck.file('src/main/java/application/cloudant/CloudantClientConfig.java')
             });
         }
-        if (frameworkType === constant.FRAMEWORK_SPRING) {
+        if (this.frameworkType === constant.FRAMEWORK_SPRING) {
             it(invcheck.desc + 'Liberty cloudant source files', function () {
                 invcheck.file('src/main/java/application/cloudant/Cloudant.java');
             });
@@ -95,15 +84,15 @@ class AssertMicroservice extends AssertBx {
         }
     }
 
-    assertObjectStorage({ exists, frameworkType }) {
-        const check = this.getCheck(exists);
-        const invcheck = this.getCheck(exists ^ exists);
+    assertObjectStorage() {
+        const check = this.getCheck(this.objectStorage);
+        const invcheck = this.getCheck(this.objectStorage ^ this.objectStorage);
         it(check.desc + 'Object Storage source files', function () {
             check.content('src/main/java/application/rest/v1/Example.java', 'OSClient'); // check object Storage service present
             check.content('src/main/java/application/rest/v1/Example.java', 'import org.openstack4j.model.storage.object.SwiftAccount;');
             check.content('README.md', 'Object Storage service');
         });
-        if (frameworkType === constant.FRAMEWORK_LIBERTY) {
+        if (this.frameworkType === constant.FRAMEWORK_LIBERTY) {
             it(check.desc + 'Liberty objectStorage source files', function () {
                 check.file('src/main/java/application/objectstorage/ObjectStorage.java')
             });
@@ -111,7 +100,7 @@ class AssertMicroservice extends AssertBx {
                 invcheck.file('src/main/java/application/objectstorage/ObjectStorageConfig.java')
             });
         }
-        if (frameworkType === constant.FRAMEWORK_SPRING) {
+        if (this.frameworkType === constant.FRAMEWORK_SPRING) {
             it(invcheck.desc + 'Liberty objectStorage source files', function () {
                 invcheck.file('src/main/java/application/objectstorage/ObjectStorage.java')
             });

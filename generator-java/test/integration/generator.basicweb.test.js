@@ -51,8 +51,7 @@ describe('java generator : basic integration test', function () {
       options.prompts = { extName: 'prompt:patterns', buildType: 'gradle', createType: 'basicweb/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
       before(options.before.bind(options));
 
-      const assert = new AssertBasicWeb(frameworkType);
-      assert.assert({
+      const assert = new AssertBasicWeb({
         appName: constant.APPNAME,
         buildType: gradle,
         cloudant: false,
@@ -61,6 +60,7 @@ describe('java generator : basic integration test', function () {
         objectStorage: false,
         ymlName: constant.APPNAME
       });
+      assert.assert();
     });
 
     describe('Generates a basic ' + frameworkType + ' web project (no bluemix), maven build with prompts', function () {
@@ -68,8 +68,7 @@ describe('java generator : basic integration test', function () {
       options.prompts = { extName: 'prompt:patterns', buildType: 'maven', createType: 'basicweb/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
       before(options.before.bind(options));
 
-      const assert = new AssertBasicWeb(frameworkType);
-      assert.assert({
+      const assert = new AssertBasicWeb({
         appName: constant.APPNAME,
         buildType: maven,
         cloudant: false,
@@ -78,14 +77,14 @@ describe('java generator : basic integration test', function () {
         objectStorage: false,
         ymlName: constant.APPNAME
       });
+      assert.assert();
     });
 
     describe('Generates a basic ' + frameworkType + ' web project (no bluemix), gradle build', function () {
       const options = new Options(true, 'gradle', frameworkType, constant.APPNAME);
       before(options.before.bind(options));
 
-      const assert = new AssertBasicWeb(frameworkType);
-      assert.assert({
+      const assert = new AssertBasicWeb({
         appName: constant.APPNAME,
         buildType: gradle,
         cloudant: false,
@@ -94,15 +93,15 @@ describe('java generator : basic integration test', function () {
         objectStorage: false,
         ymlName: constant.APPNAME
       });
-      assert.assertCompiles(gradle);
+      assert.assert();
+      assert.assertCompiles();
     });
 
     describe('Generates a basic ' + frameworkType + ' web project (no bluemix), maven build', function () {
       const options = new Options(true, 'maven', frameworkType, constant.APPNAME);
       before(options.before.bind(options));
 
-      const assert = new AssertBasicWeb(frameworkType);
-      assert.assert({
+      const assert = new AssertBasicWeb({
         appName: constant.APPNAME,
         buildType: maven,
         cloudant: false,
@@ -111,7 +110,8 @@ describe('java generator : basic integration test', function () {
         objectStorage: false,
         ymlName: constant.APPNAME
       });
-      assert.assertCompiles(maven);
+      assert.assert();
+      assert.assertCompiles();
     });
 
     describe('Generates a basic ' + frameworkType + ' web project (bluemix) with cloudant', function () {
@@ -121,8 +121,7 @@ describe('java generator : basic integration test', function () {
       options.values.bluemix.cloudant = constant.BX_CLOUDANT;
       before(options.before.bind(options));
 
-      const assert = new AssertBasicWeb(frameworkType);
-      assert.assert({
+      const assert = new AssertBasicWeb({
         appName: 'bxName',
         buildType: maven,
         cloudant: true,
@@ -131,9 +130,10 @@ describe('java generator : basic integration test', function () {
         objectStorage: false,
         ymlName: 'bxName'
       });
-      assert.assertCloudant({ exists: true, buildType: maven, frameworkType: frameworkType });
-      assert.assertObjectStorage({ exists: false, buildType: maven, frameworkType: frameworkType });
-      assert.assertCompiles(maven);
+      assert.assert();
+      assert.assertCloudant();
+      assert.assertObjectStorage();
+      assert.assertCompiles();
     });
 
     describe('Generates a basic ' + frameworkType + ' web project (bluemix) with Object Storage', function () {
@@ -143,8 +143,7 @@ describe('java generator : basic integration test', function () {
       options.values.bluemix.objectStorage = constant.BX_OBJECT_STORAGE;
       before(options.before.bind(options));
 
-      const assert = new AssertBasicWeb(frameworkType);
-      assert.assert({
+      const assert = new AssertBasicWeb({
         appName: 'bxName',
         buildType: maven,
         cloudant: false,
@@ -153,9 +152,10 @@ describe('java generator : basic integration test', function () {
         objectStorage: true,
         ymlName: 'bxName'
       });
-      assert.assertCloudant({ exists: false, buildType: maven, frameworkType: frameworkType });
-      assert.assertObjectStorage({ exists: true, buildType: maven, frameworkType: frameworkType });
-      assert.assertCompiles(maven);
+      assert.assert();
+      assert.assertCloudant();
+      assert.assertObjectStorage();
+      assert.assertCompiles();
     });
 
     describe('Generates a basic ' + frameworkType + ' web project (bluemix) with Cloudant and Object Storage', function () {
@@ -166,8 +166,7 @@ describe('java generator : basic integration test', function () {
       options.values.bluemix.objectStorage = constant.BX_OBJECT_STORAGE;
       before(options.before.bind(options));
 
-      const assert = new AssertBasicWeb(frameworkType);
-      assert.assert({
+      const assert = new AssertBasicWeb({
         appName: 'bxName',
         buildType: maven,
         cloudant: true,
@@ -176,9 +175,10 @@ describe('java generator : basic integration test', function () {
         objectStorage: true,
         ymlName: 'bxName'
       });
-      assert.assertCloudant({ exists: true, buildType: maven, frameworkType: frameworkType });
-      assert.assertObjectStorage({ exists: true, buildType: maven, frameworkType: frameworkType });
-      assert.assertCompiles(maven);
+      assert.assert();
+      assert.assertCloudant();
+      assert.assertObjectStorage();
+      assert.assertCompiles();
     });
   });
 });

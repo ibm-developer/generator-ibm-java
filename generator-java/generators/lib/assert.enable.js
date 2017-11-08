@@ -25,23 +25,24 @@ const kube = require('../../test/lib/test-kube');
 const USAGE_TXT = 'usage.txt';
 
 class AssertEnable extends AssertBx {
-    assert({ appName, buildType, createType, frameworkType, ymlName }) {
-        super.assertCloudant({ exists: false, buildType: buildType });
-        super.assertObjectStorage({ exists: false, buildType: buildType });
+    assert() {
+        super.assertCloudant();
+        super.assertObjectStorage();
         it('generates ' + USAGE_TXT + ' file', function () {
             assert.file(USAGE_TXT);
         });
-        common.assertCLI(appName);
-        common.assertCommonFiles(frameworkType);
+        common.assertCLI(this.appName);
+        common.assertCommonFiles(this.frameworkType);
         common.assertCommonBxFiles();
-        common.assertManifestYml(ymlName, false);
+        common.assertManifestYml(this.ymlName, false);
         common.assertToolchainBxEnable();
-        kube.test(appName, true, frameworkType, createType, false, false);
-        if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty({ buildType: buildType });
-        if (frameworkType === constant.FRAMEWORK_SPRING) this.assertspring(buildType);
+        kube.test(this.appName, true, this.frameworkType, this.createType, false, false);
+        if (this.frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty();
+        if (this.frameworkType === constant.FRAMEWORK_SPRING) this.assertspring();
     }
 
-    assertliberty({ buildType }) {
+    assertliberty() {
+        const buildType = this.buildType;
         const appPath = buildType === 'maven' ? 'target' : 'build';
         const libertyInstall = buildType === 'maven' ? 'target/liberty/wlp' : 'build/wlp';
         const buildTypeCap = buildType.charAt(0).toUpperCase() + buildType.slice(1);
@@ -53,8 +54,8 @@ class AssertEnable extends AssertBx {
         })
     }
 
-    assertspring(buildType) {
-        var appPath = buildType === 'maven' ? 'target' : 'build/libs';
+    assertspring() {
+        const appPath = this.buildType === 'maven' ? 'target' : 'build/libs';
         it(USAGE_TXT + ' file should contain correct content', function () {
             assert.fileContent(USAGE_TXT, 'default health endpoint is /health');
             assert.fileContent(USAGE_TXT, 'artifact location is ' + appPath + '/' + constant.ARTIFACTID + '-' + constant.VERSION + '.jar');

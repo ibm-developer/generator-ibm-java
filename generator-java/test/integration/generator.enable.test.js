@@ -40,18 +40,18 @@ frameworkTypes.forEach(frameworkType => {
     this.timeout(7000);
 
     describe('Enable a project using a gradle build : ' + frameworkType, function () {
-      var options = new Options(frameworkType);
+      const options = new Options(frameworkType);
       options.prompts = { extName: 'prompt:patterns', buildType: 'gradle', createType: 'enable/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
       before(options.before.bind(options));
 
-      const assert = new AssertEnable(frameworkType);
-      assert.assert({
+      const assert = new AssertEnable({
         appName: constant.APPNAME,
         buildType: gradle,
         createType: options.prompts.createType,
         frameworkType: frameworkType,
         ymlName: constant.APPNAME
       });
+      assert.assert();
     });
 
     describe('Enable a project using a maven build : ' + frameworkType, function () {
@@ -59,14 +59,14 @@ frameworkTypes.forEach(frameworkType => {
       options.prompts = { extName: 'prompt:patterns', buildType: 'maven', createType: 'enable/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
       before(options.before.bind(options));
 
-      const assert = new AssertEnable(frameworkType);
-      assert.assert({
+      const assert = new AssertEnable({
         appName: constant.APPNAME,
         buildType: maven,
         createType: options.prompts.createType,
         frameworkType: frameworkType,
         ymlName: constant.APPNAME
       });
+      assert.assert();
     });
   });
 });

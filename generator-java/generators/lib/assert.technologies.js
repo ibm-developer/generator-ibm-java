@@ -23,22 +23,13 @@ const liberty = require('@arf/generator-liberty');
 const tests = require('@arf/java-common');
 
 class AssertTechnologies extends Assert {
-    constructor({ appName, buildType, createType, frameworkType }) {
-        super(frameworkType);
-        this.appName = appName;
-        this.buildType = buildType;
-        this.createType = createType;
-        this.frameworkType = frameworkType;
+    constructor({ appName, buildType, frameworkType }) {
+        super({ appName: appName, buildType: buildType, frameworkType: frameworkType });
         this.assertTech = new liberty.integrationAsserts.technologies();
     }
 
     assert() {
-        super.assert({
-            appName: this.appName,
-            buildType: this.buildType,
-            createType: this.createType,
-            frameworkType: this.frameworkType
-        });
+        super.assert();
         this.assertTech.assert(this.appName);
         tests.test(this.buildType).assertApplication(this.appName, constant.GROUPID, constant.ARTIFACTID, constant.VERSION);
     }

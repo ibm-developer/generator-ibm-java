@@ -60,7 +60,6 @@ function execute(createType, assertFunc, technologiesToTest) {
           const assert = new AssertTechnologies({
             appName: constant.APPNAME,
             buildType: buildTypes[j],
-            createType: options.values.createType,
             frameworkType: constant.FRAMEWORK_LIBERTY
           });
           assert['assert' + assertFunc]();
@@ -101,7 +100,6 @@ describe('java generator : technologies integration test', function () {
       const assert = new AssertTechnologies({
         appName: constant.APPNAME,
         buildType: buildTypes[i],
-        createType: options.values.createType,
         frameworkType: constant.FRAMEWORK_LIBERTY
       });
       assert.assert();
@@ -119,7 +117,6 @@ describe('java generator : technologies integration test', function () {
       const assert = new AssertTechnologies({
         appName: constant.APPNAME,
         buildType: buildTypes[i],
-        createType: options.values.createType,
         frameworkType: constant.FRAMEWORK_LIBERTY
       });
       assert.assert();

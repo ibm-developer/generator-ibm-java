@@ -23,8 +23,8 @@ const framework = require('../../test/lib/test-framework');
 const tests = require('@arf/java-common');
 
 class AssertOpenAPI extends AssertBx {
-    assert({ appName, buildType, createType, exampleName, frameworkType, noHealth, openApiServers, ymlName }) {
-        super.assert({
+    constructor({ appName, buildType, createType, exampleName, frameworkType, noHealth, openApiServers, ymlName }) {
+        super({
             appName: appName,
             buildType: buildType,
             cloudant: false,
@@ -33,27 +33,31 @@ class AssertOpenAPI extends AssertBx {
             objectStorage: false,
             ymlName: ymlName
         });
-        super.assertBuild(appName, buildType);
-        if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty({ buildType: buildType, createType: createType });
-        if (frameworkType === constant.FRAMEWORK_SPRING) this.assertspring();
-        common.assertToolchainBxCreate();
-        framework.test(frameworkType).assertOpenApi(openApiServers !== undefined, [exampleName], buildType, noHealth);
+        this.exampleName = exampleName;
+        this.noHealth = noHealth;
+        this.openApiServers = openApiServers;
     }
 
-    assertliberty({ buildType, createType }) {
+    assert() {
+        super.assert();
+        common.assertToolchainBxCreate();
+        framework.test(this.frameworkType).assertOpenApi(this.openApiServers !== undefined, [this.exampleName], this.buildType, this.noHealth);
+    }
+
+    assertliberty() {
         super.assertliberty();
-        const test = tests.test(buildType);
-        if (createType === 'microservice/liberty') {
+        const test = tests.test(this.buildType);
+        if (this.createType === 'microservice/liberty') {
             test.assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
             test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
             test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
             test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
-            const type = buildType === 'maven' ? 'pom' : undefined;
+            const type = this.buildType === 'maven' ? 'pom' : undefined;
             test.assertDependency('provided', 'io.microprofile', 'microprofile', '1.0.0', undefined, type);
             framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('microprofile-1.0');
             framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('jndi-1.0');
         }
-        if (createType === 'bff/liberty') {
+        if (this.createType === 'bff/liberty') {
             test.assertDependency('provided', 'io.swagger', 'swagger-annotations', '1.5.3');
             test.assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
             test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
@@ -61,7 +65,7 @@ class AssertOpenAPI extends AssertBx {
             framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('jaxrs-2.0');
             framework.test(constant.FRAMEWORK_LIBERTY).assertConfig(true, 'basicRegistry');
         }
-        if (createType === 'blank/liberty') {
+        if (this.createType === 'blank/liberty') {
             framework.test(constant.FRAMEWORK_LIBERTY).assertSourceFiles(true);
         } else {
             framework.test(constant.FRAMEWORK_LIBERTY).assertSourceFiles(false);

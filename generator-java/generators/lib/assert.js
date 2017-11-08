@@ -23,31 +23,32 @@ const tests = require('@arf/java-common');
 const command = tests.test('command');
 
 class Assert {
-  constructor(frameworkType) {
+  constructor({ appName, buildType, frameworkType }) {
+    this.appName = appName;
+    this.buildType = buildType;
     this.frameworkType = frameworkType;
   }
 
-  assert({ appName, buildType, createType, frameworkType }) {
-    common.assertCommonFiles(frameworkType);
-    this.assertBuild(appName, buildType);
-    this.assertFramework(appName, buildType, frameworkType);
-    if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty({ buildType, createType });
-    if (frameworkType === constant.FRAMEWORK_SPRING) this.assertspring(buildType);
+  assert() {
+    this.assertBuild();
+    this.assertFramework();
+    if (this.frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty();
+    if (this.frameworkType === constant.FRAMEWORK_SPRING) this.assertspring();
+    common.assertCommonFiles(this.frameworkType);
   }
 
-  assertBuild(appName, buildType) {
-    const test = tests.test(buildType);
-    test.assertApplication(appName, constant.GROUPID, constant.ARTIFACTID, constant.VERSION);
+  assertBuild() {
+    const test = tests.test(this.buildType);
+    test.assertApplication(this.appName, constant.GROUPID, constant.ARTIFACTID, constant.VERSION);
   }
 
-  assertCompiles(buildType) {
-    command.run(tests.test(buildType).getCompileCommand());
+  assertCompiles() {
+    command.run(tests.test(this.buildType).getCompileCommand());
   }
-
-  // general framework tests which apply to all of them
-  assertFramework(appName, buildType, frameworkType) {
-    framework.test(frameworkType).assertFiles(appName);
-    framework.test(frameworkType).assertBuildFiles(buildType);
+  
+  assertFramework() {
+    framework.test(this.frameworkType).assertFiles(this.appName);
+    framework.test(this.frameworkType).assertBuildFiles(this.buildType);
   }
 
   assertliberty() {
