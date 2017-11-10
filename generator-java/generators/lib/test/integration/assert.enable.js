@@ -16,11 +16,11 @@
 
 'use strict';
 
-const AssertBx = require('./assertbx');
+const AssertBx = require('../core.assertbx');
 const assert = require('yeoman-assert');
-const common = require('../../test/lib/test-common');
-const constant = require('../../test/lib/constant');
-const kube = require('../../test/lib/test-kube');
+const common = require('../../../../test/lib/test-common');
+const constant = require('../constant');
+const kube = require('../test-kube');
 
 const USAGE_TXT = 'usage.txt';
 

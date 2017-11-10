@@ -20,8 +20,8 @@
 
 'use strict';
 
-const AssertBasicWeb = require('../../generators/lib/assert.basicweb');
-const constant = require('../lib/constant');
+const AssertBasicWeb = require('../../generators/lib/test/integration/assert.basicweb');
+const constant = require('../../generators/lib/test/constant');
 const core = require('../lib/core');
 const extend = require('extend');
 

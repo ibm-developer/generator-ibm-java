@@ -16,10 +16,10 @@
 
 'use strict';
 
-const AssertBx = require('./assertbx');
-const common = require('../../test/lib/test-common');
-const constant = require('../../test/lib/constant');
-const framework = require('../../test/lib/test-framework');
+const AssertBx = require('../core.assertbx');
+const common = require('../../../../test/lib/test-common');
+const constant = require('../constant');
+const framework = require('../test-framework');
 const tests = require('@arf/java-common');
 
 class AssertOpenAPI extends AssertBx {

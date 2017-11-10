@@ -18,15 +18,16 @@
 
 module.exports = {
     endToEndAsserts: {
-        builds: require('./generators/lib/assert.builds')
+        builds: require('./generators/lib/test/endToEnd/assert.builds')
     },
     integrationAsserts: {
-        basicweb: require('./generators/lib/assert.basicweb'),
-        bff: require('./generators/lib/assert.bff'),
-        blank: require('./generators/lib/assert.blank'),
-        enable: require('./generators/lib/assert.enable'),
-        microservice: require('./generators/lib/assert.microservice'),
-        openapi: require('./generators/lib/assert.openapi'),
-        technologies: require('./generators/lib/assert.technologies')
+        basicweb: require('./generators/lib/test/integration/assert.basicweb'),
+        bff: require('./generators/lib/test/integration/assert.bff'),
+        blank: require('./generators/lib/test/integration/assert.blank'),
+        enable: require('./generators/lib/test/integration/assert.enable'),
+        microservice: require('./generators/lib/test/integration/assert.microservice'),
+        openapi: require('./generators/lib/test/integration/assert.openapi'),
+        technologies: require('./generators/lib/test/integration/assert.technologies'),
+        testbluemix: require('./generators/lib/test/test-bluemix')
     }
 };
