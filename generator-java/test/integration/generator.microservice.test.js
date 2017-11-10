@@ -43,6 +43,7 @@ class Options extends core.Options {
 
 const gradle = 'gradle';
 const maven = 'maven';
+const assertMicroservice = new AssertMicroservice();
 
 execute(constant.FRAMEWORK_LIBERTY);
 execute(constant.FRAMEWORK_SPRING);
@@ -58,18 +59,7 @@ function execute(framework) {
     describe(name + ': Generates a basic microservices project (no bluemix), gradle build system', function () {
       const options = new Options('gradle', framework);
       before(options.before.bind(options));
-
-      const assertMicroservice = new AssertMicroservice({
-        appName: constant.APPNAME,
-        buildType: gradle,
-        cloudant: false,
-        createType: options.values.createType,
-        frameworkType: framework,
-        objectStorage: false,
-        ymlName: constant.APPNAME
-      });
-      assertMicroservice.assert();
-
+      assertMicroservice.assert(constant.APPNAME, constant.APPNAME, gradle, framework, options.values.createType, false, false);
       it('should create a basic microservice, gradle build system', function () {
         assert.fileContent('README.md', 'gradle');
         assert.noFileContent('README.md', 'maven');
@@ -79,18 +69,7 @@ function execute(framework) {
     describe(name + ': Generates a basic microservices project (no bluemix), maven build system', function () {
       const options = new Options('maven', framework);
       before(options.before.bind(options));
-
-      const assertMicroservice = new AssertMicroservice({
-        appName: constant.APPNAME,
-        buildType: maven,
-        cloudant: false,
-        createType: options.values.createType,
-        frameworkType: framework,
-        objectStorage: false,
-        ymlName: constant.APPNAME
-      });
-      assertMicroservice.assert();
-
+      assertMicroservice.assert(constant.APPNAME, constant.APPNAME, maven, framework, options.values.createType, false, false);
       it('should create a basic microservice, maven build system', function () {
         assert.fileContent('README.md', 'maven');
         assert.noFileContent('README.md', 'gradle');
@@ -101,18 +80,7 @@ function execute(framework) {
       const options = new Options('gradle', framework);
       options.values.bluemix.name = 'bxName';
       before(options.before.bind(options));
-
-      const assertMicroservice = new AssertMicroservice({
-        appName: 'bxName',
-        buildType: gradle,
-        cloudant: false,
-        createType: options.values.createType,
-        frameworkType: framework,
-        objectStorage: false,
-        ymlName: 'bxName'
-      });
-      assertMicroservice.assert();
-
+      assertMicroservice.assert('bxName', 'bxName', gradle, framework, options.values.createType, false, false);
       it('with no services', function () {
         assert.fileContent('manifest.yml', 'name: bxName') // Not using prompt so we get app name and random route
         assert.fileContent('manifest.yml', 'random-route: true') // Not using prompt so we get app name and random route
@@ -123,68 +91,28 @@ function execute(framework) {
       const options = new Options('maven', framework);
       options.values.bluemix = '{"name" : "bxName", "backendPlatform" : "' + backendPlatform + '", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
       before(options.before.bind(options));
-
-      const assert = new AssertMicroservice({
-        appName: 'bxName',
-        buildType: maven,
-        cloudant: true,
-        createType: options.values.createType,
-        frameworkType: framework,
-        objectStorage: false,
-        ymlName: 'bxName'
-      });
-      assert.assert();
+      assertMicroservice.assert('bxName', 'bxName', maven, framework, options.values.createType, true, false);
     });
 
     describe(name + ': Generates a basic microservices project (gradle, bluemix, cloudant)', function () {
       const options = new Options('gradle', framework);
       options.values.bluemix = '{"name" : "bxName", "backendPlatform" : "' + backendPlatform + '", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
       before(options.before.bind(options));
-
-      const assert = new AssertMicroservice({
-        appName: 'bxName',
-        buildType: gradle,
-        cloudant: true,
-        createType: options.values.createType,
-        frameworkType: framework,
-        objectStorage: false,
-        ymlName: 'bxName'
-      });
-      assert.assert();
+      assertMicroservice.assert('bxName', 'bxName', gradle, framework, options.values.createType, true, false);
     });
 
     describe(name + ': Generates a basic microservices project (maven, bluemix, objectStorage)', function () {
       const options = new Options('maven', framework);
       options.values.bluemix = '{"name" : "bxName", "backendPlatform" : "' + backendPlatform + '", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
       before(options.before.bind(options));
-
-      const assert = new AssertMicroservice({
-        appName: 'bxName',
-        buildType: maven,
-        cloudant: false,
-        createType: options.values.createType,
-        frameworkType: framework,
-        objectStorage: true,
-        ymlName: 'bxName'
-      });
-      assert.assert();
+      assertMicroservice.assert('bxName', 'bxName', maven, framework, options.values.createType, false, true);
     });
 
     describe(name + ': Generates a basic microservices project (gradle, bluemix, objectStorage)', function () {
       const options = new Options('gradle', framework);
       options.values.bluemix = '{"name" : "bxName", "backendPlatform" : "' + backendPlatform + '", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
       before(options.before.bind(options));
-
-      const assert = new AssertMicroservice({
-        appName: 'bxName',
-        buildType: gradle,
-        cloudant: false,
-        createType: options.values.createType,
-        frameworkType: framework,
-        objectStorage: true,
-        ymlName: 'bxName'
-      });
-      assert.assert();
+      assertMicroservice.assert('bxName', 'bxName', gradle, framework, options.values.createType, false, true);
     });
   });
 }

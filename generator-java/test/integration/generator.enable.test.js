@@ -34,6 +34,7 @@ class Options extends core.Options {
 const frameworkTypes = [constant.FRAMEWORK_LIBERTY, constant.FRAMEWORK_SPRING];
 const gradle = 'gradle';
 const maven = 'maven';
+const assert = new AssertEnable();
 
 frameworkTypes.forEach(frameworkType => {
   describe('java generator : enable integration test : ' + frameworkType, function () {
@@ -43,30 +44,14 @@ frameworkTypes.forEach(frameworkType => {
       const options = new Options(frameworkType);
       options.prompts = { extName: 'prompt:patterns', buildType: 'gradle', createType: 'enable/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
       before(options.before.bind(options));
-
-      const assert = new AssertEnable({
-        appName: constant.APPNAME,
-        buildType: gradle,
-        createType: options.prompts.createType,
-        frameworkType: frameworkType,
-        ymlName: constant.APPNAME
-      });
-      assert.assert();
+      assert.assert(constant.APPNAME, constant.APPNAME, gradle, frameworkType, options.values.createType);
     });
 
     describe('Enable a project using a maven build : ' + frameworkType, function () {
       const options = new Options(frameworkType);
       options.prompts = { extName: 'prompt:patterns', buildType: 'maven', createType: 'enable/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
       before(options.before.bind(options));
-
-      const assert = new AssertEnable({
-        appName: constant.APPNAME,
-        buildType: maven,
-        createType: options.prompts.createType,
-        frameworkType: frameworkType,
-        ymlName: constant.APPNAME
-      });
-      assert.assert();
+      assert.assert(constant.APPNAME, constant.APPNAME, maven, frameworkType, options.values.createType);
     });
   });
 });

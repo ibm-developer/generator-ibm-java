@@ -41,6 +41,7 @@ class Options extends core.Options {
 const frameworkTypes = [constant.FRAMEWORK_LIBERTY, constant.FRAMEWORK_SPRING];
 const gradle = 'gradle';
 const maven = 'maven';
+const assert = new AssertBlank();
 
 describe('java generator : basic integration test', function () {
   this.timeout(7000);
@@ -49,34 +50,26 @@ describe('java generator : basic integration test', function () {
       const options = new Options(false, gradle, frameworkType);
       options.prompts = { extName: 'prompt:patterns', buildType: gradle, createType: options.values.createType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
       before(options.before.bind(options));
-      
-      const assert = new AssertBlank({ appName: constant.APPNAME, buildType: gradle, frameworkType: frameworkType });
-      assert.assert();
+      assert.assert(options.values.appName, gradle, frameworkType);
     });
 
     describe('Generates a basic ' + frameworkType + ' blank project (no bluemix), maven build with prompts', function () {
       const options = new Options(false, maven, frameworkType);
       options.prompts = { extName: 'prompt:patterns', buildType: maven, createType: options.values.createType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
       before(options.before.bind(options));
-
-      const assert = new AssertBlank({ appName: constant.APPNAME, buildType: maven, frameworkType: frameworkType });
-      assert.assert();
+      assert.assert(options.values.appName, maven, frameworkType);
     });
 
     describe('Generates a basic ' + frameworkType + ' blank project (no bluemix), gradle build', function () {
       const options = new Options(true, gradle, frameworkType, constant.APPNAME);
       before(options.before.bind(options));
-
-      const assert = new AssertBlank({ appName: constant.APPNAME, buildType: gradle, frameworkType: frameworkType });
-      assert.assert();
+      assert.assert(options.values.appName, gradle, frameworkType);
     });
 
     describe('Generates a basic ' + frameworkType + ' blank project (no bluemix), maven build', function () {
       const options = new Options(true, maven, frameworkType, constant.APPNAME);
       before(options.before.bind(options));
-
-      const assert = new AssertBlank({ appName: constant.APPNAME, buildType: maven, frameworkType: frameworkType });
-      assert.assert();
+      assert.assert(options.values.appName, maven, frameworkType);
     });
   });
 });

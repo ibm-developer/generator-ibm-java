@@ -19,14 +19,8 @@
 const tests = require('@arf/java-common');
 const command = tests.test('command');
 
-class AssertBuilds {
-    constructor(buildType) {
-        this.buildType = buildType;
-    }
-
-    assertBuilds() {
-        command.run(tests.test(this.buildType).getBuildCommand());
-    }
+const assertBuilds = function (buildType) {
+    command.run(tests.test(buildType).getBuildCommand());
 }
 
-module.exports = exports = AssertBuilds;
+module.exports = exports = { assertBuilds: assertBuilds };

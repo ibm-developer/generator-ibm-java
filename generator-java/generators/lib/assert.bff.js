@@ -24,12 +24,12 @@ const framework = require('../../test/lib/test-framework');
 const tests = require('@arf/java-common');
 
 class AssertBFF extends AssertBx {
-    assert() {
-        super.assert();
-        framework.test(this.frameworkType).assertSourceFiles(false);
+    assert(appName, ymlName, buildType, frameworkType, createType, cloudant, objectStorage) {
+        super.assert(appName, ymlName, buildType, frameworkType, createType, cloudant, objectStorage);
+        framework.test(frameworkType).assertSourceFiles(false);
     }
 
-    assertliberty() {
+    assertliberty({ buildType }) {
         super.assertliberty();
         common.assertFiles('src', true,
             'main/java/application/rest/SwaggerEndpoint.java',
@@ -41,15 +41,15 @@ class AssertBFF extends AssertBx {
         framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('jaxrs-2.0');
         framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('apiDiscovery-1.0');
         framework.test(constant.FRAMEWORK_LIBERTY).assertConfig(true, 'basicRegistry');
-        const test = tests.test(this.buildType);
+        const test = tests.test(buildType);
         test.assertDependency('provided', 'io.swagger', 'swagger-annotations', '1.5.3');
         test.assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
         test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
-        if (this.buildType === 'maven') test.assertContent('<feature>apiDiscovery-1.0</feature>');
-        if (this.buildType === 'gradle') test.assertContent("name = ['apiDiscovery-1.0']");
+        if (buildType === 'maven') test.assertContent('<feature>apiDiscovery-1.0</feature>');
+        if (buildType === 'gradle') test.assertContent("name = ['apiDiscovery-1.0']");
     }
 
-    assertspring() {
+    assertspring({ buildType }) {
         super.assertspring();
         common.assertFiles('src', true,
             'main/java/io/swagger/api/ProductApi.java',
@@ -57,10 +57,10 @@ class AssertBFF extends AssertBx {
             'main/java/io/swagger/api/ProductsApi.java',
             'main/java/io/swagger/api/ProductsApiController.java',
             'main/java/io/swagger/model/Product.java');
-        framework.test(constant.FRAMEWORK_SPRING).assertOpenApi(true, [], this.buildType);
+        framework.test(constant.FRAMEWORK_SPRING).assertOpenApi(true, [], buildType);
         framework.test(constant.FRAMEWORK_SPRING).assertContent('/index.html');
         framework.test(constant.FRAMEWORK_SPRING).assertContent('/error/404.html');
-        const test = tests.test(this.buildType);
+        const test = tests.test(buildType);
         test.assertDependency('compile', 'org.springframework.boot', 'spring-boot-starter-web');
         test.assertDependency('compile', 'org.springframework.boot', 'spring-boot-actuator');
         test.assertDependency('compile', 'org.springframework.cloud', 'spring-cloud-starter-hystrix');

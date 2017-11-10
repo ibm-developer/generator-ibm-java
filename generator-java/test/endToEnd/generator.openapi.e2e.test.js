@@ -18,7 +18,7 @@
 
 'use strict';
 
-const AssertBuilds = require('../../generators/lib/assert.builds');
+const assert = require('../../generators/lib/assert.builds');
 const constant = require('../lib/constant');
 const frameworkTest = require('../lib/test-framework');
 const helpers = require('yeoman-test');
@@ -60,9 +60,7 @@ describe('java generator : blank/liberty end to end test', function () {
     describe('Generates a blank project build type ' + buildTypes[i], function () {
       const options = new Options(buildTypes[i], constant.FRAMEWORK_LIBERTY);
       before(options.before.bind(options));
-
-      const assert = new AssertBuilds(buildTypes[i]);
-      assert.assertBuilds();
+      assert.assertBuilds(buildTypes[i]);
     });
   }
 });
@@ -73,9 +71,7 @@ describe('java generator : blank/spring end to end test', function () {
     describe('Generates a blank project build type ' + buildTypes[i], function () {
       const options = new Options(buildTypes[i], constant.FRAMEWORK_SPRING);
       before(options.before.bind(options));
-
-      const assert = new AssertBuilds(buildTypes[i]);
-      assert.assertBuilds();
+      assert.assertBuilds(buildTypes[i]);
     });
   }
 });

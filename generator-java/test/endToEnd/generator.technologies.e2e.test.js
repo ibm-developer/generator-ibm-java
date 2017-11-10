@@ -18,7 +18,7 @@
 
 'use strict';
 
-const AssertBuilds = require('../../generators/lib/assert.builds');
+const assert = require('../../generators/lib/assert.builds');
 const constant = require('../lib/constant');
 const helpers = require('yeoman-test');
 const path = require('path');
@@ -56,18 +56,14 @@ describe('java generator : technologies end to end test', function () {
       const technologies = ['springbootweb'];
       const options = new Options('picnmix', buildTypes[i], false, technologies);
       before(options.before.bind(options));
-
-      const assert = new AssertBuilds(buildTypes[i]);
-      assert.assertBuilds();
+      assert.assertBuilds(buildTypes[i]);
     });
 
     describe('Generates a project with all technologies except springbootweb and build type ' + buildTypes[i], function () {
       const technologies = ['rest', 'microprofile', 'persistence', 'websocket', 'web', 'watsonsdk', 'swagger'];
       const options = new Options('picnmix', buildTypes[i], false, technologies);
       before(options.before.bind(options));
-
-      const assert = new AssertBuilds(buildTypes[i]);
-      assert.assertBuilds();
+      assert.assertBuilds(buildTypes[i]);
     });
   }
 });

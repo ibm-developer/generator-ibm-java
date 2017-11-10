@@ -24,16 +24,16 @@ const framework = require('../../test/lib/test-framework');
 const tests = require('@arf/java-common');
 
 class AssertBasicWeb extends AssertBx {
-    assert() {
-        super.assert();
-        const base = this.frameworkType === constant.FRAMEWORK_SPRING ? 'src/main/resources/static' : 'src/main/webapp';
+    assert(appName, ymlName, buildType, frameworkType, createType, cloudant, objectStorage) {
+        super.assert(appName, ymlName, buildType, frameworkType, createType, cloudant, objectStorage);
+        const base = frameworkType === constant.FRAMEWORK_SPRING ? 'src/main/resources/static' : 'src/main/webapp';
         common.assertFiles(base, true, 'index.html', '/css/default.css', 'js/bundle.js');
-        framework.test(this.frameworkType).assertSourceFiles(false);
+        framework.test(frameworkType).assertSourceFiles(false);
     }
 
-    assertliberty() {
+    assertliberty({ buildType }) {
         super.assertliberty();
-        const test = tests.test(this.buildType);
+        const test = tests.test(buildType);
         test.assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
         test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
         test.assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
@@ -42,9 +42,9 @@ class AssertBasicWeb extends AssertBx {
         framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('servlet-3.1');
     }
 
-    assertspring() {
+    assertspring({ buildType }) {
         super.assertspring();
-        const test = tests.test(this.buildType);
+        const test = tests.test(buildType);
         test.assertDependency('compile', 'org.springframework.boot', 'spring-boot-starter-web');
         test.assertDependency('compile', 'org.springframework.boot', 'spring-boot-actuator');
         test.assertDependency('compile', 'org.springframework.cloud', 'spring-cloud-starter-hystrix');
@@ -56,18 +56,18 @@ class AssertBasicWeb extends AssertBx {
         framework.test(constant.FRAMEWORK_SPRING).assertContent('/error/404.html');
     }
 
-    assertCloudant() {
-        super.assertCloudant();
-        if (this.cloudant && (this.frameworkType === constant.FRAMEWORK_SPRING)) {
+    assertCloudant({ exists, buildType, frameworkType }) {
+        super.assertCloudant({ exists: exists, buildType: buildType });
+        if (exists && (frameworkType === constant.FRAMEWORK_SPRING)) {
             it('should contain @Lazy for cloudant client', function () {
                 assert.fileContent('src/main/java/application/cloudant/CloudantClientConfig.java', '@Lazy');
             });
         }
     }
 
-    assertObjectStorage() {
-        super.assertObjectStorage();
-        if (this.objectStorage && (this.frameworkType === constant.FRAMEWORK_SPRING)) {
+    assertObjectStorage({ exists, buildType, frameworkType }) {
+        super.assertObjectStorage({ exists: exists, buildType: buildType });
+        if (exists && (frameworkType === constant.FRAMEWORK_SPRING)) {
             it('should contain @Lazy for ObjectStorage client', function () {
                 assert.fileContent('src/main/java/application/objectstorage/ObjectStorageConfig.java', '@Lazy');
             });

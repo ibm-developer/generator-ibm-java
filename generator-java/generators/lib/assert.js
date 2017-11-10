@@ -25,29 +25,27 @@ const command = tests.test('command');
 const COMPILE = process.env.COMPILE || 'true';
 
 class Assert {
-  constructor({ appName, buildType, frameworkType }) {
-    this.appName = appName;
-    this.buildType = buildType;
-    this.frameworkType = frameworkType;
+  assert(appName, buildType, frameworkType, createType) {
+    this.assertBuild(appName, buildType);
+    this.assertFramework(appName, buildType, frameworkType);
+    if (COMPILE === 'true') this.assertCompile(buildType);
+    if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty({ appName: appName, buildType: buildType, createType: createType });
+    if (frameworkType === constant.FRAMEWORK_SPRING) this.assertspring({ buildType: buildType });
+    common.assertCommonFiles(frameworkType);
   }
 
-  assert() {
-    this.assertBuild();
-    this.assertFramework();
-    if (COMPILE === 'true') command.run(tests.test(this.buildType).getCompileCommand());
-    if (this.frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty();
-    if (this.frameworkType === constant.FRAMEWORK_SPRING) this.assertspring();
-    common.assertCommonFiles(this.frameworkType);
+  assertBuild(appName, buildType) {
+    const test = tests.test(buildType);
+    test.assertApplication(appName, constant.GROUPID, constant.ARTIFACTID, constant.VERSION);
   }
 
-  assertBuild() {
-    const test = tests.test(this.buildType);
-    test.assertApplication(this.appName, constant.GROUPID, constant.ARTIFACTID, constant.VERSION);
+  assertCompile(buildType) {
+    command.run(tests.test(buildType).getCompileCommand());
   }
   
-  assertFramework() {
-    framework.test(this.frameworkType).assertFiles(this.appName);
-    framework.test(this.frameworkType).assertBuildFiles(this.buildType);
+  assertFramework(appName, buildType, frameworkType) {
+    framework.test(frameworkType).assertFiles(appName);
+    framework.test(frameworkType).assertBuildFiles(buildType);
   }
 
   assertliberty() {

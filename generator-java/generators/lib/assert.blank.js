@@ -18,11 +18,12 @@
 
 const Assert = require('./assert');
 const assert = require('yeoman-assert');
+const constant = require('../../test/lib/constant');
 
 class AssertBlank extends Assert {
-    assert() {
-        super.assert();
-        if (this.frameworkType === 'spring') {
+    assert(appName, buildType, frameworkType) {
+        super.assert(appName, buildType, frameworkType);
+        if (frameworkType === constant.FRAMEWORK_SPRING) {
             it('creates an SBApplication.java file', function () {
                 assert.file('src/main/java/application/SBApplication.java');
             });

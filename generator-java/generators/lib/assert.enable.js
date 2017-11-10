@@ -25,37 +25,34 @@ const kube = require('../../test/lib/test-kube');
 const USAGE_TXT = 'usage.txt';
 
 class AssertEnable extends AssertBx {
-    assert() {
-        super.assertCloudant();
-        super.assertObjectStorage();
+    assert(appName, ymlName, buildType, frameworkType, createType) {
+        super.assertCloudant(false, buildType);
+        super.assertObjectStorage(false, buildType);
         it('generates ' + USAGE_TXT + ' file', function () {
             assert.file(USAGE_TXT);
         });
-        common.assertCLI(this.appName);
-        common.assertCommonFiles(this.frameworkType);
+        common.assertCLI(appName);
+        common.assertCommonFiles(frameworkType);
         common.assertCommonBxFiles();
-        common.assertManifestYml(this.ymlName, false);
+        common.assertManifestYml(ymlName, false);
         common.assertToolchainBxEnable();
-        kube.test(this.appName, true, this.frameworkType, this.createType, false, false);
-        if (this.frameworkType === constant.FRAMEWORK_LIBERTY) this.assertliberty();
-        if (this.frameworkType === constant.FRAMEWORK_SPRING) this.assertspring();
+        kube.test(appName, true, frameworkType, createType, false, false);
     }
 
-    assertliberty() {
-        const buildType = this.buildType;
+    assertliberty({ appName, buildType }) {
         const appPath = buildType === 'maven' ? 'target' : 'build';
         const libertyInstall = buildType === 'maven' ? 'target/liberty/wlp' : 'build/wlp';
         const buildTypeCap = buildType.charAt(0).toUpperCase() + buildType.slice(1);
         it(USAGE_TXT + ' file should contain correct content', function () {
-            assert.fileContent(USAGE_TXT, 'default health endpoint is /' + constant.APPNAME + '/health');
+            assert.fileContent(USAGE_TXT, 'default health endpoint is /' + appName + '/health');
             assert.fileContent(USAGE_TXT, 'artifact location is ' + appPath + '/' + constant.ARTIFACTID + '-' + constant.VERSION + '.zip');
             assert.fileContent(USAGE_TXT, 'Liberty ' + buildTypeCap + ' plugin (https://github.com/WASdev/ci.' + buildType + ')');
             assert.fileContent(USAGE_TXT, 'install location is ' + libertyInstall);
         })
     }
 
-    assertspring() {
-        const appPath = this.buildType === 'maven' ? 'target' : 'build/libs';
+    assertspring({ buildType }) {
+        const appPath = buildType === 'maven' ? 'target' : 'build/libs';
         it(USAGE_TXT + ' file should contain correct content', function () {
             assert.fileContent(USAGE_TXT, 'default health endpoint is /health');
             assert.fileContent(USAGE_TXT, 'artifact location is ' + appPath + '/' + constant.ARTIFACTID + '-' + constant.VERSION + '.jar');

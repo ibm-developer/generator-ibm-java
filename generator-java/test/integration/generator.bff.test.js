@@ -41,6 +41,7 @@ class Options extends core.Options {
 const frameworkTypes = [constant.FRAMEWORK_LIBERTY, constant.FRAMEWORK_SPRING];
 const gradle = 'gradle';
 const maven = 'maven';
+const assert = new AssertBFF();
 
 describe('java generator : bff integration test', function () {
   this.timeout(50000);
@@ -49,66 +50,26 @@ describe('java generator : bff integration test', function () {
       const options = new Options(false, 'gradle', frameworkType);
       options.prompts = { extName: 'prompt:patterns', buildType: 'gradle', createType: 'bff/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID, addbluemix: true, bluemix: options.values.bluemix };
       before(options.before.bind(options));
-
-      const assert = new AssertBFF({
-        appName: constant.APPNAME,
-        buildType: gradle,
-        createType: options.prompts.createType,
-        cloudant: false,
-        frameworkType: frameworkType,
-        objectStorage: false,
-        ymlName: constant.APPNAME
-      });
-      assert.assert();
+      assert.assert(options.values.appName, options.values.appName, gradle, frameworkType, options.values.createType, false, false);
     });
 
     describe('Generates a basic bff project (no bluemix), maven build with prompts', function () {
       const options = new Options(false, 'maven', frameworkType);
       options.prompts = { extName: 'prompt:patterns', buildType: 'maven', createType: 'bff/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID, addbluemix: true, bluemix: options.values.bluemix };
       before(options.before.bind(options));
-
-      const assert = new AssertBFF({
-        appName: constant.APPNAME,
-        buildType: maven,
-        createType: options.prompts.createType,
-        cloudant: false,
-        frameworkType: frameworkType,
-        objectStorage: false,
-        ymlName: constant.APPNAME
-      });
-      assert.assert();
+      assert.assert(options.values.appName, options.values.appName, maven, frameworkType, options.values.createType, false, false);
     });
 
     describe('Generates a basic bff project (no bluemix), gradle build', function () {
       const options = new Options(true, 'gradle', frameworkType, constant.APPNAME);
       before(options.before.bind(options));
-
-      const assert = new AssertBFF({
-        appName: constant.APPNAME,
-        buildType: gradle,
-        createType: options.prompts.createType,
-        cloudant: false,
-        frameworkType: frameworkType,
-        objectStorage: false,
-        ymlName: constant.APPNAME
-      });
-      assert.assert();
+      assert.assert(options.values.appName, options.values.appName, gradle, frameworkType, options.values.createType, false, false);
     });
 
     describe('Generates a basic bff project (no bluemix), maven build', function () {
       const options = new Options(true, 'maven', frameworkType, constant.APPNAME);
       before(options.before.bind(options));
-
-      const assert = new AssertBFF({
-        appName: constant.APPNAME,
-        buildType: maven,
-        createType: options.prompts.createType,
-        cloudant: false,
-        frameworkType: frameworkType,
-        objectStorage: false,
-        ymlName: constant.APPNAME
-      });
-      assert.assert();
+      assert.assert(options.values.appName, options.values.appName, maven, frameworkType, options.values.createType, false, false);
     });
 
     describe('Generates a basic bff project (bluemix) with cloudant', function () {
@@ -117,18 +78,7 @@ describe('java generator : bff integration test', function () {
       options.values.bluemix.server.services = ['cloudant'];
       options.values.bluemix.cloudant = constant.BX_CLOUDANT;
       before(options.before.bind(options));
-
-      const assert = new AssertBFF({
-        appName: 'bxName',
-        buildType: maven,
-        createType: options.prompts.createType,
-        cloudant: true,
-        frameworkType: frameworkType,
-        objectStorage: false,
-        ymlName: 'bxName'
-      });
-      assert.assert();
-      assert.assertCloudant();
+      assert.assert(options.values.appName, options.values.appName, maven, frameworkType, options.values.createType, true, false);
     });
 
     describe('Generates a basic bff project (bluemix) with Object Storage', function () {
@@ -137,18 +87,7 @@ describe('java generator : bff integration test', function () {
       options.values.bluemix.server.services = ['objectStorage'];
       options.values.bluemix.objectStorage = constant.BX_OBJECT_STORAGE;
       before(options.before.bind(options));
-
-      const assert = new AssertBFF({
-        appName: 'bxName',
-        buildType: maven,
-        createType: options.prompts.createType,
-        cloudant: false,
-        frameworkType: frameworkType,
-        objectStorage: true,
-        ymlName: 'bxName'
-      });
-      assert.assert();
-      assert.assertObjectStorage();
+      assert.assert(options.values.appName, options.values.appName, maven, frameworkType, options.values.createType, false, true);
     });
 
     describe('Generates a basic bff project (bluemix) with Cloudant and Object Storage', function () {
@@ -158,19 +97,7 @@ describe('java generator : bff integration test', function () {
       options.values.bluemix.cloudant = constant.BX_CLOUDANT;
       options.values.bluemix.objectStorage = constant.BX_OBJECT_STORAGE;
       before(options.before.bind(options));
-
-      const assert = new AssertBFF({
-        appName: 'bxName',
-        buildType: maven,
-        createType: options.prompts.createType,
-        cloudant: true,
-        frameworkType: frameworkType,
-        objectStorage: true,
-        ymlName: 'bxName'
-      });
-      assert.assert();
-      assert.assertCloudant();
-      assert.assertObjectStorage();
+      assert.assert(options.values.appName, options.values.appName, maven, frameworkType, options.values.createType, true, true);
     });
   });
 });

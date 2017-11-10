@@ -25,14 +25,6 @@ const kube = require('../../test/lib/test-kube');
 const tests = require('@arf/java-common');
 
 class AssertBx extends Assert {
-    constructor({ appName, buildType, cloudant, createType, frameworkType, objectStorage, ymlName }) {
-        super({ appName: appName, buildType: buildType, frameworkType: frameworkType });
-        this.cloudant = cloudant;
-        this.createType = createType;
-        this.objectStorage = objectStorage;
-        this.ymlName = ymlName;
-    }
-
     getCheck(exists) {
         return {
             file: exists ? assert.file : assert.noFile,
@@ -41,42 +33,42 @@ class AssertBx extends Assert {
         }
     }
 
-    assert() {
-        super.assert();
-        this.assertCloudant(this.cloudant);
-        this.assertObjectStorage(this.objectStorage);
-        if (this.frameworkType === constant.FRAMEWORK_SPRING) common.assertBluemixSrcSvcEnabled(this.cloudant || this.objectStorage);
-        if (this.frameworkType === constant.FRAMEWORK_LIBERTY) common.assertBluemixSrc(this.cloudant || this.objectStorage);
+    assert(appName, ymlName, buildType, frameworkType, createType, cloudant, objectStorage) {
+        super.assert(appName, buildType, frameworkType, createType);
+        this.assertCloudant({ exists: cloudant, buildType: buildType, frameworkType: frameworkType });
+        this.assertObjectStorage({ exists: objectStorage, buildType: buildType, frameworkType: frameworkType });
+        if (frameworkType === constant.FRAMEWORK_SPRING) common.assertBluemixSrcSvcEnabled(cloudant || objectStorage);
+        if (frameworkType === constant.FRAMEWORK_LIBERTY) common.assertBluemixSrc(cloudant || objectStorage);
         common.assertCommonBxFiles();
-        common.assertCLI(this.appName);
-        common.assertManifestYml(this.ymlName, this.cloudant || this.objectStorage);
-        kube.test(this.appName, true, this.frameworkType, this.createType, this.cloudant, this.objectStorage);
-        framework.test(this.frameworkType).assertCloudant(this.cloudant);
-        framework.test(this.frameworkType).assertObjectStorage(this.objectStorage);
+        common.assertCLI(appName);
+        common.assertManifestYml(ymlName, cloudant || objectStorage);
+        framework.test(frameworkType).assertCloudant(cloudant);
+        framework.test(frameworkType).assertObjectStorage(objectStorage);
+        kube.test(appName, true, frameworkType, createType, cloudant, objectStorage);
     }
 
-    assertCloudant() {
-        const check = this.getCheck(this.cloudant);
+    assertCloudant({ exists, buildType }) {
+        const check = this.getCheck(exists);
         it(check.desc + 'cloudant README entry', function () {
-            if (this.cloudant) {
+            if (exists) {
                 check.content('README.md', 'cloudant');
             }
         });
-        if (this.cloudant) {
-            tests.test(this.buildType).assertDependency('compile', 'com.cloudant', 'cloudant-client', '2.7.0');
+        if (exists) {
+            tests.test(buildType).assertDependency('compile', 'com.cloudant', 'cloudant-client', '2.7.0');
         }
     }
 
-    assertObjectStorage() {
-        const check = this.getCheck(this.objectStorage);
+    assertObjectStorage({ exists, buildType }) {
+        const check = this.getCheck(exists);
         it(check.desc + 'Object Storage README entry', function () {
-            if (this.objectStorage) {
+            if (exists) {
                 check.content('README.md', 'Object Storage service');
             }
         });
-        if (this.objectStorage) {
-            tests.test(this.buildType).assertDependency('compile', 'org.pacesys', 'openstack4j-core', '3.0.3');
-            tests.test(this.buildType).assertDependency('compile', 'org.pacesys.openstack4j.connectors', 'openstack4j-httpclient', '3.0.3');
+        if (exists) {
+            tests.test(buildType).assertDependency('compile', 'org.pacesys', 'openstack4j-core', '3.0.3');
+            tests.test(buildType).assertDependency('compile', 'org.pacesys.openstack4j.connectors', 'openstack4j-httpclient', '3.0.3');
         }
     }
 }
