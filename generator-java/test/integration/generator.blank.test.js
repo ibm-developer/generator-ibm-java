@@ -35,6 +35,8 @@ const APPNAME = 'testApp';
 const FRAMEWORK_LIBERTY = 'liberty';
 const FRAMEWORK_SPRING = 'spring';
 
+process.env.GENERATOR_LOG_LEVEL = 'error';    //turn off most of the logging rom enablement generators
+
 class Options extends core.Options {
   constructor(runHeadless, buildType, frameworkType, name) {
     super(frameworkType === 'spring' ? 'SPRING' : 'JAVA');
