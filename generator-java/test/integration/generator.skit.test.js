@@ -21,11 +21,12 @@
 
 'use strict';
 
-const Assert = require('../../generators/lib/assert.skit');
+const Assert = require('../lib/assert.skit');
 const constant = require('../lib/constant');
 const core = require('../lib/core');
 const extend = require('extend');
 const path = require('path');
+const tests = require('@arf/java-common');
 
 process.env.GENERATOR_LOG_LEVEL = 'error';    //turn off most of the logging rom enablement generators
 
@@ -47,32 +48,34 @@ class Options extends core.Options {
   }
 }
 
-const frameworkTypes = ['liberty']; //, 'spring'];
+const frameworkTypes = ['liberty', 'spring'];
 const gradle = 'gradle';
 const maven = 'maven';
 
-describe('java generator : starter kit integration test', function () {
+describe('java generator : starter kit (skit) integration test', function () {
   this.timeout(7000);
   frameworkTypes.forEach(frameworkType => {
-    describe('Generates a basic ' + frameworkType + ' blank project (no bluemix), gradle build with prompts', function () {      
+    describe('Generates a ' + frameworkType + ' starter kit, gradle build with prompts', function () {      
       const options = new Options(false, gradle, frameworkType);
       options.prompts = { extName: 'prompt:patterns', buildType: gradle, createType: options.values.createType, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID };
       before(options.before.bind(options));
       
       const assert = new Assert(frameworkType);
       assert.assert(constant.APPNAME, gradle, frameworkType);
+      assert.assertCompiles(gradle);
     });
-/*
-    describe('Generates a basic ' + frameworkType + ' blank project (no bluemix), maven build with prompts', function () {
+
+    describe('Generates a ' + frameworkType + ' starter kit, maven build with prompts', function () {
       const options = new Options(false, maven, frameworkType);
       options.prompts = { extName: 'prompt:patterns', buildType: maven, createType: options.values.createType, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID };
       before(options.before.bind(options));
 
       const assert = new Assert(frameworkType);
       assert.assert(constant.APPNAME, maven, frameworkType);
+      assert.assertCompiles(maven);
     });
 
-    describe('Generates a basic ' + frameworkType + ' blank project (no bluemix), gradle build', function () {
+    describe('Generates a ' + frameworkType + ' starter kit, gradle build', function () {
       const options = new Options(true, gradle, frameworkType, core.APPNAME);
       before(options.before.bind(options));
 
@@ -81,7 +84,7 @@ describe('java generator : starter kit integration test', function () {
       assert.assertCompiles(gradle);
     });
 
-    describe('Generates a basic ' + frameworkType + ' blank project (no bluemix), maven build', function () {
+    describe('Generates a ' + frameworkType + ' starter kit, maven build', function () {
       const options = new Options(true, maven, frameworkType, core.APPNAME);
       before(options.before.bind(options));
 
@@ -89,6 +92,6 @@ describe('java generator : starter kit integration test', function () {
       assert.assert(constant.APPNAME, maven, frameworkType);
       assert.assertCompiles(maven);
     });
-  */
+  
   });
 });
