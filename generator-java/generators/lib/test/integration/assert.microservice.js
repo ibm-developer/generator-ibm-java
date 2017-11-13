@@ -18,7 +18,6 @@
 
 const AssertBx = require('../core.assertbx');
 const assert = require('yeoman-assert');
-const common = require('../../../../test/lib/test-common');
 const constant = require('../constant');
 const framework = require('../test-framework');
 const tests = require('@arf/java-common');
@@ -28,7 +27,7 @@ class AssertMicroservice extends AssertBx {
         super.assert(appName, ymlName, buildType, frameworkType, createType, cloudant, objectStorage);
         this.assertCloudant({ exists: cloudant, frameworkType: frameworkType });
         this.assertObjectStorage({ exists: objectStorage, frameworkType: frameworkType });
-        common.assertToolchainBxCreate();
+        this.assertToolchainBxCreate();
         it('Check that common source files exist', function () {
             assert.fileContent('src/main/java/application/rest/v1/Example.java', 'Congratulations');
         });

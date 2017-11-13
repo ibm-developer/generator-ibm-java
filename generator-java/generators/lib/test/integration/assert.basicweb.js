@@ -18,7 +18,6 @@
 
 const AssertBx = require('../core.assertbx');
 const assert = require('yeoman-assert');
-const common = require('../../../../test/lib/test-common');
 const constant = require('../constant');
 const framework = require('../test-framework');
 const tests = require('@arf/java-common');
@@ -27,7 +26,7 @@ class AssertBasicWeb extends AssertBx {
     assert(appName, ymlName, buildType, frameworkType, createType, cloudant, objectStorage) {
         super.assert(appName, ymlName, buildType, frameworkType, createType, cloudant, objectStorage);
         const base = frameworkType === constant.FRAMEWORK_SPRING ? 'src/main/resources/static' : 'src/main/webapp';
-        common.assertFiles(base, true, 'index.html', '/css/default.css', 'js/bundle.js');
+        this.assertFiles(base, true, 'index.html', '/css/default.css', 'js/bundle.js');
         framework.test(frameworkType).assertSourceFiles(false);
     }
 

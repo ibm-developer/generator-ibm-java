@@ -17,7 +17,6 @@
 'use strict';
 
 const AssertBx = require('../core.assertbx');
-const common = require('../../../../test/lib/test-common');
 const constant = require('../constant');
 const framework = require('../test-framework');
 const tests = require('@arf/java-common');
@@ -25,7 +24,7 @@ const tests = require('@arf/java-common');
 class AssertOpenAPI extends AssertBx {
     assert(appName, ymlName, buildType, createType, frameworkType, exampleName, openApiServers, noHealth) {
         super.assert(appName, ymlName, buildType, frameworkType, createType, false, false);
-        common.assertToolchainBxCreate();
+        this.assertToolchainBxCreate();
         framework.test(frameworkType).assertOpenApi(openApiServers !== undefined, [exampleName], buildType, noHealth);
     }
 

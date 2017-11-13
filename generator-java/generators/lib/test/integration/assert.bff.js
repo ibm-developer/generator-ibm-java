@@ -18,7 +18,6 @@
 
 const AssertBx = require('../core.assertbx');
 const assert = require('yeoman-assert');
-const common = require('../../../../test/lib/test-common');
 const constant = require('../constant');
 const framework = require('../test-framework');
 const tests = require('@arf/java-common');
@@ -31,7 +30,7 @@ class AssertBFF extends AssertBx {
 
     assertliberty({ buildType }) {
         super.assertliberty();
-        common.assertFiles('src', true,
+        this.assertFiles('src', true,
             'main/java/application/rest/SwaggerEndpoint.java',
             'main/java/application/model/Product.java',
             'main/java/application/openapi/ProductsApi.java',
@@ -51,7 +50,7 @@ class AssertBFF extends AssertBx {
 
     assertspring({ buildType }) {
         super.assertspring();
-        common.assertFiles('src', true,
+        this.assertFiles('src', true,
             'main/java/io/swagger/api/ProductApi.java',
             'main/java/io/swagger/api/ProductApiController.java',
             'main/java/io/swagger/api/ProductsApi.java',

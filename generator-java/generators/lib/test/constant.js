@@ -23,10 +23,14 @@ module.exports = exports = {
     APPNAME: 'testApp',
     FRAMEWORK_LIBERTY: 'liberty',
     FRAMEWORK_SPRING: 'spring',
+    COMPILE: process.env.COMPILE === 'false' ? false : true,
     BX_SERVER: {"host": "host", "domain": "mybluemix.net"},
     BX_CLOUDANT: [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},
     "password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}],
     BX_OBJECT_STORAGE: [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},
     "project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password",
-    "auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]
+    "auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}],
+    TOOLCHAIN_YML: '.bluemix/toolchain.yml',
+    CLI_CONFIG_YML: 'cli-config.yml',
+    CLI_VERSION: '0.0.2'
 };

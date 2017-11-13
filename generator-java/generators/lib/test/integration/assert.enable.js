@@ -18,7 +18,6 @@
 
 const AssertBx = require('../core.assertbx');
 const assert = require('yeoman-assert');
-const common = require('../../../../test/lib/test-common');
 const constant = require('../constant');
 const kube = require('../test-kube');
 
@@ -31,11 +30,11 @@ class AssertEnable extends AssertBx {
         it('generates ' + USAGE_TXT + ' file', function () {
             assert.file(USAGE_TXT);
         });
-        common.assertCLI(appName);
-        common.assertCommonFiles(frameworkType);
-        common.assertCommonBxFiles();
-        common.assertManifestYml(ymlName, false);
-        common.assertToolchainBxEnable();
+        this.assertCLI(appName);
+        this.assertCommonFiles(frameworkType);
+        this.assertCommonBxFiles();
+        this.assertManifestYml(ymlName, false);
+        this.assertToolchainBxEnable();
         kube.test(appName, true, frameworkType, createType, false, false);
     }
 
