@@ -28,10 +28,10 @@ const extend = require('extend');
 const framework = require('../../generators/lib/test/test-framework');
 
 class Options extends core.Options {
-  constructor(buildType, type, frameworkType, openApiServers) {
+  constructor(runHeadless, buildType, type, frameworkType, openApiServers) {
     super(frameworkType === 'spring' ? 'SPRING' : 'JAVA');
     extend(this.values, {
-      headless: "true",
+      headless: runHeadless.toString(),
       buildType: buildType,
       frameworkType: frameworkType || constant.FRAMEWORK_LIBERTY,
       createType: type + '/' + (frameworkType || constant.FRAMEWORK_LIBERTY),
@@ -58,6 +58,42 @@ function execute(frameworkType) {
     this.timeout(30000);
 
     // execute each of these tests for both Liberty and Spring frameworks
+    describe(name + ': Generates a basic microservices project using open api doc (no bluemix), gradle build system with prompts', function () {
+      const example = framework.test(frameworkType).getExampleOpenApi()
+      const openApiServers = [
+        {
+          "spec": JSON.stringify(example.value)
+        }
+      ];
+      const options = new Options(false, gradle, 'microservice', frameworkType, openApiServers);
+      options.prompts = { extName: 'prompt:patterns', buildType: gradle, createType: 'microservice/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
+      before(options.before.bind(options));
+      assertOpenApi.assert(options.values.appName, options.values.appName, gradle, options.values.createType, frameworkType, example.name, openApiServers);
+      it('should create a basic microservice, gradle build system', function () {
+        assert.fileContent('src/main/java/application/rest/v1/Example.java', 'list.add("Congratulations, your application is up and running");'); // check no bx services present
+        assert.fileContent('README.md', gradle);
+        assert.noFileContent('README.md', maven);
+      });
+    });
+
+    describe(name + ': Generates a basic microservices project using open api doc (no bluemix), maven build system with prompts', function () {
+      const example = framework.test(frameworkType).getExampleOpenApi()
+      const openApiServers = [
+        {
+          "spec": JSON.stringify(example.value)
+        }
+      ];
+      const options = new Options(false, maven, 'microservice', frameworkType, openApiServers);
+      options.prompts = { extName: 'prompt:patterns', buildType: maven, createType: 'microservice/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
+      before(options.before.bind(options));
+      assertOpenApi.assert(options.values.appName, options.values.appName, maven, options.values.createType, frameworkType, example.name, openApiServers);
+      it('should create a basic microservice, maven build system', function () {
+        assert.fileContent('src/main/java/application/rest/v1/Example.java', 'list.add("Congratulations, your application is up and running");'); // check no bx services present
+        assert.fileContent('README.md', maven);
+        assert.noFileContent('README.md', gradle);
+      });
+    });
+
     describe(name + ': Generates a basic microservices project using open api doc (no bluemix), gradle build system', function () {
       const example = framework.test(frameworkType).getExampleOpenApi()
       const openApiServers = [
@@ -65,13 +101,13 @@ function execute(frameworkType) {
           "spec": JSON.stringify(example.value)
         }
       ];
-      const options = new Options('gradle', 'microservice', frameworkType, openApiServers);
+      const options = new Options(true, gradle, 'microservice', frameworkType, openApiServers);
       before(options.before.bind(options));
-      assertOpenApi.assert(constant.APPNAME, constant.APPNAME, gradle, options.values.createType, frameworkType, example.name, openApiServers);
+      assertOpenApi.assert(options.values.appName, options.values.appName, gradle, options.values.createType, frameworkType, example.name, openApiServers);
       it('should create a basic microservice, gradle build system', function () {
         assert.fileContent('src/main/java/application/rest/v1/Example.java', 'list.add("Congratulations, your application is up and running");'); // check no bx services present
-        assert.fileContent('README.md', 'gradle');
-        assert.noFileContent('README.md', 'maven');
+        assert.fileContent('README.md', gradle);
+        assert.noFileContent('README.md', maven);
       });
     });
 
@@ -82,13 +118,13 @@ function execute(frameworkType) {
           "spec": JSON.stringify(example.value)
         }
       ];
-      const options = new Options('maven', 'microservice', frameworkType, openApiServers);
+      const options = new Options(true, maven, 'microservice', frameworkType, openApiServers);
       before(options.before.bind(options));
-      assertOpenApi.assert(constant.APPNAME, constant.APPNAME, maven, options.values.createType, frameworkType, example.name, openApiServers);
+      assertOpenApi.assert(options.values.appName, options.values.appName, maven, options.values.createType, frameworkType, example.name, openApiServers);
       it('should create a basic microservice, maven build system', function () {
         assert.fileContent('src/main/java/application/rest/v1/Example.java', 'list.add("Congratulations, your application is up and running");'); // check no bx services present
-        assert.fileContent('README.md', 'maven');
-        assert.noFileContent('README.md', 'gradle');
+        assert.fileContent('README.md', maven);
+        assert.noFileContent('README.md', gradle);
       });
     });
 
@@ -101,13 +137,13 @@ function execute(frameworkType) {
           "spec": JSON.stringify(example.value)
         }
       ];
-      const options = new Options('gradle', 'microservice', frameworkType, openApiServers);
+      const options = new Options(true, gradle, 'microservice', frameworkType, openApiServers);
       before(options.before.bind(options));
-      assertOpenApi.assert(constant.APPNAME, constant.APPNAME, gradle, options.values.createType, frameworkType, example.name, openApiServers);
+      assertOpenApi.assert(options.values.appName, options.values.appName, gradle, options.values.createType, frameworkType, example.name, openApiServers);
       it('should create a basic microservice, gradle build system', function () {
         assert.fileContent('src/main/java/application/rest/v1/Example.java', 'list.add("Congratulations, your application is up and running");'); // check no bx services present
-        assert.fileContent('README.md', 'gradle');
-        assert.noFileContent('README.md', 'maven');
+        assert.fileContent('README.md', gradle);
+        assert.noFileContent('README.md', maven);
       });
     });
 
@@ -120,13 +156,13 @@ function execute(frameworkType) {
           "spec": JSON.stringify(example.value)
         }
       ];
-      const options = new Options('maven', 'microservice', frameworkType, openApiServers);
+      const options = new Options(true, maven, 'microservice', frameworkType, openApiServers);
       before(options.before.bind(options));
-      assertOpenApi.assert(constant.APPNAME, constant.APPNAME, maven, options.values.createType, frameworkType, example.name, openApiServers);
+      assertOpenApi.assert(options.values.appName, options.values.appName, maven, options.values.createType, frameworkType, example.name, openApiServers);
       it('should create a basic microservice, maven build system', function () {
         assert.fileContent('src/main/java/application/rest/v1/Example.java', 'list.add("Congratulations, your application is up and running");'); // check no bx services present
-        assert.fileContent('README.md', 'maven');
-        assert.noFileContent('README.md', 'gradle');
+        assert.fileContent('README.md', maven);
+        assert.noFileContent('README.md', gradle);
       });
     });
 
@@ -137,9 +173,9 @@ function execute(frameworkType) {
           "spec": JSON.stringify(example.value)
         }
       ];
-      const options = new Options('gradle', 'bff', frameworkType, openApiServers);
+      const options = new Options(true, gradle, 'bff', frameworkType, openApiServers);
       before(options.before.bind(options));
-      assertOpenApi.assert(constant.APPNAME, constant.APPNAME, gradle, options.values.createType, frameworkType, example.name, openApiServers);
+      assertOpenApi.assert(options.values.appName, options.values.appName, gradle, options.values.createType, frameworkType, example.name, openApiServers);
     });
 
     describe(name + ': Generates a basic bff project using open api doc (no bluemix), maven build system', function () {
@@ -149,9 +185,9 @@ function execute(frameworkType) {
           "spec": JSON.stringify(example.value)
         }
       ];
-      const options = new Options('maven', 'bff', frameworkType, openApiServers);
+      const options = new Options(true, maven, 'bff', frameworkType, openApiServers);
       before(options.before.bind(options));
-      assertOpenApi.assert(constant.APPNAME, constant.APPNAME, maven, options.values.createType, frameworkType, example.name, openApiServers);
+      assertOpenApi.assert(options.values.appName, options.values.appName, maven, options.values.createType, frameworkType, example.name, openApiServers);
     });
 
     describe(name + ': Generates a blank project using open api doc (no bluemix), gradle build system', function () {
@@ -161,9 +197,9 @@ function execute(frameworkType) {
           "spec": JSON.stringify(example.value)
         }
       ];
-      const options = new Options('gradle', 'blank', frameworkType, openApiServers);
+      const options = new Options(true, gradle, 'blank', frameworkType, openApiServers);
       before(options.before.bind(options));
-      assertOpenApi.assert(constant.APPNAME, constant.APPNAME, gradle, options.values.createType, frameworkType, example.name, openApiServers, true);
+      assertOpenApi.assert(options.values.appName, options.values.appName, gradle, options.values.createType, frameworkType, example.name, openApiServers, true);
     });
 
     describe(name + ': Generates a blank project using open api doc (no bluemix), maven build system', function () {
@@ -173,9 +209,9 @@ function execute(frameworkType) {
           "spec": JSON.stringify(example.value)
         }
       ];
-      const options = new Options('maven', 'blank', frameworkType, openApiServers);
+      const options = new Options(true, maven, 'blank', frameworkType, openApiServers);
       before(options.before.bind(options));
-      assertOpenApi.assert(constant.APPNAME, constant.APPNAME, maven, options.values.createType, frameworkType, example.name, openApiServers, true);
+      assertOpenApi.assert(options.values.appName, options.values.appName, maven, options.values.createType, frameworkType, example.name, openApiServers, true);
     });
   });
 }

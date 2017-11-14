@@ -28,11 +28,11 @@ const extend = require('extend');
 const liberty = require('@arf/generator-liberty');
 
 class Options extends core.Options {
-  constructor(createType, buildType, platforms, technologies) {
+  constructor(runHeadless, createType, buildType, platforms, technologies) {
     super();
     this.assertTech = new liberty.integrationAsserts.technologies();
     extend(this.values, {
-      headless: "true",
+      headless: runHeadless.toString(),
       buildType: buildType,
       platforms: platforms,
       createType: createType,
@@ -53,12 +53,45 @@ function execute(createType, assertFunc, technologiesToTest) {
     this.timeout(7000);
     for (var i = 0; i < technologiesToTest.length; i++) {
       for (var j = 0; j < buildTypes.length; j++) {
-        describe('Generates a ' + createType + ' project for ' + technologiesToTest[i] + ' (' + buildTypes[j] + ', no bluemix)', function () {
-          const options = new Options(createType, buildTypes[j], [], [technologiesToTest[i]]);
+        describe('Generates a ' + createType + ' project for ' + technologiesToTest[i] + ' (' + buildTypes[j] + ', no bluemix with prompts)', function () {
+          const options = new Options(false, createType, buildTypes[j], [], [technologiesToTest[i]]);
+          options.prompts = { extName: 'prompt:patterns', buildType: buildTypes[j], createType: options.values.createType, services: ['none'], appName: options.values.APPNAME, artifactId: options.values.ARTIFACTID };
           before(options.before.bind(options));
 
           const assert = new AssertTechnologies({
-            appName: constant.APPNAME,
+            appName: options.values.appName,
+            buildType: buildTypes[j],
+            frameworkType: constant.FRAMEWORK_LIBERTY
+          });
+          assert['assert' + assertFunc]();
+
+          const func = options['assert' + technologiesToTest[i]];
+          // see if there is a local override in place or default through to the underlying technology checker
+          if (func) {
+            func();
+          } else {
+            assert.defaultAssertTech(technologiesToTest[i]);
+          }
+
+          if (technologiesToTest[i] === 'springbootweb' && createType === 'picnmix') {
+            assert.assertTech.assertspringbootwebonly(assert.buildType);
+          }
+
+          if (technologiesToTest[i] === 'msbuilder' && createType === 'picnmix') {
+            assert.assertmsbuilderwithname();
+          } else {
+            assert.assertNoKube();
+          }
+
+          bluemix.test(false);
+        });
+
+        describe('Generates a ' + createType + ' project for ' + technologiesToTest[i] + ' (' + buildTypes[j] + ', no bluemix)', function () {
+          const options = new Options(true, createType, buildTypes[j], [], [technologiesToTest[i]]);
+          before(options.before.bind(options));
+
+          const assert = new AssertTechnologies({
+            appName: options.values.appName,
             buildType: buildTypes[j],
             frameworkType: constant.FRAMEWORK_LIBERTY
           });
@@ -93,11 +126,10 @@ describe('java generator : technologies integration test', function () {
   this.timeout(7000);
   for (var i = 0; i < buildTypes.length; i++) {
     describe('Generates a project for (no services or technologies)', function () {
-      const options = new Options('picnmix', buildTypes[i], [], []);
+      const options = new Options(true, 'picnmix', buildTypes[i], [], []);
       before(options.before.bind(options));
-
       const assert = new AssertTechnologies({
-        appName: constant.APPNAME,
+        appName: options.values.appName,
         buildType: buildTypes[i],
         frameworkType: constant.FRAMEWORK_LIBERTY
       });
@@ -110,11 +142,10 @@ describe('java generator : technologies integration test', function () {
 
   for (var i = 0; i < buildTypes.length; i++) {
     describe('Generates a project for (no services or technologies) with bluemix', function () {
-      const options = new Options('picnmix', buildTypes[i], ['bluemix'], []);
+      const options = new Options(true, 'picnmix', buildTypes[i], ['bluemix'], []);
       before(options.before.bind(options));
-
       const assert = new AssertTechnologies({
-        appName: constant.APPNAME,
+        appName: options.values.appName,
         buildType: buildTypes[i],
         frameworkType: constant.FRAMEWORK_LIBERTY
       });

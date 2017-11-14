@@ -28,10 +28,10 @@ const extend = require('extend');
 const framework = require('../../generators/lib/test/test-framework');
 
 class Options extends core.Options {
-  constructor(buildType, frameworkType, javaMetrics) {
+  constructor(runHeadless, buildType, frameworkType, javaMetrics) {
     super(frameworkType === 'spring' ? 'SPRING' : 'JAVA');
     extend(this.values, {
-      headless: "true",
+      headless: runHeadless.toString(),
       buildType: buildType,
       frameworkType: frameworkType || constant.FRAMEWORK_LIBERTY,
       createType: 'microservice/' + (frameworkType || constant.FRAMEWORK_LIBERTY),
@@ -56,28 +56,50 @@ function execute(framework) {
     this.timeout(7000);
 
     // execute each of these tests for both Liberty and Spring frameworks
-    describe(name + ': Generates a basic microservices project (no bluemix), gradle build system', function () {
-      const options = new Options('gradle', framework);
+    describe(name + ': Generates a basic microservices project (no bluemix), gradle build with prompts', function () {
+      const options = new Options(false, gradle, framework);
+      options.prompts = { extName: 'prompt:patterns', buildType: gradle, createType: 'microservice/' + framework, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
       before(options.before.bind(options));
-      assertMicroservice.assert(constant.APPNAME, constant.APPNAME, gradle, framework, options.values.createType, false, false);
+      assertMicroservice.assert(options.values.appName, options.values.appName, gradle, framework, options.values.createType, false, false);
       it('should create a basic microservice, gradle build system', function () {
-        assert.fileContent('README.md', 'gradle');
-        assert.noFileContent('README.md', 'maven');
+        assert.fileContent('README.md', gradle);
+        assert.noFileContent('README.md', maven);
+      });
+    });
+
+    describe(name + ': Generates a basic microservices project (no bluemix), maven build with prompts', function () {
+      const options = new Options(false, maven, framework);
+      options.prompts = { extName: 'prompt:patterns', buildType: maven, createType: 'microservice/' + framework, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
+      before(options.before.bind(options));
+      assertMicroservice.assert(options.values.appName, options.values.appName, maven, framework, options.values.createType, false, false);
+      it('should create a basic microservice, maven build system', function () {
+        assert.fileContent('README.md', maven);
+        assert.noFileContent('README.md', gradle);
+      });
+    });
+
+    describe(name + ': Generates a basic microservices project (no bluemix), gradle build system', function () {
+      const options = new Options(true, gradle, framework);
+      before(options.before.bind(options));
+      assertMicroservice.assert(options.values.appName, options.values.appName, gradle, framework, options.values.createType, false, false);
+      it('should create a basic microservice, gradle build system', function () {
+        assert.fileContent('README.md', gradle);
+        assert.noFileContent('README.md', maven);
       });
     });
 
     describe(name + ': Generates a basic microservices project (no bluemix), maven build system', function () {
-      const options = new Options('maven', framework);
+      const options = new Options(true, maven, framework);
       before(options.before.bind(options));
-      assertMicroservice.assert(constant.APPNAME, constant.APPNAME, maven, framework, options.values.createType, false, false);
+      assertMicroservice.assert(options.values.appName, options.values.appName, maven, framework, options.values.createType, false, false);
       it('should create a basic microservice, maven build system', function () {
-        assert.fileContent('README.md', 'maven');
-        assert.noFileContent('README.md', 'gradle');
+        assert.fileContent('README.md', maven);
+        assert.noFileContent('README.md', gradle);
       });
     });
 
     describe(name + ': Generates a basic microservices project (gradle, bluemix, no services)', function () {
-      const options = new Options('gradle', framework);
+      const options = new Options(true, gradle, framework);
       options.values.bluemix.name = 'bxName';
       before(options.before.bind(options));
       assertMicroservice.assert('bxName', 'bxName', gradle, framework, options.values.createType, false, false);
@@ -88,28 +110,28 @@ function execute(framework) {
     });
 
     describe(name + ': Generates a basic microservices project (maven, bluemix, cloudant)', function () {
-      const options = new Options('maven', framework);
+      const options = new Options(true, maven, framework);
       options.values.bluemix = '{"name" : "bxName", "backendPlatform" : "' + backendPlatform + '", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
       before(options.before.bind(options));
       assertMicroservice.assert('bxName', 'bxName', maven, framework, options.values.createType, true, false);
     });
 
     describe(name + ': Generates a basic microservices project (gradle, bluemix, cloudant)', function () {
-      const options = new Options('gradle', framework);
+      const options = new Options(true, gradle, framework);
       options.values.bluemix = '{"name" : "bxName", "backendPlatform" : "' + backendPlatform + '", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["cloudant"]}, "cloudant" : [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label": "cloudantNoSQLDB","plan": "Lite"},"password" : "pass", "url" : "https://account.cloudant.com", "username" : "user"}]}';
       before(options.before.bind(options));
       assertMicroservice.assert('bxName', 'bxName', gradle, framework, options.values.createType, true, false);
     });
 
     describe(name + ': Generates a basic microservices project (maven, bluemix, objectStorage)', function () {
-      const options = new Options('maven', framework);
+      const options = new Options(true, maven, framework);
       options.values.bluemix = '{"name" : "bxName", "backendPlatform" : "' + backendPlatform + '", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
       before(options.before.bind(options));
       assertMicroservice.assert('bxName', 'bxName', maven, framework, options.values.createType, false, true);
     });
 
     describe(name + ': Generates a basic microservices project (gradle, bluemix, objectStorage)', function () {
-      const options = new Options('gradle', framework);
+      const options = new Options(true, gradle, framework);
       options.values.bluemix = '{"name" : "bxName", "backendPlatform" : "' + backendPlatform + '", "server" : {"host": "host", "domain": "mybluemix.net", "services" : ["objectStorage"]}, "objectStorage" : [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},"project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password","auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}]}';
       before(options.before.bind(options));
       assertMicroservice.assert('bxName', 'bxName', gradle, framework, options.values.createType, false, true);
@@ -119,9 +141,9 @@ function execute(framework) {
 
 describe('Basic microservices project checking javametrics', function () {
   describe('Generate a basic liberty microservices project checking javametrics exists', function () {
-    const options = new Options('maven', constant.FRAMEWORK_LIBERTY, true);
+    const options = new Options(true, maven, constant.FRAMEWORK_LIBERTY, true);
     before(options.before.bind(options));
-    framework.test(constant.FRAMEWORK_LIBERTY).assertJavaMetrics(true, 'maven');
+    framework.test(constant.FRAMEWORK_LIBERTY).assertJavaMetrics(true, maven);
     it('Check dockerfile contains javametrics options', function () {
       assert.fileContent('Dockerfile', 'COPY /target/liberty/wlp/usr/shared/resources /config/resources/');
       assert.fileContent('Dockerfile', 'COPY /src/main/liberty/config/jvmbx.options /config/jvm.options');
@@ -129,9 +151,9 @@ describe('Basic microservices project checking javametrics', function () {
   });
 
   describe('Generate a basic liberty microservices project checking javametrics does not exist', function () {
-    const options = new Options('maven', constant.FRAMEWORK_LIBERTY);
+    const options = new Options(true, maven, constant.FRAMEWORK_LIBERTY);
     before(options.before.bind(options));
-    framework.test(constant.FRAMEWORK_LIBERTY).assertJavaMetrics(false, 'maven');
+    framework.test(constant.FRAMEWORK_LIBERTY).assertJavaMetrics(false, maven);
     it('Check dockerfile does not contain javametrics options', function () {
       assert.noFileContent('Dockerfile', 'COPY /target/liberty/wlp/usr/shared/resources /config/resources/');
       assert.noFileContent('Dockerfile', 'COPY /src/main/liberty/config/jvmbx.options /config/jvm.options');

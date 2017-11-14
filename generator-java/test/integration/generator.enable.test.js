@@ -39,17 +39,16 @@ const assert = new AssertEnable();
 frameworkTypes.forEach(frameworkType => {
   describe('java generator : enable integration test : ' + frameworkType, function () {
     this.timeout(7000);
-
     describe('Enable a project using a gradle build : ' + frameworkType, function () {
       const options = new Options(frameworkType);
-      options.prompts = { extName: 'prompt:patterns', buildType: 'gradle', createType: 'enable/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
+      options.prompts = { extName: 'prompt:patterns', buildType: gradle, createType: 'enable/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
       before(options.before.bind(options));
       assert.assert(constant.APPNAME, constant.APPNAME, gradle, frameworkType, options.values.createType);
     });
 
     describe('Enable a project using a maven build : ' + frameworkType, function () {
       const options = new Options(frameworkType);
-      options.prompts = { extName: 'prompt:patterns', buildType: 'maven', createType: 'enable/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
+      options.prompts = { extName: 'prompt:patterns', buildType: maven, createType: 'enable/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
       before(options.before.bind(options));
       assert.assert(constant.APPNAME, constant.APPNAME, maven, frameworkType, options.values.createType);
     });
