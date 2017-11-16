@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0"></a>
+# [3.0.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.8.0...v3.0.0) (2017-11-16)
+
+
+### Features
+
+* **codegen:** support for starter kits ([0539354](https://github.ibm.com/arf/java-codegen-yeoman/commit/0539354))
+
+
+### BREAKING CHANGES
+
+* **codegen:** compose with use case generator.
+
+Signed off by : Adam Pilkington apilkington@uk.ibm.com
+
+
+
 <a name="2.8.0"></a>
 # [2.8.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.7.3...v2.8.0) (2017-11-07)
 
