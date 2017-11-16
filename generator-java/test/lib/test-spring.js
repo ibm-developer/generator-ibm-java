@@ -93,6 +93,10 @@ test_spring.prototype.getExampleOpenApi = function() {
   return openApi.getExample();
 }
 
+test_spring.prototype.assertEnv = function(exists, env) {
+  checkValues(exists, env, assertSpring.assertEnv);
+}
+
 //asserts that the specified environment variables will flow through JNDI
 function checkValues(exists, object, func) {
   if(arguments.length < 2) {

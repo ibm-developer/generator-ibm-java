@@ -40,6 +40,8 @@ const BX_OBJECT_STORAGE = [{"serviceInfo": {"name": "test-Object-Storage-000","l
   "project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password",
   "auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}];
 
+process.env.GENERATOR_LOG_LEVEL = 'error';    //turn off most of the logging from enablement generators
+
 class Options {
  constructor(backendPlatform) {
    

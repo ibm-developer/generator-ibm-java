@@ -151,6 +151,14 @@ test_liberty.prototype.assertConfig = function(exists, tag) {
   return assertLiberty.assertConfig(exists, tag);
 }
 
+test_liberty.prototype.assertEnv = function(exists, env) {
+  checkValues(exists, env, assertLiberty.assertEnv);
+}
+
+test_liberty.prototype.assertJndi = function(exists, jndi) {
+  checkValues(exists, jndi, assertLiberty.assertJNDI);
+}
+
 //asserts that the specified environment variables will flow through JNDI
 function checkValues(exists, object, func) {
   if(arguments.length < 2) {
