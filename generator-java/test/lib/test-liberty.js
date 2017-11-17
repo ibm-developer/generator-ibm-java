@@ -135,12 +135,6 @@ test_liberty.prototype.assertObjectStorage = function(exists) {
 test_liberty.prototype.assertOpenApi = function(exists, fileNames, buildType) {
   openApi.assert(exists, fileNames);
   var check = exists ? tests.test(buildType).assertContent : tests.test(buildType).assertNoContent;
-  if(buildType === 'maven') {
-    check('<feature>apiDiscovery-1.0</feature>')
-  }
-  if(buildType === 'gradle') {
-    check("name = ['apiDiscovery-1.0']");
-  }
 }
 
 test_liberty.prototype.getExampleOpenApi = function() {
