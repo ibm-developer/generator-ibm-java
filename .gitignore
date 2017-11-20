@@ -42,3 +42,4 @@ projects/*
 
 .vscode
 
+*.DS_Store
