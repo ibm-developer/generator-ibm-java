@@ -64,18 +64,18 @@ class Options extends core.BxOptions {
     var test = tests.test(this.values.buildType);
     if(this.values.createType === 'microservice/liberty') {
       test.assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
-      test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
-      test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
-      test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
+      test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.1.18');
+      test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.18');
+      test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.18');
       var type = this.values.buildType === 'maven' ? 'pom' : undefined;
-      test.assertDependency('provided', 'io.microprofile', 'microprofile', '1.0.0', undefined, type);
-      framework.test(FRAMEWORK_LIBERTY).assertFeatures('microprofile-1.0');
+      test.assertDependency('provided', 'org.eclipse.microprofile', 'microprofile', '1.2', undefined, type);
+      framework.test(FRAMEWORK_LIBERTY).assertFeatures('microprofile-1.2');
       framework.test(FRAMEWORK_LIBERTY).assertFeatures('jndi-1.0');
     }
     if(this.values.createType === 'bff/liberty') {
       test.assertDependency('provided', 'io.swagger', 'swagger-annotations', '1.5.3');
       test.assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
-      test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+      test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.18');
       framework.test(FRAMEWORK_LIBERTY).assertFeatures('apiDiscovery-1.0');
       framework.test(FRAMEWORK_LIBERTY).assertFeatures('jaxrs-2.0');
       framework.test(FRAMEWORK_LIBERTY).assertConfig(true, 'basicRegistry');

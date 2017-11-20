@@ -62,15 +62,9 @@ class Options extends core.BxOptions {
     var test = tests.test(this.values.buildType);
     test.assertDependency('provided', 'io.swagger', 'swagger-annotations', '1.5.3');
     test.assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
-    test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+    test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.18');
     framework.test(FRAMEWORK_LIBERTY).assertFeatures('jaxrs-2.0');
     framework.test(FRAMEWORK_LIBERTY).assertFeatures('apiDiscovery-1.0');
-    if(this.values.buildType === 'maven') {
-      test.assertContent('<feature>apiDiscovery-1.0</feature>');
-    }
-    if(this.values.buildType === 'gradle') {
-      test.assertContent("name = ['apiDiscovery-1.0']");
-    }
     framework.test(FRAMEWORK_LIBERTY).assertConfig(true, 'basicRegistry');
   }
 
