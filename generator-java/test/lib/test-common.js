@@ -106,17 +106,8 @@ var assertToolchainBxCreate = function() {
   });
 }
 
-//asserts that there are no source code files for bluemix
-var assertBluemixSrc = function(exists) {
-  var check = getCheck(exists);
-  it(check.desc + 'source code files for bluemix', function () {
-    check.file('src/main/java/application/bluemix/InvalidCredentialsException.java');
-    check.file('src/main/java/application/bluemix/VCAPServices.java');
-  });
-}
-
 //asserts that there are / are not source code files for bluemix
-var assertBluemixSrcSvcEnabled = function(exists) {
+var assertBluemixSrc = function(exists) {
   var check = getCheck(exists);
   it(check.desc + 'source code files for bluemix using service enablement generator', function () {
     check.file('src/main/java/application/ibmcloud/CloudServicesException.java');
@@ -223,7 +214,6 @@ module.exports = {
   assertCommonLibertyFiles : assertCommonLibertyFiles,
   assertCommonSpringFiles : assertCommonSpringFiles,
   assertBluemixSrc : assertBluemixSrc,
-  assertBluemixSrcSvcEnabled : assertBluemixSrcSvcEnabled,
   assertManifestYml : assertManifestYml,
   assertFiles : assertFiles,
   assertCLI : assertCLI,

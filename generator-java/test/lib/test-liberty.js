@@ -102,14 +102,16 @@ test_liberty.prototype.assertCloudant = function(exists) {
     "cloudant/username" : "${env.cloudant_username}",
     "cloudant/password" : "${env.cloudant_password}"
   }
-  checkValues(exists, jndi, assertLiberty.assertJNDI);
+  //no longer setting JNDI entries for Cloudant
+  checkValues(false, jndi, assertLiberty.assertJNDI);
 
   var env = {
     cloudant_url : 'https://account.cloudant.com',
     cloudant_password : 'pass',
     cloudant_username : 'user'
   }
-  checkValues(exists, env, assertLiberty.assertEnv);
+  //no longer setting variables in server.env for Cloudant
+  checkValues(false, env, assertLiberty.assertEnv);
 }
 
 test_liberty.prototype.assertObjectStorage = function(exists) {
@@ -120,7 +122,8 @@ test_liberty.prototype.assertObjectStorage = function(exists) {
     "objectstorage/domainName" : "${env.object_storage_domainName}",
     "objectstorage/project" : "${env.object_storage_project}"
   }
-  checkValues(exists, jndi, assertLiberty.assertJNDI);
+  //no longer setting JNDI entries for Object Storage
+  checkValues(false, jndi, assertLiberty.assertJNDI);
 
   var env = {
     object_storage_auth_url : 'objectStorage-url',
@@ -129,7 +132,8 @@ test_liberty.prototype.assertObjectStorage = function(exists) {
     object_storage_domainName : 'objectStorage-domainName',
     object_storage_project : 'objectStorage-project'
   }
-  checkValues(exists, env, assertLiberty.assertEnv);
+  //no longer setting variables in server.env for Object Storage
+  checkValues(false, env, assertLiberty.assertEnv);
 }
 
 test_liberty.prototype.assertOpenApi = function(exists, fileNames, buildType) {
