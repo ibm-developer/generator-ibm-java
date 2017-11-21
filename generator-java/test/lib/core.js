@@ -39,6 +39,7 @@ const BX_CLOUDANT = [{"serviceInfo": {"name": "test-cloudantNoSQLDB-000","label"
 const BX_OBJECT_STORAGE = [{"serviceInfo": {"name": "test-Object-Storage-000","label": "Object-Storage","plan": "standard"},
   "project": "objectStorage-project", "userId": "objectStorage-userId", "password": "objectStorage-password",
   "auth_url": "objectStorage-url","domainName": "objectStorage-domainName"}];
+const LOCALDEV_FILE = 'src/main/resources/localdev-config.json';
 
 process.env.GENERATOR_LOG_LEVEL = 'error';    //turn off most of the logging from enablement generators
 
@@ -108,24 +109,30 @@ class BxOptions extends Options {
  }
 
  assertCloudant(exists) {
-   var check = this.getCheck(exists);
-   it(check.desc + 'cloudant README entry', function () {
-     if(exists) {
-       check.content('README.md', 'cloudant');
-     }
-   });
    if(exists) {
+     it('should create Cloudant README entry', function () {
+       assert.fileContent('README.md', 'cloudant');
+     });
+     it('should create file ' + LOCALDEV_FILE + ' with Cloudant credentials', function() {
+       assert.fileContent(LOCALDEV_FILE, '"cloudant_username": "user"');
+       assert.fileContent(LOCALDEV_FILE, '"cloudant_password": "pass"');
+       assert.fileContent(LOCALDEV_FILE, '"cloudant_url": "https://account.cloudant.com"');
+     });
      tests.test(this.prompts.buildType || this.values.buildType).assertDependency('compile', 'com.cloudant', 'cloudant-client', '2.7.0');
    }
  }
- assertObjectStorage(exists) {
-   var check = this.getCheck(exists);
-   it(check.desc + 'Object Storage README entry', function () {
-     if(exists) {
-       check.content('README.md', 'Object Storage service');
-     }
-   });
+  assertObjectStorage(exists) {
    if(exists) {
+     it('should create Object Storage README entry', function () {
+       assert.fileContent('README.md', 'Object Storage service');
+     });
+     it('should create file ' + LOCALDEV_FILE + ' with Object Storage credentials', function() {
+       assert.fileContent(LOCALDEV_FILE, '"object_storage_project": "objectStorage-project"');
+       assert.fileContent(LOCALDEV_FILE, '"object_storage_user_id": "objectStorage-userId"');
+       assert.fileContent(LOCALDEV_FILE, '"object_storage_password": "objectStorage-password"');
+       assert.fileContent(LOCALDEV_FILE, '"object_storage_auth_url": "objectStorage-url"');
+       assert.fileContent(LOCALDEV_FILE, '"object_storage_domainName": "objectStorage-domainName"');
+     });
      tests.test(this.prompts.buildType || this.values.buildType).assertDependency('compile', 'org.pacesys', 'openstack4j-core', '3.0.3');
      tests.test(this.prompts.buildType || this.values.buildType).assertDependency('compile', 'org.pacesys.openstack4j.connectors', 'openstack4j-httpclient', '3.0.3');
    }
@@ -136,7 +143,7 @@ class BxOptions extends Options {
     super.assert(appName, ymlName, cloudant, objectStorage);
     common.assertCommonBxFiles();
     common.assertCLI(appName);
-    (name === 'spring') ? common.assertBluemixSrcSvcEnabled(cloudant || objectStorage) : common.assertBluemixSrc(cloudant || objectStorage);
+    common.assertBluemixSrc(cloudant || objectStorage);
     common.assertManifestYml(ymlName, cloudant || objectStorage);
 
     kube.test(appName, true, name, createType, cloudant, objectStorage);

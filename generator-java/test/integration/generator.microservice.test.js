@@ -88,6 +88,7 @@ class Options extends core.BxOptions {
   }
 
   assertCloudant(exists) {
+    super.assertCloudant(exists);
     var check = this.getCheck(exists);
     var invcheck = this.getCheck(exists^exists);
     it(check.desc + 'common cloudant source files', function () {
@@ -115,6 +116,7 @@ class Options extends core.BxOptions {
   }
 
   assertObjectStorage(exists) {
+    super.assertObjectStorage(exists);
     var check = this.getCheck(exists);
     var invcheck = this.getCheck(exists^exists);
     it(check.desc + 'Object Storage source files', function () {
