@@ -33,18 +33,18 @@ class AssertOpenAPI extends AssertBx {
         const test = tests.test(buildType);
         if (createType === 'microservice/liberty') {
             test.assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
-            test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
-            test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
-            test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
+            test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.18');
+            test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.18');
+            test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.18');
             const type = buildType === 'maven' ? 'pom' : undefined;
-            test.assertDependency('provided', 'io.microprofile', 'microprofile', '1.0.0', undefined, type);
-            framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('microprofile-1.0');
+            test.assertDependency('provided', 'org.eclipse.microprofile', 'microprofile', '1.2', undefined, type);
+            framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('microprofile-1.2');
             framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('jndi-1.0');
         }
         if (createType === 'bff/liberty') {
             test.assertDependency('provided', 'io.swagger', 'swagger-annotations', '1.5.3');
             test.assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
-            test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+            test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.18');
             framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('apiDiscovery-1.0');
             framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('jaxrs-2.0');
             framework.test(constant.FRAMEWORK_LIBERTY).assertConfig(true, 'basicRegistry');

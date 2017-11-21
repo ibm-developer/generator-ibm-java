@@ -10,10 +10,9 @@ import javax.ws.rs.core.Response.Status;
 import java.util.ArrayList;
 
 {{#bluemix}}
-{{#server.services}}
+{{#if server.services}}
 import javax.inject.Inject;
-import application.bluemix.ServiceName;
-{{/server.services}}
+{{/if}}
 {{#cloudant}}
 import com.cloudant.client.api.CloudantClient;
 {{/cloudant}}
@@ -30,12 +29,11 @@ public class Example {
     {{#bluemix}}
     {{#cloudant}}
     @Inject
-    @ServiceName(name="{{serviceInfo.name}}")
     protected CloudantClient client;
     {{/cloudant}}
+
     {{#objectStorage}}
     @Inject
-    @ServiceName(name="{{serviceInfo.name}}")
     protected OSClientV3 os;
     {{/objectStorage}}
     {{/bluemix}}

@@ -34,9 +34,9 @@ class AssertBasicWeb extends AssertBx {
         super.assertliberty();
         const test = tests.test(buildType);
         test.assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
-        test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
+        test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.18');
         test.assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
-        test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+        test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.18');
         framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('jaxrs-2.0');
         framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('servlet-3.1');
     }

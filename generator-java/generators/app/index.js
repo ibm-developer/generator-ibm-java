@@ -36,7 +36,6 @@ var config = undefined;
 var promptmgr = undefined;
 var contexts = [];
 var enablementContexts = [];
-var patterns = ['blank/liberty', 'blank/spring', 'microservice/liberty', 'microservice/spring', 'basicweb/liberty', 'basicweb/spring', 'bff/liberty', 'bff/spring', 'picnmix', 'enable/liberty', 'enable/spring'];
 var defaults = new Defaults();
 
 module.exports = class extends Generator {
@@ -50,7 +49,6 @@ module.exports = class extends Generator {
     contexts = [];
     enablementContexts = [];
     this.enablementContext = new EnablementContext(contexts);
-
   }
 
   initializing() {
@@ -90,18 +88,31 @@ module.exports = class extends Generator {
     this._addContext('@arf/generator-liberty');
     this._addContext('@arf/generator-spring');
     this._addEnablementContext()
+    this.recognisedPattern = fs.existsSync(this.templatePath(config.createType));
   }
 
+  //these generators need to be composed in this order cloud -> service -> use case
   _addEnablementContext() {
+    //configure and setup the cloud enablement generator
     this.cloudGeneratorConfig = extend(new Config(), config);
     this.options.cloudContext = this.cloudGeneratorConfig;
     this.composeWith(require.resolve("generator-ibm-cloud-enablement"), this.options);
     enablementContexts.push(this.cloudGeneratorConfig);
     
+    //configure and setup the service enablement generator
     this.options.bluemix = JSON.stringify(this.options.bluemix);
     this.options.parentContext = this.enablementContext;
     this.composeWith(require.resolve("generator-ibm-service-enablement"), this.options);
     enablementContexts.push(this.enablementContext);
+
+    //configure and setup the use case enablement generator if this is a starter kit
+    if(config.createType.startsWith('skit/')) {
+      this.usecaseGeneratorConfig = extend(new Config(), config);
+      this.options.parentContext = this.enablementContext;
+      this.options.parentContext.usecaseContext = this.usecaseGeneratorConfig;
+      this.composeWith(require.resolve("@arf/generator-usecase-enablement"), this.options);
+      enablementContexts.push(this.usecaseGeneratorConfig);
+    }
   }
 
   _addContext(name) {
@@ -194,7 +205,7 @@ module.exports = class extends Generator {
   }
 
   _isValidPattern() {
-    var patternFound = patterns.includes(config.createType);
+    var patternFound = this.recognisedPattern;
     if(!patternFound) {
       for(var i = 0; i < contexts.length && !patternFound; i++) {
         for(var j = 0; j < contexts[i].patterns.length && !patternFound; j++) {
@@ -219,7 +230,7 @@ module.exports = class extends Generator {
       this.log("Error : configuration is invalid, code generation is aborted");
       throw "Invalid configuration";
     }
-    if(!patterns.includes(config.createType)) {
+    if(!this.recognisedPattern) {
       return;   //not being written by us
     }
 

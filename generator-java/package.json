@@ -7,14 +7,15 @@
     "generators"
   ],
   "dependencies": {
-    "@arf/generator-liberty": "6.0.1",
-    "@arf/generator-spring": "1.0.3",
-    "@arf/java-common": "2.3.0",
+    "handlebars": "^4.0.0",
+    "yeoman-generator": "^1.0.0",
+    "@arf/generator-liberty": "6.0.2",
+    "@arf/generator-spring": "1.0.4",
     "extend": "^3.0.1",
+    "@arf/java-common": "2.3.0",
     "generator-ibm-cloud-enablement": "0.0.114",
-    "generator-ibm-service-enablement": "0.0.97",
-    "handlebars": "^4.0.11",
-    "yeoman-generator": "^1.0.0"
+    "generator-ibm-service-enablement": "0.5.0",
+    "@arf/generator-usecase-enablement": "2.0.0"
   },
   "devDependencies": {
     "@arf/common-codegen-tests": "2.2.1",
@@ -37,6 +38,7 @@
     "testbff": "mocha test/integration/generator.bff.test.js",
     "testtech": "mocha test/integration/generator.technologies.test.js",
     "testopenapi": "mocha test/integration/generator.openapi.test.js",
+    "testskit": "mocha test/integration/generator.skit.test.js",
     "testblanke2e": "mocha test/endToEnd/generator.blank.e2e.test.js",
     "testbasicwebe2e": "mocha test/endToEnd/generator.basicweb.e2e.test.js",
     "testbffe2e": "mocha test/endToEnd/generator.bff.e2e.test.js",

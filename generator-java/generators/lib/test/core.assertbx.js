@@ -42,24 +42,14 @@ class AssertBx extends Assert {
         this.assertManifestYml(ymlName, cloudant || objectStorage);
         this.assertCloudant({ exists: cloudant, buildType: buildType, frameworkType: frameworkType });
         this.assertObjectStorage({ exists: objectStorage, buildType: buildType, frameworkType: frameworkType });
-        if (frameworkType === constant.FRAMEWORK_SPRING) this.assertBluemixSrcSvcEnabled(cloudant || objectStorage);
-        if (frameworkType === constant.FRAMEWORK_LIBERTY) this.assertBluemixSrc(cloudant || objectStorage);
+        this.assertBluemixSrc(cloudant || objectStorage);
         framework.test(frameworkType).assertCloudant(cloudant);
         framework.test(frameworkType).assertObjectStorage(objectStorage);
         kube.test(appName, true, frameworkType, createType, cloudant, objectStorage);
     }
 
-    // asserts that there are no source code files for bluemix
-    assertBluemixSrc(exists) {
-        var check = this.getCheck(exists);
-        it(check.desc + 'source code files for bluemix', function () {
-            check.file('src/main/java/application/bluemix/InvalidCredentialsException.java');
-            check.file('src/main/java/application/bluemix/VCAPServices.java');
-        });
-    }
-
     // asserts that there are / are not source code files for bluemix
-    assertBluemixSrcSvcEnabled(exists) {
+    assertBluemixSrc(exists) {
         var check = this.getCheck(exists);
         it(check.desc + 'source code files for bluemix using service enablement generator', function () {
             check.file('src/main/java/application/ibmcloud/CloudServicesException.java');
@@ -78,13 +68,15 @@ class AssertBx extends Assert {
     }
 
     assertCloudant({ exists, buildType }) {
-        const check = this.getCheck(exists);
-        it(check.desc + 'cloudant README entry', function () {
-            if (exists) {
-                check.content('README.md', 'cloudant');
-            }
-        });
         if (exists) {
+            it('should create Cloudant README entry', function () {
+                assert.fileContent('README.md', 'cloudant');
+            });
+            it('should create file ' + constant.LOCALDEV_FILE + ' with Cloudant credentials', function() {
+                assert.fileContent(constant.LOCALDEV_FILE, '"cloudant_username": "user"');
+                assert.fileContent(constant.LOCALDEV_FILE, '"cloudant_password": "pass"');
+                assert.fileContent(constant.LOCALDEV_FILE, '"cloudant_url": "https://account.cloudant.com"');
+            });
             tests.test(buildType).assertDependency('compile', 'com.cloudant', 'cloudant-client', '2.7.0');
         }
     }
@@ -139,6 +131,16 @@ class AssertBx extends Assert {
             }
         });
         if (exists) {
+            it('should create Object Storage README entry', function () {
+                assert.fileContent('README.md', 'Object Storage service');
+            });
+            it('should create file ' + LOCALDEV_FILE + ' with Object Storage credentials', function() {
+                assert.fileContent(constant.LOCALDEV_FILE, '"object_storage_project": "objectStorage-project"');
+                assert.fileContent(constant.LOCALDEV_FILE, '"object_storage_user_id": "objectStorage-userId"');
+                assert.fileContent(constant.LOCALDEV_FILE, '"object_storage_password": "objectStorage-password"');
+                assert.fileContent(constant.LOCALDEV_FILE, '"object_storage_auth_url": "objectStorage-url"');
+                assert.fileContent(constant.LOCALDEV_FILE, '"object_storage_domainName": "objectStorage-domainName"');
+            });
             tests.test(buildType).assertDependency('compile', 'org.pacesys', 'openstack4j-core', '3.0.3');
             tests.test(buildType).assertDependency('compile', 'org.pacesys.openstack4j.connectors', 'openstack4j-httpclient', '3.0.3');
         }

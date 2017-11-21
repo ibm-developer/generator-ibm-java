@@ -43,9 +43,7 @@ class AssertBFF extends AssertBx {
         const test = tests.test(buildType);
         test.assertDependency('provided', 'io.swagger', 'swagger-annotations', '1.5.3');
         test.assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
-        test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
-        if (buildType === 'maven') test.assertContent('<feature>apiDiscovery-1.0</feature>');
-        if (buildType === 'gradle') test.assertContent("name = ['apiDiscovery-1.0']");
+        test.assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.18');
     }
 
     assertspring({ buildType }) {

@@ -24,6 +24,8 @@ const constant = require('../../generators/lib/test/constant');
 const helpers = require('yeoman-test');
 const path = require('path');
 
+process.env.GENERATOR_LOG_LEVEL = 'error';    //turn off most of the logging from enablement generators
+
 class Options {
   constructor(backendPlatform) {
     this.values = {
