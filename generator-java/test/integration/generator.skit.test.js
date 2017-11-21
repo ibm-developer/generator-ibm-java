@@ -21,27 +21,25 @@
 
 'use strict';
 
-const Assert = require('../lib/assert.skit');
-const constant = require('../lib/constant');
+const AssertSkit = require('../../generators/lib/test/integration/assert.skit');
+const constant = require('../../generators/lib/test/constant');
 const core = require('../lib/core');
 const extend = require('extend');
 const path = require('path');
 const tests = require('@arf/java-common');
 
-process.env.GENERATOR_LOG_LEVEL = 'error';    //turn off most of the logging rom enablement generators
-
 //where the test skit resources are found for local testing
 const SKIT_PATH = JSON.stringify(path.join(__dirname, '..', "resources", "skit"));
 
 class Options extends core.Options {
-  constructor(runHeadless, buildType, frameworkType, name) {
+  constructor(runHeadless, buildType, frameworkType) {
     super(frameworkType === 'spring' ? 'SPRING' : 'JAVA');
     extend(this.values, {
       headless: runHeadless.toString(),
       buildType: buildType,
       frameworkType: frameworkType,
       createType: 'skit/' + frameworkType,
-      appName: name || core.APPNAME,
+      appName: constant.APPNAME,
       starter : '"local"',
       starterOptions : SKIT_PATH
     });
@@ -51,6 +49,7 @@ class Options extends core.Options {
 const frameworkTypes = ['liberty', 'spring'];
 const gradle = 'gradle';
 const maven = 'maven';
+const assert = new AssertSkit();
 
 describe('java generator : starter kit (skit) integration test', function () {
   this.timeout(7000);
@@ -59,38 +58,26 @@ describe('java generator : starter kit (skit) integration test', function () {
       const options = new Options(false, gradle, frameworkType);
       options.prompts = { extName: 'prompt:patterns', buildType: gradle, createType: options.values.createType, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID };
       before(options.before.bind(options));
-      
-      const assert = new Assert(frameworkType);
       assert.assert(constant.APPNAME, gradle, frameworkType);
-      assert.assertCompiles(gradle);
     });
 
     describe('Generates a ' + frameworkType + ' starter kit, maven build with prompts', function () {
       const options = new Options(false, maven, frameworkType);
       options.prompts = { extName: 'prompt:patterns', buildType: maven, createType: options.values.createType, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID };
       before(options.before.bind(options));
-
-      const assert = new Assert(frameworkType);
       assert.assert(constant.APPNAME, maven, frameworkType);
-      assert.assertCompiles(maven);
     });
 
     describe('Generates a ' + frameworkType + ' starter kit, gradle build', function () {
       const options = new Options(true, gradle, frameworkType, core.APPNAME);
       before(options.before.bind(options));
-
-      const assert = new Assert(frameworkType);
       assert.assert(constant.APPNAME, gradle, frameworkType);
-      assert.assertCompiles(gradle);
     });
 
     describe('Generates a ' + frameworkType + ' starter kit, maven build', function () {
       const options = new Options(true, maven, frameworkType, core.APPNAME);
       before(options.before.bind(options));
-
-      const assert = new Assert(frameworkType);
       assert.assert(constant.APPNAME, maven, frameworkType);
-      assert.assertCompiles(maven);
     });
   
   });

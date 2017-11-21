@@ -134,7 +134,7 @@ class AssertBx extends Assert {
             it('should create Object Storage README entry', function () {
                 assert.fileContent('README.md', 'Object Storage service');
             });
-            it('should create file ' + LOCALDEV_FILE + ' with Object Storage credentials', function() {
+            it('should create file ' + constant.LOCALDEV_FILE + ' with Object Storage credentials', function() {
                 assert.fileContent(constant.LOCALDEV_FILE, '"object_storage_project": "objectStorage-project"');
                 assert.fileContent(constant.LOCALDEV_FILE, '"object_storage_user_id": "objectStorage-userId"');
                 assert.fileContent(constant.LOCALDEV_FILE, '"object_storage_password": "objectStorage-password"');

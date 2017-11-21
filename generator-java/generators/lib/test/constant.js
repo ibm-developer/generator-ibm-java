@@ -32,6 +32,6 @@ module.exports = exports = {
     FRAMEWORK_SPRING: 'spring',
     GROUPID: 'test.group',
     TOOLCHAIN_YML: '.bluemix/toolchain.yml',
-    LOCALDEV_FILE = 'src/main/resources/localdev-config.json',
+    LOCALDEV_FILE: 'src/main/resources/localdev-config.json',
     VERSION: '1.0.0'
 };
