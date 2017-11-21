@@ -16,15 +16,15 @@
 
 'use strict';
 
-const Assert = require('./core.assert');
+const Assert = require('./assert.core');
+const kube = require('./assert.kube');
+const constant = require('../constant');
+const framework = require('../assert.framework');
 const assert = require('yeoman-assert');
-const constant = require('./constant');
-const framework = require('./test-framework');
 const fs = require('fs');
-const kube = require('./test-kube');
 const path = require('path');
-const tests = require('@arf/java-common');
 const yml = require('js-yaml');
+const tests = require('@arf/java-common');
 
 class AssertBx extends Assert {
     getCheck(exists) {

@@ -16,10 +16,10 @@
 
 'use strict';
 
-const AssertBx = require('../core.assertbx');
-const assert = require('yeoman-assert');
+const AssertBx = require('../internal/assert.core.bx');
 const constant = require('../constant');
-const framework = require('../test-framework');
+const framework = require('../assert.framework');
+const assert = require('yeoman-assert');
 const tests = require('@arf/java-common');
 
 class AssertBFF extends AssertBx {

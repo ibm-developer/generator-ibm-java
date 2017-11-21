@@ -20,8 +20,9 @@
 
 'use strict';
 
-const AssertBFF = require('../../generators/lib/test/integration/assert.bff');
-const constant = require('../../generators/lib/test/constant');
+const testAsserts = require('../../index').testAsserts;
+const AssertBFF = testAsserts.starters.bff;
+const constant = testAsserts.constant;
 const core = require('../lib/core');
 const extend = require('extend');
 

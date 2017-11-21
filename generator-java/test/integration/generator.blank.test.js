@@ -20,8 +20,9 @@
 
 'use strict';
 
-const AssertBlank = require('../../generators/lib/test/integration/assert.blank');
-const constant = require('../../generators/lib/test/constant');
+const testAsserts = require('../../index').testAsserts;
+const AssertBlank = testAsserts.starters.blank;
+const constant = testAsserts.constant;
 const core = require('../lib/core');
 const extend = require('extend');
 

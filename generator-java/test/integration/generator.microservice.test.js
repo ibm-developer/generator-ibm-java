@@ -20,12 +20,13 @@
 
 'use strict';
 
-const AssertMicroservice = require('../../generators/lib/test/integration/assert.microservice');
-const assert = require('yeoman-assert');
-const constant = require('../../generators/lib/test/constant');
+const testAsserts = require('../../index').testAsserts;
+const AssertMicroservice = testAsserts.starters.microservice;
+const constant = testAsserts.constant;
+const framework = testAsserts.framework;
 const core = require('../lib/core');
+const assert = require('yeoman-assert');
 const extend = require('extend');
-const framework = require('../../generators/lib/test/test-framework');
 
 class Options extends core.Options {
   constructor(runHeadless, buildType, frameworkType, javaMetrics) {

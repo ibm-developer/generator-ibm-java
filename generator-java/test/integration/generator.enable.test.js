@@ -20,8 +20,9 @@
 
 'use strict';
 
-const AssertEnable = require('../../generators/lib/test/integration/assert.enable');
-const constant = require('../../generators/lib/test/constant');
+const testAsserts = require('../../index').testAsserts;
+const AssertEnable = testAsserts.starters.enable;
+const constant = testAsserts.constant;
 const core = require('../lib/core');
 
 class Options extends core.Options {

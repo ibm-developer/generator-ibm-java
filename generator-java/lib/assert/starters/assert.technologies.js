@@ -16,9 +16,9 @@
 
 'use strict';
 
-const Assert = require('../core.assert');
+const Assert = require('../internal/assert.core');
+const kube = require('../internal/assert.kube');
 const constant = require('../constant');
-const kube = require('../test-kube');
 const liberty = require('@arf/generator-liberty');
 const tests = require('@arf/java-common');
 

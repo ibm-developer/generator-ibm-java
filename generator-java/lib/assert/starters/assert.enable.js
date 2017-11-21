@@ -16,10 +16,10 @@
 
 'use strict';
 
-const AssertBx = require('../core.assertbx');
-const assert = require('yeoman-assert');
+const AssertBx = require('../internal/assert.core.bx');
+const kube = require('../internal/assert.kube');
 const constant = require('../constant');
-const kube = require('../test-kube');
+const assert = require('yeoman-assert');
 
 const USAGE_TXT = 'usage.txt';
 

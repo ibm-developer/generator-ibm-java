@@ -17,8 +17,8 @@
 'use strict';
 
 const assert = require('yeoman-assert');
-const constant = require('./constant');
-const framework = require('./test-framework');
+const constant = require('../constant');
+const framework = require('../assert.framework');
 const tests = require('@arf/java-common');
 const command = tests.test('command');
 

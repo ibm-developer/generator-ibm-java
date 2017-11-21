@@ -20,10 +20,10 @@
 
 'use strict';
 
-const Assert = require('../core.assert');
+const Assert = require('../internal/assert.core');
+const framework = require('../assert.framework');
 const assert = require('yeoman-assert');
 const tests = require('@arf/java-common');
-const framework = require('../test-framework');
 
 const liberty = 'liberty';
 const spring = 'spring';

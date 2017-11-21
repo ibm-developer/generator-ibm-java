@@ -16,9 +16,9 @@
 
 'use strict';
 
-const Assert = require('../core.assert');
-const assert = require('yeoman-assert');
+const Assert = require('../internal/assert.core');
 const constant = require('../constant');
+const assert = require('yeoman-assert');
 
 class AssertBlank extends Assert {
     assert(appName, buildType, frameworkType) {

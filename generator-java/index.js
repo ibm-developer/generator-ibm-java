@@ -17,17 +17,20 @@
 'use strict'
 
 module.exports = {
-    endToEndAsserts: {
-        builds: require('./generators/lib/test/endToEnd/assert.builds')
-    },
-    integrationAsserts: {
-        basicweb: require('./generators/lib/test/integration/assert.basicweb'),
-        bff: require('./generators/lib/test/integration/assert.bff'),
-        blank: require('./generators/lib/test/integration/assert.blank'),
-        enable: require('./generators/lib/test/integration/assert.enable'),
-        microservice: require('./generators/lib/test/integration/assert.microservice'),
-        openapi: require('./generators/lib/test/integration/assert.openapi'),
-        technologies: require('./generators/lib/test/integration/assert.technologies'),
-        testbluemix: require('./generators/lib/test/test-bluemix')
+    testAsserts: {
+        starters: {
+            basicweb: require('./lib/assert/starters/assert.basicweb'),
+            bff: require('./lib/assert/starters/assert.bff'),
+            blank: require('./lib/assert/starters/assert.blank'),
+            enable: require('./lib/assert/starters/assert.enable'),
+            microservice: require('./lib/assert/starters/assert.microservice'),
+            openapi: require('./lib/assert/starters/assert.openapi'),
+            skit: require('./lib/assert/starters/assert.skit'),
+            technologies: require('./lib/assert/starters/assert.technologies')
+        },
+        bluemix: require('./lib/assert/assert.bluemix'),
+        builds: require('./lib/assert/assert.builds'),
+        framework: require('./lib/assert/assert.framework'),
+        constant: require('./lib/assert/constant.js')
     }
 };

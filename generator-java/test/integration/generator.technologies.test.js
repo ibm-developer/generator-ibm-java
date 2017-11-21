@@ -20,9 +20,10 @@
 
 'use strict';
 
-const AssertTechnologies = require('../../generators/lib/test/integration/assert.technologies');
-const bluemix = require('../../generators/lib/test/test-bluemix.js');
-const constant = require('../../generators/lib/test/constant');
+const testAsserts = require('../../index').testAsserts;
+const AssertTechnologies = testAsserts.starters.technologies;
+const bluemix = testAsserts.bluemix;
+const constant = testAsserts.constant;
 const core = require('../lib/core');
 const extend = require('extend');
 const liberty = require('@arf/generator-liberty');

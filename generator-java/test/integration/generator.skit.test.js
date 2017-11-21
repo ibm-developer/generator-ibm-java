@@ -21,8 +21,9 @@
 
 'use strict';
 
-const AssertSkit = require('../../generators/lib/test/integration/assert.skit');
-const constant = require('../../generators/lib/test/constant');
+const testAsserts = require('../../index').testAsserts;
+const AssertSkit = testAsserts.starters.skit;
+const constant = testAsserts.constant;
 const core = require('../lib/core');
 const extend = require('extend');
 const path = require('path');

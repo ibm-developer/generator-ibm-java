@@ -18,9 +18,10 @@
 
 'use strict';
 
-const assert = require('../../generators/lib/test/endToEnd/assert.builds');
-const constant = require('../../generators/lib/test/constant');
-const frameworkTest = require('../../generators/lib/test/test-framework');
+const testAsserts = require('../../index').testAsserts;
+const assert = testAsserts.builds;
+const constant = testAsserts.constant;
+const frameworkTest = testAsserts.framework;
 const helpers = require('yeoman-test');
 const path = require('path');
 
