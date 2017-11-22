@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.0"></a>
+# [3.1.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v3.0.0...v3.1.0) (2017-11-22)
+
+
+### Bug Fixes
+
+* **build:** Use Gradle 3.5 in Travis CI build ([5b2b73b](https://github.ibm.com/arf/java-codegen-yeoman/commit/5b2b73b))
+* **templates:** Update to microprofile-1.2 ([db200f0](https://github.ibm.com/arf/java-codegen-yeoman/commit/db200f0))
+* **templates:** use Mongo CA cert for Spring microservice - arf/planning-java/issues/283 ([93153ad](https://github.ibm.com/arf/java-codegen-yeoman/commit/93153ad))
+
+
+### Features
+
+* **templates:** Bring in Microprofile config for services ([c0b9a42](https://github.ibm.com/arf/java-codegen-yeoman/commit/c0b9a42))
+* **test:** Refactor tests to expose assertions ([c0e2400](https://github.ibm.com/arf/java-codegen-yeoman/commit/c0e2400))
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.ibm.com/arf/java-codegen-yeoman/compare/v2.8.0...v3.0.0) (2017-11-16)
 
