@@ -17,80 +17,41 @@
 /**
  * Tests the enable generator
  */
+
 'use strict';
-const path = require('path');
-const assert = require('yeoman-assert');
-const helpers = require('yeoman-test');
+
+const testAsserts = require('../../index').testAsserts;
+const AssertEnable = testAsserts.starters.enable;
+const constant = testAsserts.constant;
 const core = require('../lib/core');
-const common = require('../lib/test-common');
-const kube = require('../lib/test-kube');
 
-const USAGE_TXT = 'usage.txt';
-
-class Options extends core.BxOptions {
-
+class Options extends core.Options {
   constructor(framework) {
     let backendPlatform = framework === 'spring' ? 'SPRING' : 'JAVA';
     super(backendPlatform)
   }
-
-  assert(appName, ymlName, framework, createType, buildType) {
-    it('generates ' + USAGE_TXT + ' file', function() {
-      assert.file(USAGE_TXT);
-    });
-    common.assertCommonFiles(framework);
-    common.assertCommonBxFiles();
-    common.assertCLI(appName);
-    common.assertManifestYml(ymlName, false);
-    kube.test(appName, true, framework, createType, false, false);
-    super.assertCloudant(false);
-    super.assertObjectStorage(false);
-    common.assertToolchainBxEnable();
-    this['assert' + framework](buildType);
-  }
-
-  assertliberty(buildType) {
-    var appPath = buildType === 'maven' ? 'target' : 'build';
-    var libertyInstall = buildType === 'maven' ? 'target/liberty/wlp' : 'build/wlp';
-    var buildTypeCap = buildType.charAt(0).toUpperCase() + buildType.slice(1);
-    it(USAGE_TXT + ' file should contain correct content', function() {
-      assert.fileContent(USAGE_TXT, 'default health endpoint is /' + core.APPNAME + '/health');
-      assert.fileContent(USAGE_TXT, 'artifact location is ' + appPath + '/' + core.ARTIFACTID + '-' + core.VERSION + '.zip');
-      assert.fileContent(USAGE_TXT, 'Liberty ' + buildTypeCap + ' plugin (https://github.com/WASdev/ci.' + buildType + ')');
-      assert.fileContent(USAGE_TXT, 'install location is ' + libertyInstall);
-    })
-  }
-
-  assertspring(buildType) {
-    var appPath = buildType === 'maven' ? 'target' : 'build/libs';
-    it(USAGE_TXT + ' file should contain correct content', function() {
-      assert.fileContent(USAGE_TXT, 'default health endpoint is /health');
-      assert.fileContent(USAGE_TXT, 'artifact location is ' + appPath + '/' + core.ARTIFACTID + '-' + core.VERSION + '.jar');
-    })
-  }
-
 }
 
-const frameworks = ['liberty', 'spring'];
+const frameworkTypes = [constant.FRAMEWORK_LIBERTY, constant.FRAMEWORK_SPRING];
+const gradle = 'gradle';
+const maven = 'maven';
+const assert = new AssertEnable();
 
-frameworks.forEach(framework => {
-  describe('java generator : enable integration test : ' + framework, function () {
+frameworkTypes.forEach(frameworkType => {
+  describe('java generator : enable integration test : ' + frameworkType, function () {
     this.timeout(7000);
-
-    describe('Enable a project using a gradle build : ' + framework, function () {
-      var options = new Options(framework);
-      options.prompts = {extName : 'prompt:patterns', buildType : 'gradle', createType: 'enable/' + framework, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
+    describe('Enable a project using a gradle build : ' + frameworkType, function () {
+      const options = new Options(frameworkType);
+      options.prompts = { extName: 'prompt:patterns', buildType: gradle, createType: 'enable/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
       before(options.before.bind(options));
-      options.assert(core.APPNAME, core.APPNAME, framework, 'enable/' + framework, 'gradle');
+      assert.assert(constant.APPNAME, constant.APPNAME, gradle, frameworkType, options.values.createType);
     });
 
-    describe('Enable a project using a maven build : ' + framework, function () {
-      var options = new Options(framework);
-      options.prompts = {extName : 'prompt:patterns', buildType : 'maven', createType: 'enable/' + framework, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID};
+    describe('Enable a project using a maven build : ' + frameworkType, function () {
+      const options = new Options(frameworkType);
+      options.prompts = { extName: 'prompt:patterns', buildType: maven, createType: 'enable/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
       before(options.before.bind(options));
-      options.assert(core.APPNAME, core.APPNAME, framework, 'enable/' + framework, 'maven');
+      assert.assert(constant.APPNAME, constant.APPNAME, maven, frameworkType, options.values.createType);
     });
-
   });
 });
-

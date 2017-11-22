@@ -17,8 +17,8 @@
  'use strict'
 
  function test(framework) {
-   var test_framework = require('./test-' + framework);
-   return new test_framework();
+   var assert_framework = require('./internal/assert.' + framework);
+   return new assert_framework();
  }
 
  module.exports = {

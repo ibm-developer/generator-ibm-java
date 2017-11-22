@@ -17,71 +17,62 @@
 /* Test to see if when you choose every technology type it builds */
 
 'use strict';
-const path = require('path');
-const assert = require('yeoman-assert');
+
+const testAsserts = require('../../index').testAsserts;
+const assert = testAsserts.builds;
+const constant = testAsserts.constant;
+const frameworkTest = testAsserts.framework;
 const helpers = require('yeoman-test');
-const frameworkTest = require('../lib/test-framework');
-
-const ARTIFACTID = 'artifact.0.1';
-const GROUPID = 'test.group';
-const VERSION = '1.0.0';
-const APPNAME = 'testApp';
-const FRAMEWORK_LIBERTY = 'liberty';
-const FRAMEWORK_SPRING = 'spring';
-
-const tests = require('@arf/java-common');
-const command = tests.test('command');
+const path = require('path');
 
 function Options(buildType, framework) {
-  var platform = framework === FRAMEWORK_SPRING ? 'SPRING' : 'JAVA';
-  var example = frameworkTest.test(framework).getExampleOpenApi()
+  const platform = framework === constant.FRAMEWORK_SPRING ? 'SPRING' : 'JAVA';
+  const example = frameworkTest.test(framework).getExampleOpenApi()
   this.options = {
-    headless :  "true",
-    debug : "true",
-    buildType : buildType,
-    createType : 'blank/' + framework,
-    appName : APPNAME,
-    groupId : GROUPID,
-    artifactId : ARTIFACTID,
-    version : VERSION,
-    bluemix : {
-      backendPlatform : platform,
-      openApiServers : [{
-          "spec" : JSON.stringify(example.value)
+    headless: "true",
+    debug: "true",
+    buildType: buildType,
+    createType: 'blank/' + framework,
+    appName: constant.APPNAME,
+    groupId: constant.GROUPID,
+    artifactId: constant.ARTIFACTID,
+    version: constant.VERSION,
+    bluemix: {
+      backendPlatform: platform,
+      openApiServers: [{
+        "spec": JSON.stringify(example.value)
       }]
     }
   }
-  this.assertBuilds = function() {
-    command.run(tests.test(buildType).getBuildCommand());
-  }
-  this.before = function() {
-    return helpers.run(path.join( __dirname, '../../generators/app'))
+
+  this.before = function () {
+    return helpers.run(path.join(__dirname, '../../generators/app'))
       .withOptions(this.options)
       .withPrompts({})
       .toPromise();
   }
 }
 
-describe('java generator : blank/liberty end to end test', function() {
+const buildTypes = ['gradle', 'maven'];
+
+describe('java generator : blank/liberty end to end test', function () {
   this.timeout(10000);
-  var buildTypes = ['gradle', 'maven'];
-  for(var i=0; i < buildTypes.length; i++) {
+  for (var i = 0; i < buildTypes.length; i++) {
     describe('Generates a blank project build type ' + buildTypes[i], function () {
-      var options = new Options(buildTypes[i], FRAMEWORK_LIBERTY);
+      const options = new Options(buildTypes[i], constant.FRAMEWORK_LIBERTY);
       before(options.before.bind(options));
-      options.assertBuilds();
+      assert.assertBuilds(buildTypes[i]);
     });
   }
 });
 
-describe('java generator : blank/spring end to end test', function() {
+describe('java generator : blank/spring end to end test', function () {
   this.timeout(10000);
-  var buildTypes = ['gradle', 'maven'];
-  for(var i=0; i < buildTypes.length; i++) {
+  for (var i = 0; i < buildTypes.length; i++) {
     describe('Generates a blank project build type ' + buildTypes[i], function () {
-      var options = new Options(buildTypes[i], FRAMEWORK_SPRING);
+      const options = new Options(buildTypes[i], constant.FRAMEWORK_SPRING);
       before(options.before.bind(options));
-      options.assertBuilds();
+      assert.assertBuilds(buildTypes[i]);
     });
   }
 });

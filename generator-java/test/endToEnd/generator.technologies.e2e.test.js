@@ -17,61 +17,54 @@
 /* Test to see if when you choose every technology type it builds */
 
 'use strict';
-var path = require('path');
-var assert = require('yeoman-assert');
-var helpers = require('yeoman-test');
 
-const ARTIFACTID = 'artifact.0.1';
-const GROUPID = 'test.group';
-const VERSION = '1.0.0';
-const APPNAME = 'testApp';
-const FRAMEWORK = 'liberty';
-
-const tests = require('@arf/java-common');
-const command = tests.test('command');
+const testAsserts = require('../../index').testAsserts;
+const assert = testAsserts.builds;
+const constant = testAsserts.constant;
+const helpers = require('yeoman-test');
+const path = require('path');
 
 function Options(createType, buildType, testBluemix, technologies) {
   this.options = {
-    headless :  "true",
-    debug : "true",
-    buildType : buildType,
-    createType : createType,
-    promptType : 'prompt:liberty',
-    technologies : technologies,
-    appName : APPNAME,
-    groupId : GROUPID,
-    artifactId : ARTIFACTID,
-    version : VERSION,
-    bluemix : {
-      backendPlatform : 'JAVA'
+    headless: "true",
+    debug: "true",
+    buildType: buildType,
+    createType: createType,
+    promptType: 'prompt:liberty',
+    technologies: technologies,
+    appName: constant.APPNAME,
+    groupId: constant.GROUPID,
+    artifactId: constant.ARTIFACTID,
+    version: constant.VERSION,
+    bluemix: {
+      backendPlatform: 'JAVA'
     }
   }
-  this.assertBuilds = function() {
-    command.run(tests.test(buildType).getBuildCommand());
-  }
-  this.before = function() {
-    return helpers.run(path.join( __dirname, '../../generators/app'))
+  
+  this.before = function () {
+    return helpers.run(path.join(__dirname, '../../generators/app'))
       .withOptions(this.options)
       .withPrompts({})
       .toPromise();
   }
 }
 
-describe('java generator : technologies end to end test', function() {
+describe('java generator : technologies end to end test', function () {
   this.timeout(7000);
-  var buildTypes = ['gradle', 'maven'];
-  for(var i=0; i < buildTypes.length; i++) {
+  const buildTypes = ['gradle', 'maven'];
+  for (var i = 0; i < buildTypes.length; i++) {
     describe('Generates a project with springbootweb technology type and build type ' + buildTypes[i], function () {
-      var technologies = ['springbootweb'];
-      var options = new Options('picnmix', buildTypes[i], false, technologies);
+      const technologies = ['springbootweb'];
+      const options = new Options('picnmix', buildTypes[i], false, technologies);
       before(options.before.bind(options));
-      options.assertBuilds();
+      assert.assertBuilds(buildTypes[i]);
     });
+
     describe('Generates a project with all technologies except springbootweb and build type ' + buildTypes[i], function () {
-      var technologies = ['rest', 'microprofile', 'persistence', 'websocket', 'web', 'watsonsdk', 'swagger'];
-      var options = new Options('picnmix', buildTypes[i], false, technologies);
+      const technologies = ['rest', 'microprofile', 'persistence', 'websocket', 'web', 'watsonsdk', 'swagger'];
+      const options = new Options('picnmix', buildTypes[i], false, technologies);
       before(options.before.bind(options));
-      options.assertBuilds();
+      assert.assertBuilds(buildTypes[i]);
     });
   }
 });
