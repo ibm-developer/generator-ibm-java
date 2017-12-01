@@ -1,11 +1,5 @@
 package application.rest.v1;
 
-{{#bluemix}}
-{{#mongodb}}
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-{{/mongodb}}
-{{/bluemix}}
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
@@ -14,6 +8,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 import java.util.List;
 {{#bluemix}}
+{{#mongodb}}
+import java.util.Set;
+{{/mongodb}}
 {{#server.services}}
 import org.springframework.beans.factory.annotation.Autowired;
 {{/server.services}}
@@ -69,8 +66,8 @@ public class Example {
         }
         return new ResponseEntity<String>("Available databases : " + list.toString(), HttpStatus.OK);
     }
-  {{/cloudant}}
 
+  {{/cloudant}}
   {{#objectStorage}}
     public @ResponseBody ResponseEntity<String> objectstorage(){
         //cannot use the injected client directly as it was created on a different thread, so create a new one
@@ -84,8 +81,8 @@ public class Example {
             return new ResponseEntity<String>("Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-  {{/objectStorage}}
 
+  {{/objectStorage}}
   {{#mongodb}}
     @RequestMapping("v1/mongo")
     public @ResponseBody
@@ -94,7 +91,6 @@ public class Example {
         HttpStatus status;
         try {
             Set<String> collections = mongoTemplate.getCollectionNames();
-            LOGGER.info("mongo() current collections: " + collections);
             response = "Your MongoDB is working!\n";
             status = HttpStatus.OK;
         }
@@ -104,6 +100,7 @@ public class Example {
         }
         return new ResponseEntity<String>(response, status);
     }
+	
   {{/mongodb}}
   {{/bluemix}}
 }
