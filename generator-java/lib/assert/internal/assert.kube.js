@@ -29,8 +29,7 @@ test_kube.test = function(appName, exists, framework, createType, cloudantExists
     var SERVICE_YML = 'chart/' + appName.toLowerCase() + '/templates/service.yaml';
 
     it(prefix + 'k8s file ' + JENKINSFILE, function() {
-      var expectJenkins = exists && framework === LIBERTY;
-      if(expectJenkins) {
+      if(exists) {
         assert.fileContent(JENKINSFILE, 'image = \''+ appName.toLowerCase() + '\'');
       } else {
         assert.noFile(JENKINSFILE);
