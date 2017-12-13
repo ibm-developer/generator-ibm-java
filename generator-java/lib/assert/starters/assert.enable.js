@@ -14,49 +14,49 @@
  * limitations under the License.
  */
 
-'use strict';
+'use strict'
 
-const AssertBx = require('../internal/assert.core.bx');
-const kube = require('../internal/assert.kube');
-const constant = require('../constant');
-const assert = require('yeoman-assert');
+const AssertBx = require('../internal/assert.core.bx')
+const kube = require('../internal/assert.kube')
+const constant = require('../constant')
+const assert = require('yeoman-assert')
 
-const USAGE_TXT = 'usage.txt';
+const USAGE_TXT = 'usage.txt'
 
 class AssertEnable extends AssertBx {
-    assert(appName, ymlName, buildType, frameworkType, createType) {
-        super.assertCloudant(false, buildType);
-        super.assertObjectStorage(false, buildType);
-        it('generates ' + USAGE_TXT + ' file', function () {
-            assert.file(USAGE_TXT);
-        });
-        this.assertCLI(appName);
-        this.assertCommonFiles(frameworkType);
-        this.assertCommonBxFiles();
-        this.assertManifestYml(ymlName, false);
-        this.assertToolchainBxEnable();
-        kube.test(appName, true, frameworkType, createType, false, false);
-    }
+  assert (appName, ymlName, buildType, frameworkType, createType) {
+    super.assertCloudant(false, buildType)
+    super.assertObjectStorage(false, buildType)
+    it('generates ' + USAGE_TXT + ' file', function () {
+      assert.file(USAGE_TXT)
+    })
+    this.assertCLI(appName)
+    this.assertCommonFiles(frameworkType)
+    this.assertCommonBxFiles()
+    this.assertManifestYml(ymlName, false)
+    this.assertToolchainBxEnable()
+    kube.test(appName, true, frameworkType, createType, false, false)
+  }
 
-    assertliberty({ appName, buildType }) {
-        const appPath = buildType === 'maven' ? 'target' : 'build';
-        const libertyInstall = buildType === 'maven' ? 'target/liberty/wlp' : 'build/wlp';
-        const buildTypeCap = buildType.charAt(0).toUpperCase() + buildType.slice(1);
-        it(USAGE_TXT + ' file should contain correct content', function () {
-            assert.fileContent(USAGE_TXT, 'default health endpoint is /' + appName + '/health');
-            assert.fileContent(USAGE_TXT, 'artifact location is ' + appPath + '/' + constant.ARTIFACTID + '-' + constant.VERSION + '.zip');
-            assert.fileContent(USAGE_TXT, 'Liberty ' + buildTypeCap + ' plugin (https://github.com/WASdev/ci.' + buildType + ')');
-            assert.fileContent(USAGE_TXT, 'install location is ' + libertyInstall);
-        })
-    }
+  assertliberty ({appName, buildType}) {
+    const appPath = buildType === 'maven' ? 'target' : 'build'
+    const libertyInstall = buildType === 'maven' ? 'target/liberty/wlp' : 'build/wlp'
+    const buildTypeCap = buildType.charAt(0).toUpperCase() + buildType.slice(1)
+    it(USAGE_TXT + ' file should contain correct content', function () {
+      assert.fileContent(USAGE_TXT, 'default health endpoint is /' + appName + '/health')
+      assert.fileContent(USAGE_TXT, 'artifact location is ' + appPath + '/' + constant.ARTIFACTID + '-' + constant.VERSION + '.zip')
+      assert.fileContent(USAGE_TXT, 'Liberty ' + buildTypeCap + ' plugin (https://github.com/WASdev/ci.' + buildType + ')')
+      assert.fileContent(USAGE_TXT, 'install location is ' + libertyInstall)
+    })
+  }
 
-    assertspring({ buildType }) {
-        const appPath = buildType === 'maven' ? 'target' : 'build/libs';
-        it(USAGE_TXT + ' file should contain correct content', function () {
-            assert.fileContent(USAGE_TXT, 'default health endpoint is /health');
-            assert.fileContent(USAGE_TXT, 'artifact location is ' + appPath + '/' + constant.ARTIFACTID + '-' + constant.VERSION + '.jar');
-        })
-    }
+  assertspring ({buildType}) {
+    const appPath = buildType === 'maven' ? 'target' : 'build/libs'
+    it(USAGE_TXT + ' file should contain correct content', function () {
+      assert.fileContent(USAGE_TXT, 'default health endpoint is /health')
+      assert.fileContent(USAGE_TXT, 'artifact location is ' + appPath + '/' + constant.ARTIFACTID + '-' + constant.VERSION + '.jar')
+    })
+  }
 }
 
-module.exports = exports = AssertEnable;
+module.exports = exports = AssertEnable

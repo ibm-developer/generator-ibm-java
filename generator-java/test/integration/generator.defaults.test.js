@@ -19,10 +19,9 @@
  */
 'use strict';
 const path = require('path');
-const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 
-const tests = require('@arf/java-common');
+const tests = require('ibm-java-codegen-common');
 const testMaven = tests.test('maven');
 const testGradle = tests.test('gradle');
 

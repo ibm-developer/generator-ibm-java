@@ -17,20 +17,20 @@
 'use strict'
 
 module.exports = {
-    testAsserts: {
-        starters: {
-            basicweb: require('./lib/assert/starters/assert.basicweb'),
-            bff: require('./lib/assert/starters/assert.bff'),
-            blank: require('./lib/assert/starters/assert.blank'),
-            enable: require('./lib/assert/starters/assert.enable'),
-            microservice: require('./lib/assert/starters/assert.microservice'),
-            openapi: require('./lib/assert/starters/assert.openapi'),
-            skit: require('./lib/assert/starters/assert.skit'),
-            technologies: require('./lib/assert/starters/assert.technologies')
-        },
-        bluemix: require('./lib/assert/assert.bluemix'),
-        builds: require('./lib/assert/assert.builds'),
-        framework: require('./lib/assert/assert.framework'),
-        constant: require('./lib/assert/constant.js')
-    }
-};
+  testAsserts: {
+    starters: {
+      basicweb: require('./lib/assert/starters/assert.basicweb'),
+      bff: require('./lib/assert/starters/assert.bff'),
+      blank: require('./lib/assert/starters/assert.blank'),
+      enable: require('./lib/assert/starters/assert.enable'),
+      microservice: require('./lib/assert/starters/assert.microservice'),
+      openapi: require('./lib/assert/starters/assert.openapi'),
+      skit: require('./lib/assert/starters/assert.skit'),
+      technologies: require('./lib/assert/starters/assert.technologies')
+    },
+    bluemix: require('./lib/assert/assert.bluemix'),
+    builds: require('./lib/assert/assert.builds'),
+    framework: require('./lib/assert/assert.framework'),
+    constant: require('./lib/assert/constant.js')
+  }
+}

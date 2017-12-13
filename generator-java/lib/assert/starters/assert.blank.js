@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-'use strict';
+'use strict'
 
-const Assert = require('../internal/assert.core');
-const constant = require('../constant');
-const assert = require('yeoman-assert');
+const Assert = require('../internal/assert.core')
+const constant = require('../constant')
+const assert = require('yeoman-assert')
 
 class AssertBlank extends Assert {
-    assert(appName, buildType, frameworkType) {
-        super.assert(appName, buildType, frameworkType);
-        if (frameworkType === constant.FRAMEWORK_SPRING) {
-            it('creates an SBApplication.java file', function () {
-                assert.file('src/main/java/application/SBApplication.java');
-            });
-        }
-        it('creates an README.mdfile', function () {
-            assert.file('README.md');
-        });
+  assert (appName, buildType, frameworkType) {
+    super.assert(appName, buildType, frameworkType)
+    if (frameworkType === constant.FRAMEWORK_SPRING) {
+      it('creates an SBApplication.java file', function () {
+        assert.file('src/main/java/application/SBApplication.java')
+      })
     }
+    it('creates an README.mdfile', function () {
+      assert.file('README.md')
+    })
+  }
 }
 
-module.exports = exports = AssertBlank;
+module.exports = exports = AssertBlank

@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
+'use strict'
+
 //helpers only used by the main generator and so are not shared
-const common = require('@arf/java-common');
+const common = require('ibm-java-codegen-common');
 const Handlebars = common.handlebars;   //this will add the helpers to the main handlebars
 
 //lookup and resolve references to data types, will return the Java class name
-Handlebars.registerHelper('refLookup', function(ref) {
-  var parts = ref.split("/");
-  return javarules.className(parts[parts.length - 1]);
-});
+// Handlebars.registerHelper('refLookup', function(ref) {
+//   const parts = ref.split("/");
+//   return javarules.className(parts[parts.length - 1]);
+// });
 
 //lookup and resolve references to data types, will return the Java class name
 Handlebars.registerHelper('tag', function(context) {

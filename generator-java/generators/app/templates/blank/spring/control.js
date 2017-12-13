@@ -13,7 +13,7 @@
   ],
   "composition" : [
     "common",
-    "@arf/generator-spring:build",
-    "@arf/generator-spring:config"
+    "generator-ibm-java-spring:build",
+    "generator-ibm-java-spring:config"
   ]
 }

@@ -30,20 +30,20 @@ function PromptManager(config) {
 
 PromptManager.prototype.add = function(prompt) {
   //allow already resolved names to be passed in
-  var Ext = (typeof prompt === 'string') ? require('../prompts/' + prompt + '.js') : prompt;
-  var ext = new Ext(this.config);
+  const Ext = (typeof prompt === 'string') ? require('../prompts/' + prompt + '.js') : prompt;
+  const ext = new Ext(this.config);
   this.prompts.push(ext);
 
-  var value = ext.getChoice();
+  const value = ext.getChoice();
   if(value) {
     this.prompt.choices.push(value);
   }
 
   //create an index of createType by extension
-  var extqs = ext.getQuestions();
-  for(var i = 0; i < extqs.length; i++) {
+  const extqs = ext.getQuestions();
+  for(let i = 0; i < extqs.length; i++) {
     if(extqs[i].prompt === 'createType') {
-      for(var j = 0; j < extqs[i].choices.length; j++) {
+      for(let j = 0; j < extqs[i].choices.length; j++) {
         this.types[extqs[i].choices[j].value] = ext;
       }
       break;
@@ -53,9 +53,9 @@ PromptManager.prototype.add = function(prompt) {
 }
 
 PromptManager.prototype.getQuestions = function() {
-  var questions = [];
+  let questions = [];
   questions.push(this.prompt);
-  for(var i = 0; i < this.prompts.length; i++) {
+  for(let i = 0; i < this.prompts.length; i++) {
     questions = questions.concat(this.prompts[i].getQuestions());
   }
   return questions;
@@ -63,10 +63,10 @@ PromptManager.prototype.getQuestions = function() {
 
 //this was run headless, so need to work out which extension provides the selected createType
 PromptManager.prototype.setExtension = function(createType) {
-  for (var type in this.types) {
+  for (const type in this.types) {
     if (this.types.hasOwnProperty(type)) {
       if(type === createType) {
-        answers.promptType = this.types[type].id;
+        // answers.promptType = this.types[type].id;
         break;
       }
     }
@@ -74,12 +74,12 @@ PromptManager.prototype.setExtension = function(createType) {
 }
 
 PromptManager.prototype.afterPrompt = function(answers, config) {
-  for(var i = 0; i < this.prompts.length; i++) {
-    var prompt = this.prompts[i];
-    var questions = prompt.getQuestions();
-    var promptAnswers = {};
-    for(var j = 0; j < questions.length; j++) {
-      var name = questions[j].name;
+  for(let i = 0; i < this.prompts.length; i++) {
+    const prompt = this.prompts[i];
+    const questions = prompt.getQuestions();
+    const promptAnswers = {};
+    for(let j = 0; j < questions.length; j++) {
+      const name = questions[j].name;
       if(answers[name]) {
         promptAnswers[name] = answers[name];
       }

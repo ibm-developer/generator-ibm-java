@@ -10,6 +10,6 @@
   ],
   "composition" : [
     "common",
-    "@arf/generator-liberty:liberty"
+    "generator-ibm-java-liberty:liberty"
   ]
 }

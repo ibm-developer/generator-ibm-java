@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-'use strict';
+'use strict'
 
-const tests = require('@arf/java-common');
-const command = tests.test('command');
+const tests = require('ibm-java-codegen-common')
+const command = tests.test('command')
 
 const assertBuilds = function (buildType) {
-    command.run(tests.test(buildType).getBuildCommand());
+  command.run(tests.test(buildType).getBuildCommand())
 }
 
-module.exports = exports = { assertBuilds: assertBuilds };
+module.exports = exports = {assertBuilds: assertBuilds}

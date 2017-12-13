@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
- 'use strict'
+'use strict'
 
- function test(framework) {
-   var assert_framework = require('./internal/assert.' + framework);
-   return new assert_framework();
- }
+function test (framework) {
+  const assert_framework = require('./internal/assert.' + framework)
+  return new assert_framework()
+}
 
- module.exports = {
-   test : test
+module.exports = {
+  test: test
 }

@@ -19,7 +19,7 @@
  */
 
 'use strict'
-const tests = require('@arf/common-codegen-tests');
+const tests = require('common-codegen-tests');
 const generatorLocation = require('path').join(__dirname, '../../generators/app');
 const APPNAME = 'testApp';
 
@@ -27,7 +27,7 @@ const APPNAME = 'testApp';
 function assertCommonTests(options, backendPlatform) {
   tests.test('test-cli-config', generatorLocation, backendPlatform, options);
   //run the docker test slightly differently as need to specify a back level version of the test
-  var dockerTest = tests.test('test-docker');
+  const dockerTest = tests.test('test-docker');
   dockerTest.generatorLocation = generatorLocation;
   dockerTest.platform = backendPlatform;
   dockerTest.options = options;
@@ -38,32 +38,32 @@ function assertCommonTests(options, backendPlatform) {
 
 describe('java generator : bff/yaas : liberty/javaee, gradle build, no bluemix services', function () {
   this.timeout(25000);
-  var ymock = new tests.YMock(APPNAME, "JAVA", {headless : 'true', buildType : 'gradle', createType: 'bff/liberty'});
-  var options = ymock.getOptions();
+  const ymock = new tests.YMock(APPNAME, "JAVA", {headless : 'true', buildType : 'gradle', createType: 'bff/liberty'});
+  const options = ymock.getOptions();
   options.bluemix.backendPlatform = options.backendPlatform;
   assertCommonTests(options, 'JAVA');
 });
 
 describe('java generator : bff/yaas : liberty/javaee, maven build, no bluemix services', function () {
   this.timeout(25000);
-  var ymock = new tests.YMock(APPNAME, "JAVA", {headless : 'true', buildType : 'maven', createType: 'bff/liberty'});
-  var options = ymock.getOptions();
+  const ymock = new tests.YMock(APPNAME, "JAVA", {headless : 'true', buildType : 'maven', createType: 'bff/liberty'});
+  const options = ymock.getOptions();
   options.bluemix.backendPlatform = options.backendPlatform;
   assertCommonTests(options, 'JAVA');
 });
 
 describe('java generator : bff/yaas : spring, gradle build, no bluemix services', function () {
   this.timeout(25000);
-  var ymock = new tests.YMock(APPNAME, "SPRING", {headless : 'true', buildType : 'gradle', createType: 'bff/spring'});
-  var options = ymock.getOptions();
+  const ymock = new tests.YMock(APPNAME, "SPRING", {headless : 'true', buildType : 'gradle', createType: 'bff/spring'});
+  const options = ymock.getOptions();
   options.bluemix.backendPlatform = options.backendPlatform;
   assertCommonTests(options, 'SPRING');
 });
 
 describe('java generator : bff/yaas : spring, maven build, no bluemix services', function () {
   this.timeout(25000);
-  var ymock = new tests.YMock(APPNAME, "SPRING", {headless : 'true', buildType : 'maven', createType: 'bff/spring'});
-  var options = ymock.getOptions();
+  const ymock = new tests.YMock(APPNAME, "SPRING", {headless : 'true', buildType : 'maven', createType: 'bff/spring'});
+  const options = ymock.getOptions();
   options.bluemix.backendPlatform = options.backendPlatform;
   assertCommonTests(options, 'SPRING');
 });

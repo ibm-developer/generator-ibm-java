@@ -1,7 +1,7 @@
 {
   "composition" : [
     "common",
-    "@arf/generator-liberty:build",
-    "@arf/generator-liberty:liberty"
+    "generator-ibm-java-liberty:build",
+    "generator-ibm-java-liberty:liberty"
   ]
 }
