@@ -19,6 +19,8 @@ if [[ $TRAVIS_PULL_REQUEST != "false" ]]; then
     if [ $retval != 0 ]; then
       exit $retval
     fi
+    echo "Running coveralls"
+    npm run coveralls
     echo "Running common tests"
     npm run testcommon
     retval=$?
@@ -31,8 +33,6 @@ if [[ $TRAVIS_PULL_REQUEST != "false" ]]; then
     if [ $retval != 0 ]; then
       exit $retval
     fi
-    echo "Running coveralls"
-    npm run coveralls
   else
     echo "Not a PR, but a build of the branch, so not executing any tests"
   fi
