@@ -4,6 +4,7 @@ if [[ $TRAVIS_PULL_REQUEST != "false" ]]; then
     echo "PR detected, running all tests"
     echo "Running linter"
     npm run lint
+    retval=$?
     if [ $retval != 0 ]; then
       exit $retval
     fi
