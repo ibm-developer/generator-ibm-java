@@ -2,6 +2,76 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.0"></a>
+# 4.0.0 (2017-12-15)
+
+
+### Bug Fixes
+
+* **build:** Fix prerelease to push correct branch. ([2cbaf8b](https://github.com/ibm-developer/generator-ibm-java/commit/2cbaf8b))
+* **build:** Fix travis build to install linux hub. ([ba24ee9](https://github.com/ibm-developer/generator-ibm-java/commit/ba24ee9))
+* **build:** update cloud enablement to 0.0.94 and service enablement to 0.0.82 ([efcf2a0](https://github.com/ibm-developer/generator-ibm-java/commit/efcf2a0))
+* **build:** update cloud-enablement-generator to v0.0.102 ([f3c07f6](https://github.com/ibm-developer/generator-ibm-java/commit/f3c07f6))
+* **build:** update generators; Spring 1.0.0, Cloud enablement 0.0.110 ([64e82a3](https://github.com/ibm-developer/generator-ibm-java/commit/64e82a3))
+* **build:** update OSS generator versions ([152b9d8](https://github.com/ibm-developer/generator-ibm-java/commit/152b9d8))
+* **build:** update OSS generators to latest versions ([2b3b74a](https://github.com/ibm-developer/generator-ibm-java/commit/2b3b74a))
+* **build:** update service enablement generator to 0.0.86 ([e71b108](https://github.com/ibm-developer/generator-ibm-java/commit/e71b108))
+* **build:** update service generator to 0.0.88 and cloud generator to 0.0.98 ([6daa9fc](https://github.com/ibm-developer/generator-ibm-java/commit/6daa9fc))
+* **build:** update service generator to 0.0.97 and add tests for service secrets ([cb1cc48](https://github.com/ibm-developer/generator-ibm-java/commit/cb1cc48))
+* **build:** update service generator to v0.0.85 ([b890634](https://github.com/ibm-developer/generator-ibm-java/commit/b890634))
+* **build:** update spring generator to 0.6.1 ([3f16470](https://github.com/ibm-developer/generator-ibm-java/commit/3f16470))
+* **build:** update Spring test to check for ibmjava:8-sfj-alpine in Dockerfile arf/planning-java/issues/215 ([a0ffb86](https://github.com/ibm-developer/generator-ibm-java/commit/a0ffb86))
+* **build:** update to cloud generator v0.0.97 and service generator v0.0.84 ([e95fe9e](https://github.com/ibm-developer/generator-ibm-java/commit/e95fe9e))
+* **build:** Use Gradle 3.5 in Travis CI build ([5b2b73b](https://github.com/ibm-developer/generator-ibm-java/commit/5b2b73b))
+* **codegen:** Update cloud and service versions to 6.0 ([022f6c6](https://github.com/ibm-developer/generator-ibm-java/commit/022f6c6)), closes [arf/planning-java#325](https://github.com/arf/planning-java/issues/325)
+* **codegen:** Update cloud enablement versions to 0.6.3 ([9632067](https://github.com/ibm-developer/generator-ibm-java/commit/9632067))
+* **infrastructure:** Fix scripts to exit correctly ([2100e34](https://github.com/ibm-developer/generator-ibm-java/commit/2100e34))
+* **templates:** add README.md to blank starter ([a914efb](https://github.com/ibm-developer/generator-ibm-java/commit/a914efb))
+* **templates:** Fix Gradle microprofile dependency ([e7538e1](https://github.com/ibm-developer/generator-ibm-java/commit/e7538e1))
+* **templates:** Fix Liberty web content ([648bc18](https://github.com/ibm-developer/generator-ibm-java/commit/648bc18))
+* **templates:** Fix Mongo code in Example.java ([9384051](https://github.com/ibm-developer/generator-ibm-java/commit/9384051))
+* **templates:** remove duplicate name in spring microervice class and update dependencies ([8b93fd0](https://github.com/ibm-developer/generator-ibm-java/commit/8b93fd0))
+* **templates:** update health endpoint for web basic to match others at /health ([47b9273](https://github.com/ibm-developer/generator-ibm-java/commit/47b9273))
+* **templates:** update liberty generator and add tests ([772dfd7](https://github.com/ibm-developer/generator-ibm-java/commit/772dfd7))
+* **templates:** Update microprofile dependency to type pom ([b582b2f](https://github.com/ibm-developer/generator-ibm-java/commit/b582b2f))
+* **templates:** Update README.md with new generator names ([444fa64](https://github.com/ibm-developer/generator-ibm-java/commit/444fa64))
+* **templates:** update spring generator and add tests for output ([b33c9b0](https://github.com/ibm-developer/generator-ibm-java/commit/b33c9b0))
+* **templates:** Update to microprofile-1.2 ([db200f0](https://github.com/ibm-developer/generator-ibm-java/commit/db200f0))
+* **templates:** Update to pull in Spring path fix ([77e9741](https://github.com/ibm-developer/generator-ibm-java/commit/77e9741))
+* **templates:** use Mongo CA cert for Spring microservice - arf/planning-java/issues/283 ([93153ad](https://github.com/ibm-developer/generator-ibm-java/commit/93153ad))
+* **test:** update tests to match new k8s entries ([debec72](https://github.com/ibm-developer/generator-ibm-java/commit/debec72))
+
+
+### Features
+
+* **codegen:** support for starter kits ([0539354](https://github.com/ibm-developer/generator-ibm-java/commit/0539354))
+* **config:** Update generator to always supply an artifactId ([85b1fc5](https://github.com/ibm-developer/generator-ibm-java/commit/85b1fc5))
+* **templates:** Add blank createTypes ([02934e8](https://github.com/ibm-developer/generator-ibm-java/commit/02934e8))
+* **templates:** add log lines at startup for Spring servers with available end point details ([fccb5eb](https://github.com/ibm-developer/generator-ibm-java/commit/fccb5eb))
+* **templates:** Add open api code generation support ([14ba487](https://github.com/ibm-developer/generator-ibm-java/commit/14ba487))
+* **templates:** Add Spring bff pattern ([2185c11](https://github.com/ibm-developer/generator-ibm-java/commit/2185c11))
+* **templates:** Add Spring templates for BFF ([acaa04d](https://github.com/ibm-developer/generator-ibm-java/commit/acaa04d))
+* **templates:** Add Spring web starter kit template ([8d7e3ff](https://github.com/ibm-developer/generator-ibm-java/commit/8d7e3ff))
+* **templates:** Bring in Microprofile config for services ([c0b9a42](https://github.com/ibm-developer/generator-ibm-java/commit/c0b9a42))
+* **templates:** Update generator versions ([907a754](https://github.com/ibm-developer/generator-ibm-java/commit/907a754))
+* **templates:** Update service enablement generator to 0.0.69 ([065527c](https://github.com/ibm-developer/generator-ibm-java/commit/065527c))
+* **templates:** update spring microservice templates to use mappings.json ([147c220](https://github.com/ibm-developer/generator-ibm-java/commit/147c220))
+* **templates:** Updates to enable open api generation support ([ed69383](https://github.com/ibm-developer/generator-ibm-java/commit/ed69383))
+* **templates:** versions for enablement ([5bb862c](https://github.com/ibm-developer/generator-ibm-java/commit/5bb862c))
+* **test:** Add end to end test for spring microservice ([d56f67e](https://github.com/ibm-developer/generator-ibm-java/commit/d56f67e))
+* **test:** Refactor tests to expose assertions ([c0e2400](https://github.com/ibm-developer/generator-ibm-java/commit/c0e2400))
+* **test:** update Spring test to check for Hystrix dependency - arf/planning-java/issues/287 ([9c243de](https://github.com/ibm-developer/generator-ibm-java/commit/9c243de))
+* **travis:** add eslint, coveralls, updated .travis.yml and others ([ed0103b](https://github.com/ibm-developer/generator-ibm-java/commit/ed0103b))
+
+
+### BREAKING CHANGES
+
+* **codegen:** compose with use case generator.
+
+Signed off by : Adam Pilkington apilkington@uk.ibm.com
+
+
+
 <a name="3.1.1"></a>
 ## [3.1.1](https://github.ibm.com/arf/java-codegen-yeoman/compare/v3.1.0...v3.1.1) (2017-12-01)
 
