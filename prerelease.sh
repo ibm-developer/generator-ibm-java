@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-echo "Running pre-release checks and scans"
 echo "Determining current version"
 CURRENT_PKG_VER_MAJOR=`node -e "console.log(require('./package.json').version.split('.')[0]);"`
 CURRENT_PKG_VER_MINOR=`node -e "console.log(require('./package.json').version.split('.')[1]);"`
@@ -11,6 +10,10 @@ git config push.default simple
 
 echo "Running smoke test"
 npm run prerelease
+retval=$?
+if [ $retval != 0 ]; then
+  exit $retval
+fi
 echo "Upgrading using standard-version"
 npm run release
 retval=$?
@@ -27,9 +30,6 @@ NEXT_PKG_VER_FIX=`node -e "console.log(require('./package.json').version.split('
 echo "Creating git branch"
 BRANCH="updateTo${PKG_VER_NEXT}"
 git checkout -b $BRANCH
-
-git status
-git commit -m "Update test coverage and code scan files"
 # this pull request through this branch will be needed to be reviewed as usual
 git remote rm origin
 git remote add origin $GITHUB_URL_SECURED

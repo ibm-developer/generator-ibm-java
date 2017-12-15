@@ -3,10 +3,12 @@ jdk:
   - oraclejdk8
 before_install:
   - wget http://services.gradle.org/distributions/gradle-3.5-bin.zip
+  - wget https://github.com/github/hub/releases/download/v2.2.9/hub-linux-386-2.2.9.tgz
   - shasum -a 256 -c ./sha256.txt
   - unzip -qq gradle-3.5-bin.zip
+  - tar -xvzf hub-linux-386-2.2.9.tgz
   - export GRADLE_HOME=$PWD/gradle-3.5
-  - export PATH=$GRADLE_HOME/bin:$PATH
+  - export PATH=$GRADLE_HOME/bin:$PWD/hub-linux-386-2.2.9/bin/:$PATH
   - gradle -v
   - nvm install 6.9.1
   - cd ./generator-java
