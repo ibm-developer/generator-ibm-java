@@ -33,5 +33,5 @@ git checkout -b $BRANCH
 # this pull request through this branch will be needed to be reviewed as usual
 git remote rm origin
 git remote add origin $GITHUB_URL_SECURED
-git push --follow-tags origin master
+git push --follow-tags origin $BRANCH
 hub pull-request -b master -m "chore: Merging CHANGELOG and package.json changes"
