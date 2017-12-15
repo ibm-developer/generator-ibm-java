@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 echo "Running pre-release checks and scans"
 echo "Determining current version"
 CURRENT_PKG_VER_MAJOR=`node -e "console.log(require('./package.json').version.split('.')[0]);"`
@@ -10,7 +11,7 @@ git config push.default simple
 
 echo "Running smoke test"
 npm run prerelease
-echo "Revving version"
+echo "Upgrading using standard-version"
 npm run release
 retval=$?
 if [ $retval != 0 ]; then
@@ -27,38 +28,10 @@ echo "Creating git branch"
 BRANCH="updateTo${PKG_VER_NEXT}"
 git checkout -b $BRANCH
 
-echo "Determining need for covergage and OSS scan"
-if [ $CURRENT_PKG_VER_MAJOR !=  $NEXT_PKG_VER_MAJOR]; then
-  echo "Major version change detected, running coverage"
-  ../coverage.sh
-  retval=$?
-  if [ $retval != 0 ]; then
-    exit $retval
-  fi
-  echo "Major version change detected, running OSS scan"
-  ../scan.sh
-  if [ $? != 0 ]; then
-    echo "WARNING : scan failed, see logs for more details"
-  fi
-else
-  if [ $CURRENT_PKG_VER_MINOR !=  $NEXT_PKG_VER_MINOR]; then
-    echo "Minor version change detected, running coverage"
-    ../coverage.sh
-    retval=$?
-    if [ $retval != 0 ]; then
-      exit $retval
-    fi
-    echo "Minor version change detected, running OSS scan"
-    ../scan.sh
-    if [ $? != 0 ]; then
-      echo "WARNING : scan failed, see logs for more details"
-    fi
-  fi
-fi
-
-git status
-git add ../docs
 git status
 git commit -m "Update test coverage and code scan files"
-#this branch will need to be reviewed and approved in the usual manner
-git push --follow-tags origin $BRANCH
+# this pull request through this branch will be needed to be reviewed as usual
+git remote rm origin
+git remote add origin $GITHUB_URL_SECURED
+git push --follow-tags origin master
+hub pull-request -b master -m "chore: Merging CHANGELOG and package.json changes"

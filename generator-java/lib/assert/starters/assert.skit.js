@@ -18,59 +18,59 @@
  * Assertions for testing projects generated via the usercase generator
  */
 
-'use strict';
+'use strict'
 
-const Assert = require('../internal/assert.core');
-const framework = require('../assert.framework');
-const assert = require('yeoman-assert');
-const tests = require('@arf/java-common');
+const Assert = require('../internal/assert.core')
+const framework = require('../assert.framework')
+const assert = require('yeoman-assert')
+const tests = require('ibm-java-codegen-common')
 
-const liberty = 'liberty';
-const spring = 'spring';
-const gradle = 'gradle';
-const maven = 'maven';
+const liberty = 'liberty'
+const spring = 'spring'
+const gradle = 'gradle'
+const maven = 'maven'
 
 class AssertSkit extends Assert {
-    assert(appName, buildType, frameworkType) {
-        super.assert(appName, buildType, frameworkType);
+  assert (appName, buildType, frameworkType) {
+    super.assert(appName, buildType, frameworkType)
 
-        it('creates an README.mdfile', function () {
-            assert.file('README.md');
-        });
+    it('creates an README.mdfile', function () {
+      assert.file('README.md')
+    })
 
-        this['assert' + buildType]();
-        tests.test(buildType).assertProperty('testServerHttpPort', '9080');
+    this['assert' + buildType]()
+    tests.test(buildType).assertProperty('testServerHttpPort', '9080')
+  }
+
+  assertliberty () {
+    super.assertliberty()
+    framework.test(liberty).assertFeatures('feature-1.0', 'jee-1.0')
+    framework.test(liberty).assertJndi(true, {'cloudant/service': 'http://somehwere'})
+    framework.test(liberty).assertEnv(true, {'ENV_VAR': 'some environment variable value'})
+  }
+
+  assertspring () {
+    super.assertspring()
+    framework.test(spring).assertEnv(true, {'ENV_VAR': 'some environment variable value'})
+  }
+
+  assertgradle () {
+    if (this.frameworkType === liberty) {
+      tests.test(gradle).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0')
     }
-
-    assertliberty() {
-        super.assertliberty();
-        framework.test(liberty).assertFeatures('feature-1.0', 'jee-1.0');
-        framework.test(liberty).assertJndi(true, { 'cloudant/service' : 'http://somehwere'});
-        framework.test(liberty).assertEnv(true, { 'ENV_VAR' : 'some environment variable value'});
+    if (this.assertFramework === spring) {
+      tests.test(gradle).assertDependency('provided', 'org.springframework.boot', 'spring-boot-starter-data-mongodb', '1.5.6.RELEASE')
     }
+  }
 
-    assertspring() {
-        super.assertspring();
-        framework.test(spring).assertEnv(true, { 'ENV_VAR' : 'some environment variable value'});
+  assertmaven () {
+    if (this.frameworkType === liberty) {
+      tests.test(maven).assertDependency('provided', 'org.pacesys', 'openstack4j-core', '3.0.3')
     }
-
-    assertgradle() {
-        if(this.frameworkType === liberty) {
-            tests.test(gradle).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
-        }
-        if(this.assertFramework === spring) {
-            tests.test(gradle).assertDependency('provided', 'org.springframework.boot', 'spring-boot-starter-data-mongodb', '1.5.6.RELEASE');
-        }
+    if (this.assertFramework === spring) {
+      tests.test(maven).assertDependency('provided', 'com.cloudant', 'cloudant-client', '2.7.0')
     }
-
-    assertmaven() {
-        if(this.frameworkType === liberty) {
-            tests.test(maven).assertDependency('provided', 'org.pacesys', 'openstack4j-core', '3.0.3');
-        }
-        if(this.assertFramework === spring) {
-            tests.test(maven).assertDependency('provided', 'com.cloudant', 'cloudant-client', '2.7.0');
-        }
-    }
+  }
 }
 
-module.exports = exports = AssertSkit;
+module.exports = exports = AssertSkit

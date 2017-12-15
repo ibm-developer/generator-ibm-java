@@ -10,9 +10,9 @@
   ],
   "composition" : [
     "common",
-    "@arf/generator-spring:build",
-    "@arf/generator-spring:config",
-    "@arf/generator-spring:health",
-    "@arf/generator-spring:content"
+    "generator-ibm-java-spring:build",
+    "generator-ibm-java-spring:config",
+    "generator-ibm-java-spring:health",
+    "generator-ibm-java-spring:content"
   ]
 }

@@ -15,10 +15,9 @@
  */
 
 'use strict'
-const path = require('path');
 const assert = require('yeoman-assert');
-const liberty = require('@arf/generator-liberty');
-const tests = require('@arf/java-common');
+const liberty = require('generator-ibm-java-liberty');
+const tests = require('ibm-java-codegen-common');
 
 const assertLiberty = new liberty.integrationAsserts.liberty();
 const openApi = new liberty.integrationAsserts.openapi();
@@ -28,7 +27,7 @@ function test_liberty() {
 
 test_liberty.prototype.assertSourceFiles = function(springSelected) {
   it('should contain Java code files common across all project types', function() {
-    var check = springSelected ? assert.noFile : assert.file;
+    const check = springSelected ? assert.noFile : assert.file;
     check('src/main/java/application/HealthEndpoint.java');
     check('src/main/java/application/rest/JaxrsApplication.java');
     check('src/test/java/it/HealthEndpointIT.java');
@@ -58,7 +57,7 @@ test_liberty.prototype.assertBuildFiles = function(buildType) {
   }
 }
 
-var assertMavenFiles = function() {
+const assertMavenFiles = function() {
   assertLiberty.assertVersion('maven');
   tests.test('maven').assertProperty('warContext', '${app.name}');
   tests.test('maven').assertProperty('package.file', '${project.build.directory}/${project.artifactId}-${project.version}.zip');
@@ -66,7 +65,7 @@ var assertMavenFiles = function() {
 
 }
 
-var assertGradleFiles = function() {
+const assertGradleFiles = function() {
   assertLiberty.assertVersion('gradle');
   tests.test('gradle').assertProperty('serverDirectory', '"${buildDir}/wlp/usr/servers/defaultServer"');
   tests.test('gradle').assertProperty('warContext', '"${appName}"');
@@ -78,15 +77,12 @@ test_liberty.prototype.assertFeatures = function() {
   if(arguments.length < 1) {
     throw "assertFeatures error : requires at least 1 argument, a feature to check";
   }
-  var i;
-  var check;
-  var exists = true;
+  let i;
+  let exists = true;
   if(typeof(arguments[0]) === "boolean") {
     exists = arguments[0];
-    check = arguments[0] ? assert.fileContent : assert.noFileContent;
     i = 1;
   } else {
-    check = assert.fileContent;
     i = 0;
   }
   for(i; i < arguments.length; i++) {
@@ -96,8 +92,8 @@ test_liberty.prototype.assertFeatures = function() {
   }
 }
 
-test_liberty.prototype.assertCloudant = function(exists) {
-  var jndi = {
+test_liberty.prototype.assertCloudant = function() {
+  const jndi = {
     "cloudant/url" : "${env.cloudant_url}",
     "cloudant/username" : "${env.cloudant_username}",
     "cloudant/password" : "${env.cloudant_password}"
@@ -105,7 +101,7 @@ test_liberty.prototype.assertCloudant = function(exists) {
   //no longer setting JNDI entries for Cloudant
   checkValues(false, jndi, assertLiberty.assertJNDI);
 
-  var env = {
+  const env = {
     cloudant_url : 'https://account.cloudant.com',
     cloudant_password : 'pass',
     cloudant_username : 'user'
@@ -114,8 +110,8 @@ test_liberty.prototype.assertCloudant = function(exists) {
   checkValues(false, env, assertLiberty.assertEnv);
 }
 
-test_liberty.prototype.assertObjectStorage = function(exists) {
-  var jndi = {
+test_liberty.prototype.assertObjectStorage = function() {
+  const jndi = {
     "objectstorage/auth_url" : "${env.object_storage_auth_url}",
     "objectstorage/userId" : "${env.object_storage_user_id}",
     "objectstorage/password" : "${env.object_storage_password}",
@@ -125,7 +121,7 @@ test_liberty.prototype.assertObjectStorage = function(exists) {
   //no longer setting JNDI entries for Object Storage
   checkValues(false, jndi, assertLiberty.assertJNDI);
 
-  var env = {
+  const env = {
     object_storage_auth_url : 'objectStorage-url',
     object_storage_user_id : 'objectStorage-userId',
     object_storage_password : 'objectStorage-password',
@@ -136,9 +132,8 @@ test_liberty.prototype.assertObjectStorage = function(exists) {
   checkValues(false, env, assertLiberty.assertEnv);
 }
 
-test_liberty.prototype.assertOpenApi = function(exists, fileNames, buildType) {
+test_liberty.prototype.assertOpenApi = function(exists, fileNames) {
   openApi.assert(exists, fileNames);
-  var check = exists ? tests.test(buildType).assertContent : tests.test(buildType).assertNoContent;
 }
 
 test_liberty.prototype.getExampleOpenApi = function() {
@@ -162,10 +157,10 @@ function checkValues(exists, object, func) {
   if(arguments.length < 2) {
     throw "check values error : requires at least 2 arguments, exists and an object to check";
   }
-  for(var i=1; i < arguments.length; i++) {
+  for(let i=1; i < arguments.length; i++) {
     if (arguments[i] && typeof arguments[i] === 'object') {
-      var entry = arguments[i];
-      for (var prop in entry) {
+      const entry = arguments[i];
+      for (const prop in entry) {
         if (entry.hasOwnProperty(prop)) {
           func(exists, prop, entry[prop]);
         }

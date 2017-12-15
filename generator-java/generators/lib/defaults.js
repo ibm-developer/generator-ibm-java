@@ -16,8 +16,10 @@
 
 //module for storing default configuration values
 
-const processor = require('@arf/java-common').fsprocessor;
-const defaultsModule = require('@arf/java-common').defaults;
+'use strict'
+
+const processor = require('ibm-java-codegen-common').fsprocessor;
+const defaultsModule = require('ibm-java-codegen-common').defaults;
 
 const DEFAULTS = {
   appName : {desc : 'Name of the application', type : String, default : 'MyProject'},
@@ -36,8 +38,8 @@ const DEFAULTS = {
   javametrics : {desc : 'Enable java metrics for the project', type : String, default : undefined}
 };
 
-var bluemixToObject = function(value) {
-  var type = Object.prototype.toString.call(value);
+const bluemixToObject = function(value) {
+  let type = Object.prototype.toString.call(value);
   if(type === '[object String]') {
     return JSON.parse(value);
   }
@@ -47,7 +49,7 @@ var bluemixToObject = function(value) {
   throw new Error('bluemixToObject expects an Object or a String, got ' + JSON.stringify(value));
 }
 
-var platformsToArray = function(value) {
+const platformsToArray = function(value) {
   if(Array.isArray(value)) {
     return value;
   }

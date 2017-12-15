@@ -52,7 +52,7 @@ const buildTypes = ['gradle', 'maven'];
 
 describe('java generator : bff/liberty end to end test', function () {
   this.timeout(20000);
-  for (var i = 0; i < buildTypes.length; i++) {
+  for (let i = 0; i < buildTypes.length; i++) {
     describe('Generates a bff project build type ' + buildTypes[i], function () {
       const options = new Options(buildTypes[i], constant.FRAMEWORK_LIBERTY);
       before(options.before.bind(options));
@@ -63,7 +63,7 @@ describe('java generator : bff/liberty end to end test', function () {
 
 describe('java generator : bff/spring end to end test', function () {
   this.timeout(20000);
-  for (var i = 0; i < buildTypes.length; i++) {
+  for (let i = 0; i < buildTypes.length; i++) {
     describe('Generates a bff project build type ' + buildTypes[i], function () {
       const options = new Options(buildTypes[i], constant.FRAMEWORK_SPRING);
       before(options.before.bind(options));

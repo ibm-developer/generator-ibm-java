@@ -26,7 +26,7 @@ const bluemix = testAsserts.bluemix;
 const constant = testAsserts.constant;
 const core = require('../lib/core');
 const extend = require('extend');
-const liberty = require('@arf/generator-liberty');
+const liberty = require('generator-ibm-java-liberty');
 
 class Options extends core.Options {
   constructor(runHeadless, createType, buildType, platforms, technologies) {
@@ -52,8 +52,8 @@ execute('picnmix', 'picnmix', technologies);
 function execute(createType, assertFunc, technologiesToTest) {
   describe('java generator : technologies integration test', function () {
     this.timeout(7000);
-    for (var i = 0; i < technologiesToTest.length; i++) {
-      for (var j = 0; j < buildTypes.length; j++) {
+    for (let i = 0; i < technologiesToTest.length; i++) {
+      for (let j = 0; j < buildTypes.length; j++) {
         describe('Generates a ' + createType + ' project for ' + technologiesToTest[i] + ' (' + buildTypes[j] + ', no bluemix with prompts)', function () {
           const options = new Options(false, createType, buildTypes[j], [], [technologiesToTest[i]]);
           options.prompts = { extName: 'prompt:patterns', buildType: buildTypes[j], createType: options.values.createType, services: ['none'], appName: options.values.APPNAME, artifactId: options.values.ARTIFACTID };
@@ -125,7 +125,7 @@ function execute(createType, assertFunc, technologiesToTest) {
 
 describe('java generator : technologies integration test', function () {
   this.timeout(7000);
-  for (var i = 0; i < buildTypes.length; i++) {
+  for (let i = 0; i < buildTypes.length; i++) {
     describe('Generates a project for (no services or technologies)', function () {
       const options = new Options(true, 'picnmix', buildTypes[i], [], []);
       before(options.before.bind(options));
@@ -141,7 +141,7 @@ describe('java generator : technologies integration test', function () {
     });
   }
 
-  for (var i = 0; i < buildTypes.length; i++) {
+  for (let i = 0; i < buildTypes.length; i++) {
     describe('Generates a project for (no services or technologies) with bluemix', function () {
       const options = new Options(true, 'picnmix', buildTypes[i], ['bluemix'], []);
       before(options.before.bind(options));

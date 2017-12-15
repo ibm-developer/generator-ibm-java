@@ -16,7 +16,7 @@
 
 'use strict'
 
-var logger = require('@arf/java-common').log;
+const logger = require('ibm-java-codegen-common').log;
 
 const PROMPT_ID = 'prompt:bluemix';
 
@@ -30,7 +30,7 @@ Extension.prototype.getChoice = function() {
 }
 
 Extension.prototype.show = function(answers) {
-  var result = false;
+  let result = false;
   if (answers) {
     if(answers.promptType) {
       result = (answers.promptType === 'prompt:patterns')||(answers.addbluemix);
@@ -81,8 +81,8 @@ Extension.prototype.afterPrompt = function(answers, config) {
       domain : "mybluemix.net"
     }
     config.bluemix.server.services = answers.services;
-    for(var i = 0; i < answers.services.length; i++) {
-      var service = answers.services[i];
+    for(let i = 0; i < answers.services.length; i++) {
+      const service = answers.services[i];
       if(service === "cloudant") {
         if(!config.bluemix.cloudant) {
           config.bluemix.cloudant = [

@@ -4,7 +4,6 @@ These sets of tests test if we have generated all the bluemix files.
 
 'use strict'
 
-const helpers = require('yeoman-test');
 const assert = require('yeoman-assert');
 const yml = require('js-yaml');
 const fs = require('fs');
@@ -15,18 +14,18 @@ const SPRING = 'spring';
 const JENKINSFILE = 'Jenkinsfile';
 const KUBE_YML = 'manifests/kube.deploy.yml';
 
-function test_kube(appName) {
+function test_kube() {
 }
 
 test_kube.test = function(appName, exists, framework, createType, cloudantExists, objectStorageExists) {
   describe('Validate k8s for application ' + appName, function() {
 
-    var prefix = exists ? 'generates ' : 'does not generate ';
-    var check = exists ? assert.file : assert.noFile;
-    var VALUES_YML = 'chart/' + appName.toLowerCase() + '/values.yaml';
-    var CHART_YML = 'chart/' + appName.toLowerCase() + '/Chart.yaml';
-    var DEPLOYMENT_YML = 'chart/' + appName.toLowerCase() + '/templates/deployment.yaml';
-    var SERVICE_YML = 'chart/' + appName.toLowerCase() + '/templates/service.yaml';
+    const prefix = exists ? 'generates ' : 'does not generate ';
+    const check = exists ? assert.file : assert.noFile;
+    const VALUES_YML = 'chart/' + appName.toLowerCase() + '/values.yaml';
+    const CHART_YML = 'chart/' + appName.toLowerCase() + '/Chart.yaml';
+    const DEPLOYMENT_YML = 'chart/' + appName.toLowerCase() + '/templates/deployment.yaml';
+    const SERVICE_YML = 'chart/' + appName.toLowerCase() + '/templates/service.yaml';
 
     it(prefix + 'k8s file ' + JENKINSFILE, function() {
       if(exists) {
@@ -39,8 +38,8 @@ test_kube.test = function(appName, exists, framework, createType, cloudantExists
     it(prefix + 'k8s file kube.deploy.yml', function() {
       check(KUBE_YML);
       if(exists) {
-        var i = 0;
-        var kubeymlArray = yml.safeLoadAll(fs.readFileSync(KUBE_YML, 'utf8'), data => {
+        let i = 0;
+        yml.safeLoadAll(fs.readFileSync(KUBE_YML, 'utf8'), data => {
           switch(i) {
             case 0:
               assertYmlContent(data.metadata.name, appName.toLowerCase() + '-service', 'doc0.data.metadata.name');
@@ -79,15 +78,15 @@ test_kube.test = function(appName, exists, framework, createType, cloudantExists
       check(SERVICE_YML);
       
       if(exists) {
-        var valuesyml = yml.safeLoad(fs.readFileSync(VALUES_YML, 'utf8'));
-        var chartyml = yml.safeLoad(fs.readFileSync(CHART_YML, 'utf8'));
-        var rawdeploymentyml = fs.readFileSync(DEPLOYMENT_YML, 'utf8');
+        const valuesyml = yml.safeLoad(fs.readFileSync(VALUES_YML, 'utf8'));
+        const chartyml = yml.safeLoad(fs.readFileSync(CHART_YML, 'utf8'));
+        const rawdeploymentyml = fs.readFileSync(DEPLOYMENT_YML, 'utf8');
         //comment out helm conditionals so it can be parsed by js-yaml
-        var newdeploymentyml = rawdeploymentyml.replace('{{ if', '#').replace('{{ else', '#').replace('{{ end', '#');
-        var deploymentyml = yml.safeLoad(newdeploymentyml);
-        var rawserviceyml = fs.readFileSync(SERVICE_YML, 'utf8');
-        var newserviceyml = rawserviceyml.replace('"+" "_"', '\\"+\\" \\"_\\"');
-        var serviceyml = yml.safeLoad(newserviceyml);
+        const newdeploymentyml = rawdeploymentyml.replace('{{ if', '#').replace('{{ else', '#').replace('{{ end', '#');
+        const deploymentyml = yml.safeLoad(newdeploymentyml);
+        const rawserviceyml = fs.readFileSync(SERVICE_YML, 'utf8');
+        const newserviceyml = rawserviceyml.replace('"+" "_"', '\\"+\\" \\"_\\"');
+        const serviceyml = yml.safeLoad(newserviceyml);
         
         // values.yaml
         assertYmlContent(valuesyml.image.repository, appName.toLowerCase(), 'valuesyml.image.repository');
@@ -107,7 +106,7 @@ test_kube.test = function(appName, exists, framework, createType, cloudantExists
           assertYmlContent(deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/health', 'deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path');
         }
         assertYmlContent(deploymentyml.metadata.name, '{{  .Chart.Name }}-deployment', 'deploymentyml.metadata.name');
-        assertYmlContent(deploymentyml.metadata.labels.chart, '{{ .Chart.Name }}-{{ .Chart.Version | replace \"+\" \"_\" }}', 'deploymentyml.metadata.labels.chart');
+        assertYmlContent(deploymentyml.metadata.labels.chart, '{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}', 'deploymentyml.metadata.labels.chart');
         assert.fileContent(DEPLOYMENT_YML, '  replicas: {{ .Values.replicaCount }}');
         assert.fileContent(DEPLOYMENT_YML, '  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}');
         assertYmlContent(deploymentyml.spec.template.metadata.labels.app, '{{  .Chart.Name }}-selector', 'deploymentyml.spec.template.metadata.labels.app');
@@ -116,7 +115,7 @@ test_kube.test = function(appName, exists, framework, createType, cloudantExists
         assert.fileContent(DEPLOYMENT_YML, '        imagePullPolicy: {{ .Values.image.pullPolicy }}');
         
         // There should be bindings (for secrets) in the deployment.yml
-        var cloudantBinding = deploymentyml.spec.template.spec.containers[0].env.filter(element => element.name === "service_cloudant");
+        const cloudantBinding = deploymentyml.spec.template.spec.containers[0].env.filter(element => element.name === "service_cloudant");
         assert.equal(cloudantBinding.length > 0, cloudantExists, 
           DEPLOYMENT_YML + ' should' +(cloudantExists ? '' : ' not') + ' contain cloudant credentials');
         if ( cloudantExists ) {
@@ -124,7 +123,7 @@ test_kube.test = function(appName, exists, framework, createType, cloudantExists
           assert.ok(cloudantBinding[0].valueFrom.secretKeyRef, 'Cloudant valueFrom should have secretKeyRef element: ' + JSON.stringify(cloudantBinding));
         }
 
-        var osBinding = deploymentyml.spec.template.spec.containers[0].env.filter(element => element.name === "service_object_storage");
+        const osBinding = deploymentyml.spec.template.spec.containers[0].env.filter(element => element.name === "service_object_storage");
         assert.equal(osBinding.length > 0, objectStorageExists, 
           DEPLOYMENT_YML + ' should' +(cloudantExists ? '' : ' not') + ' contain object storage credentials');
         if ( objectStorageExists ) {
@@ -134,7 +133,7 @@ test_kube.test = function(appName, exists, framework, createType, cloudantExists
         
         // service.yaml
         assertYmlContent(serviceyml.metadata.name, '{{  .Chart.Name }}-service', 'serviceyml.metadata.name');
-        assertYmlContent(serviceyml.metadata.labels.chart, '{{ .Chart.Name }}-{{ .Chart.Version | replace \"+\" \"_\" }}');
+        assertYmlContent(serviceyml.metadata.labels.chart, '{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}');
         assert.fileContent(SERVICE_YML, '  type: {{ .Values.service.type }}');
         assert.fileContent(SERVICE_YML, '    port: {{ .Values.service.servicePort }}');
         if(framework === LIBERTY) {
@@ -147,7 +146,7 @@ test_kube.test = function(appName, exists, framework, createType, cloudantExists
   });
 }
 
-var assertYmlContent = function(actual, expected, label) {
+const assertYmlContent = function(actual, expected, label) {
   assert.strictEqual(actual, expected, 'Expected ' + label + ' to be ' + expected + ', found ' + actual);
 }
 

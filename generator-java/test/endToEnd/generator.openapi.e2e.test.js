@@ -57,7 +57,7 @@ const buildTypes = ['gradle', 'maven'];
 
 describe('java generator : blank/liberty end to end test', function () {
   this.timeout(10000);
-  for (var i = 0; i < buildTypes.length; i++) {
+  for (let i = 0; i < buildTypes.length; i++) {
     describe('Generates a blank project build type ' + buildTypes[i], function () {
       const options = new Options(buildTypes[i], constant.FRAMEWORK_LIBERTY);
       before(options.before.bind(options));
@@ -68,7 +68,7 @@ describe('java generator : blank/liberty end to end test', function () {
 
 describe('java generator : blank/spring end to end test', function () {
   this.timeout(10000);
-  for (var i = 0; i < buildTypes.length; i++) {
+  for (let i = 0; i < buildTypes.length; i++) {
     describe('Generates a blank project build type ' + buildTypes[i], function () {
       const options = new Options(buildTypes[i], constant.FRAMEWORK_SPRING);
       before(options.before.bind(options));

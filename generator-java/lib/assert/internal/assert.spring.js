@@ -15,10 +15,8 @@
  */
 
 'use strict'
-const path = require('path');
-const assert = require('yeoman-assert');
-const spring = require('@arf/generator-spring');
-const tests = require('@arf/java-common');
+const spring = require('generator-ibm-java-spring');
+const tests = require('ibm-java-codegen-common');
 
 const assertSpring = new spring.integrationAsserts.spring();
 const openApi = new spring.integrationAsserts.openapi();
@@ -30,7 +28,7 @@ test_spring.prototype.assertSourceFiles = function() {
   //assert files common across all projects
 }
 
-test_spring.prototype.assertFiles = function(name) {
+test_spring.prototype.assertFiles = function() {
   assertSpring.assertAllFiles(true);
 }
 
@@ -48,21 +46,21 @@ test_spring.prototype.assertBuildFiles = function(buildType) {
   }
 }
 
-var assertMavenFiles = function() {
+const assertMavenFiles = function() {
   assertSpring.assertVersion('maven');
   tests.test('maven').assertProperty('maven.compiler.source', '1.8');
   tests.test('maven').assertProperty('java.version', '1.8');
 
 }
 
-var assertGradleFiles = function() {
+const assertGradleFiles = function() {
   assertSpring.assertVersion('gradle');
   tests.test('gradle').assertProperty('sourceCompatibility', '1.8');
   tests.test('gradle').assertProperty('targetCompatibility', '1.8');
 }
 
-test_spring.prototype.assertCloudant = function(exists) {
-  var env = {
+test_spring.prototype.assertCloudant = function() {
+  const env = {
     cloudant_url : 'https://account.cloudant.com',
     cloudant_password : 'pass',
     cloudant_username : 'user'
@@ -70,8 +68,8 @@ test_spring.prototype.assertCloudant = function(exists) {
   checkValues(false, env, assertSpring.assertEnv);
 }
 
-test_spring.prototype.assertObjectStorage = function(exists) {
-  var env = {
+test_spring.prototype.assertObjectStorage = function() {
+  const env = {
     object_storage_authurl : 'objectStorage-url',
     object_storage_user_id : 'objectStorage-userId',
     object_storage_password : 'objectStorage-password',
@@ -102,10 +100,10 @@ function checkValues(exists, object, func) {
   if(arguments.length < 2) {
     throw "check values error : requires at least 2 arguments, exists and an object to check";
   }
-  for(var i=1; i < arguments.length; i++) {
+  for(let i=1; i < arguments.length; i++) {
     if (arguments[i] && typeof arguments[i] === 'object') {
-      var entry = arguments[i];
-      for (var prop in entry) {
+      const entry = arguments[i];
+      for (const prop in entry) {
         if (entry.hasOwnProperty(prop)) {
           func(exists, prop, entry[prop]);
         }

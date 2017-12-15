@@ -52,7 +52,7 @@ const buildTypes = ['gradle', 'maven'];
 
 describe('java generator : basicweb/liberty end to end test', function () {
   this.timeout(7000);
-  for (var i = 0; i < buildTypes.length; i++) {
+  for (let i = 0; i < buildTypes.length; i++) {
     describe('Generates a basicweb/liberty project build type ' + buildTypes[i], function () {
       const options = new Options(buildTypes[i], constant.FRAMEWORK_LIBERTY);
       before(options.before.bind(options));
@@ -63,7 +63,7 @@ describe('java generator : basicweb/liberty end to end test', function () {
 
 describe('java generator : basicweb/spring end to end test', function () {
   this.timeout(7000);
-  for (var i = 0; i < buildTypes.length; i++) {
+  for (let i = 0; i < buildTypes.length; i++) {
     describe('Generates a basicweb/spring project build type ' + buildTypes[i], function () {
       const options = new Options(buildTypes[i], constant.FRAMEWORK_SPRING);
       before(options.before.bind(options));

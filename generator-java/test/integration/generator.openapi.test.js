@@ -53,7 +53,6 @@ execute(constant.FRAMEWORK_SPRING);
 
 function execute(frameworkType) {
   const name = frameworkType.toUpperCase();
-  const backendPlatform = frameworkType === 'liberty' ? 'JAVA' : 'SPRING';
 
   describe('java generator : microservice integration test', function () {
     this.timeout(30000);

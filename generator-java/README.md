@@ -1,12 +1,37 @@
 # Yeoman generator for Java code
 This is a [yeoman generator](http://yeoman.io/) that will create Java code for you.
 
-| Build | Status |
-| ------ | ---- |
-| development | [![Build Status](https://travis.ibm.com/arf/java-codegen-yeoman.svg?token=D9H1S9JmREZirtqjnxut&branch=development)](https://travis.ibm.com/arf/java-codegen-yeoman) |
-| master | [![Build Status](https://travis.ibm.com/arf/java-codegen-yeoman.svg?token=D9H1S9JmREZirtqjnxut&branch=master)](https://travis.ibm.com/arf/java-codegen-yeoman) |
 
-The code coverage for the latest version of the generator hosted in the [IBM NPM repository](https://npm.whitewater.ibm.com/package/@arf/generator-java) can be viewed in GitHub Pages. There are separate reports for [unit test coverage](https://pages.github.ibm.com/arf/java-codegen-yeoman/cc/unit/lcov-report/index.html) and [integration test coverage](https://pages.github.ibm.com/arf/java-codegen-yeoman/cc/int/lcov-report/index.html).
+[![IBM Cloud powered][img-bluemix-powered]][url-bluemix]
+[![Travis][img-travis]][url-travis]
+[![Coveralls][img-coveralls-master]][url-coveralls-master]
+[![Codacy][img-codacy]][url-codacy]
+[![Version][img-version]][url-npm]
+[![DownloadsMonthly][img-npm-downloads-monthly]][url-npm]
+[![DownloadsTotal][img-npm-downloads-total]][url-npm]
+[![License][img-license]][url-npm]
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+
+[img-bluemix-powered]: https://img.shields.io/badge/bluemix-powered-blue.svg
+[url-bluemix]: http://bluemix.net
+
+[img-travis]: https://travis-ci.org/ibm-developer/generator-ibm-java.svg?branch=master
+[url-travis]: https://travis-ci.org/ibm-developer/generator-ibm-java
+
+[img-coveralls-master]: https://coveralls.io/repos/github/ibm-developer/generator-ibm-java/badge.svg
+[url-coveralls-master]: https://coveralls.io/github/ibm-developer/generator-ibm-java
+
+[img-codacy]: https://api.codacy.com/project/badge/Grade/a5893a4622094dc8920c8a372a8d3588?branch=development
+[url-codacy]: https://www.codacy.com/app/ibm-developer/generator-ibm-java
+
+[img-version]: https://img.shields.io/npm/v/generator-ibm-java.svg
+[url-npm]: https://www.npmjs.com/package/generator-ibm-java
+at  atat  
+[img-npm-downloads-monthly]: https://img.shields.io/npm/dm/generator-ibm-java.svg
+
+[img-npm-downloads-total]: https://img.shields.io/npm/dt/generator-ibm-java.svg
+
+[img-license]: https://img.shields.io/npm/l/generator-ibm-java.svg
 
 # Getting started:
 
@@ -29,4 +54,4 @@ The generator provides the ability to generate Java applications from IBM Cloud 
 
 The [WebSphere Liberty](https://developer.ibm.com/wasdev/) technologies option allows a developer to pick and choose which WebSphere Liberty feature they would like in their application and the ability to add Microservice Builder integration to the application.
 
-For more information see our [GitHub Enterprise page](https://github.ibm.com/arf/java-codegen-yeoman).
+For more information see [https://github.com/ibm-developer/generator-ibm-java](https://github.com/ibm-developer/generator-ibm-java).

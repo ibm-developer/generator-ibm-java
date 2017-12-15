@@ -9,8 +9,8 @@
     "build"
   ],
   "composition" : [
-    "@arf/generator-liberty:build",
+    "generator-ibm-java-liberty:build",
     "common",
-    "@arf/generator-liberty:liberty"
+    "generator-ibm-java-liberty:liberty"
   ]
 }

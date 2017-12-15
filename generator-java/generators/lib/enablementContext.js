@@ -14,58 +14,58 @@
  * limitations under the License.
  */
 
- //context that provides adaption for calling into enablement generators
- 'use strict'
+//context that provides adaption for calling into enablement generators
+'use strict'
 
 module.exports = class {
-  constructor(contexts) {
-    this.contexts = contexts;
+  constructor (contexts) {
+    this.contexts = contexts
   }
 
   //called by service enablement generator to add dependencies
   _addDependencies (json) {
-    var data = JSON.parse(json);
+    let data = JSON.parse(json)
     this.contexts.forEach(context => {
-      if(data.dependencies) {
-        context.conf.addDependencies(data.dependencies);
+      if (data.dependencies) {
+        context.conf.addDependencies(data.dependencies)
       }
-      if(data.properties) {
-        context.conf.addProperties(data.properties);
+      if (data.properties) {
+        context.conf.addProperties(data.properties)
       }
-      if(data.jndiEntries) {
-        context.conf.addJndiEntries(data.jndiEntries);
+      if (data.jndiEntries) {
+        context.conf.addJndiEntries(data.jndiEntries)
       }
-      if(data.envEntries) {
-        context.conf.addEnvEntries(data.envEntries);
+      if (data.envEntries) {
+        context.conf.addEnvEntries(data.envEntries)
       }
-      if(data.frameworkDependencies) {
-        context.conf.addFrameworkDependencies(data.frameworkDependencies);
+      if (data.frameworkDependencies) {
+        context.conf.addFrameworkDependencies(data.frameworkDependencies)
       }
-    });
+    })
   }
 
   //called by service enablement generator to add local development config
-  _addLocalDevConfig(devconf) {
-    var entries = [];
-    if(Array.isArray(devconf)) {
+  _addLocalDevConfig (devconf) {
+    let entries = []
+    if (Array.isArray(devconf)) {
       devconf.forEach(conf => {
         Object.getOwnPropertyNames(conf).forEach(prop => {
           entries.push({
-            name : prop,
-            value : conf[prop]
-          });
+            name: prop,
+            value: conf[prop]
+          })
         })
-      });
+      })
     } else {
       Object.getOwnPropertyNames(devconf).forEach(prop => {
         entries.push({
-          name : prop,
-          value : devconf[prop]
-        });
-      });
+          name: prop,
+          value: devconf[prop]
+        })
+      })
     }
     this.contexts.forEach(context => {
-      context.conf.addEnvEntries(entries);
-    });
+      context.conf.addEnvEntries(entries)
+    })
   }
 }

@@ -27,7 +27,6 @@ const constant = testAsserts.constant;
 const core = require('../lib/core');
 const extend = require('extend');
 const path = require('path');
-const tests = require('@arf/java-common');
 
 //where the test skit resources are found for local testing
 const SKIT_PATH = JSON.stringify(path.join(__dirname, '..', "resources", "skit"));
