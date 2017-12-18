@@ -160,7 +160,7 @@ module.exports = class extends Generator {
       'generator-ibm-service-enablement': pkg.dependencies['generator-ibm-service-enablement'],
       'generator-ibm-cloud-enablement': pkg.dependencies['generator-ibm-cloud-enablement']
     }
-    config.genVersions['generator-ibm-' + config.frameworkType] = pkg.dependencies['generator-ibm-' + config.frameworkType]
+    config.genVersions['generator-ibm-java-' + config.frameworkType] = pkg.dependencies['generator-ibm-java-' + config.frameworkType]
     if (config.frameworkType === 'liberty' && config.createType === 'bff/liberty') {
       config.enableApiDiscovery = true
     }
