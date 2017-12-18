@@ -10,7 +10,7 @@
   "dependencies": {
     "handlebars": "^4.0.0",
     "yeoman-generator": "^1.0.0",
-    "generator-ibm-java-liberty": "7.0.0",
+    "generator-ibm-java-liberty": "7.1.0",
     "generator-ibm-java-spring": "1.0.4",
     "extend": "^3.0.1",
     "ibm-java-codegen-common": "2.3.0",
