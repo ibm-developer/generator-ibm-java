@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.1.0"></a>
+# [4.1.0](https://github.com/ibm-developer/generator-ibm-java/compare/v4.0.1...v4.1.0) (2017-12-18)
+
+
+### Features
+
+* **templates:** Update liberty generator to 7.1.0 to revert loose config. ([aea3aef](https://github.com/ibm-developer/generator-ibm-java/commit/aea3aef))
+* **templates:** Update to liberty generator version 7.0.0 to revert loose config. ([8fa5e8c](https://github.com/ibm-developer/generator-ibm-java/commit/8fa5e8c))
+
+
+
 <a name="4.0.1"></a>
 ## [4.0.1](https://github.com/ibm-developer/generator-ibm-java/compare/v4.0.0...v4.0.1) (2017-12-15)
 
