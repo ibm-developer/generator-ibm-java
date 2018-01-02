@@ -14,7 +14,7 @@
     "generator-ibm-java-spring": "1.0.4",
     "extend": "^3.0.1",
     "ibm-java-codegen-common": "2.3.0",
-    "generator-ibm-cloud-enablement": "0.6.10",
+    "generator-ibm-cloud-enablement": "0.6.11",
     "generator-ibm-service-enablement": "0.6.0",
     "generator-ibm-usecase-enablement": "3.0.0"
   },
