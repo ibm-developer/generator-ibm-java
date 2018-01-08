@@ -46,7 +46,7 @@ public class Example {
   {{/mongodb}}
   {{/bluemix}}
 
-    @RequestMapping("v1/")
+    @RequestMapping("v1")
     public @ResponseBody ResponseEntity<String> example() {
         List<String> list = new ArrayList<>();
         //return a simple list of strings
