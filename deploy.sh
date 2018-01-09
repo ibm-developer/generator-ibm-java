@@ -15,7 +15,7 @@ if [[ $TRAVIS_BRANCH == "master" ]]; then
       ../prerelease.sh
       retval=$?
       if [ $retval != 0 ]; then
-        exit $?
+        exit $retval
       fi
     else
       echo "Version numbers don't match, so publishing to the registry"
