@@ -32,5 +32,7 @@ module.exports = {
     builds: require('./lib/assert/assert.builds'),
     framework: require('./lib/assert/assert.framework'),
     constant: require('./lib/assert/constant.js')
-  }
+  },
+  defaults: require('./generators/lib/defaults'),
+  prompts: [require('./generators/prompts/patterns'), require('./generators/prompts/bluemix')]
 }
