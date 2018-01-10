@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.2.0"></a>
+# [4.2.0](https://github.com/ibm-developer/generator-ibm-java/compare/v4.1.3...v4.2.0) (2018-01-10)
+
+
+### Features
+
+* **lib:** Expose defaults and prompts modules externally ([4152ef1](https://github.com/ibm-developer/generator-ibm-java/commit/4152ef1))
+
+
+
 <a name="4.1.3"></a>
 ## [4.1.3](https://github.com/ibm-developer/generator-ibm-java/compare/v4.1.2...v4.1.3) (2018-01-09)
 
