@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/ibm-developer/generator-ibm-java/compare/v4.4.0...v5.0.0) (2018-01-12)
+
+
+### Features
+
+* **lib:** Remove prompting and update logging ([9b5bb33](https://github.com/ibm-developer/generator-ibm-java/commit/9b5bb33))
+
+
+### BREAKING CHANGES
+
+* **lib:** Remove prompting, remove options, alter logging api
+
+Signed-off-by: Katherine Stanley <katheris@uk.ibm.com>
+
+
+
 <a name="4.4.0"></a>
 # [4.4.0](https://github.com/ibm-developer/generator-ibm-java/compare/v4.3.0...v4.4.0) (2018-01-12)
 
