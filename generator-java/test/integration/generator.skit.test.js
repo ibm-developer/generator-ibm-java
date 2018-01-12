@@ -32,10 +32,9 @@ const path = require('path');
 const SKIT_PATH = JSON.stringify(path.join(__dirname, '..', "resources", "skit"));
 
 class Options extends core.Options {
-  constructor(runHeadless, buildType, frameworkType) {
+  constructor(buildType, frameworkType) {
     super(frameworkType === 'spring' ? 'SPRING' : 'JAVA');
     extend(this.values, {
-      headless: runHeadless.toString(),
       buildType: buildType,
       frameworkType: frameworkType,
       createType: 'skit/' + frameworkType,
@@ -54,28 +53,14 @@ const assert = new AssertSkit();
 describe('java generator : starter kit (skit) integration test', function () {
   this.timeout(7000);
   frameworkTypes.forEach(frameworkType => {
-    describe('Generates a ' + frameworkType + ' starter kit, gradle build with prompts', function () {      
-      const options = new Options(false, gradle, frameworkType);
-      options.prompts = { extName: 'prompt:patterns', buildType: gradle, createType: options.values.createType, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID };
-      before(options.before.bind(options));
-      assert.assert(constant.APPNAME, gradle, frameworkType);
-    });
-
-    describe('Generates a ' + frameworkType + ' starter kit, maven build with prompts', function () {
-      const options = new Options(false, maven, frameworkType);
-      options.prompts = { extName: 'prompt:patterns', buildType: maven, createType: options.values.createType, services: ['none'], appName: core.APPNAME, artifactId: core.ARTIFACTID };
-      before(options.before.bind(options));
-      assert.assert(constant.APPNAME, maven, frameworkType);
-    });
-
     describe('Generates a ' + frameworkType + ' starter kit, gradle build', function () {
-      const options = new Options(true, gradle, frameworkType, core.APPNAME);
+      const options = new Options(gradle, frameworkType, core.APPNAME);
       before(options.before.bind(options));
       assert.assert(constant.APPNAME, gradle, frameworkType);
     });
 
     describe('Generates a ' + frameworkType + ' starter kit, maven build', function () {
-      const options = new Options(true, maven, frameworkType, core.APPNAME);
+      const options = new Options(maven, frameworkType, core.APPNAME);
       before(options.before.bind(options));
       assert.assert(constant.APPNAME, maven, frameworkType);
     });

@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+// Set prompts for use by ibm-java-utils generator
+
 'use strict'
 
 const PROMPT_ID = 'prompt:patterns'

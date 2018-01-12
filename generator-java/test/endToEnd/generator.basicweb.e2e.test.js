@@ -27,8 +27,6 @@ const path = require('path');
 function Options(buildType, framework) {
   const platform = framework === constant.FRAMEWORK_SPRING ? 'SPRING' : 'JAVA';
   this.options = {
-    headless: "true",
-    debug: "true",
     buildType: buildType,
     createType: 'basicweb/' + framework,
     appName: constant.APPNAME,
@@ -43,7 +41,6 @@ function Options(buildType, framework) {
   this.before = function () {
     return helpers.run(path.join(__dirname, '../../generators/app'))
       .withOptions(this.options)
-      .withPrompts({})
       .toPromise();
   }
 }
