@@ -12,7 +12,7 @@
     "handlebars": "^4.0.0",
     "yeoman-generator": "^1.0.0",
     "generator-ibm-java-liberty": "7.3.1",
-    "generator-ibm-java-spring": "1.0.4",
+    "generator-ibm-java-spring": "1.2.0",
     "extend": "^3.0.1",
     "ibm-java-codegen-common": "2.3.0",
     "generator-ibm-cloud-enablement": "0.6.14",
