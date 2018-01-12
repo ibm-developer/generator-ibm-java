@@ -28,14 +28,12 @@ const testGradle = tests.test('gradle');
 describe('java generator integration test', function () {
   this.timeout(5000);
 
-  describe('Generates a basic JavaEE/MicroProfile Maven project in headless mode, no configuration', function () {
+  describe('Generates a basic JavaEE/MicroProfile Maven project, no configuration', function () {
 
     before(function () {
       // Mock the options, set up an output folder and run the generator
       return helpers.run(path.join( __dirname, '../../generators/app'))
-        .withOptions({                       // Mock the prompt answers
-          headless: "true",
-          debug: "true",
+        .withOptions({                       // Mock the options
           bluemix: {
             backendPlatform: 'JAVA'
           }
@@ -47,14 +45,12 @@ describe('java generator integration test', function () {
 
   });
 
-  describe('Generates a basic JavaEE/MicroProfile Gradle project in headless mode, no configuration', function () {
+  describe('Generates a basic JavaEE/MicroProfile Gradle project, no configuration', function () {
     
     before(function () {
       // Mock the options, set up an output folder and run the generator
       return helpers.run(path.join( __dirname, '../../generators/app'))
-        .withOptions({                       // Mock the prompt answers
-          headless: "true",
-          debug: "true",
+        .withOptions({                       // Mock the options
           bluemix: {
             backendPlatform: 'JAVA'
           },
@@ -67,14 +63,12 @@ describe('java generator integration test', function () {
 
   });
 
-  describe('Generates a basic Spring Maven project in headless mode, no configuration', function () {
+  describe('Generates a basic Spring Maven project, no configuration', function () {
     
     before(function () {
       // Mock the options, set up an output folder and run the generator
       return helpers.run(path.join( __dirname, '../../generators/app'))
-        .withOptions({                       // Mock the prompt answers
-          headless: "true",
-          debug: "true",
+        .withOptions({                       // Mock the options
           createType: "microservice/spring",
           bluemix: {
             backendPlatform: 'SPRING'
@@ -87,14 +81,12 @@ describe('java generator integration test', function () {
 
   });
 
-  describe('Generates a basic Spring Gradle project in headless mode, no configuration', function () {
+  describe('Generates a basic Spring Gradle project, no configuration', function () {
     
     before(function () {
       // Mock the options, set up an output folder and run the generator
       return helpers.run(path.join( __dirname, '../../generators/app'))
-        .withOptions({                       // Mock the prompt answers
-          headless: "true",
-          debug: "true",
+        .withOptions({                       // Mock the options
           createType: "microservice/spring",
           bluemix: {
             backendPlatform: 'SPRING'

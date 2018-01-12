@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-'use strict'
+// Set prompts for use by ibm-java-utils generator
 
-const logger = require('ibm-java-codegen-common').log;
+'use strict'
 
 const PROMPT_ID = 'prompt:bluemix';
 
@@ -50,8 +50,24 @@ Extension.prototype.getQuestions = function() {
     name    : 'services',
     message : 'Select the services for your project.\n',
     choices : ['none','cloudant', 'objectStorage'],
-    default : 0 // Default to none
+    validate : function(input) {
+      if(input.length === 0) {
+        return 'You must choose an option'
+      }
+      if(input.length >= 2  && input.includes('none')) {
+        return 'You cannot choose both "none" and other services'
+      }
+      return true
+    },
+    default : ['none']
   }, {
+    when    : this.show.bind(this),
+    type    : 'checkbox',
+    name    : 'platforms',
+    message : 'Select the platforms to host your project.\n',
+    choices : ['cli','bluemix', 'kube'],
+    default : ['cli', 'bluemix', 'kube']
+  },{
     when    : this.show.bind(this),
     type    : 'input',
     name    : 'bluemix',
@@ -74,7 +90,6 @@ Extension.prototype.afterPrompt = function(answers, config) {
     if (answers.services.length === 1 && answers.services[0] === 'none') {
       return;  //stop processing if none has been selected
     }
-    logger.writeToLog("Processing interactive answers", answers.services);
     config.bluemix.server = {
       name : answers.appName || config.appName || "testBxName",
       host : "host",

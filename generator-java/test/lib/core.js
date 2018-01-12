@@ -29,7 +29,6 @@ process.env.GENERATOR_LOG_LEVEL = 'error';    //turn off most of the logging fro
 class Options {
   constructor(backendPlatform) {
     this.values = {
-      debug: "true",
       version: constant.VERSION,
       groupId: constant.GROUPID,
       artifactId: constant.ARTIFACTID,
@@ -37,13 +36,11 @@ class Options {
         backendPlatform: backendPlatform || 'JAVA'
       }
     }
-    this.prompts = {};
   }
 
   before() {
     return helpers.run(path.join(__dirname, '../../generators/app'))
       .withOptions(this.values)
-      .withPrompts(this.prompts)
       .toPromise();
   }
 }

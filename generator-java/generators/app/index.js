@@ -22,7 +22,6 @@ const fs = require('fs')
 const extend = require('extend')
 const yml = require('js-yaml')
 
-const PromptMgr = require('../lib/promptmgr')
 const Defaults = require('../lib/defaults')
 const EnablementContext = require('../lib/enablementContext')
 
@@ -35,10 +34,10 @@ const logger = common.log
 const Handlebars = require('../lib/helpers').handlebars
 
 let config = undefined
-let promptmgr = undefined
 let contexts = []
 let enablementContexts = []
 const defaults = new Defaults()
+const logId = require('../../package.json').name;
 
 module.exports = class extends Generator {
 
@@ -47,7 +46,7 @@ module.exports = class extends Generator {
 
     //create command line options that will be passed by YaaS
     defaults.setOptions(this)
-    logger.writeToLog('Options', this.options)
+    logger.writeToLog(`${logId}:constructor - Options`, this.options)
     contexts = []
     enablementContexts = []
     this.enablementContext = new EnablementContext(contexts)
@@ -55,25 +54,24 @@ module.exports = class extends Generator {
 
   initializing () {
     config = new Config(defaults)
-    promptmgr = new PromptMgr(config)
-    promptmgr.add('patterns')
-    promptmgr.add('bluemix')
-    logger.writeToLog('Config (default)', config)
+    logger.writeToLog(`${logId}:initializing - Config (default)`, config)
     //overwrite any default values with those specified as options
     config.overwrite(this.options)
-    logger.writeToLog('Config (after clone)', config)
+    logger.writeToLog(`${logId}:initializing - Config (after clone)`, config)
 
     //set values based on either defaults or passed in values
     if (config.bluemix) {
       config.appName = config.bluemix.name || config.appName
-
+      logger.writeToLog(`${logId}:initializing - Set config.appName to`, config.appName)
       if (config.bluemix.backendPlatform) {
         switch (config.bluemix.backendPlatform) {
           case 'SPRING':
             config.frameworkType = 'spring'
+            logger.writeToLog(`${logId}:initializing - Set config.frameworkType to`, config.frameworkType)
             break
           case 'JAVA':
             config.frameworkType = 'liberty'
+            logger.writeToLog(`${logId}:initializing - Set config.frameworkType to`, config.frameworkType)
             break
           default:
             throw new Error('Backend platform ' + config.bluemix.backendPlatform + ' is not supported by this generator.')
@@ -82,11 +80,13 @@ module.exports = class extends Generator {
     }
     if (!config.artifactId) {
       config.artifactId = config.appName
+      logger.writeToLog(`${logId}:initializing - Set config.artifactId to`, config.artifactId)
     }
 
     config.templateRoot = this.templatePath()
+    logger.writeToLog(`${logId}:initializing - Set config.templateRoot to`, config.templateRoot)
     config.projectPath = fspath.resolve(this.destinationRoot())
-    logger.writeToLog('Config (final)', config)
+    logger.writeToLog(`${logId}:initializing - Set config.projectPath to`, config.projectPath)
     this._addContext('generator-ibm-java-liberty')
     this._addContext('generator-ibm-java-spring')
     this._addEnablementContext()
@@ -118,7 +118,7 @@ module.exports = class extends Generator {
   }
 
   _addContext (name) {
-    const context = new Context(name, config, promptmgr)   //use the name for the context ID
+    const context = new Context(name, config)   //use the name for the context ID
     this.options.context = context
     const location = fspath.parse(require.resolve(name))   //compose with the default generator
     this.composeWith(fspath.join(location.dir, 'generators', 'app'), this.options)
@@ -128,25 +128,7 @@ module.exports = class extends Generator {
   }
 
   prompting () {
-    if (config.headless !== 'true') {
-      return this.prompt(promptmgr.getQuestions()).then((answers) => {
-        logger.writeToLog('Answers', answers)
-        promptmgr.afterPrompt(answers, config)
-        logger.writeToLog('Config (after answers)', config)
-        config.projectPath = fspath.resolve(this.destinationRoot(), 'projects/' + config.appName)
-        contexts.forEach(context => {
-          context.conf.projectPath = config.projectPath
-        })
-        enablementContexts.forEach(context => {
-          if (context.bluemix) {
-            Object.assign(context.bluemix, config.bluemix)
-          } else {
-            context.bluemix = config.bluemix
-          }
-          context.createType = config.createType
-        })
-      })
-    }
+    //this generator does not prompt, questions can be set in the prompts directory for testing purposes
   }
 
   configuring () {
@@ -183,9 +165,7 @@ module.exports = class extends Generator {
       }
     }
     //configure this generator and then pass that down through the contexts
-    this.destinationRoot(config.projectPath)
     const control = new Control(fspath.resolve(config.templateRoot, config.createType), config)
-    logger.writeToLog('Processor', processor)
     this.paths = control.getComposition()
     config.processProject(this.paths)
     contexts.forEach(context => {
@@ -205,7 +185,6 @@ module.exports = class extends Generator {
     enablementContexts.forEach(context => {
       context.appName = config.appName
     })
-    logger.writeToLog('Destination path', this.destinationRoot())
   }
 
   _isValidPattern () {
@@ -221,43 +200,36 @@ module.exports = class extends Generator {
   }
 
   writing () {
-    logger.writeToLog('template path', config.createType)
-    logger.writeToLog('project path', config.projectPath)
+    logger.writeToLog(`${logId}:writing - config.createType`, config.createType)
+    logger.writeToLog(`${logId}:writing - config.projectPath`, config.projectPath)
 
     if (!this._isValidPattern()) {
       //the config object is not valid, so need to exit at this point
-      this.log('Error : not a recognised pattern')
-      throw 'Invalid pattern ' + config.createType
+      logger.writeToLog(`${logId}:writing - Error : not a recognised pattern`)
+      throw new Error('Invalid pattern ' + config.createType)
     }
     if (!config.isValid()) {
       //the config object is not valid, so need to exit at this point
-      this.log('Error : configuration is invalid, code generation is aborted')
-      throw 'Invalid configuration'
+      logger.writeToLog(`${logId}:writing - Error : configuration is invalid, code generation is aborted`)
+      throw new Error('Invalid configuration')
     }
     if (!this.recognisedPattern) {
       return   //not being written by us
     }
 
-    logger.writeToLog('Processor', processor)
     return processor.scan(config, (relativePath, template) => {
       const outFile = this.destinationPath(relativePath)
-      logger.writeToLog('CB : writing to', outFile)
+      logger.writeToLog(`${logId}:writing - Writing file`, outFile)
       try {
         const compiledTemplate = Handlebars.compile(template)
         const output = compiledTemplate(config)
         this.fs.write(outFile, output)
       } catch (err) {
-        logger.writeToLog('Template error : ' + relativePath, err.message)
+        logger.writeToLog(`${logId}: writing - Template error : ${relativePath}`, err.message)
       }
     }, this.paths)
   }
 
-  end () {
-    if (config.debug == 'true') {
-      const compiledTemplate = Handlebars.compile('{{#.}}\n{{{.}}}\n{{/.}}\n')
-      const log = compiledTemplate(logger.getLogs)
-      this.fs.write('log.txt', log)
-    }
-  }
+  end () {}
 
 }

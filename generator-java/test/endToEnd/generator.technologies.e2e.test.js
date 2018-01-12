@@ -26,11 +26,8 @@ const path = require('path');
 
 function Options(createType, buildType, testBluemix, technologies) {
   this.options = {
-    headless: "true",
-    debug: "true",
     buildType: buildType,
     createType: createType,
-    promptType: 'prompt:liberty',
     technologies: technologies,
     appName: constant.APPNAME,
     groupId: constant.GROUPID,
@@ -44,7 +41,6 @@ function Options(createType, buildType, testBluemix, technologies) {
   this.before = function () {
     return helpers.run(path.join(__dirname, '../../generators/app'))
       .withOptions(this.options)
-      .withPrompts({})
       .toPromise();
   }
 }

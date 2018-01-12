@@ -29,8 +29,6 @@ function Options(buildType, framework) {
   const platform = framework === constant.FRAMEWORK_SPRING ? 'SPRING' : 'JAVA';
   const example = frameworkTest.test(framework).getExampleOpenApi()
   this.options = {
-    headless: "true",
-    debug: "true",
     buildType: buildType,
     createType: 'blank/' + framework,
     appName: constant.APPNAME,
@@ -48,7 +46,6 @@ function Options(buildType, framework) {
   this.before = function () {
     return helpers.run(path.join(__dirname, '../../generators/app'))
       .withOptions(this.options)
-      .withPrompts({})
       .toPromise();
   }
 }

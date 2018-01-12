@@ -27,10 +27,9 @@ const core = require('../lib/core');
 const extend = require('extend');
 
 class Options extends core.Options {
-  constructor(runHeadless, buildType, frameworkType, name) {
+  constructor(buildType, frameworkType, name) {
     super(frameworkType === 'spring' ? 'SPRING' : 'JAVA');
     extend(this.values, {
-      headless: runHeadless.toString(),
       buildType: buildType,
       frameworkType: frameworkType,
       createType: 'bff/' + frameworkType,
@@ -47,34 +46,20 @@ const assert = new AssertBFF();
 describe('java generator : bff integration test', function () {
   this.timeout(50000);
   frameworkTypes.forEach(frameworkType => {
-    describe('Generates a basic bff project (no bluemix), gradle build with prompts', function () {
-      const options = new Options(false, gradle, frameworkType);
-      options.prompts = { extName: 'prompt:patterns', buildType: gradle, createType: 'bff/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID, addbluemix: true, bluemix: options.values.bluemix };
-      before(options.before.bind(options));
-      assert.assert(options.values.appName, options.values.appName, gradle, frameworkType, options.values.createType, false, false);
-    });
-
-    describe('Generates a basic bff project (no bluemix), maven build with prompts', function () {
-      const options = new Options(false, maven, frameworkType);
-      options.prompts = { extName: 'prompt:patterns', buildType: maven, createType: 'bff/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID, addbluemix: true, bluemix: options.values.bluemix };
-      before(options.before.bind(options));
-      assert.assert(options.values.appName, options.values.appName, maven, frameworkType, options.values.createType, false, false);
-    });
-
     describe('Generates a basic bff project (no bluemix), gradle build', function () {
-      const options = new Options(true, gradle, frameworkType, constant.APPNAME);
+      const options = new Options(gradle, frameworkType, constant.APPNAME);
       before(options.before.bind(options));
       assert.assert(options.values.appName, options.values.appName, gradle, frameworkType, options.values.createType, false, false);
     });
 
     describe('Generates a basic bff project (no bluemix), maven build', function () {
-      const options = new Options(true, maven, frameworkType, constant.APPNAME);
+      const options = new Options(maven, frameworkType, constant.APPNAME);
       before(options.before.bind(options));
       assert.assert(options.values.appName, options.values.appName, maven, frameworkType, options.values.createType, false, false);
     });
 
     describe('Generates a basic bff project (bluemix) with cloudant', function () {
-      const options = new Options(true, maven, frameworkType, 'bxName');
+      const options = new Options(maven, frameworkType, 'bxName');
       options.values.bluemix.server = constant.BX_SERVER;
       options.values.bluemix.server.services = ['cloudant'];
       options.values.bluemix.cloudant = constant.BX_CLOUDANT;
@@ -83,7 +68,7 @@ describe('java generator : bff integration test', function () {
     });
 
     describe('Generates a basic bff project (bluemix) with Object Storage', function () {
-      const options = new Options(true, maven, frameworkType, 'bxName');
+      const options = new Options(maven, frameworkType, 'bxName');
       options.values.bluemix.server = constant.BX_SERVER;
       options.values.bluemix.server.services = ['objectStorage'];
       options.values.bluemix.objectStorage = constant.BX_OBJECT_STORAGE;
@@ -92,7 +77,7 @@ describe('java generator : bff integration test', function () {
     });
 
     describe('Generates a basic bff project (bluemix) with Cloudant and Object Storage', function () {
-      const options = new Options(true, maven, frameworkType, 'bxName');
+      const options = new Options(maven, frameworkType, 'bxName');
       options.values.bluemix.server = constant.BX_SERVER;
       options.values.bluemix.server.services = ['cloudant', 'objectStorage'];
       options.values.bluemix.cloudant = constant.BX_CLOUDANT;

@@ -24,11 +24,19 @@ const testAsserts = require('../../index').testAsserts;
 const AssertEnable = testAsserts.starters.enable;
 const constant = testAsserts.constant;
 const core = require('../lib/core');
+const extend = require('extend');
 
 class Options extends core.Options {
-  constructor(framework) {
+  constructor(framework, buildType) {
     let backendPlatform = framework === 'spring' ? 'SPRING' : 'JAVA';
     super(backendPlatform)
+    extend(this.values, {
+      buildType: buildType,
+      frameworkType: framework,
+      createType: 'enable/' + framework,
+      services: ['none'],
+      appName : constant.APPNAME
+    })
   }
 }
 
@@ -41,15 +49,13 @@ frameworkTypes.forEach(frameworkType => {
   describe('java generator : enable integration test : ' + frameworkType, function () {
     this.timeout(7000);
     describe('Enable a project using a gradle build : ' + frameworkType, function () {
-      const options = new Options(frameworkType);
-      options.prompts = { extName: 'prompt:patterns', buildType: gradle, createType: 'enable/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
+      const options = new Options(frameworkType, gradle);
       before(options.before.bind(options));
       assert.assert(constant.APPNAME, constant.APPNAME, gradle, frameworkType, options.values.createType);
     });
 
     describe('Enable a project using a maven build : ' + frameworkType, function () {
-      const options = new Options(frameworkType);
-      options.prompts = { extName: 'prompt:patterns', buildType: maven, createType: 'enable/' + frameworkType, services: ['none'], appName: constant.APPNAME, artifactId: constant.ARTIFACTID };
+      const options = new Options(frameworkType, maven);
       before(options.before.bind(options));
       assert.assert(constant.APPNAME, constant.APPNAME, maven, frameworkType, options.values.createType);
     });
