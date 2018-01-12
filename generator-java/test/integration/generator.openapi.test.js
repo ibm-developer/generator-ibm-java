@@ -20,6 +20,8 @@
 
 'use strict';
 
+process.env.COMPILE=false
+
 const testAsserts = require('../../index').testAsserts;
 const AssertOpenAPI = testAsserts.starters.openapi;
 const constant = testAsserts.constant;
@@ -53,7 +55,7 @@ execute(constant.FRAMEWORK_SPRING);
 function execute(frameworkType) {
   const name = frameworkType.toUpperCase();
 
-  describe('java generator : microservice integration test', function () {
+  describe('java generator : openapi integration test', function () {
     this.timeout(30000);
 
     // execute each of these tests for both Liberty and Spring frameworks
