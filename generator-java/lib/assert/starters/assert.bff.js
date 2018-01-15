@@ -24,6 +24,7 @@ const tests = require('ibm-java-codegen-common')
 
 class AssertBFF extends AssertBx {
   assert (appName, ymlName, buildType, frameworkType, createType, cloudant, objectStorage) {
+    this.frameworkType = frameworkType;
     super.assert(appName, ymlName, buildType, frameworkType, createType, cloudant, objectStorage)
     framework.test(frameworkType).assertSourceFiles(false)
   }
@@ -65,6 +66,23 @@ class AssertBFF extends AssertBx {
     it('Check that common info files exist', function () {
       assert.fileContent('src/main/java/io/swagger/Info.java', 'http://localhost:8080/swagger/api') // standard info is there
     })
+  }
+
+  assertCloudant ({exists, buildType}) {
+    super.assertCloudant(exists, buildType)
+    const check = super.getCheck(exists);
+    if(this.frameworkType === 'liberty') {
+      //make sure Spring specific files are not generated
+      assert.noFile('src/main/java/application/ProductsApiBinding.java');
+      assert.noFile('src/main/java/application/ProductApiBinding.java');
+    } else {
+      it(check.desc + 'Cloudant Products bindings (' + this.frameworkType + ', ' + buildType + ')', function () {
+        check.content('src/main/java/application/ProductsApiBinding.java', 'private CloudantClient client;')
+      })
+      it(check.desc + 'Cloudant Product bindings', function () {
+        check.content('src/main/java/application/ProductApiBinding.java', 'private CloudantClient client;')
+      })
+    }
   }
 }
 

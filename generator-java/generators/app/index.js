@@ -131,6 +131,14 @@ module.exports = class extends Generator {
     //this generator does not prompt, questions can be set in the prompts directory for testing purposes
   }
 
+  //loads a resource from the resources folder, passing it through handlebars
+  _loadresource(pathInResourcesFolder) {
+    let fullpath = fspath.join('../../resources', pathInResourcesFolder);
+    let template = fs.readFileSync(this.templatePath(fullpath), 'utf8');
+    let compiledTemplate = Handlebars.compile(template);
+    return compiledTemplate(config);
+  }
+  
   configuring () {
     const pkg = require('../../package.json')
     const parts = config.createType.split('/') //framework is defined by the value of createType which is <pattern>/<framework> and overrides any previous value
@@ -147,7 +155,8 @@ module.exports = class extends Generator {
       config.enableApiDiscovery = true
     }
     if (config.frameworkType === 'spring' && config.createType === 'bff/spring') {
-      const bffSwagger = JSON.stringify(yml.safeLoad(fs.readFileSync(this.templatePath('../../resources/bff/swagger.yaml'), 'utf8')))
+      const resource = this._loadresource('bff/swagger.yaml');
+      const bffSwagger = JSON.stringify(yml.safeLoad(resource));
       if (config.bluemix) {
         if (config.bluemix.openApiServers) {
           config.bluemix.openApiServers.push({'spec': bffSwagger})

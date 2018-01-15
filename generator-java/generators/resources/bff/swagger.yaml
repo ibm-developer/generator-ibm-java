@@ -1,11 +1,16 @@
 swagger: '2.0'
 
 info:
-  version: "0.0.1"
+  version: "0.0.2"
   title: Products API
-
-consumes:
-  - text/plain
+  x-ibm-cloud:
+    services:
+    {{#bluemix}}
+    {{#cloudant}}
+      cloudant:
+        db : "application"
+    {{/cloudant}}
+    {{/bluemix}}
 
 produces:
   - application/json
@@ -31,14 +36,14 @@ paths:
         200:
           $ref: '#/responses/getOneProduct'
 
-  /product/{id}:
+  /product/{productID}:
     get:
       tags:
         - products
       operationId: get
       description: Get product by ID
       parameters:
-        - $ref: '#/parameters/idParam'
+        - $ref: '#/parameters/productIDParam'
       responses:
         200:
           $ref: '#/responses/getOneProduct'
@@ -49,7 +54,7 @@ paths:
       operationId: delete
       description: Delete product by ID
       parameters:
-        - $ref: '#/parameters/idParam'
+        - $ref: '#/parameters/productIDParam'
       responses:
         200:
           $ref: '#/responses/getOneProduct'
@@ -60,7 +65,7 @@ paths:
       operationId: update
       description: Update product by ID
       parameters:
-        - $ref: '#/parameters/idParam'
+        - $ref: '#/parameters/productIDParam'
         - $ref: '#/parameters/productNameParam'
       responses:
         200:
@@ -72,10 +77,10 @@ definitions:
     type: object
     description: A product object
     required:
-      - id
+      - identifier
       - name
     properties:
-      id:
+      identifier:
         type: integer
         format: int64
       name:
@@ -95,8 +100,8 @@ responses:
         $ref: '#/definitions/product'
 
 parameters:
-  idParam:
-    name: id
+  productIDParam:
+    name: productID
     in: path
     description: Product ID
     required: true
