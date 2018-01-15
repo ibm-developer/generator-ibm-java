@@ -1,11 +1,16 @@
 swagger: '2.0'
 
 info:
-  version: "0.0.1"
+  version: "0.0.2"
   title: Products API
-
-consumes:
-  - text/plain
+  x-ibm-cloud:
+    services:
+    {{#bluemix}}
+    {{#cloudant}}
+      cloudant:
+        db : "application"
+    {{/cloudant}}
+    {{/bluemix}}
 
 produces:
   - application/json
