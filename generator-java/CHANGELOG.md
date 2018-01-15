@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.1.0"></a>
+# [5.1.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.0.0...v5.1.0) (2018-01-15)
+
+
+### Features
+
+* **templates:** update BFF to support x-ibm-cloud extensions for Cloudant ([c85c215](https://github.com/ibm-developer/generator-ibm-java/commit/c85c215))
+
+
+
 <a name="5.0.0"></a>
 # [5.0.0](https://github.com/ibm-developer/generator-ibm-java/compare/v4.4.0...v5.0.0) (2018-01-12)
 
