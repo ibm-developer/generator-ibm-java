@@ -48,7 +48,7 @@ class Assert {
         assert.fileContent('Dockerfile', 'FROM websphere-liberty:webProfile7');
       }
       if (framework === constant.FRAMEWORK_SPRING) {
-        assert.fileContent('Dockerfile', 'FROM ibmjava:8-sfj-alpine');
+        assert.fileContent('Dockerfile', 'FROM ibmjava:8-sfj');
       }
     });
   }
