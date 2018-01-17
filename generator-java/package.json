@@ -1,6 +1,6 @@
 {
   "name": "generator-ibm-java",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "description": "Java code generation and modification",
   "license": "Apache-2.0",
   "main": "index.js",
@@ -15,7 +15,7 @@
     "generator-ibm-java-spring": "2.0.1",
     "extend": "^3.0.1",
     "ibm-java-codegen-common": "3.0.0",
-    "generator-ibm-cloud-enablement": "0.6.14",
+    "generator-ibm-cloud-enablement": "0.7.0",
     "generator-ibm-service-enablement": "0.6.0",
     "generator-ibm-usecase-enablement": "3.0.0",
     "yeoman-assert": "^2.2.2",
@@ -23,12 +23,12 @@
     "common-codegen-tests": "2.2.3"
   },
   "devDependencies": {
+    "coveralls": "^2.13.3",
+    "eslint": "^4.15.0",
     "js-yaml": "^3.10.0",
     "mocha": "^3.5.3",
-    "standard-version": "^4.2.0",
-    "coveralls": "^2.13.3",
-    "eslint": "^4.13.1",
-    "nyc": "^11.3.0"
+    "nyc": "^11.4.1",
+    "standard-version": "^4.3.0"
   },
   "scripts": {
     "test": "nyc mocha test/unit/*",
