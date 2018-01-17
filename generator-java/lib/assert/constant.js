@@ -30,7 +30,7 @@ module.exports = exports = {
   }],
   BX_SERVER: {'host': 'host', 'domain': 'mybluemix.net'},
   CLI_CONFIG_YML: 'cli-config.yml',
-  CLI_VERSION: '0.0.2',
+  CLI_VERSION: '0.0.3',
   COMPILE: process.env.COMPILE === 'false' ? false : true,
   FRAMEWORK_LIBERTY: 'liberty',
   FRAMEWORK_SPRING: 'spring',
