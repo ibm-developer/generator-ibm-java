@@ -67,7 +67,7 @@ class AssertBx extends Assert {
     })
   }
 
-  assertCloudant (exists, buildType, frameworkType) {
+  assertCloudant ({exists, buildType, frameworkType}) {
     if (exists) {
       it('should create Cloudant README entry', function () {
         assert.fileContent('README.md', 'cloudant')
@@ -128,7 +128,7 @@ class AssertBx extends Assert {
     })
   }
 
-  assertObjectStorage (exists, buildType) {
+  assertObjectStorage ({exists, buildType}) {
     const check = this.getCheck(exists)
     it(check.desc + 'Object Storage README entry', function () {
       if (exists) {

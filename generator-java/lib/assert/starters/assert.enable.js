@@ -25,8 +25,8 @@ const USAGE_TXT = 'usage.txt'
 
 class AssertEnable extends AssertBx {
   assert (appName, ymlName, buildType, frameworkType, createType) {
-    super.assertCloudant(false, buildType)
-    super.assertObjectStorage(false, buildType)
+    super.assertCloudant({exists: false, buildType: buildType, frameworkType: frameworkType})
+    super.assertObjectStorage({exists: false, buildType: buildType})
     it('generates ' + USAGE_TXT + ' file', function () {
       assert.file(USAGE_TXT)
     })

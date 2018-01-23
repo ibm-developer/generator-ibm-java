@@ -57,7 +57,7 @@ class AssertMicroservice extends AssertBx {
   }
 
   assertCloudant ({exists, buildType, frameworkType}) {
-    super.assertCloudant(exists, buildType, frameworkType)
+    super.assertCloudant({exists: exists, buildType: buildType, frameworkType: frameworkType})
     const check = this.getCheck(exists)
     const invcheck = this.getCheck(exists ^ exists)
     it(check.desc + 'common cloudant source files', function () {
@@ -84,7 +84,7 @@ class AssertMicroservice extends AssertBx {
   }
 
   assertObjectStorage ({exists, buildType, frameworkType}) {
-    super.assertObjectStorage(exists, buildType)
+    super.assertObjectStorage({exists: exists, buildType: buildType})
     const check = this.getCheck(exists)
     const invcheck = this.getCheck(exists ^ exists)
     it(check.desc + 'Object Storage source files', function () {
