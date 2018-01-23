@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.2.0"></a>
+# [5.2.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.1.2...v5.2.0) (2018-01-23)
+
+
+### Features
+
+* **templates:** Update to new spring cloudant templates ([a890266](https://github.com/ibm-developer/generator-ibm-java/commit/a890266))
+
+
+
 <a name="5.1.2"></a>
 ## [5.1.2](https://github.com/ibm-developer/generator-ibm-java/compare/v5.1.1...v5.1.2) (2018-01-17)
 
