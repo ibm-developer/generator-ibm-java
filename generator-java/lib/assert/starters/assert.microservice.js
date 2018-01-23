@@ -25,8 +25,8 @@ const tests = require('ibm-java-codegen-common')
 class AssertMicroservice extends AssertBx {
   assert (appName, ymlName, buildType, frameworkType, createType, cloudant, objectStorage) {
     super.assert(appName, ymlName, buildType, frameworkType, createType, cloudant, objectStorage)
-    this.assertCloudant({exists: cloudant, frameworkType: frameworkType})
-    this.assertObjectStorage({exists: objectStorage, frameworkType: frameworkType})
+    this.assertCloudant({exists: cloudant, buildType: buildType, frameworkType: frameworkType})
+    this.assertObjectStorage({exists: objectStorage, buildType: buildType, frameworkType: frameworkType})
     this.assertToolchainBxCreate()
     it('Check that common source files exist', function () {
       assert.fileContent('src/main/java/application/rest/v1/Example.java', 'Congratulations')
@@ -56,8 +56,8 @@ class AssertMicroservice extends AssertBx {
     })
   }
 
-  assertCloudant ({exists, frameworkType}) {
-    super.assertCloudant(exists)
+  assertCloudant ({exists, buildType, frameworkType}) {
+    super.assertCloudant({exists: exists, buildType: buildType, frameworkType: frameworkType})
     const check = this.getCheck(exists)
     const invcheck = this.getCheck(exists ^ exists)
     it(check.desc + 'common cloudant source files', function () {
@@ -78,14 +78,13 @@ class AssertMicroservice extends AssertBx {
         invcheck.file('src/main/java/application/cloudant/Cloudant.java')
       })
       it(check.desc + 'Spring cloudant source files', function () {
-        check.file('src/main/java/application/cloudant/CloudantClientConfig.java')
         check.content('src/main/java/application/Info.java', 'http://localhost:8080/v1/cloudant') // standard info is there
       })
     }
   }
 
-  assertObjectStorage ({exists, frameworkType}) {
-    super.assertObjectStorage(exists)
+  assertObjectStorage ({exists, buildType, frameworkType}) {
+    super.assertObjectStorage({exists: exists, buildType: buildType})
     const check = this.getCheck(exists)
     const invcheck = this.getCheck(exists ^ exists)
     it(check.desc + 'Object Storage source files', function () {

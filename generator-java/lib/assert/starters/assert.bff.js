@@ -68,8 +68,8 @@ class AssertBFF extends AssertBx {
     })
   }
 
-  assertCloudant ({exists, buildType}) {
-    super.assertCloudant(exists, buildType)
+  assertCloudant ({exists, buildType, frameworkType}) {
+    super.assertCloudant({exists: exists, buildType: buildType, frameworkType: frameworkType})
     const check = super.getCheck(exists);
     if(this.frameworkType === 'liberty') {
       //make sure Spring specific files are not generated

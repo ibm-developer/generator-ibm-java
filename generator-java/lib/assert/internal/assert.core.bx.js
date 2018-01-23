@@ -67,7 +67,7 @@ class AssertBx extends Assert {
     })
   }
 
-  assertCloudant ({exists, buildType}) {
+  assertCloudant ({exists, buildType, frameworkType}) {
     if (exists) {
       it('should create Cloudant README entry', function () {
         assert.fileContent('README.md', 'cloudant')
@@ -77,7 +77,12 @@ class AssertBx extends Assert {
         assert.fileContent(constant.LOCALDEV_FILE, '"cloudant_password": "pass"')
         assert.fileContent(constant.LOCALDEV_FILE, '"cloudant_url": "https://account.cloudant.com"')
       })
-      tests.test(buildType).assertDependency('compile', 'com.cloudant', 'cloudant-client', '2.7.0')
+      if(frameworkType === constant.FRAMEWORK_LIBERTY) {
+        tests.test(buildType).assertDependency('compile', 'com.cloudant', 'cloudant-client', '2.7.0')
+      }
+      if(frameworkType === constant.FRAMEWORK_SPRING) {
+        tests.test(buildType).assertDependency('compile', 'com.cloudant', 'cloudant-spring-boot-starter', '0.0.2')
+      }
     }
   }
 

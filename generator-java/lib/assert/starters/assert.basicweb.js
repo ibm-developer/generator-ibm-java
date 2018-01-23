@@ -56,12 +56,7 @@ class AssertBasicWeb extends AssertBx {
   }
 
   assertCloudant ({exists, buildType, frameworkType}) {
-    super.assertCloudant({exists: exists, buildType: buildType})
-    if (exists && (frameworkType === constant.FRAMEWORK_SPRING)) {
-      it('should contain @Lazy for cloudant client', function () {
-        assert.fileContent('src/main/java/application/cloudant/CloudantClientConfig.java', '@Lazy')
-      })
-    }
+    super.assertCloudant({exists: exists, buildType: buildType, frameworkType: frameworkType})
   }
 
   assertObjectStorage ({exists, buildType, frameworkType}) {
