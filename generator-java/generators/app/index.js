@@ -54,10 +54,8 @@ module.exports = class extends Generator {
 
   initializing () {
     config = new Config(defaults)
-    logger.writeToLog(`${logId}:initializing - Config (default)`, config)
     //overwrite any default values with those specified as options
     config.overwrite(this.options)
-    logger.writeToLog(`${logId}:initializing - Config (after clone)`, config)
 
     //set values based on either defaults or passed in values
     if (config.bluemix) {
