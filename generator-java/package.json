@@ -11,11 +11,11 @@
   "dependencies": {
     "handlebars": "^4.0.0",
     "yeoman-generator": "^1.0.0",
-    "generator-ibm-java-liberty": "8.0.1",
+    "generator-ibm-java-liberty": "8.0.2",
     "generator-ibm-java-spring": "2.0.1",
     "extend": "^3.0.1",
     "ibm-java-codegen-common": "3.0.1",
-    "generator-ibm-cloud-enablement": "0.7.0",
+    "generator-ibm-cloud-enablement": "0.8.1",
     "generator-ibm-service-enablement": "0.7.0",
     "generator-ibm-usecase-enablement": "3.0.0",
     "yeoman-assert": "^2.2.2",
