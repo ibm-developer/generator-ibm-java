@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.2.2"></a>
+## [5.2.2](https://github.com/ibm-developer/generator-ibm-java/compare/v5.2.1...v5.2.2) (2018-01-29)
+
+
+### Bug Fixes
+
+* **templates:** Update Liberty pom.xml template ([d54f7e5](https://github.com/ibm-developer/generator-ibm-java/commit/d54f7e5))
+
+
+
 <a name="5.2.1"></a>
 ## [5.2.1](https://github.com/ibm-developer/generator-ibm-java/compare/v5.2.0...v5.2.1) (2018-01-24)
 
