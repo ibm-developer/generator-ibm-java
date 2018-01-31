@@ -1,5 +1,10 @@
 package application.rest;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -19,4 +24,14 @@ public class RootEndpoint {
       return Response.ok("{\"health\":\""+healthURL+"\",\"example\":\""+exampleURL+"\"}").build();
     }
 
+    @GET
+    @Produces({MediaType.TEXT_HTML})
+    public InputStream getIndex() {
+      try {
+        File f = new File("../../../../../classes/index.html");
+        return new FileInputStream(f);
+      } catch (FileNotFoundException e) {
+        return null;
+      }
+    }
 }

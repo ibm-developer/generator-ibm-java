@@ -26,7 +26,7 @@ class AssertBasicWeb extends AssertBx {
   assert (appName, ymlName, buildType, frameworkType, createType, cloudant, objectStorage) {
     super.assert(appName, ymlName, buildType, frameworkType, createType, cloudant, objectStorage)
     const base = frameworkType === constant.FRAMEWORK_SPRING ? 'src/main/resources/static' : 'src/main/webapp'
-    this.assertFiles(base, true, 'index.html', '/css/default.css', 'js/bundle.js')
+    this.assertFiles(base, true, 'index.html')
     framework.test(frameworkType).assertSourceFiles(false)
   }
 
@@ -52,7 +52,6 @@ class AssertBasicWeb extends AssertBx {
       assert.file('src/test/java/application/EndpointTest.java')
     })
     framework.test(constant.FRAMEWORK_SPRING).assertContent('/index.html')
-    framework.test(constant.FRAMEWORK_SPRING).assertContent('/error/404.html')
   }
 
   assertCloudant ({exists, buildType, frameworkType}) {
