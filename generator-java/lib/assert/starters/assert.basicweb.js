@@ -25,7 +25,7 @@ const tests = require('ibm-java-codegen-common')
 class AssertBasicWeb extends AssertBx {
   assert (appName, ymlName, buildType, frameworkType, createType, cloudant, objectStorage) {
     super.assert(appName, ymlName, buildType, frameworkType, createType, cloudant, objectStorage)
-    const base = frameworkType === constant.FRAMEWORK_SPRING ? 'src/main/resources/static' : 'src/main/webapp'
+    const base = frameworkType === constant.FRAMEWORK_SPRING ? 'src/main/resources/public' : 'src/main/webapp'
     this.assertFiles(base, true, 'index.html')
     framework.test(frameworkType).assertSourceFiles(false)
   }
