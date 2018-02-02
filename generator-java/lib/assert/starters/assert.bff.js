@@ -57,7 +57,6 @@ class AssertBFF extends AssertBx {
       'main/java/application/model/Product.java')
     framework.test(constant.FRAMEWORK_SPRING).assertOpenApi(true, [], buildType)
     framework.test(constant.FRAMEWORK_SPRING).assertContent('/index.html')
-    framework.test(constant.FRAMEWORK_SPRING).assertContent('/error/404.html')
     const test = tests.test(buildType)
     test.assertDependency('compile', 'org.springframework.boot', 'spring-boot-starter-web')
     test.assertDependency('compile', 'org.springframework.boot', 'spring-boot-actuator')

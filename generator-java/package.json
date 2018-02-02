@@ -9,18 +9,18 @@
     "lib"
   ],
   "dependencies": {
-    "handlebars": "^4.0.0",
-    "yeoman-generator": "^1.0.0",
-    "generator-ibm-java-liberty": "8.0.2",
-    "generator-ibm-java-spring": "2.0.1",
+    "common-codegen-tests": "2.2.3",
     "extend": "^3.0.1",
-    "ibm-java-codegen-common": "3.0.1",
     "generator-ibm-cloud-enablement": "0.8.1",
+    "generator-ibm-java-liberty": "8.1.0",
+    "generator-ibm-java-spring": "2.1.0",
     "generator-ibm-service-enablement": "0.7.0",
     "generator-ibm-usecase-enablement": "3.0.0",
+    "handlebars": "^4.0.0",
+    "ibm-java-codegen-common": "3.0.1",
     "yeoman-assert": "^2.2.2",
-    "yeoman-test": "^1.6.0",
-    "common-codegen-tests": "2.2.3"
+    "yeoman-generator": "^1.0.0",
+    "yeoman-test": "^1.6.0"
   },
   "devDependencies": {
     "coveralls": "^2.13.3",

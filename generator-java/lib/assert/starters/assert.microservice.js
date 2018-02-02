@@ -50,7 +50,6 @@ class AssertMicroservice extends AssertBx {
   assertspring () {
     super.assertspring()
     framework.test(constant.FRAMEWORK_SPRING).assertContent('/index.html')
-    framework.test(constant.FRAMEWORK_SPRING).assertContent('/error/404.html')
     it('Check that common Spring source files exist', function () {
       assert.fileContent('src/main/java/application/Info.java', 'http://localhost:8080/v1/') // standard info is there
     })
