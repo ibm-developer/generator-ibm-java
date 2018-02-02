@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.3.0"></a>
+# [5.3.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.2.2...v5.3.0) (2018-02-02)
+
+
+### Features
+
+* Return new index.html for liberty microservice ([1a4c457](https://github.com/ibm-developer/generator-ibm-java/commit/1a4c457))
+
+
+
 <a name="5.2.2"></a>
 ## [5.2.2](https://github.com/ibm-developer/generator-ibm-java/compare/v5.2.1...v5.2.2) (2018-01-29)
 
