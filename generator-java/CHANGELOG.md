@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.4.1"></a>
+## [5.4.1](https://github.com/ibm-developer/generator-ibm-java/compare/v5.4.0...v5.4.1) (2018-02-14)
+
+
+### Bug Fixes
+
+* Update Spring generator version to 2.1.2 ([8f43514](https://github.com/ibm-developer/generator-ibm-java/commit/8f43514))
+
+
+
 <a name="5.4.0"></a>
 # [5.4.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.3.0...v5.4.0) (2018-02-12)
 
