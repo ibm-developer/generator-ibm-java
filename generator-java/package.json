@@ -14,7 +14,7 @@
     "generator-ibm-cloud-enablement": "0.8.7",
     "generator-ibm-java-liberty": "8.1.1",
     "generator-ibm-java-spring": "2.1.2",
-    "generator-ibm-service-enablement": "0.8.1",
+    "generator-ibm-service-enablement": "0.7.0",
     "generator-ibm-usecase-enablement": "3.0.0",
     "handlebars": "^4.0.0",
     "ibm-java-codegen-common": "3.0.1",
