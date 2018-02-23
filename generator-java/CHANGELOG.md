@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.4.3"></a>
+## [5.4.3](https://github.com/ibm-developer/generator-ibm-java/compare/v5.4.2...v5.4.3) (2018-02-23)
+
+
+### Bug Fixes
+
+* Change cloud enablement back to 0.7.0 ([e35541d](https://github.com/ibm-developer/generator-ibm-java/commit/e35541d))
+* Update liberty generator version ([#50](https://github.com/ibm-developer/generator-ibm-java/issues/50)) ([4109877](https://github.com/ibm-developer/generator-ibm-java/commit/4109877))
+
+
+
 <a name="5.4.2"></a>
 ## [5.4.2](https://github.com/ibm-developer/generator-ibm-java/compare/v5.4.1...v5.4.2) (2018-02-21)
 
