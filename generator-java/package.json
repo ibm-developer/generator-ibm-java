@@ -11,7 +11,7 @@
   "dependencies": {
     "common-codegen-tests": "2.2.3",
     "extend": "^3.0.1",
-    "generator-ibm-cloud-enablement": "^0.8.9",
+    "generator-ibm-cloud-enablement": "alpha",
     "generator-ibm-java-liberty": "alpha",
     "generator-ibm-java-spring": "2.1.2",
     "generator-ibm-service-enablement": "0.7.0",
