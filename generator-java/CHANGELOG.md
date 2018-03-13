@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.6.0"></a>
+# [5.6.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.4.5...v5.6.0) (2018-03-09)
+
+
+### Features
+
+* Add Spring version 2.2.0 with javametrics ([74ac8ee](https://github.com/ibm-developer/generator-ibm-java/commit/74ac8ee))
+* Use version range for liberty generator ([#57](https://github.com/ibm-developer/generator-ibm-java/issues/57)) ([9931181](https://github.com/ibm-developer/generator-ibm-java/commit/9931181))
+
+
+
+<a name="5.5.0"></a>
+# [5.5.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.4.5...v5.5.0) (2018-03-06)
+
+
+### Features
+
+* Use version range for liberty generator ([#57](https://github.com/ibm-developer/generator-ibm-java/issues/57)) ([9931181](https://github.com/ibm-developer/generator-ibm-java/commit/9931181))
+
+
+
 <a name="5.4.5"></a>
 ## [5.4.5](https://github.com/ibm-developer/generator-ibm-java/compare/v5.4.4...v5.4.5) (2018-02-27)
 
