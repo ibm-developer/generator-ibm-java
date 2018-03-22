@@ -14,11 +14,24 @@ retval=$?
 if [ $retval != 0 ]; then
   exit $retval
 fi
-echo "Upgrading using standard-version"
-npm run release
-retval=$?
-if [ $retval != 0 ]; then
-  exit $retval
+
+echo "Checking if build is for prerelease or release"
+IS_PRERELEASE=`node -e "console.log(require('./package.json').prerelease);"`
+
+if [[ ! -z "${IS_PRERELEASE+x}" && "$IS_PRERELEASE" != "undefined" ]]; then
+	echo "Upgrading using standard-version for prerelease $IS_PRERELEASE"
+	npm run release --prerelease "$IS_PRERELEASE"
+	retval=$?
+	if [ $retval != 0 ]; then
+  		exit $retval
+	fi
+else 
+	echo "Upgrading using standard-version for full release"
+	npm run release 
+	retval=$?
+	if [ $retval != 0 ]; then
+  		exit $retval
+	fi
 fi
 
 echo "Determining next version"
