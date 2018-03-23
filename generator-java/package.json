@@ -28,7 +28,8 @@
     "js-yaml": "^3.10.0",
     "mocha": "^3.5.3",
     "nyc": "^11.4.1",
-    "standard-version": "^4.3.0"
+    "standard-version": "^4.3.0",
+    "xunit-file": "^1.0.0"
   },
   "scripts": {
     "test": "nyc mocha test/unit/*",
@@ -50,6 +51,7 @@
     "testopenapie2e": "nyc mocha test/endToEnd/generator.openapi.e2e.test.js",
     "testteche2e": "nyc mocha test/endToEnd/generator.technologies.e2e.test.js",
     "testcommon": "nyc mocha test/common/*",
+    "mocha": "nyc --reporter=lcov mocha test/unit/* --recursive -R xunit-file",
     "lint": "eslint .",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "prerelease": "nyc mocha test/endToEnd/generator.blank.e2e.test.js",
