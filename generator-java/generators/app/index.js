@@ -46,7 +46,7 @@ module.exports = class extends Generator {
 
     //create command line options that will be passed by YaaS
     defaults.setOptions(this)
-    logger.writeToLog(`${logId}:constructor - Options`, this.options)
+    logger.writeToLog(`${logId}:constructor - Options`, JSON.stringify(this.options))
     contexts = []
     enablementContexts = []
     this.enablementContext = new EnablementContext(contexts)
@@ -56,7 +56,6 @@ module.exports = class extends Generator {
     config = new Config(defaults)
     //overwrite any default values with those specified as options
     config.overwrite(this.options)
-
     //set values based on either defaults or passed in values
     if (config.bluemix) {
       config.appName = config.bluemix.name || config.appName
