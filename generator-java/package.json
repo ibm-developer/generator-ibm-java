@@ -12,7 +12,7 @@
     "common-codegen-tests": "2.2.3",
     "extend": "^3.0.1",
     "generator-ibm-cloud-enablement": "^0.13.0",
-    "generator-ibm-java-liberty": "^8.4.0",
+    "generator-ibm-java-liberty": "^8.5.0",
     "generator-ibm-java-spring": "2.2.0",
     "generator-ibm-service-enablement": "0.7.0",
     "generator-ibm-usecase-enablement": "3.0.0",
