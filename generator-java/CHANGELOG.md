@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.7.0"></a>
+# [5.7.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.6.1...v5.7.0) (2018-03-27)
+
+
+### Features
+
+* Minor version bump for Liberty beta support. ([#67](https://github.com/ibm-developer/generator-ibm-java/issues/67)) ([d1e69f4](https://github.com/ibm-developer/generator-ibm-java/commit/d1e69f4))
+
+
+
 <a name="5.6.1"></a>
 ## [5.6.1](https://github.com/ibm-developer/generator-ibm-java/compare/v5.6.0...v5.6.1) (2018-03-22)
 
