@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.8.1"></a>
+## [5.8.1](https://github.com/ibm-developer/generator-ibm-java/compare/v5.8.0...v5.8.1) (2018-03-28)
+
+
+### Bug Fixes
+
+* **build:** add "--" to npm run scripts to fix passing arguments ([8d87a88](https://github.com/ibm-developer/generator-ibm-java/commit/8d87a88))
+
+
+
 <a name="5.8.0"></a>
 # [5.8.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.6.1...v5.8.0) (2018-03-27)
 
