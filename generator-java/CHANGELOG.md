@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.8.3"></a>
+## [5.8.3](https://github.com/ibm-developer/generator-ibm-java/compare/v5.8.2...v5.8.3) (2018-03-30)
+
+
+### Bug Fixes
+
+* Update Liberty to 8.5.1 ([84cfdf9](https://github.com/ibm-developer/generator-ibm-java/commit/84cfdf9))
+
+
+
 <a name="5.8.2"></a>
 ## [5.8.2](https://github.com/ibm-developer/generator-ibm-java/compare/v5.8.1...v5.8.2) (2018-03-30)
 
