@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.8.2"></a>
+## [5.8.2](https://github.com/ibm-developer/generator-ibm-java/compare/v5.8.1...v5.8.2) (2018-03-30)
+
+
+### Bug Fixes
+
+* Bump Version so YAAS will pickup minor Liberty change ([2d5bbc8](https://github.com/ibm-developer/generator-ibm-java/commit/2d5bbc8))
+
+
+
 <a name="5.8.1"></a>
 ## [5.8.1](https://github.com/ibm-developer/generator-ibm-java/compare/v5.8.0...v5.8.1) (2018-03-28)
 
