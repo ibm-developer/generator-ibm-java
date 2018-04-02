@@ -2,6 +2,57 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.8.3"></a>
+## [5.8.3](https://github.com/ibm-developer/generator-ibm-java/compare/v5.8.2...v5.8.3) (2018-03-30)
+
+
+### Bug Fixes
+
+* Update Liberty to 8.5.1 ([84cfdf9](https://github.com/ibm-developer/generator-ibm-java/commit/84cfdf9))
+
+
+
+<a name="5.8.2"></a>
+## [5.8.2](https://github.com/ibm-developer/generator-ibm-java/compare/v5.8.1...v5.8.2) (2018-03-30)
+
+
+### Bug Fixes
+
+* Bump Version so YAAS will pickup minor Liberty change ([2d5bbc8](https://github.com/ibm-developer/generator-ibm-java/commit/2d5bbc8))
+
+
+
+<a name="5.8.1"></a>
+## [5.8.1](https://github.com/ibm-developer/generator-ibm-java/compare/v5.8.0...v5.8.1) (2018-03-28)
+
+
+### Bug Fixes
+
+* **build:** add "--" to npm run scripts to fix passing arguments ([8d87a88](https://github.com/ibm-developer/generator-ibm-java/commit/8d87a88))
+
+
+
+<a name="5.8.0"></a>
+# [5.8.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.6.1...v5.8.0) (2018-03-27)
+
+
+### Features
+
+* Minor version bump for Liberty beta support. ([#67](https://github.com/ibm-developer/generator-ibm-java/issues/67)) ([d1e69f4](https://github.com/ibm-developer/generator-ibm-java/commit/d1e69f4))
+* Update Liberty to 8.5.0 ([2677887](https://github.com/ibm-developer/generator-ibm-java/commit/2677887))
+
+
+
+<a name="5.7.0"></a>
+# [5.7.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.6.1...v5.7.0) (2018-03-27)
+
+
+### Features
+
+* Minor version bump for Liberty beta support. ([#67](https://github.com/ibm-developer/generator-ibm-java/issues/67)) ([d1e69f4](https://github.com/ibm-developer/generator-ibm-java/commit/d1e69f4))
+
+
+
 <a name="5.6.1"></a>
 ## [5.6.1](https://github.com/ibm-developer/generator-ibm-java/compare/v5.6.0...v5.6.1) (2018-03-22)
 

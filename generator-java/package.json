@@ -1,6 +1,6 @@
 {
   "name": "generator-ibm-java",
-  "version": "5.6.1",
+  "version": "5.8.3",
   "description": "Java code generation and modification",
   "license": "Apache-2.0",
   "main": "index.js",
@@ -11,8 +11,8 @@
   "dependencies": {
     "common-codegen-tests": "2.2.3",
     "extend": "^3.0.1",
-    "generator-ibm-cloud-enablement": "^0.8.9",
-    "generator-ibm-java-liberty": "8.1.2",
+    "generator-ibm-cloud-enablement": "^0.13.0",
+    "generator-ibm-java-liberty": "8.5.1",
     "generator-ibm-java-spring": "2.2.0",
     "generator-ibm-service-enablement": "0.7.0",
     "generator-ibm-usecase-enablement": "3.0.0",
@@ -73,6 +73,7 @@
     "Adam Pilkington",
     "Kate Stanley",
     "Erin Schnabel",
-    "Quan Vo"
+    "Quan Vo",
+    "Paul Bennett"
   ]
 }

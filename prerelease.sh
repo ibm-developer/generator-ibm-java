@@ -20,7 +20,7 @@ IS_PRERELEASE=`node -e "console.log(require('./package.json').prerelease);"`
 
 if [[ ! -z "${IS_PRERELEASE+x}" && "$IS_PRERELEASE" != "undefined" ]]; then
 	echo "Upgrading using standard-version for prerelease $IS_PRERELEASE"
-	npm run release --prerelease "$IS_PRERELEASE"
+	npm run release -- --prerelease "$IS_PRERELEASE"
 	retval=$?
 	if [ $retval != 0 ]; then
   		exit $retval

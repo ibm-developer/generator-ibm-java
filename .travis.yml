@@ -17,7 +17,3 @@ before_install:
 script:
   - ../build.sh
   - ../deploy.sh
-# Pull request builds and push builds only run when the target branch is one of these:
-branches:
-  only:
-    - master
