@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.9.0"></a>
+# [5.9.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.8.3...v5.9.0) (2018-04-02)
+
+
+### Features
+
+* Adding needed changes for devops insights. also updating liberty/spring dependencies ([655363e](https://github.com/ibm-developer/generator-ibm-java/commit/655363e))
+
+
+
 <a name="5.8.3"></a>
 ## [5.8.3](https://github.com/ibm-developer/generator-ibm-java/compare/v5.8.2...v5.8.3) (2018-03-30)
 
