@@ -27,12 +27,13 @@
     "eslint": "^4.19.1",
     "js-yaml": "^3.11.0",
     "mocha": "^3.5.3",
+    "mocha-multi-reporters": "^1.1.7",
     "nyc": "^11.6.0",
     "standard-version": "^4.3.0",
     "xunit-file": "^1.0.0"
   },
   "scripts": {
-    "test": "nyc mocha test/unit/*",
+    "test": "nyc --reporter=lcov mocha test/unit/* --reporter mocha-multi-reporters --reporter-options configFile=config.json",
     "testint": "nyc mocha test/integration/*",
     "teste2e": "nyc mocha test/endToEnd/*",
     "testenable": "nyc mocha test/integration/generator.enable.test.js",
@@ -51,7 +52,7 @@
     "testopenapie2e": "nyc mocha test/endToEnd/generator.openapi.e2e.test.js",
     "testteche2e": "nyc mocha test/endToEnd/generator.technologies.e2e.test.js",
     "testcommon": "nyc mocha test/common/*",
-    "mocha": "nyc --reporter=lcov mocha test/unit/* --recursive -R xunit-file",
+    "mocha": "nyc --reporter=lcov mocha test/unit/* --reporter mocha-multi-reporters --reporter-options configFile=config.json",
     "lint": "eslint .",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "prerelease": "nyc mocha test/endToEnd/generator.blank.e2e.test.js",
