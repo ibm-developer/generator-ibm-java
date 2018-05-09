@@ -1,6 +1,6 @@
 {
   "name": "generator-ibm-java",
-  "version": "5.9.1",
+  "version": "5.10.0",
   "description": "Java code generation and modification",
   "license": "Apache-2.0",
   "main": "index.js",

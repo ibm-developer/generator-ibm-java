@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.10.0"></a>
+# [5.10.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.9.1...v5.10.0) (2018-05-09)
+
+
+### Features
+
+* Update Liberty and Spring to use new codegen URL ([e44d70a](https://github.com/ibm-developer/generator-ibm-java/commit/e44d70a))
+
+
+
 <a name="5.9.1"></a>
 ## [5.9.1](https://github.com/ibm-developer/generator-ibm-java/compare/v5.9.0...v5.9.1) (2018-04-04)
 
