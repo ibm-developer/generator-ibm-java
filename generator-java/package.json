@@ -11,16 +11,17 @@
   "dependencies": {
     "common-codegen-tests": "2.2.3",
     "extend": "^3.0.1",
-    "generator-ibm-cloud-enablement": "^0.13.0",
-    "generator-ibm-java-liberty": "8.5.2",
-    "generator-ibm-java-spring": "2.2.1",
+    "generator-ibm-cloud-enablement": "^0.13.7",
+    "generator-ibm-java-liberty": "8.6.2",
+    "generator-ibm-java-spring": "2.2.3",
     "generator-ibm-service-enablement": "0.7.0",
     "generator-ibm-usecase-enablement": "3.0.0",
     "handlebars": "^4.0.0",
     "ibm-java-codegen-common": "3.0.1",
+    "npm": "^6.0.1",
     "yeoman-assert": "^2.2.2",
     "yeoman-generator": "^1.0.0",
-    "yeoman-test": "^1.6.0"
+    "yeoman-test": "^1.7.2"
   },
   "devDependencies": {
     "coveralls": "^2.13.3",
@@ -28,7 +29,7 @@
     "js-yaml": "^3.11.0",
     "mocha": "^3.5.3",
     "mocha-multi-reporters": "^1.1.7",
-    "nyc": "^11.6.0",
+    "nyc": "^11.8.0",
     "standard-version": "^4.3.0",
     "xunit-file": "^1.0.0"
   },
