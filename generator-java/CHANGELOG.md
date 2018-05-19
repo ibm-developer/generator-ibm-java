@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.11.0"></a>
+# [5.11.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.10.0...v5.11.0) (2018-05-19)
+
+
+### Features
+
+* Merge branch 'master' of https://github.com/trishamoyer/generator-ibm-java ([561849a](https://github.com/ibm-developer/generator-ibm-java/commit/561849a))
+* updating package.json ([8824476](https://github.com/ibm-developer/generator-ibm-java/commit/8824476))
+* updating the java spring and liberty versions ([692820c](https://github.com/ibm-developer/generator-ibm-java/commit/692820c))
+
+
+
 <a name="5.10.0"></a>
 # [5.10.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.9.1...v5.10.0) (2018-05-09)
 
