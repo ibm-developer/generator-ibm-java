@@ -4,9 +4,8 @@ env:
   mocha: true
 
 rules:
-  strict: 2
+  strict: 0
   no-var: 2
   no-console: 0
-  indent: ["error", 2, { "SwitchCase": 1}]
 
 extends: eslint:recommended

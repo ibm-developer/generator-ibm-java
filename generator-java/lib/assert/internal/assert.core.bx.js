@@ -141,7 +141,7 @@ class AssertBx extends Assert {
       })
       it('should create file ' + constant.LOCALDEV_FILE + ' with Object Storage credentials', function () {
         assert.fileContent(constant.LOCALDEV_FILE, '"object_storage_project": "objectStorage-project"')
-        assert.fileContent(constant.LOCALDEV_FILE, '"object_storage_user_id": "objectStorage-userId"')
+        assert.fileContent(constant.LOCALDEV_FILE, '"object_storage_userId": "objectStorage-userId"')
         assert.fileContent(constant.LOCALDEV_FILE, '"object_storage_password": "objectStorage-password"')
         assert.fileContent(constant.LOCALDEV_FILE, '"object_storage_auth_url": "objectStorage-url"')
         assert.fileContent(constant.LOCALDEV_FILE, '"object_storage_domainName": "objectStorage-domainName"')
