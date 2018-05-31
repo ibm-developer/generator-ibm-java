@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.11.1"></a>
+## [5.11.1](https://github.com/ibm-developer/generator-ibm-java/compare/v5.11.0...v5.11.1) (2018-05-23)
+
+
+### Bug Fixes
+
+* **test:** Look for kube secrets in bindings.yaml ([5f65e3f](https://github.com/ibm-developer/generator-ibm-java/commit/5f65e3f)), closes [ibm-developer/generator-ibm-cloud-enablement#275](https://github.com/ibm-developer/generator-ibm-cloud-enablement/issues/275)
+
+
+
 <a name="5.11.0"></a>
 # [5.11.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.10.0...v5.11.0) (2018-05-19)
 
