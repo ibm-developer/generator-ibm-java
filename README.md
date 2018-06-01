@@ -71,3 +71,4 @@ pull request has been merged to `master` the version will be bumped and publishe
 ## More details
 
 For more detailed documentation see the [Java generator docs](https://pages.github.ibm.com/arf/java-codegen-devguide/java/intro/).
+
