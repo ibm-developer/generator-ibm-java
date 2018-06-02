@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.11.3"></a>
+## [5.11.3](https://github.com/ibm-developer/generator-ibm-java/compare/v5.11.2...v5.11.3) (2018-06-02)
+
+
+### Bug Fixes
+
+* Update Service Enablement to 1.4.1 ([b118659](https://github.com/ibm-developer/generator-ibm-java/commit/b118659))
+
+
+
 <a name="5.11.2"></a>
 ## [5.11.2](https://github.com/ibm-developer/generator-ibm-java/compare/v5.11.1...v5.11.2) (2018-06-01)
 
