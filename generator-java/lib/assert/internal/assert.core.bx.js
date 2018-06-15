@@ -160,7 +160,7 @@ class AssertBx extends Assert {
     })
     it('generates the correct value for repo.parameters.type', function () {
       const expectedValue = 'clone'
-      assert.strictEqual(data.repo.parameters.type, expectedValue, `type has wrong value '${data.repo.parameters.type}' it should be '${expectedValue}'`)
+      assert.strictEqual(data.services.repo.parameters.type, expectedValue, `type has wrong value '${data.services.repo.parameters.type}' it should be '${expectedValue}'`)
     })
   }
 
@@ -173,7 +173,7 @@ class AssertBx extends Assert {
     })
     it('generates the correct value for repo.parameters.type', function () {
       const expectedValue = 'link'
-      assert.strictEqual(data.repo.parameters.type, expectedValue, `type has wrong value '${data.repo.parameters.type}' it should be '${expectedValue}'`)
+      assert.strictEqual(data.services.repo.parameters.type, expectedValue, `type has wrong value '${data.services.repo.parameters.type}' it should be '${expectedValue}'`)
     })
   }
 }

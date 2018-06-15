@@ -34,7 +34,7 @@ class Options extends core.Options {
       buildType: buildType,
       frameworkType: framework,
       createType: 'enable/' + framework,
-      services: ['none'],
+      services: [],
       appName : constant.APPNAME
     })
   }
