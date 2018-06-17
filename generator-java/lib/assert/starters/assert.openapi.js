@@ -49,11 +49,7 @@ class AssertOpenAPI extends AssertBx {
       framework.test(constant.FRAMEWORK_LIBERTY).assertFeatures('jaxrs-2.0')
       framework.test(constant.FRAMEWORK_LIBERTY).assertConfig(true, 'basicRegistry')
     }
-    if (createType === 'blank/liberty') {
-      framework.test(constant.FRAMEWORK_LIBERTY).assertSourceFiles(true)
-    } else {
-      framework.test(constant.FRAMEWORK_LIBERTY).assertSourceFiles(false)
-    }
+    framework.test(constant.FRAMEWORK_LIBERTY).assertSourceFiles(false)
   }
 }
 
