@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.12.1"></a>
+## [5.12.1](https://github.com/ibm-developer/generator-ibm-java/compare/v5.12.0...v5.12.1) (2018-07-05)
+
+
+### Bug Fixes
+
+* **vsi:** updated cloud enablement to 1.1.2 ([4231f08](https://github.com/ibm-developer/generator-ibm-java/commit/4231f08))
+* **vsi:** updated cloud enablement to 1.1.3 ([a34e8d3](https://github.com/ibm-developer/generator-ibm-java/commit/a34e8d3))
+* **vsi:** updated cloud enablement to 1.1.4 ([530793c](https://github.com/ibm-developer/generator-ibm-java/commit/530793c))
+
+
+
 <a name="5.12.0"></a>
 # [5.12.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.11.8...v5.12.0) (2018-07-05)
 
