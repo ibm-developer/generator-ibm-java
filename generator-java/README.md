@@ -2,7 +2,7 @@
 This is a [yeoman generator](http://yeoman.io/) that will create Java code for you.
 
 
-[![IBM Cloud powered][img-cloud-powered]][url-bluemix]
+[![IBM Cloud powered][img-ibmcloud-powered]][url-cloud]
 [![Travis][img-travis]][url-travis]
 [![Coveralls][img-coveralls-master]][url-coveralls-master]
 [![Codacy][img-codacy]][url-codacy]
@@ -12,8 +12,8 @@ This is a [yeoman generator](http://yeoman.io/) that will create Java code for y
 [![License][img-license]][url-npm]
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
-[img-cloud-powered]: https://img.shields.io/badge/ibmcloud-powered-blue.svg
-[url-bluemix]: http://bluemix.net
+[img-ibmcloud-powered]: https://img.shields.io/badge/IBM%20Cloud-powered-blue.svg
+[url-cloud]: http://bluemix.net
 
 [img-travis]: https://travis-ci.org/ibm-developer/generator-ibm-java.svg?branch=master
 [url-travis]: https://travis-ci.org/ibm-developer/generator-ibm-java
