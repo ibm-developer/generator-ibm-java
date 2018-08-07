@@ -1,5 +1,11 @@
 #!/bin/bash
 echo "Build script : version 0.0.3"
+
+echo
+echo ENVIRONMENT VARS:
+echo
+env
+
 echo "Running linter"
 npm run lint
 retval=$?
