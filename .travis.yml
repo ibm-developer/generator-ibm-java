@@ -18,4 +18,4 @@ before_install:
   - npm install
 script:
   - ../build.sh
-#  - ../deploy.sh
+##  - ../deploy.sh
