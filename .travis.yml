@@ -12,10 +12,10 @@ before_install:
   - tar -xvf helm-v2.7.2-linux-amd64.tar.gz
   - export PATH=$GRADLE_HOME/bin:$PWD/hub-linux-386-2.2.9/bin/:$PWD/linux-amd64:$PATH
   - gradle -v
-  - nvm install 6.9.1
+install:
+  - nvm install 8.9.4
   - cd ./generator-java
-  - npm i -g makeshift && makeshift -r https://registry.npmjs.org
-  - npm install
+  - ../install.sh
 script:
   - ../build.sh
   - ../deploy.sh
