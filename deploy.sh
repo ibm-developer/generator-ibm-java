@@ -19,6 +19,7 @@ if [[ $TRAVIS_BRANCH == "master" ]]; then
       fi
     else
       echo "Version numbers don't match, so publishing to the registry"
+      npm i -g makeshift && makeshift -r https://registry.npmjs.org
       npm publish
     fi
   fi
