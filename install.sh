@@ -54,10 +54,14 @@ echo
 cd generator-ibm-java-liberty/generator-liberty
 npm install && npm link && cd -
 echo
-echo Install Java generator, install dependencies via relative paths
+echo Install Java generator
 echo
 cd generator-java
-npm install . \
+npm install
+echo
+echo Install sub-generator dependencies via relative paths
+echo
+npm install \
   ../generator-ibm-java-spring/generator-spring \
   ../generator-ibm-java-liberty/generator-liberty \
   ../common-codegen-tests/npm \
