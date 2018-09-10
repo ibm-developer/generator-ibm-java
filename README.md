@@ -50,7 +50,7 @@ The generator works by taking the answers that the user has supplied, either via
 
 ### Building and running the generator
 
-1. Clone this repository and navigate to *java-codegen-yeoman/generator-java*
+1. Clone this repository and navigate to *generator-ibm-java/generator-java*
 2. Run ```npm install``` in *generator-java* to install all of the node modules
 3. Run ```npm link``` in *generator-java* to link the local java yeoman generator (see [here](http://yeoman.io/authoring/index.html) for more details
 4. Run ```yo ibm-java``` to test the generator
