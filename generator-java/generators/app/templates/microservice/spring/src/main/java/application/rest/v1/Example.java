@@ -32,10 +32,10 @@ import org.openstack4j.model.storage.object.SwiftAccount;
 public class Example {
 
   {{#bluemix}}
-  {{#cloudant}}
+  {{#if cloudant.length}}
     @Autowired
     private CloudantClient client;
-  {{/cloudant}}
+  {{/if}}
   {{#objectStorage}}
     @Autowired
     private OSClient.OSClientV3 os;
@@ -55,7 +55,7 @@ public class Example {
     }
 
   {{#bluemix}}
-  {{#cloudant}}
+  {{#if cloudant.length}}
     @RequestMapping("v1/cloudant")
     public @ResponseBody ResponseEntity<String> cloudant(){
         List<String> list = new ArrayList<>();
@@ -67,7 +67,7 @@ public class Example {
         return new ResponseEntity<String>("Available databases : " + list.toString(), HttpStatus.OK);
     }
 
-  {{/cloudant}}
+  {{/if}}
   {{#objectStorage}}
     public @ResponseBody ResponseEntity<String> objectstorage(){
         //cannot use the injected client directly as it was created on a different thread, so create a new one
