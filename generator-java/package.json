@@ -35,7 +35,7 @@
     "xunit-file": "^1.0.0"
   },
   "scripts": {
-    "test": "nyc --reporter=lcov mocha test/unit/* --reporter mocha-multi-reporters --reporter-options configFile=config.json",
+    "test": "nyc --reporter=lcov mocha test/* --reporter mocha-multi-reporters --reporter-options configFile=config.json",
     "testint": "nyc mocha test/integration/*",
     "teste2e": "nyc mocha test/endToEnd/*",
     "testenable": "nyc mocha test/integration/generator.enable.test.js",
