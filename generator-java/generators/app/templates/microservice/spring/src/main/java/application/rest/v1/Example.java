@@ -17,9 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 {{#mongodb}}
 import org.springframework.data.mongodb.core.MongoTemplate;
 {{/mongodb}}
-{{#cloudant}}
+{{#if cloudant.length}}
 import com.cloudant.client.api.CloudantClient;
-{{/cloudant}}
+{{/if}}
 {{#objectStorage}}
 import org.openstack4j.openstack.OSFactory;
 import org.openstack4j.api.OSClient;

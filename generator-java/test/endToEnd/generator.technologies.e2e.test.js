@@ -47,7 +47,7 @@ function Options(createType, buildType, testBluemix, technologies) {
 
 describe('java generator : technologies end to end test', function () {
   this.timeout(7000);
-  const buildTypes = ['gradle', 'maven'];
+  const buildTypes = [/*'gradle',*/ 'maven'];
   for (let i = 0; i < buildTypes.length; i++) {
     describe('Generates a project with springbootweb technology type and build type ' + buildTypes[i], function () {
       const technologies = ['springbootweb'];
