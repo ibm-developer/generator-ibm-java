@@ -42,18 +42,20 @@ class AssertBx extends Assert {
     this.assertManifestYml(ymlName, cloudant || objectStorage)
     this.assertCloudant({exists: cloudant, buildType: buildType, frameworkType: frameworkType})
     this.assertObjectStorage({exists: objectStorage, buildType: buildType, frameworkType: frameworkType})
-    this.assertBluemixSrc(cloudant || objectStorage)
+    this.assertBluemixSrc(cloudant || objectStorage, frameworkType)
     framework.test(frameworkType).assertCloudant(cloudant)
     framework.test(frameworkType).assertObjectStorage(objectStorage)
     kube.test(appName, true, frameworkType, createType, cloudant, objectStorage)
   }
 
   // asserts that there are / are not source code files for bluemix
-  assertBluemixSrc (exists) {
+  assertBluemixSrc (exists, frameworkType) {
     const check = this.getCheck(exists)
     it(check.desc + 'source code files for bluemix using service enablement generator', function () {
-      check.file('src/main/java/application/ibmcloud/CloudServicesException.java')
-      check.file('src/main/java/application/ibmcloud/CloudServices.java')
+      if(frameworkType === constant.FRAMEWORK_LIBERTY) {
+        check.file('src/main/java/application/ibmcloud/CloudServicesException.java')
+        check.file('src/main/java/application/ibmcloud/CloudServices.java')
+      }
     })
   }
 
@@ -123,8 +125,8 @@ class AssertBx extends Assert {
     const check = this.getCheck(exists)
     it(check.desc + 'manifest yml service entries', function () {
       check.content('manifest.yml', 'services:')
-      check.content('manifest.yml', 'host: host')
-      check.content('manifest.yml', 'domain: mybluemix.net')
+      //check.content('manifest.yml', 'host: host')
+      //check.content('manifest.yml', 'domain: mybluemix.net')
     })
   }
 

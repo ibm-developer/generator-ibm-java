@@ -22,6 +22,7 @@ const testAsserts = require('../../index').testAsserts;
 const assert = testAsserts.builds;
 const constant = testAsserts.constant;
 const helpers = require('yeoman-test');
+const yoassert = require('yeoman-assert');
 const path = require('path');
 
 function Options(buildType, framework) {
@@ -33,6 +34,10 @@ function Options(buildType, framework) {
     groupId: constant.GROUPID,
     artifactId: constant.ARTIFACTID,
     version: constant.VERSION,
+    deploymentRegion : constant.DEPLOYMENT_REGION,
+    deploymentOrg : constant.DEPLOYMENT_ORG,
+    deploymentSpace : constant.DEPLOYMENT_SPACE,
+    toolchainName : constant.TOOLCHAIN_NAME,
     bluemix: {
       backendPlatform: platform
     }
@@ -45,7 +50,7 @@ function Options(buildType, framework) {
   }
 }
 
-const buildTypes = ['gradle', 'maven'];
+const buildTypes = ['maven'];
 
 describe('java generator : microservice/liberty end to end test', function () {
   this.timeout(10000);
@@ -54,6 +59,9 @@ describe('java generator : microservice/liberty end to end test', function () {
       const options = new Options(buildTypes[i], constant.FRAMEWORK_LIBERTY);
       before(options.before.bind(options));
       assert.assertBuilds(buildTypes[i]);
+      it('toolchain.yml has deployment options', function () {
+        assertToolchainOptions();
+      });
     });
   }
 });
@@ -65,6 +73,17 @@ describe('java generator : microservice/spring end to end test', function () {
       const options = new Options(buildTypes[i], constant.FRAMEWORK_SPRING);
       before(options.before.bind(options));
       assert.assertBuilds(buildTypes[i]);
+      it('toolchain.yml has deployment options', function () {
+        assertToolchainOptions();
+      });
     });
   }
 });
+
+function assertToolchainOptions() {
+  yoassert.file('.bluemix/toolchain.yml');
+  yoassert.fileContent('.bluemix/toolchain.yml', 'app-name: ' + constant.TOOLCHAIN_NAME);
+  yoassert.fileContent('.bluemix/toolchain.yml', 'dev-region: "' + constant.DEPLOYMENT_REGION + '"');
+  yoassert.fileContent('.bluemix/toolchain.yml', 'dev-space: "' + constant.DEPLOYMENT_SPACE + '"');
+  yoassert.fileContent('.bluemix/toolchain.yml', 'dev-organization: "' + constant.DEPLOYMENT_ORG + '"');
+}
