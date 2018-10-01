@@ -36,6 +36,7 @@
   },
   "scripts": {
     "test": "nyc --reporter=lcov mocha test/unit/* --reporter mocha-multi-reporters --reporter-options configFile=config.json",
+    "testforinsights": "nyc --reporter=lcov mocha test/unit/* test/integration/* test/common/* test/endToEnd/* --reporter mocha-multi-reporters --reporter-options configFile=config.json",
     "testint": "nyc mocha test/integration/*",
     "teste2e": "nyc mocha test/endToEnd/*",
     "testenable": "nyc mocha test/integration/generator.enable.test.js",
