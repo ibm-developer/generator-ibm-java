@@ -32,7 +32,11 @@ const DEFAULTS = {
   bluemix : {desc : 'Bluemix options', type : (value)=>{return bluemixToObject(value);}, default : undefined},
   input : {desc : 'Input data file', type : processor.getContentsSync, default : undefined},
   platforms : {desc : 'Platforms to support in generated project', type : (value)=>{return platformsToArray(value);}, default : ['cli','bluemix','kube']},
-  javametrics : {desc : 'Enable java metrics for the project', type : String, default : undefined}
+  javametrics : {desc : 'Enable java metrics for the project', type : String, default : undefined},
+  deploymentRegion : {desc : 'Toolchain deployment region', type : String, default : undefined},
+  deploymentOrg : {desc : 'Toolchain deployment org', type : String, default : undefined},
+  deploymentSpace : {desc : 'Toolchain deployment space', type : String, default : undefined},
+  toolchainName : {desc : 'Toolchain name', type : String, default : undefined}
 };
 
 const bluemixToObject = function(value) {
