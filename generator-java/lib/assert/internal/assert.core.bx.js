@@ -125,8 +125,9 @@ class AssertBx extends Assert {
     const check = this.getCheck(exists)
     it(check.desc + 'manifest yml service entries', function () {
       check.content('manifest.yml', 'services:')
-      //check.content('manifest.yml', 'host: host')
-      //check.content('manifest.yml', 'domain: mybluemix.net')
+      // TODO: check for route
+      check.content('manifest.yml', 'host: host')
+      check.content('manifest.yml', 'domain: mybluemix.net')
     })
   }
 

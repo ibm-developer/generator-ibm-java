@@ -50,7 +50,7 @@ function Options(buildType, framework) {
   }
 }
 
-const buildTypes = ['maven'];
+const buildTypes = [/*'gradle',*/ 'maven'];
 
 describe('java generator : microservice/liberty end to end test', function () {
   this.timeout(10000);
