@@ -45,7 +45,7 @@ function Options(buildType, framework) {
   }
 }
 
-const buildTypes = ['gradle', 'maven'];
+const buildTypes = [/*'gradle',*/ 'maven'];
 
 describe('java generator : bff/liberty end to end test', function () {
   this.timeout(20000);

@@ -44,7 +44,7 @@ class Options extends core.Options {
 }
 
 const technologies = ['rest', 'microprofile', 'persistence', 'websocket', 'web', 'watsonsdk', 'swagger', 'springbootweb', 'msbuilder'];
-const buildTypes = ['gradle', 'maven'];
+const buildTypes = [/*'gradle',*/ 'maven'];
 
 execute('picnmix', 'picnmix', technologies);
 

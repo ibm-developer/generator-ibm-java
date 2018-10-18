@@ -37,5 +37,9 @@ module.exports = exports = {
   GROUPID: 'test.group',
   TOOLCHAIN_YML: '.bluemix/toolchain.yml',
   LOCALDEV_FILE: 'src/main/resources/localdev-config.json',
-  VERSION: '1.0.0'
+  VERSION: '1.0.0',
+  DEPLOYMENT_REGION : '{{deploymentRegion}}',
+  DEPLOYMENT_ORG : '{{deploymentOrg}}',
+  DEPLOYMENT_SPACE : '{{deploymentSpace}}',
+  TOOLCHAIN_NAME : 'toolchainName'
 }
