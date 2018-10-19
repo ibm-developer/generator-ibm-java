@@ -20,9 +20,6 @@ coverage
 # xunit test output
 generator-java/xunit.xml
 
-# package lock
-generator-java/package-lock.json
-
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
