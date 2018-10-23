@@ -1,25 +1,25 @@
-language: java
-jdk:
-  - oraclejdk8
+language: node_js
+node_js:
+- '8'
 before_install:
-  - wget http://services.gradle.org/distributions/gradle-3.5-bin.zip
-  - wget https://github.com/github/hub/releases/download/v2.2.9/hub-linux-386-2.2.9.tgz
-  - wget https://kubernetes-helm.storage.googleapis.com/helm-v2.7.2-linux-amd64.tar.gz
-  - shasum -a 256 -c ./sha256.txt
-  - unzip -qq gradle-3.5-bin.zip
-  - tar -xvzf hub-linux-386-2.2.9.tgz
-  - export GRADLE_HOME=$PWD/gradle-3.5
-  - tar -xvf helm-v2.7.2-linux-amd64.tar.gz
-  - export PATH=$GRADLE_HOME/bin:$PWD/hub-linux-386-2.2.9/bin/:$PWD/linux-amd64:$PATH
-  - gradle -v
-install:
-  - nvm install 8.9.4
-  - cd ./generator-java
-  - ../install.sh
-script:
-  - ../build.sh
-  - ../deploy.sh
+- npm i -g makeshift && makeshift -r https://registry.npmjs.org
+- npm i -g standard-version
+before_script:
+- cd /tmp
+- wget https://github.com/github/hub/releases/download/v2.5.1/hub-linux-386-2.5.1.tgz
+- wget http://services.gradle.org/distributions/gradle-3.5-bin.zip
+- tar -xvzf hub-linux-386-2.5.1.tgz
+- unzip -qq gradle-3.5-bin.zip
+- mv hub-linux-386-2.5.1 hub
+- export GRADLE_HOME=$PWD/gradle-3.5
+- export PATH=${PATH}:$GRADLE_HOME/bin:/tmp/hub/bin:$PWD/linux-amd64
+- gradle -v
+- cd $TRAVIS_BUILD_DIR/generator-java
+- git clone -b master https://github.com/ibm-developer/standard-npm-devops.git
+script: npm test && npm run coveralls && /standard-npm-devops/do_devops.sh
 branches:
   only:
-  - develop
   - master
+  - develop
+env:
+  - DEV_BRANCH=develop PROD_BRANCH=master DEVOPS_SCRIPT_DIR="/tmp/standard-npm-devops"
