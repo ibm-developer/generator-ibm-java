@@ -3,7 +3,7 @@ jdk:
   - oraclejdk8
 before_install:
   - nvm install 8.9.4
-  - cd ./generator-liberty
+  - cd ./generator-java
   - npm i -g makeshift && makeshift -r https://registry.npmjs.org
   - npm i -g standard-version
 install:
@@ -19,7 +19,7 @@ before_script:
   - export PATH=$GRADLE_HOME/bin:/tmp/hub/bin:$PATH
   - gradle -v
   - git clone -b master https://github.com/ibm-developer/standard-npm-devops.git
-  - cd $TRAVIS_BUILD_DIR/generator-liberty
+  - cd $TRAVIS_BUILD_DIR/generator-java
 script:
   - npm run lint
   - npm test
