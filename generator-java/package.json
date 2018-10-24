@@ -18,15 +18,16 @@
     "generator-ibm-usecase-enablement": "^3.2.7",
     "handlebars": "^4.0.0",
     "ibm-java-codegen-common": "^3.0.3",
-    "npm": "^6.0.1",
     "yeoman-assert": "^2.2.2",
     "yeoman-generator": "^3.1.1",
     "yeoman-test": "^1.7.2"
   },
   "devDependencies": {
+    "bluebird": "^3.5.2",
     "coveralls": "^3.0.1",
     "eslint": "^4.19.1",
     "eslint-plugin-ejs": "0.0.2",
+    "fs-extra": "^7.0.0",
     "js-yaml": "^3.11.0",
     "mocha": "^5.2.0",
     "mocha-multi-reporters": "^1.1.7",
@@ -59,7 +60,9 @@
     "lint": "eslint .",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "prerelease": "nyc mocha test/endToEnd/generator.blank.e2e.test.js",
-    "release": "standard-version"
+    "release": "standard-version",
+    "install_linked_dependencies": "node ./install_linked_dependencies",
+    "update_linked_dependencies": "node ./update_linked_dependencies"
   },
   "repository": {
     "type": "git",
