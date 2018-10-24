@@ -1,22 +1,31 @@
-language: node_js
-node_js:
-- '8'
+language: java
+jdk:
+  - oraclejdk8
 before_install:
-- npm i -g makeshift && makeshift -r https://registry.npmjs.org
-- npm i -g standard-version
+  - nvm install 8.9.4
+  - cd ./generator-liberty
+  - npm i -g makeshift && makeshift -r https://registry.npmjs.org
+  - npm i -g standard-version
+install:
+  - npm install
 before_script:
-- cd /tmp
-- wget https://github.com/github/hub/releases/download/v2.5.1/hub-linux-386-2.5.1.tgz
-- wget http://services.gradle.org/distributions/gradle-3.5-bin.zip
-- tar -xvzf hub-linux-386-2.5.1.tgz
-- unzip -qq gradle-3.5-bin.zip
-- mv hub-linux-386-2.5.1 hub
-- export GRADLE_HOME=$PWD/gradle-3.5
-- export PATH=${PATH}:$GRADLE_HOME/bin:/tmp/hub/bin:$PWD/linux-amd64
-- gradle -v
-- cd $TRAVIS_BUILD_DIR/generator-java
-- git clone -b master https://github.com/ibm-developer/standard-npm-devops.git
-script: npm test && npm run coveralls && /standard-npm-devops/do_devops.sh
+  - cd /tmp
+  - wget http://services.gradle.org/distributions/gradle-3.5-bin.zip
+  - unzip -qq gradle-3.5-bin.zip
+  - export GRADLE_HOME=/tmp/gradle-3.5
+  - wget https://github.com/github/hub/releases/download/v2.5.1/hub-linux-386-2.5.1.tgz
+  - tar -xvzf hub-linux-386-2.5.1.tgz
+  - mv hub-linux-386-2.5.1 hub
+  - export PATH=$GRADLE_HOME/bin:/tmp/hub/bin:$PATH
+  - gradle -v
+  - git clone -b master https://github.com/ibm-developer/standard-npm-devops.git
+  - cd $TRAVIS_BUILD_DIR/generator-liberty
+script:
+  - npm run lint
+  - npm test
+  - npm run testint
+  - npm run coveralls
+  - /tmp/standard-npm-devops/do_devops.sh
 branches:
   only:
   - master
