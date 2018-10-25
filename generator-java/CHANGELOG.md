@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.12.5"></a>
+## [5.12.5](https://github.com/ibm-developer/generator-ibm-java/compare/v5.12.4...v5.12.5) (2018-10-19)
+
+
+### Bug Fixes
+
+* Add toolchain options to Java ([7719c75](https://github.com/ibm-developer/generator-ibm-java/commit/7719c75))
+* Don't duplicate cloudant code in Example.java ([560fdb0](https://github.com/ibm-developer/generator-ibm-java/commit/560fdb0))
+* don't gitignore package-lock.json ([8954395](https://github.com/ibm-developer/generator-ibm-java/commit/8954395))
+* update readme typo ([8a64594](https://github.com/ibm-developer/generator-ibm-java/commit/8a64594))
+
+
+
 <a name="5.12.4"></a>
 ## [5.12.4](https://github.com/ibm-developer/generator-ibm-java/compare/v5.12.3...v5.12.4) (2018-08-14)
 
