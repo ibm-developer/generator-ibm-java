@@ -1,0 +1,41 @@
+[
+  {
+    "name": "generator-ibm-java-liberty",
+    "repo": "https://github.com/ibm-developer/generator-ibm-java-liberty.git",
+    "npm_dir": "generator-ibm-java-liberty/generator-liberty",
+    "dependencies": [
+      "ibm-java-codegen-common"
+    ]
+  },
+  {
+    "name": "generator-ibm-java-spring",
+    "repo": "https://github.com/ibm-developer/generator-ibm-java-spring.git",
+    "npm_dir": "generator-ibm-java-spring/generator-spring",
+    "dependencies": [
+      "ibm-java-codegen-common"
+    ]
+  },
+  {
+    "name": "common-codegen-tests",
+    "repo": "https://github.com/ibm-developer/common-codegen-tests.git",
+    "npm_dir": "common-codegen-tests/npm"
+  },
+  {
+    "name": "java-codegen-common",
+    "repo": "https://github.com/ibm-developer/java-codegen-common.git",
+    "npm_dir": "java-codegen-common/npm",
+    "package_name": "ibm-java-codegen-common"
+  },
+  {
+    "name": "generator-ibm-cloud-enablement",
+    "repo": "https://github.com/ibm-developer/generator-ibm-cloud-enablement.git"
+  },
+  {
+    "name": "generator-ibm-service-enablement",
+    "repo": "https://github.com/ibm-developer/generator-ibm-service-enablement.git"
+  },
+  {
+    "name": "generator-ibm-usecase-enablement",
+    "repo": "https://github.com/ibm-developer/generator-ibm-usecase-enablement.git"
+  }
+]
