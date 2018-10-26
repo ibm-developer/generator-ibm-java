@@ -35,4 +35,4 @@ branches:
   - master
   - develop
 env:
-  - DEV_BRANCH=develop PROD_BRANCH=master DEVOPS_SCRIPT_DIR="/tmp/standard-npm-devops" BEFORE_VERSION_BUMP="cd generator-java && npm run update_linked_dependencies && cd -"
+  - DEV_BRANCH=develop PROD_BRANCH=master DEVOPS_SCRIPT_DIR="/tmp/standard-npm-devops" BEFORE_VERSION_BUMP="npm run update_linked_dependencies"
