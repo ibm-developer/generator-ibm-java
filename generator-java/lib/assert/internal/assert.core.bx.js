@@ -24,7 +24,7 @@ const assert = require('yeoman-assert')
 const fs = require('fs')
 const path = require('path')
 const yml = require('js-yaml')
-const tests = require('ibm-java-codegen-common')
+const tests = require('../../../lib/common')
 
 class AssertBx extends Assert {
   getCheck (exists) {

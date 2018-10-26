@@ -20,7 +20,7 @@ const AssertBx = require('../internal/assert.core.bx')
 const constant = require('../constant')
 const framework = require('../assert.framework')
 const assert = require('yeoman-assert')
-const tests = require('ibm-java-codegen-common')
+const tests = require('../../../lib/common')
 
 class AssertBFF extends AssertBx {
   assert (appName, ymlName, buildType, frameworkType, createType, cloudant, objectStorage) {

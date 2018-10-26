@@ -19,7 +19,7 @@
 const assert = require('yeoman-assert');
 const constant = require('../constant');
 const framework = require('../assert.framework');
-const tests = require('ibm-java-codegen-common');
+const tests = require('../../../lib/common');
 const command = tests.test('command');
 
 class Assert {

@@ -1,0 +1,38 @@
+<server description="Sample Liberty server">
+
+  <featureManager>
+      {{#each frameworkDependencies}}
+      <feature>{{this.feature}}</feature>
+      {{/each}}
+  </featureManager>
+
+  <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
+      id="defaultHttpEndpoint" host="*" />
+
+  {{#has createType 'bff/liberty'}}
+  <keyStore id="defaultKeyStore"/>
+
+  <basicRegistry id="basic" realm="ibm/api">
+      <user name="guest" password="password" />
+  </basicRegistry>
+  {{/has}}
+  {{#has technologies 'swagger'}}
+  <keyStore id="defaultKeyStore"/>
+
+  <basicRegistry id="basic" realm="ibm/api">
+      <user name="guest" password="password" />
+  </basicRegistry>
+  {{/has}}
+
+  {{#each jndiEntries}}
+    <jndiEntry jndiName="{{name}}" value="{{value}}"/>
+  {{/each}}
+
+  <!-- Automatically expand WAR files and EAR files -->
+  <applicationManager autoExpand="true"/>
+
+  <applicationMonitor pollingRate="1000ms"/>
+
+  <webApplication name="{{artifactId}}" location="${app.location}"/>
+
+</server>

@@ -25,7 +25,7 @@ const yml = require('js-yaml')
 const Defaults = require('../lib/defaults')
 const EnablementContext = require('../lib/enablementContext')
 
-const common = require('ibm-java-codegen-common')
+const common = require('../../lib/common')
 const Config = common.config
 const processor = common.fsprocessor
 const Context = common.context
@@ -84,8 +84,8 @@ module.exports = class extends Generator {
     logger.writeToLog(`${logId}:initializing - Set config.templateRoot to`, config.templateRoot)
     config.projectPath = fspath.resolve(this.destinationRoot())
     logger.writeToLog(`${logId}:initializing - Set config.projectPath to`, config.projectPath)
-    this._addContext('generator-ibm-java-liberty')
-    this._addContext('generator-ibm-java-spring')
+    this._addLocalContext('liberty')
+    this._addLocalContext('spring')
     this._addEnablementContext()
     this.recognisedPattern = fs.existsSync(this.templatePath(config.createType))
   }
@@ -124,6 +124,15 @@ module.exports = class extends Generator {
     return context
   }
 
+  _addLocalContext (name) {
+    const context = new Context(name, config)   //use the name for the context ID
+    this.options.context = context
+    this.composeWith(require.resolve('../' + name), this.options)
+    contexts.push(context)
+    this.options.context = undefined
+    return context
+  }
+
   prompting () {
     //this generator does not prompt, questions can be set in the prompts directory for testing purposes
   }
@@ -143,7 +152,6 @@ module.exports = class extends Generator {
 
     config.genVersions = {
       'generator-ibm-java': pkg.version,
-      'ibm-java-codegen-common': pkg.dependencies['ibm-java-codegen-common'],
       'generator-ibm-service-enablement': pkg.dependencies['generator-ibm-service-enablement'],
       'generator-ibm-cloud-enablement': pkg.dependencies['generator-ibm-cloud-enablement']
     }
