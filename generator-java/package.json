@@ -1,6 +1,6 @@
 {
   "name": "generator-ibm-java",
-  "version": "5.12.5",
+  "version": "5.12.6",
   "description": "Java code generation and modification",
   "license": "Apache-2.0",
   "main": "index.js",
@@ -12,21 +12,22 @@
     "common-codegen-tests": "2.2.3",
     "extend": "^3.0.1",
     "generator-ibm-cloud-enablement": "1.3.7",
-    "generator-ibm-java-liberty": "8.6.4",
-    "generator-ibm-java-spring": "2.3.1",
+    "generator-ibm-java-liberty": "8.6.5",
+    "generator-ibm-java-spring": "2.3.2",
     "generator-ibm-service-enablement": "3.0.3",
-    "generator-ibm-usecase-enablement": "3.2.7",
+    "generator-ibm-usecase-enablement": "3.2.8",
     "handlebars": "^4.0.0",
-    "ibm-java-codegen-common": "^3.0.3",
-    "npm": "^6.0.1",
+    "ibm-java-codegen-common": "3.0.3",
     "yeoman-assert": "^2.2.2",
     "yeoman-generator": "^3.1.1",
     "yeoman-test": "^1.7.2"
   },
   "devDependencies": {
+    "bluebird": "^3.5.2",
     "coveralls": "^3.0.1",
     "eslint": "^4.19.1",
     "eslint-plugin-ejs": "0.0.2",
+    "fs-extra": "^7.0.0",
     "js-yaml": "^3.11.0",
     "mocha": "^5.2.0",
     "mocha-multi-reporters": "^1.1.7",
@@ -59,7 +60,9 @@
     "lint": "eslint .",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "prerelease": "nyc mocha test/endToEnd/generator.blank.e2e.test.js",
-    "release": "standard-version"
+    "release": "standard-version",
+    "install_linked_dependencies": "node ./install_linked_dependencies",
+    "update_linked_dependencies": "node ./update_linked_dependencies"
   },
   "repository": {
     "type": "git",
