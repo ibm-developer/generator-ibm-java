@@ -10,6 +10,6 @@
   ],
   "composition" : [
     "common",
-    "generator-ibm-java-liberty:liberty"
+    "liberty:liberty"
   ]
 }

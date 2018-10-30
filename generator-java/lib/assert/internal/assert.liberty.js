@@ -16,8 +16,9 @@
 
 'use strict'
 const assert = require('yeoman-assert');
-const liberty = require('generator-ibm-java-liberty');
-const tests = require('ibm-java-codegen-common');
+const liberty = require('../../../generators/liberty/exports');
+
+const tests = require('../../../lib/common');
 
 const assertLiberty = new liberty.integrationAsserts.liberty();
 const openApi = new liberty.integrationAsserts.openapi();

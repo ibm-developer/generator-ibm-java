@@ -9,8 +9,8 @@
     "build"
   ],
   "composition" : [
-    "generator-ibm-java-liberty:build",
+    "liberty:build",
     "common",
-    "generator-ibm-java-liberty:liberty"
+    "liberty:liberty"
   ]
 }
