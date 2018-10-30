@@ -19,8 +19,8 @@
 const Assert = require('../internal/assert.core')
 const kube = require('../internal/assert.kube')
 const constant = require('../constant')
-const liberty = require('generator-ibm-java-liberty')
-const tests = require('ibm-java-codegen-common')
+const liberty = require('../../../generators/liberty/exports');
+const tests = require('../../../lib/common')
 
 class AssertTechnologies extends Assert {
   constructor ({appName, buildType, frameworkType}) {

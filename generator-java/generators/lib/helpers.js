@@ -17,7 +17,7 @@
 'use strict'
 
 //helpers only used by the main generator and so are not shared
-const common = require('ibm-java-codegen-common');
+const common = require('../../lib/common');
 const Handlebars = common.handlebars;   //this will add the helpers to the main handlebars
 
 //lookup and resolve references to data types, will return the Java class name

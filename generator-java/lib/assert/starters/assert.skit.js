@@ -23,7 +23,7 @@
 const Assert = require('../internal/assert.core')
 const framework = require('../assert.framework')
 const assert = require('yeoman-assert')
-const tests = require('ibm-java-codegen-common')
+const tests = require('../../../lib/common')
 
 const liberty = 'liberty'
 const spring = 'spring'

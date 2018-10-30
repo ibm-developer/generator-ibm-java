@@ -1,0 +1,186 @@
+group = '{{groupId}}'
+version = '{{version}}'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'net.wasdev.wlp.gradle.plugins:liberty-gradle-plugin:2.1'
+        classpath files('gradle/wlp-anttasks.jar')
+        {{#has platforms 'bluemix'}}
+        classpath 'org.cloudfoundry:cf-gradle-plugin:1.1.2'
+        {{/has}}
+    }
+}
+
+apply plugin: 'war'
+apply plugin: 'liberty'
+{{#has platforms 'bluemix'}}
+apply plugin: 'cloudfoundry'
+{{/has}}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+compileJava.options.encoding = 'UTF-8'
+
+ext {
+    appName = '{{appName}}'
+    {{#each properties}}
+    {{this.name}} = {{{this.value}}}
+    {{/each}}
+    {{#has platforms 'bluemix'}}
+    // Cloud Foundry/IBM Cloud properties
+    // This is the host for your app in IBM Cloud and what it will be called in the dashboard.
+    cfHost = appName
+    cfContext = 'mybluemix.net'
+    cfTarget = 'https://api.ng.bluemix.net'
+    cfSpace = 'dev'
+    cfContextRoot = "${cfHost}.${cfContext}/${warContext}"
+
+    // The Cloud Foundry or IBM Cloud organization, username and password can be entered here.
+    // cfOrg = ''
+    // cfUsername = ''
+    // cfPassword = ''
+    {{/has}}
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    {{#each dependencies}}
+    {{#if scope}}{{this.scope}}Compile{{else}}compile{{/if}} ('{{this.groupId}}:{{this.artifactId}}:{{this.version}}{{#if type}}@{{this.type}}{{/if}}') {{#if exclusions}}{
+        {{#each exclusions}}
+        exclude group: '{{this.groupId}}', module: '{{this.artifactId}}'
+        {{/each}}
+    } {{/if}}
+    {{/each}}
+    {{^libertyBeta}}
+    libertyRuntime ('com.ibm.websphere.appserver.runtime:wlp-webProfile7:{{libertyVersion}}')
+    {{/libertyBeta}}
+}
+
+test {
+    reports.html.destination = file("$buildDir/reports/unit")
+    reports.junitXml.destination = file("$buildDir/test-results/unit")
+    exclude '**/it/**'
+}
+
+task integrationTest(type: Test) {
+    group 'Verification'
+    description 'Runs the integration tests.'
+    reports.html.destination = file("$buildDir/reports/it")
+    reports.junitXml.destination = file("$buildDir/test-results/it")
+    include '**/it/**'
+    exclude '**/unit/**'
+
+    systemProperties = ['liberty.test.port': testServerHttpPort, 'war.context': warContext]
+}
+
+task printMessageAboutRunningServer {
+    doLast {
+        println "The server is now running at http://localhost:${testServerHttpPort}/${warContext}"
+        println "To stop the server run 'gradle libertyStop'"
+    }
+}
+
+liberty {
+    {{#libertyBeta}}
+    install {
+        version = "{{libertyVersion}}"
+    }
+    {{/libertyBeta}}
+    server{
+        apps = [war]
+        configFile = file("src/main/liberty/config/server.xml")
+        jvmOptionsFile = file("src/main/liberty/config/jvm.options")
+        serverEnv = file("src/main/liberty/config/server.env")
+        bootstrapProperties = ['app.location': "${rootProject.name}-${version}.war",
+                               'default.http.port': "${testServerHttpPort}",
+                               'default.https.port': "${testServerHttpsPort}"]
+        features {
+            acceptLicense = true
+        }
+        packageLiberty {
+            archive = packageFile
+            include = packagingType
+        }
+     }
+}
+
+libertyPackage {
+    def originalOutputDir
+    doFirst {
+        originalOutputDir = server.outputDir
+        server.outputDir = "$buildDir/liberty-alt-output-dir"
+    }
+    doLast {
+        server.outputDir = originalOutputDir
+    }
+}
+installFeature {
+    def originalOutputDir
+    doFirst {
+        originalOutputDir = server.outputDir
+        server.outputDir = "$buildDir/liberty-alt-output-dir"
+    }
+    doLast {
+        server.outputDir = originalOutputDir
+    }
+}
+
+task libertyStartTestServer(type: net.wasdev.wlp.gradle.plugins.tasks.StartTask){
+    description 'Starts the WebSphere Liberty Profile server for testing.'
+    logging.level = LogLevel.INFO
+}
+
+{{#has platforms 'bluemix'}}
+task checkBluemixPropertiesSet() {
+    doLast {
+        checkPropertySet('cfOrg')
+        checkPropertySet('cfUsername')
+        checkPropertySet('cfPassword')
+    }
+}
+
+task printBluemixProperties(dependsOn: 'checkBluemixPropertiesSet') {
+    doLast {
+        println "Running bluemix profile with the following properties:\n" +
+                "\tcf.target=${cfTarget}\n" +
+                "\tcf.space=${cfSpace}\n" +
+                "\tcf.org=${cfOrg}\n" +
+                "\tcf.username=${cfUsername}\n" +
+                "The application will be accessed at context root ${cfContextRoot}"
+    }
+}
+
+def checkPropertySet(propertyName) {
+    if (!project.hasProperty(propertyName)) {
+        throw new GradleException("The ${propertyName} property must be provided to run the cfPush task, this can be supplied on the command line with -P${propertyName}=<value>.")
+    }
+}
+
+cloudfoundry {
+    target = cfTarget
+    if (project.hasProperty('cfOrg')) {
+        organization = cfOrg
+    }
+    space = cfSpace
+    file = file(packageFile)
+    memory = 512
+    appName = cfHost
+}
+{{/has}}
+
+check.dependsOn 'integrationTest'
+libertyCreate.finalizedBy 'installFeature'
+integrationTest.dependsOn 'libertyStart', 'testClasses'
+integrationTest.finalizedBy 'libertyStop'
+assemble.finalizedBy 'libertyPackage'
+{{#has platforms 'bluemix'}}
+cfPush.dependsOn 'printBluemixProperties'
+{{/has}}
+libertyStart.finalizedBy 'printMessageAboutRunningServer'

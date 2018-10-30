@@ -26,7 +26,7 @@ const bluemix = testAsserts.bluemix;
 const constant = testAsserts.constant;
 const core = require('../lib/core');
 const extend = require('extend');
-const liberty = require('generator-ibm-java-liberty');
+const liberty = require('../../generators/liberty/exports');
 
 class Options extends core.Options {
   constructor(createType, buildType, platforms, technologies) {
