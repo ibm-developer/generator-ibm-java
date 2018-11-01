@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.13.0"></a>
+# [5.13.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.12.6...v5.13.0) (2018-11-01)
+
+
+### Features
+
+* Combine Spring, Liberty, and common into Java generator ([522c40d](https://github.com/ibm-developer/generator-ibm-java/commit/522c40d))
+
+
+
 <a name="5.12.6"></a>
 ## [5.12.6](https://github.com/ibm-developer/generator-ibm-java/compare/v5.12.5...v5.12.6) (2018-10-26)
 
