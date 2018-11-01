@@ -15,8 +15,8 @@
  */
 
 'use strict'
-const spring = require('generator-ibm-java-spring');
-const tests = require('ibm-java-codegen-common');
+const spring = require('../../../generators/spring/exports');
+const tests = require('../../../lib/common');
 
 const assertSpring = new spring.integrationAsserts.spring();
 const openApi = new spring.integrationAsserts.openapi();

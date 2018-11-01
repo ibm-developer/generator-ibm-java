@@ -19,7 +19,7 @@
 const AssertBx = require('../internal/assert.core.bx')
 const constant = require('../constant')
 const framework = require('../assert.framework')
-const tests = require('ibm-java-codegen-common')
+const tests = require('../../../lib/common')
 
 class AssertOpenAPI extends AssertBx {
   assert (appName, ymlName, buildType, createType, frameworkType, exampleName, openApiServers, noHealth) {

@@ -16,7 +16,7 @@
 
 'use strict'
 
-const tests = require('ibm-java-codegen-common')
+const tests = require('../../lib/common')
 const command = tests.test('command')
 
 const assertBuilds = function (buildType) {

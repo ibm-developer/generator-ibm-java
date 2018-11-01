@@ -9,9 +9,9 @@
     "build"
   ],
   "composition" : [
-    "generator-ibm-java-liberty:build",
+    "liberty:build",
     "common",
-    "generator-ibm-java-liberty:liberty"
+    "liberty:liberty"
   ],
   fileFound : function(path, contents, config) {
     var defaultFragment = {path : path, template : contents, data : config};

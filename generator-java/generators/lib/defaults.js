@@ -18,8 +18,8 @@
 
 'use strict'
 
-const processor = require('ibm-java-codegen-common').fsprocessor;
-const defaultsModule = require('ibm-java-codegen-common').defaults;
+const processor = require('../../lib/common').fsprocessor;
+const defaultsModule = require('../../lib/common').defaults;
 
 const DEFAULTS = {
   appName : {desc : 'Name of the application', type : String, default : 'MyProject'},
