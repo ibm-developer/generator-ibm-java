@@ -13,24 +13,24 @@ import java.util.ArrayList;
 {{#if server.services}}
 import javax.inject.Inject;
 {{/if}}
-{{#cloudant}}
+{{#if cloudant.length}}
 import com.cloudant.client.api.CloudantClient;
-{{/cloudant}}
-{{#objectStorage}}
+{{/if}}
+{{#if objectStorage.length}}
 import org.openstack4j.api.OSClient.OSClientV3;
 import org.openstack4j.model.storage.object.SwiftAccount;
 import org.openstack4j.model.storage.object.SwiftContainer;
-{{/objectStorage}}
+{{/if}}
 {{/bluemix}}
 
 @Path("v1/example")
 public class Example {
 
     {{#bluemix}}
-    {{#cloudant}}
+    {{#if cloudant.length}}
     @Inject
     protected CloudantClient client;
-    {{/cloudant}}
+    {{/if}}
 
     {{#objectStorage}}
     @Inject
@@ -48,7 +48,7 @@ public class Example {
     }
 
     {{#bluemix}}
-    {{#cloudant}}
+    {{#if cloudant.length}}
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("cloudant")
@@ -61,9 +61,9 @@ public class Example {
         }
         return Response.ok(list.toString()).build();
     }
-    {{/cloudant}}
+    {{/if}}
 
-    {{#objectStorage}}
+    {{#if objectStorage.length}}
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("objectstorage")
@@ -76,6 +76,6 @@ public class Example {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
-    {{/objectStorage}}
+    {{/if}}
     {{/bluemix}}
 }

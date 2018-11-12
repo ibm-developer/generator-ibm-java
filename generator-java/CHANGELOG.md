@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.13.2"></a>
+## [5.13.2](https://github.com/ibm-developer/generator-ibm-java/compare/v5.13.1...v5.13.2) (2018-11-09)
+
+
+### Bug Fixes
+
+* Don't duplicate declares for Cloudant in Liberty Example.java ([876a531](https://github.com/ibm-developer/generator-ibm-java/commit/876a531))
+* Don't duplicate declares for object storage in Liberty Example.java ([cbe7432](https://github.com/ibm-developer/generator-ibm-java/commit/cbe7432))
+
+
+
 <a name="5.13.1"></a>
 ## [5.13.1](https://github.com/ibm-developer/generator-ibm-java/compare/v5.13.0...v5.13.1) (2018-11-07)
 
