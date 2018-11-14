@@ -35,9 +35,9 @@ test_liberty.prototype.assertSourceFiles = function(springSelected) {
   });
 }
 
-test_liberty.prototype.assertFiles = function(name) {
+test_liberty.prototype.assertFiles = function() {
   assertLiberty.assertAllFiles(true);
-  assertLiberty.assertContextRoot(name);
+  assertLiberty.assertContextRoot();
 }
 
 test_liberty.prototype.assertJavaMetrics = function(exists, buildType) {
@@ -60,7 +60,6 @@ test_liberty.prototype.assertBuildFiles = function(buildType) {
 
 const assertMavenFiles = function() {
   assertLiberty.assertVersion('maven');
-  tests.test('maven').assertProperty('warContext', '${app.name}');
   tests.test('maven').assertProperty('package.file', '${project.build.directory}/${project.artifactId}-${project.version}.zip');
   tests.test('maven').assertProperty('packaging.type', 'usr');
 
@@ -69,7 +68,6 @@ const assertMavenFiles = function() {
 const assertGradleFiles = function() {
   assertLiberty.assertVersion('gradle');
   tests.test('gradle').assertProperty('serverDirectory', '"${buildDir}/wlp/usr/servers/defaultServer"');
-  tests.test('gradle').assertProperty('warContext', '"${appName}"');
   tests.test('gradle').assertProperty('packageFile', '"${project.buildDir}/${rootProject.name}-${version}.zip"');
   tests.test('gradle').assertProperty('packagingType', "'usr'");
 }

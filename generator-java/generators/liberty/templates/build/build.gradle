@@ -37,7 +37,7 @@ ext {
     cfContext = 'mybluemix.net'
     cfTarget = 'https://api.ng.bluemix.net'
     cfSpace = 'dev'
-    cfContextRoot = "${cfHost}.${cfContext}/${warContext}"
+    cfContextRoot = "${cfHost}.${cfContext}"
 
     // The Cloud Foundry or IBM Cloud organization, username and password can be entered here.
     // cfOrg = ''
@@ -77,12 +77,12 @@ task integrationTest(type: Test) {
     include '**/it/**'
     exclude '**/unit/**'
 
-    systemProperties = ['liberty.test.port': testServerHttpPort, 'war.context': warContext]
+    systemProperties = ['liberty.test.port': testServerHttpPort]
 }
 
 task printMessageAboutRunningServer {
     doLast {
-        println "The server is now running at http://localhost:${testServerHttpPort}/${warContext}"
+        println "The server is now running at http://localhost:${testServerHttpPort}"
         println "To stop the server run 'gradle libertyStop'"
     }
 }
