@@ -29,7 +29,7 @@
         <cf.context>mybluemix.net</cf.context>
         <cf.target>https://api.ng.bluemix.net</cf.target>
         <cf.space>dev</cf.space>
-        <cf.context.root>${cf.host}.${cf.context}/${warContext}</cf.context.root>
+        <cf.context.root>${cf.host}.${cf.context}</cf.context.root>
 
         <!-- The Cloud Foundry or IBM Cloud organization, username and password can be
             entered here. -->

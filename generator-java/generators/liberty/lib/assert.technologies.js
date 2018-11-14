@@ -26,7 +26,7 @@ const AssertLiberty = require('./assert.liberty');
 const liberty = new AssertLiberty();
 
 function AssertTech() {
-  this.assert = function(name) {
+  this.assert = function() {
     it('generates an ' + INDEX_HTML, function() {
       assert.file(INDEX_HTML);
     });
@@ -35,7 +35,7 @@ function AssertTech() {
       assert.file('src/test/java/it/TestApplication.java');
     });
     liberty.assertAllFiles(true);
-    liberty.assertContextRoot(name);
+    liberty.assertContextRoot();
   }
   this.assertpicnmix = function(name) {
     this.assert(name);    //there are no additional files to check for

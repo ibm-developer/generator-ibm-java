@@ -132,12 +132,10 @@ function AssertLiberty() {
     check('testServerHttpsPort', '9443');
     if (buildType === 'gradle') {
       check('serverDirectory', '"${buildDir}/wlp/usr/servers/defaultServer"');
-      check('warContext', '"${appName}"');
       check('packageFile', '"${project.buildDir}/${rootProject.name}-${version}.zip"');
       check('packagingType', "'usr'");
     }
     if (buildType === 'maven') {
-      check('warContext', '${app.name}');
       check('package.file', '${project.build.directory}/${project.artifactId}-${project.version}.zip');
       check('packaging.type', 'usr');
     }
@@ -157,9 +155,9 @@ function AssertLiberty() {
     });
   }
 
-  this.assertContextRoot = function (name) {
-    it('contains a ibm-web-ext.xml context root for ' + name, function () {
-      assert.fileContent(IBM_WEB_EXT, '<context-root uri="/' + name + '"/>');
+  this.assertContextRoot = function () {
+    it('contains a ibm-web-ext.xml context root of /', function () {
+      assert.fileContent(SERVER_XML, 'contextRoot="/"');
     });
   }
 
