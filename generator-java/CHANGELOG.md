@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.13.4"></a>
+## [5.13.4](https://github.com/ibm-developer/generator-ibm-java/compare/v5.13.3...v5.13.4) (2018-11-16)
+
+
+### Bug Fixes
+
+* Use / for Liberty context root ([5475647](https://github.com/ibm-developer/generator-ibm-java/commit/5475647))
+
+
+
 <a name="5.13.3"></a>
 ## [5.13.3](https://github.com/ibm-developer/generator-ibm-java/compare/v5.13.2...v5.13.3) (2018-11-13)
 

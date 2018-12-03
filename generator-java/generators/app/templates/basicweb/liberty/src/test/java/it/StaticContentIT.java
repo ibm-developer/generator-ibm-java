@@ -12,8 +12,7 @@ import org.junit.Test;
 public class StaticContentIT {
 
     private String port = System.getProperty("liberty.test.port");
-    private String warContext = System.getProperty("war.context");
-    private String url = "http://localhost:" + port + "/" + warContext + "/";
+    private String url = "http://localhost:" + port;
 
     @Test
     public void testEndpoint() throws Exception {
