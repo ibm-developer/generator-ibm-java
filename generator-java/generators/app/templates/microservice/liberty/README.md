@@ -41,6 +41,8 @@ The microservice application has a health endpoint which is accessible at `<host
 
 The project contains IBM Cloud specific files that are used to deploy the application as part of a IBM Cloud DevOps flow. The `.bluemix` directory contains files used to define the IBM Cloud toolchain and pipeline for your application. The `manifest.yml` file specifies the name of your application in IBM Cloud, the timeout value during deployment and which services to bind to.
 
+PWBPWBPWBPWB
+
 {{#bluemix}}
 {{#server.services}}
 This microservice application is configured to connect to the following services :
