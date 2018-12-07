@@ -1,4 +1,4 @@
-# Yeoman generator for Java code 
+# Yeoman generator for Java code  
 
 [![IBM Cloud powered][img-ibmcloud-powered]][url-cloud]
 [![Travis][img-travis]][url-travis]
