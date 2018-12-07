@@ -54,9 +54,9 @@ test_kube.test = function(appName, exists, framework, createType, cloudantExists
               assertYmlContent(data.spec.template.spec.containers[0].image, appName.toLowerCase() + ':latest', 'doc1.spec.template.spec.containers[0].image');
               if(framework === LIBERTY) {
                 if(createType === 'basicweb') {
-                  assertYmlContent(data.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/' + appName + '/rest/health', 'doc1.spec.template.spec.containers[0].readinessProbe.httpGet.path');
+                  assertYmlContent(data.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/rest/health', 'doc1.spec.template.spec.containers[0].readinessProbe.httpGet.path');
                 } else {
-                  assertYmlContent(data.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/' + appName + '/health', 'doc1.spec.template.spec.containers[0].readinessProbe.httpGet.path');
+                  assertYmlContent(data.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/health', 'doc1.spec.template.spec.containers[0].readinessProbe.httpGet.path');
                 }
               }
               if(framework === SPRING) {
@@ -103,9 +103,9 @@ test_kube.test = function(appName, exists, framework, createType, cloudantExists
         // deployment.yaml
         if(framework === LIBERTY) {
           if(createType === 'basicweb') {
-            assertYmlContent(deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/' + appName + '/rest/health', 'deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path');
+            assertYmlContent(deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/rest/health', 'deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path');
           } else {
-            assertYmlContent(deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/' + appName + '/health', 'deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path');
+            assertYmlContent(deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/health', 'deploymentyml.spec.template.spec.containers[0].readinessProbe.httpGet.path');
           }
         }
         if(framework === SPRING) {
