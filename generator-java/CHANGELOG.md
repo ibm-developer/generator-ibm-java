@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.13.6"></a>
+## [5.13.6](https://github.com/ibm-developer/generator-ibm-java/compare/v5.13.5...v5.13.6) (2018-12-12)
+
+
+### Bug Fixes
+
+* Cloud enablement to 1.5.4 to pick up Liberty Dockerfile fix ([657299c](https://github.com/ibm-developer/generator-ibm-java/commit/657299c))
+
+
+
 <a name="5.13.5"></a>
 ## [5.13.5](https://github.com/ibm-developer/generator-ibm-java/compare/v5.13.4...v5.13.5) (2018-12-12)
 
