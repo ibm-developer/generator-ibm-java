@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.13.7"></a>
+## [5.13.7](https://github.com/ibm-developer/generator-ibm-java/compare/v5.13.6...v5.13.7) (2018-12-13)
+
+
+
 <a name="5.13.6"></a>
 ## [5.13.6](https://github.com/ibm-developer/generator-ibm-java/compare/v5.13.5...v5.13.6) (2018-12-12)
 
