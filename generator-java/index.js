@@ -31,7 +31,8 @@ module.exports = {
     bluemix: require('./lib/assert/assert.bluemix'),
     builds: require('./lib/assert/assert.builds'),
     framework: require('./lib/assert/assert.framework'),
-    constant: require('./lib/assert/constant.js')
+    constant: require('./lib/assert/constant.js'),
+    common: require('./lib/common').test
   },
   defaults: require('./generators/lib/defaults'),
   prompts: [require('./generators/prompts/patterns'), require('./generators/prompts/bluemix')]
