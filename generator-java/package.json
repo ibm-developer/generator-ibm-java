@@ -1,6 +1,6 @@
 {
   "name": "generator-ibm-java",
-  "version": "5.13.7",
+  "version": "5.14.0",
   "description": "Java code generation and modification",
   "license": "Apache-2.0",
   "main": "index.js",
@@ -11,8 +11,8 @@
   "dependencies": {
     "common-codegen-tests": "2.2.3",
     "extend": "^3.0.1",
-    "generator-ibm-cloud-enablement": "1.5.4",
-    "generator-ibm-service-enablement": "3.1.2",
+    "generator-ibm-cloud-enablement": "1.5.5",
+    "generator-ibm-service-enablement": "3.1.3",
     "generator-ibm-usecase-enablement": "3.2.8",
     "escape-string-regexp": "^1.0.5",
     "handlebars": "^4.0.0",
