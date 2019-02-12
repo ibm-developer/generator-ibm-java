@@ -46,7 +46,6 @@ module.exports = class extends Generator {
 
     //create command line options that will be passed by YaaS
     defaults.setOptions(this)
-    logger.writeToLog(`${logId}:constructor - Options`, JSON.stringify(this.options))
     contexts = []
     enablementContexts = []
     this.enablementContext = new EnablementContext(contexts)
@@ -144,7 +143,7 @@ module.exports = class extends Generator {
     let compiledTemplate = Handlebars.compile(template);
     return compiledTemplate(config);
   }
-  
+
   configuring () {
     const pkg = require('../../package.json')
     const parts = config.createType.split('/') //framework is defined by the value of createType which is <pattern>/<framework> and overrides any previous value
