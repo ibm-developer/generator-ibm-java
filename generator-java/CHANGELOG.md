@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.14.1"></a>
+## [5.14.1](https://github.com/ibm-developer/generator-ibm-java/compare/v5.14.0...v5.14.1) (2019-02-14)
+
+
+### Bug Fixes
+
+* Move common-codegen-test to devDependencies ([de15b9d](https://github.com/ibm-developer/generator-ibm-java/commit/de15b9d))
+* remove problematic log line ([6cf06cc](https://github.com/ibm-developer/generator-ibm-java/commit/6cf06cc))
+
+
+
 <a name="5.14.0"></a>
 # [5.14.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.13.7...v5.14.0) (2019-01-03)
 
