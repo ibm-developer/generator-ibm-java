@@ -1,7 +1,7 @@
 ## Basic Web
 IBM Cloud Basic Web Starter for Spring
 
-[![](https://img.shields.io/badge/IBM%20Cloud-powered-blue.svg)](https://bluemix.net)
+[![](https://img.shields.io/badge/IBM%20Cloud-powered-blue.svg)](https://cloud.ibm.com)
 [![Platform](https://img.shields.io/badge/platform-java-lightgrey.svg?style=flat)](https://www.ibm.com/developerworks/learn/java/)
 
 ### Table of Contents
@@ -16,7 +16,7 @@ IBM Cloud Basic Web Starter for Spring
 The IBM Cloud Basic Web Starter in Java provides a starting point for creating web applications running on [Spring](https://spring.io/).
 
 To deploy this application to IBM Cloud using a toolchain click the **Create Toolchain** button.
-[![Create Toolchain](https://console.ng.bluemix.net/devops/graphics/create_toolchain_button.png)](https://console.ng.bluemix.net/devops/setup/deploy/)
+[![Create Toolchain](https://cloud.ibm.com/devops/graphics/create_toolchain_button.png)](https://cloud.ibm.com/devops/setup/deploy/)
 
 ### Requirements
 {{#has buildType 'maven'}}
@@ -42,10 +42,10 @@ The project contains IBM Cloud specific files that are used to deploy the applic
 This web application is configured to connect to the following services :
 {{/server.services}}
 {{#cloudant}}
-* [IBM Cloud Cloudant service](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db).
+* [IBM Cloud Cloudant service](https://cloud.ibm.com/catalog/services/cloudant-nosql-db).
 {{/cloudant}}
 {{#objectStorage}}
-* [IBM Cloud Object Storage service](https://console.ng.bluemix.net/catalog/services/object-storage).
+* [IBM Cloud Object Storage service](https://cloud.ibm.com/catalog/services/object-storage).
 {{/objectStorage}}
 
 Credentials are either taken from the VCAP_SERVICES environment variable that IBM Cloud provides or from environment variables passed in by the config file `src/main/resources/application-local.properties`.

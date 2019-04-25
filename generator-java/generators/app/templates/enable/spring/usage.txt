@@ -1,4 +1,4 @@
-This project has been enabled to run with IBM cloud developer CLI (https://console.bluemix.net/docs/cloudnative/dev_cli.html#developercli).
+This project has been enabled to run with IBM cloud developer CLI (https://cloud.ibm.com/docs/cloudnative/dev_cli.html#developercli).
 
 To make full use of the files generated please note the following:
 
