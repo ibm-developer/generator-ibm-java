@@ -13,7 +13,7 @@ This is a [yeoman generator](http://yeoman.io/) that will create Java code for y
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 [img-ibmcloud-powered]: https://img.shields.io/badge/IBM%20Cloud-powered-blue.svg
-[url-cloud]: http://bluemix.net
+[url-cloud]: http://cloud.ibm.com
 
 [img-travis]: https://travis-ci.org/ibm-developer/generator-ibm-java.svg?branch=master
 [url-travis]: https://travis-ci.org/ibm-developer/generator-ibm-java
@@ -41,6 +41,6 @@ To run the Yeoman generator simply type the following:
 yo ibm-java
 ```
 
-[IBM Cloud](https://console.ng.bluemix.net/) starters provide infrastructure files for building locally with Maven or Gradle and deploying to IBM Cloud using containers. They also include code snippets to connect to any IBM Cloud services that are selected as part of the generation.
+[IBM Cloud](https://cloud.ibm.com/) starters provide infrastructure files for building locally with Maven or Gradle and deploying to IBM Cloud using containers. They also include code snippets to connect to any IBM Cloud services that are selected as part of the generation.
 
 For more information see [https://github.com/ibm-developer/generator-ibm-java](https://github.com/ibm-developer/generator-ibm-java).
