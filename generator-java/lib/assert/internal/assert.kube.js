@@ -17,13 +17,12 @@ const KUBE_YML = 'manifests/kube.deploy.yml';
 function test_kube() {
 }
 
-test_kube.test = function(appName, exists, framework, createType, cloudantExists, objectStorageExists) {
+test_kube.test = function(appName, exists, framework, createType) {
   describe('Validate k8s for application ' + appName, function() {
 
     const prefix = exists ? 'generates ' : 'does not generate ';
     const check = exists ? assert.file : assert.noFile;
     const VALUES_YML = 'chart/' + appName.toLowerCase() + '/values.yaml';
-    const BINDINGS_YML = 'chart/' + appName.toLowerCase() + '/bindings.yaml';
     const CHART_YML = 'chart/' + appName.toLowerCase() + '/Chart.yaml';
     const DEPLOYMENT_YML = 'chart/' + appName.toLowerCase() + '/templates/deployment.yaml';
     const SERVICE_YML = 'chart/' + appName.toLowerCase() + '/templates/service.yaml';
@@ -81,7 +80,6 @@ test_kube.test = function(appName, exists, framework, createType, cloudantExists
       if(exists) {
         const valuesyml = yml.safeLoad(fs.readFileSync(VALUES_YML, 'utf8'));
         const chartyml = yml.safeLoad(fs.readFileSync(CHART_YML, 'utf8'));
-        const bindingsyml = yml.safeLoad(fs.readFileSync(BINDINGS_YML, 'utf8'));
 
         const rawdeploymentyml = fs.readFileSync(DEPLOYMENT_YML, 'utf8');
         //comment out helm conditionals so it can be parsed by js-yaml
@@ -120,25 +118,6 @@ test_kube.test = function(appName, exists, framework, createType, cloudantExists
         assert.fileContent(DEPLOYMENT_YML, '      - name: "{{  .Chart.Name  }}"');
         assertYmlContent(deploymentyml.spec.template.spec.containers[0].image, '{{ .Values.image.repository }}:{{ .Values.image.tag }}', 'deploymentyml.spec.template.spec.containers[0].image');
         assert.fileContent(DEPLOYMENT_YML, '        imagePullPolicy: {{ .Values.image.pullPolicy }}');
-
-        // There should be bindings (for secrets) in the bindings.yml
-        if ( cloudantExists ) {
-          const cloudantBinding = bindingsyml.filter(element => element.name === "service_cloudant");
-          assert.equal(cloudantBinding.length > 0, cloudantExists,
-            BINDINGS_YML + ' should' +(cloudantExists ? '' : ' not') + ' contain cloudant credentials: \n' + JSON.stringify(bindingsyml));
-
-          assert.ok(cloudantBinding[0].valueFrom, 'Cloudant binding should have a valueFrom element: ' + JSON.stringify(cloudantBinding));
-          assert.ok(cloudantBinding[0].valueFrom.secretKeyRef, 'Cloudant valueFrom should have secretKeyRef element: ' + JSON.stringify(cloudantBinding));
-        }
-
-        if ( objectStorageExists ) {
-          const osBinding = bindingsyml.filter(element => element.name === "service_object_storage");
-          assert.equal(osBinding.length > 0, objectStorageExists,
-            BINDINGS_YML + ' should' +(objectStorageExists ? '' : ' not') + ' contain object storage credentials: \n' + JSON.stringify(bindingsyml));
-
-          assert.ok(osBinding[0].valueFrom, 'Object Storage binding should have a valueFrom element: ' + JSON.stringify(osBinding));
-          assert.ok(osBinding[0].valueFrom.secretKeyRef, 'Object Storage valueFrom should have secretKeyRef element: ' + JSON.stringify(osBinding));
-        }
 
         // service.yaml
         assertYmlContent(serviceyml.metadata.name, '{{  .Chart.Name }}-service', 'serviceyml.metadata.name');
