@@ -98,7 +98,6 @@ class AssertBx extends Assert {
       assert.file('.bluemix/deploy.json')
       assert.file('.bluemix/pipeline.yml')
       assert.file(constant.TOOLCHAIN_YML)
-      assert.file('manifests/kube.deploy.yml')
     })
   }
 

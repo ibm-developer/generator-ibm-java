@@ -1,6 +1,6 @@
 language: java
 jdk:
-  - oraclejdk8
+  - openjdk10
 before_install:
   - nvm install 8.9.4
   - cd ./generator-java
@@ -11,7 +11,7 @@ install:
   - npm run install_linked_dependencies
 before_script:
   - cd /tmp
-  - wget http://services.gradle.org/distributions/gradle-3.5-bin.zip
+  - wget http://services.gradle.org/distributions/gradle-5.0-bin.zip
   - unzip -qq gradle-3.5-bin.zip
   - export GRADLE_HOME=/tmp/gradle-3.5
   - wget https://github.com/github/hub/releases/download/v2.5.1/hub-linux-386-2.5.1.tgz

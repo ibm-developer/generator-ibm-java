@@ -11,9 +11,6 @@ const fs = require('fs');
 const LIBERTY = 'liberty';
 const SPRING = 'spring';
 
-const JENKINSFILE = 'Jenkinsfile';
-const KUBE_YML = 'manifests/kube.deploy.yml';
-
 function test_kube() {
 }
 
@@ -26,50 +23,6 @@ test_kube.test = function(appName, exists, framework, createType) {
     const CHART_YML = 'chart/' + appName.toLowerCase() + '/Chart.yaml';
     const DEPLOYMENT_YML = 'chart/' + appName.toLowerCase() + '/templates/deployment.yaml';
     const SERVICE_YML = 'chart/' + appName.toLowerCase() + '/templates/service.yaml';
-
-    it(prefix + 'k8s file ' + JENKINSFILE, function() {
-      if(exists) {
-        assert.fileContent(JENKINSFILE, 'image = \''+ appName.toLowerCase() + '\'');
-      } else {
-        assert.noFile(JENKINSFILE);
-      }
-    });
-
-    it(prefix + 'k8s file kube.deploy.yml', function() {
-      check(KUBE_YML);
-      if(exists) {
-        let i = 0;
-        yml.safeLoadAll(fs.readFileSync(KUBE_YML, 'utf8'), data => {
-          switch(i) {
-            case 0:
-              assertYmlContent(data.metadata.name, appName.toLowerCase() + '-service', 'doc0.data.metadata.name');
-              assertYmlContent(data.spec.selector.app, appName.toLowerCase() + '-selector', 'doc0.spec.selector.app');
-              i++;
-              break;
-            case 1:
-              assertYmlContent(data.metadata.name, appName.toLowerCase() + '-deployment', 'doc1.metadata.name');
-              assertYmlContent(data.spec.template.metadata.labels.app, appName.toLowerCase() + '-selector', 'doc1.spec.template.metadata.labels.app');
-              assertYmlContent(data.spec.template.spec.containers[0].name, appName.toLowerCase(), 'doc1.spec.template.spec.containers[0].name');
-              assertYmlContent(data.spec.template.spec.containers[0].image, appName.toLowerCase() + ':latest', 'doc1.spec.template.spec.containers[0].image');
-              if(framework === LIBERTY) {
-                if(createType === 'basicweb') {
-                  assertYmlContent(data.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/rest/health', 'doc1.spec.template.spec.containers[0].readinessProbe.httpGet.path');
-                } else {
-                  assertYmlContent(data.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/health', 'doc1.spec.template.spec.containers[0].readinessProbe.httpGet.path');
-                }
-              }
-              if(framework === SPRING) {
-                assertYmlContent(data.spec.template.spec.containers[0].readinessProbe.httpGet.path, '/health', 'doc1.data.spec.template.spec.containers[0].readinessProbe.httpGet.path');
-              }
-              i++;
-              break;
-            default:
-              assert.fail(i, 'i < 2', 'Yaml file contains more documents than expected');
-          }
-
-        });
-      }
-    });
 
     it(prefix + 'helm files', function() {
       check(VALUES_YML);

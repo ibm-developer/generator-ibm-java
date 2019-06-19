@@ -76,9 +76,7 @@ function execute(createType, assertFunc, technologiesToTest) {
             assert.assertTech.assertspringbootwebonly(assert.buildType);
           }
 
-          if (technologiesToTest[i] === 'msbuilder' && createType === 'picnmix') {
-            assert.assertmsbuilderwithname();
-          } else {
+          if (technologiesToTest[i] != 'msbuilder' || createType != 'picnmix') {
             assert.assertNoKube();
           }
 

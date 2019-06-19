@@ -39,7 +39,8 @@ function Options(buildType, framework) {
     deploymentSpace : constant.DEPLOYMENT_SPACE,
     toolchainName : constant.TOOLCHAIN_NAME,
     bluemix: {
-      backendPlatform: platform
+      backendPlatform: platform,
+      name: constant.APPNAME
     }
   }
 

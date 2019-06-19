@@ -37,6 +37,7 @@ function Options(buildType, framework) {
     version: constant.VERSION,
     bluemix: {
       backendPlatform: platform,
+      name: constant.APPNAME,
       openApiServers: [{
         "spec": JSON.stringify(example.value)
       }]
