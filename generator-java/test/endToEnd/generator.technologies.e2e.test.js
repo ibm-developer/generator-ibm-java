@@ -34,7 +34,8 @@ function Options(createType, buildType, testBluemix, technologies) {
     artifactId: constant.ARTIFACTID,
     version: constant.VERSION,
     bluemix: {
-      backendPlatform: 'JAVA'
+      backendPlatform: 'JAVA',
+      name: constant.APPNAME
     }
   }
   

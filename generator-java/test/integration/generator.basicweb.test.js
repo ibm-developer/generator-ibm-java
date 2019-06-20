@@ -35,6 +35,7 @@ class Options extends core.Options {
       createType: 'basicweb/' + frameworkType,
       appName: name || constant.APPNAME
     });
+    this.values.bluemix.name = name || constant.APPNAME;
   }
 }
 

@@ -77,9 +77,6 @@ function execute(createType, assertFunc, technologiesToTest) {
           if(technologiesToTest[i] === 'springbootweb' && createType === 'picnmix') {
             options.assertspringbootwebonly(buildTypes[j]);
           }
-          if(technologiesToTest[i] === 'msbuilder' && createType === 'picnmix') {
-            options.assertmsbuilderwithname(APPNAME);
-          }
           options.assertCompiles();
         });
       }
@@ -126,9 +123,6 @@ function executeMultiTechTest(description, techs) {
       options.assertpicnmix(APPNAME);
       for(let k = 0; k < techs.length; k++) {
         options['assert' + techs[k]]('maven');
-      }
-      if(techs.includes('msbuilder')) {
-        options.assertmsbuilderwithname(APPNAME);
       }
     });
 
