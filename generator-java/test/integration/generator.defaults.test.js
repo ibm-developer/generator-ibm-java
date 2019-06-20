@@ -35,7 +35,8 @@ describe('java generator integration test', function () {
       return helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions({                       // Mock the options
           bluemix: {
-            backendPlatform: 'JAVA'
+            backendPlatform: 'JAVA',
+            name: 'MyProject'
           }
         })
         .toPromise();                        // Get a Promise back when the generator finishes
@@ -52,7 +53,8 @@ describe('java generator integration test', function () {
       return helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions({                       // Mock the options
           bluemix: {
-            backendPlatform: 'JAVA'
+            backendPlatform: 'JAVA',
+            name: 'MyProject'
           },
           buildType: 'gradle'
         })
@@ -71,7 +73,8 @@ describe('java generator integration test', function () {
         .withOptions({                       // Mock the options
           createType: "microservice/spring",
           bluemix: {
-            backendPlatform: 'SPRING'
+            backendPlatform: 'SPRING',
+            name: 'MyProject'
           }
         })
         .toPromise();                        // Get a Promise back when the generator finishes
@@ -89,7 +92,8 @@ describe('java generator integration test', function () {
         .withOptions({                       // Mock the options
           createType: "microservice/spring",
           bluemix: {
-            backendPlatform: 'SPRING'
+            backendPlatform: 'SPRING',
+            name: 'MyProject'
           },
           buildType: 'gradle'
         })

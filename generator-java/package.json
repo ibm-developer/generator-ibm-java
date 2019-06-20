@@ -1,6 +1,6 @@
 {
   "name": "generator-ibm-java",
-  "version": "5.14.1",
+  "version": "5.14.2",
   "description": "Java code generation and modification",
   "license": "Apache-2.0",
   "main": "index.js",
@@ -10,8 +10,8 @@
   ],
   "dependencies": {
     "extend": "^3.0.1",
-    "generator-ibm-cloud-enablement": "1.7.7",
-    "generator-ibm-service-enablement": "3.2.1",
+    "generator-ibm-cloud-enablement": "1.7.23",
+    "generator-ibm-service-enablement": "3.4.4",
     "generator-ibm-usecase-enablement": "3.2.8",
     "escape-string-regexp": "^1.0.5",
     "handlebars": "^4.0.11",
@@ -28,10 +28,10 @@
     "eslint": "^4.19.1",
     "eslint-plugin-ejs": "0.0.2",
     "fs-extra": "^7.0.0",
-    "js-yaml": "^3.11.0",
+    "js-yaml": "^3.13.0",
     "mocha": "^5.2.0",
     "mocha-multi-reporters": "^1.1.7",
-    "nyc": "^13.1.0",
+    "nyc": "^13.3.0",
     "standard-version": "^4.4.0",
     "xunit-file": "^1.0.0",
     "yeoman-test": "^2.0.0"

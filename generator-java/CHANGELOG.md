@@ -1,6 +1,19 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [5.14.2](https://github.com/ibm-developer/generator-ibm-java/compare/v5.14.1...v5.14.2) (2019-06-20)
+
+
+### Bug Fixes
+
+* Newline before <project> in pom.xml ([bbac27a](https://github.com/ibm-developer/generator-ibm-java/commit/bbac27a))
+* npm audit dependency upgrades ([f6e1764](https://github.com/ibm-developer/generator-ibm-java/commit/f6e1764))
+* Remove bindings.yml tests ([81f7240](https://github.com/ibm-developer/generator-ibm-java/commit/81f7240))
+* Remove bindings.yml tests ([8993cc5](https://github.com/ibm-developer/generator-ibm-java/commit/8993cc5))
+* Update gradle version ([9779b1d](https://github.com/ibm-developer/generator-ibm-java/commit/9779b1d))
+
+
 
 <a name="5.14.1"></a>
 ## [5.14.1](https://github.com/ibm-developer/generator-ibm-java/compare/v5.14.0...v5.14.1) (2019-02-14)

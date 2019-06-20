@@ -33,7 +33,8 @@ class Options {
       groupId: constant.GROUPID,
       artifactId: constant.ARTIFACTID,
       bluemix: {
-        backendPlatform: backendPlatform || 'JAVA'
+        backendPlatform: backendPlatform || 'JAVA',
+        name: 'testApp'
       }
     }
   }

@@ -1,7 +1,7 @@
 ## IBM Cloud starter
 IBM Cloud starter for Java - MicroProfile / Java EE
 
-[![](https://img.shields.io/badge/IBM%20Cloud-powered-blue.svg)](https://bluemix.net)
+[![](https://img.shields.io/badge/IBM%20Cloud-powered-blue.svg)](https://cloud.ibm.com)
 [![Platform](https://img.shields.io/badge/platform-java-lightgrey.svg?style=flat)](https://www.ibm.com/developerworks/learn/java/)
 
 ### Table of Contents
@@ -16,7 +16,7 @@ IBM Cloud starter for Java - MicroProfile / Java EE
 The IBM Cloud starter for Java - MicroProfile / Java EE provides a starting point for creating applications running on [WebSphere Liberty](https://developer.ibm.com/wasdev/). It contains no default application code.
 
 Once you have created an application it can be deployed to IBM Cloud using a toolchain click the **Create Toolchain** button.
-[![Create Toolchain](https://console.ng.bluemix.net/devops/graphics/create_toolchain_button.png)](https://console.ng.bluemix.net/devops/setup/deploy/)
+[![Create Toolchain](https://cloud.ibm.com/devops/graphics/create_toolchain_button.png)](https://cloud.ibm.com/devops/setup/deploy/)
 
 ### Requirements
 {{#has buildType 'maven'}}

@@ -33,7 +33,7 @@ class Options extends core.Options {
       buildType: buildType,
       frameworkType: frameworkType,
       createType: 'blank/' + frameworkType,
-      appName: name || constant.APPNAME
+      appName: name || 'bxName'
     });
   }
 }
