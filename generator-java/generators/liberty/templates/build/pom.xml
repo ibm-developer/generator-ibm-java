@@ -33,11 +33,11 @@
         <cf.context.root>${cf.host}.${cf.context}</cf.context.root>
 
         <!-- The Cloud Foundry or IBM Cloud organization, username and password can be
-            entered here. -->
-        <!-- <cf.org></cf.org> -->
-        <!-- <cf.username></cf.username> -->
-        <!-- <cf.password></cf.password> -->
-        <!-- This is the host for your app in IBM Cloud and what it will be called in the dashboard. -->
+            entered here.
+        <cf.org></cf.org>
+        <cf.username></cf.username>
+        <cf.password></cf.password>
+        This is the host for your app in IBM Cloud and what it will be called in the dashboard. -->
         <cf.host>${app.name}</cf.host>
         {{/has}}
     </properties>
