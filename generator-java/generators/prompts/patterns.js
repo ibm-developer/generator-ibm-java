@@ -85,14 +85,6 @@ Extension.prototype.getQuestions = function () {
       name: 'Basic Web : a basic Spring web application',
       value: 'basicweb/spring',
       short: 'Basic Spring web application'
-    }, {
-      name: 'BFF : Backend For Frontend (generate Microprofile/JavaEE code from Swagger/OpenAPI)',
-      value: 'bff/liberty',
-      short: 'Backend For Frontend'
-    }, {
-      name: 'BFF : Backend For Frontend (generate Spring code from Swagger/OpenAPI)',
-      value: 'bff/spring',
-      short: 'Backend For Frontend'
     }],
     default: this.config.createType
   }, {

@@ -19,7 +19,6 @@ const spring = require('../../../generators/spring/exports');
 const tests = require('../../../lib/common');
 
 const assertSpring = new spring.integrationAsserts.spring();
-const openApi = new spring.integrationAsserts.openapi();
 
 function test_spring() {
 }
@@ -77,18 +76,6 @@ test_spring.prototype.assertObjectStorage = function() {
     object_storage_project : 'objectStorage-project'
   }
   checkValues(false, env, assertSpring.assertEnv);
-}
-
-test_spring.prototype.assertOpenApi = function(exists, fileNames, buildType, healthMissing) {
-  if(healthMissing) {
-    openApi.assertCommon(exists, fileNames, buildType);
-  } else {
-    openApi.assert(exists, fileNames, buildType);
-  }
-}
-
-test_spring.prototype.getExampleOpenApi = function() {
-  return openApi.getExample();
 }
 
 test_spring.prototype.assertEnv = function(exists, env) {
