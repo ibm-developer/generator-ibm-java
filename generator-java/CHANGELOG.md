@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.14.3](https://github.com/ibm-developer/generator-ibm-java/compare/v5.14.2...v5.14.3) (2019-08-08)
+
+
+### Bug Fixes
+
+* missing war plugin causing compile failure ([a6b2392](https://github.com/ibm-developer/generator-ibm-java/commit/a6b2392))
+
 ### [5.14.2](https://github.com/ibm-developer/generator-ibm-java/compare/v5.14.1...v5.14.2) (2019-06-20)
 
 
