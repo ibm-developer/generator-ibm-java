@@ -33,7 +33,6 @@ module.exports = class extends Generator {
     this.logger.writeToLog(`${logId}:constructor - context`, JSON.stringify(opts.context));
     this.patterns.push('picnmix');
     this.conf.addMissing(opts, defaults);
-    this.conf.enableApiDiscovery = this.config.enableApiDiscovery || false;
 
     if (this.options.libertyVersion === 'beta' || opts.context.conf.libertyVersion === 'beta') {
       this.conf.libertyBeta = true
@@ -53,9 +52,6 @@ module.exports = class extends Generator {
 
   configuring() {
     this.configure(this);
-    if (this.conf.technologies.includes('swagger')) {
-      this.conf.enableApiDiscovery = true;
-    }
   }
 
   writing() {

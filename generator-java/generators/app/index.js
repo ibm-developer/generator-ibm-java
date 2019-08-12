@@ -154,9 +154,6 @@ module.exports = class extends Generator {
       'generator-ibm-cloud-enablement': pkg.dependencies['generator-ibm-cloud-enablement']
     }
     config.genVersions['generator-ibm-java-' + config.frameworkType] = pkg.dependencies['generator-ibm-java-' + config.frameworkType]
-    if (config.frameworkType === 'liberty' && config.createType === 'bff/liberty') {
-      config.enableApiDiscovery = true
-    }
 
     //configure this generator and then pass that down through the contexts
     const control = new Control(fspath.resolve(config.templateRoot, config.createType), config)
@@ -174,7 +171,6 @@ module.exports = class extends Generator {
         context.conf.addJndiEntries(config.jndiEntries)
       }
       context.addCompositions(control.getSubComposition(context.id))
-      context.conf.enableApiDiscovery = config.enableApiDiscovery
     })
     enablementContexts.forEach(context => {
       context.appName = config.appName
