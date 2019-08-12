@@ -20,7 +20,6 @@ module.exports = {
   integrationAsserts : {
     technologies : require('./lib/assert.technologies'),
     liberty : require('./lib/assert.liberty'),
-    openapi : require('./lib/assert.openapi')
   },
   defaults: require('./lib/defaults'),
   prompts: [require('./prompts/liberty')]

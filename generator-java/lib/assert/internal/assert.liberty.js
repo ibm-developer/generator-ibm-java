@@ -21,7 +21,6 @@ const liberty = require('../../../generators/liberty/exports');
 const tests = require('../../../lib/common');
 
 const assertLiberty = new liberty.integrationAsserts.liberty();
-const openApi = new liberty.integrationAsserts.openapi();
 
 function test_liberty() {
 }
@@ -129,14 +128,6 @@ test_liberty.prototype.assertObjectStorage = function() {
   }
   //no longer setting variables in server.env for Object Storage
   checkValues(false, env, assertLiberty.assertEnv);
-}
-
-test_liberty.prototype.assertOpenApi = function(exists, fileNames) {
-  openApi.assert(exists, fileNames);
-}
-
-test_liberty.prototype.getExampleOpenApi = function() {
-  return openApi.getExample();
 }
 
 test_liberty.prototype.assertConfig = function(exists, tag) {
