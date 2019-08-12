@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.15.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.14.3...v5.15.0) (2019-08-12)
+
+
+### Features
+
+* **sdkgen:** remove api discovery ([ebf649a](https://github.com/ibm-developer/generator-ibm-java/commit/ebf649a))
+* **sdkgen:** remove sdkgen ([c272fdc](https://github.com/ibm-developer/generator-ibm-java/commit/c272fdc))
+
 ### [5.14.3](https://github.com/ibm-developer/generator-ibm-java/compare/v5.14.2...v5.14.3) (2019-08-08)
 
 
