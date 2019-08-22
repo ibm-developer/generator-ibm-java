@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.15.1](https://github.com/ibm-developer/generator-ibm-java/compare/v5.15.0...v5.15.1) (2019-08-21)
+
+
+### Bug Fixes
+
+* include version in web app name ([bbe36d6](https://github.com/ibm-developer/generator-ibm-java/commit/bbe36d6))
+
 ## [5.15.0](https://github.com/ibm-developer/generator-ibm-java/compare/v5.14.3...v5.15.0) (2019-08-12)
 
 
