@@ -33,6 +33,6 @@
 
   <applicationMonitor pollingRate="1000ms"/>
 
-  <webApplication name="{{artifactId}}" location="${app.location}" contextRoot="/"/>
+  <webApplication name="{{artifactId}}-{{version}}" location="${app.location}" contextRoot="/"/>
 
 </server>

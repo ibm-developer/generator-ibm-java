@@ -43,18 +43,6 @@ function AssertTech() {
       assert.file(README_MD);
     });
   }
-  this.assertmsbuilderwithname = function(name) {
-    it('adds kube.deploy.yml file with name inserted', function() {
-      assert.fileContent('manifests/kube.deploy.yml', 'name: "' + name.toLowerCase() + '-service"');
-      assert.fileContent('manifests/kube.deploy.yml', 'app: "' + name.toLowerCase() + '-selector"');
-      assert.fileContent('manifests/kube.deploy.yml', 'name: "' + name.toLowerCase() + '-deployment"');
-      assert.fileContent('manifests/kube.deploy.yml', '- name: ' + name.toLowerCase());
-      assert.fileContent('manifests/kube.deploy.yml', 'image: ' + name.toLowerCase() + ':latest');
-    });
-    it('adds Jenkinsfile with name inserted', function() {
-      assert.fileContent('Jenkinsfile', "image = '" + name.toLowerCase() + "'");
-    });
-  }
   this.assertrest = function(buildType) {
     it('generates sample file LibertyRestEndpoint.java', function() {
       assert.file('src/main/java/application/rest/LibertyRestEndpoint.java');

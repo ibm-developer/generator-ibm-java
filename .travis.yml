@@ -1,8 +1,8 @@
 language: java
 jdk:
-  - oraclejdk8
+  - openjdk10
 before_install:
-  - nvm install 8.9.4
+  - nvm install 10.16.2
   - cd ./generator-java
   - npm i -g makeshift && makeshift -r https://registry.npmjs.org
   - npm i -g standard-version
@@ -11,9 +11,9 @@ install:
   - npm run install_linked_dependencies
 before_script:
   - cd /tmp
-  - wget http://services.gradle.org/distributions/gradle-3.5-bin.zip
-  - unzip -qq gradle-3.5-bin.zip
-  - export GRADLE_HOME=/tmp/gradle-3.5
+  - wget http://services.gradle.org/distributions/gradle-5.5.1-bin.zip
+  - unzip -qq gradle-5.5.1-bin.zip
+  - export GRADLE_HOME=/tmp/gradle-5.5.1
   - wget https://github.com/github/hub/releases/download/v2.5.1/hub-linux-386-2.5.1.tgz
   - tar -xvzf hub-linux-386-2.5.1.tgz
   - mv hub-linux-386-2.5.1 hub

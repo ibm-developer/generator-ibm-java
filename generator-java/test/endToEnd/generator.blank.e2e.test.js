@@ -34,7 +34,8 @@ function Options(buildType, framework) {
     artifactId: constant.ARTIFACTID,
     version: constant.VERSION,
     bluemix: {
-      backendPlatform: platform
+      backendPlatform: platform,
+      name: constant.APPNAME
     }
   }
   

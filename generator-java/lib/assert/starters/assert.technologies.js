@@ -47,10 +47,6 @@ class AssertTechnologies extends Assert {
     this.assert()  // there are no additional files to check for
   }
 
-  assertmsbuilderwithname () {
-    this.assertTech.assertmsbuilderwithname(this.appName)
-  }
-
   assertNoKube () {
     kube.test(this.appName, false, constant.FRAMEWORK_LIBERTY, 'picnmix')
   }

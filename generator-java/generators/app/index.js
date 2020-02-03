@@ -20,7 +20,6 @@ const Generator = require('yeoman-generator')
 const fspath = require('path')
 const fs = require('fs')
 const extend = require('extend')
-const yml = require('js-yaml')
 
 const Defaults = require('../lib/defaults')
 const EnablementContext = require('../lib/enablementContext')
@@ -155,28 +154,7 @@ module.exports = class extends Generator {
       'generator-ibm-cloud-enablement': pkg.dependencies['generator-ibm-cloud-enablement']
     }
     config.genVersions['generator-ibm-java-' + config.frameworkType] = pkg.dependencies['generator-ibm-java-' + config.frameworkType]
-    if (config.frameworkType === 'liberty' && config.createType === 'bff/liberty') {
-      config.enableApiDiscovery = true
-    }
-    if (config.frameworkType === 'spring' && config.createType === 'bff/spring') {
-      const resource = this._loadresource('bff/swagger.yaml');
-      const bffSwagger = JSON.stringify(yml.safeLoad(resource));
-      if (config.bluemix) {
-        if (config.bluemix.openApiServers) {
-          config.bluemix.openApiServers.push({'spec': bffSwagger})
-        } else {
-          config.bluemix.openApiServers = [{'spec': bffSwagger}]
-        }
-      } else {
-        config.bluemix = {
-          openApiServers: [
-            {
-              'spec': bffSwagger
-            }
-          ]
-        }
-      }
-    }
+
     //configure this generator and then pass that down through the contexts
     const control = new Control(fspath.resolve(config.templateRoot, config.createType), config)
     this.paths = control.getComposition()
@@ -193,7 +171,6 @@ module.exports = class extends Generator {
         context.conf.addJndiEntries(config.jndiEntries)
       }
       context.addCompositions(control.getSubComposition(context.id))
-      context.conf.enableApiDiscovery = config.enableApiDiscovery
     })
     enablementContexts.forEach(context => {
       context.appName = config.appName
