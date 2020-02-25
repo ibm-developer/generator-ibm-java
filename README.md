@@ -1,6 +1,6 @@
 # WARNING: This repository is no longer maintained :warning:
 
-> The generated content is now housed in [Java Liberty](https://github.com/IBM/java-liberty-app) and [Java Spring](https://github.com/IBM/java-spring-app) static applications
+> The generated content is now available in [Java Liberty](https://github.com/IBM/java-liberty-app) and [Java Spring](https://github.com/IBM/java-spring-app) static applications
 > This repository will not be updated. The repository will be kept available in read-only mode.
 
 
